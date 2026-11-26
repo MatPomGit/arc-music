@@ -1,0 +1,33 @@
+name: Validate AIM-ER manuscript
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P01/**'
+      - 'validate.py'
+      - '.github/workflows/manuscript-p01.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  manuscript:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate repository
+        run: python3 validate.py
+      - name: Run synthetic regression tests
+        working-directory: manuscripts/MSC-MUS-P01/analysis
+        run: python3 -m unittest -v
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-pictures lmodern
+      - name: Compile manuscript
+        working-directory: manuscripts/MSC-MUS-P01
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
+          test -s main.pdf
