@@ -18,3 +18,17 @@ All ten DOI records were located in publisher, PubMed, or conference repository 
 Search phrases: Polish adaptation Ruminative Responses Scale; Polish validation Brief Experiential Avoidance Questionnaire; generative AI music creation emotion regulation Suno qualitative; AI songwriting co-creation; exact titles of original six references. Search date 2026-11-26. Search engines and publisher pages, not an exhaustive database search.
 
 Next stage: reproducible searches in PsycINFO, Scopus/Web of Science (where access permits), ACM DL, ISMIR and PubMed; include counterevidence and separate creator from listener samples. Record queries, counts, deduplication and exclusion reasons. Verify full-text claims, authors, rights and final journal reference style. Preserve DOI-backed evidence and label transferred evidence explicitly. No independent review yet.
+
+## Extension v0.9.0 (2026-11-26)
+Six additional DOI-backed records were checked in this pass. Earlier records are not automatically promoted to full-text audited status.
+
+| Key | Access verified | Relevant claim / limit |
+|---|---|---|
+| carlson2015 | Publisher HTML, methods/discussion | Questionnaire associations and fMRI subset; authors explicitly reject causal inference |
+| taruffi2014 | PubMed abstract and accessible article excerpts | Reported rewards of music-evoked sadness; survey rather than causal test |
+| tol2016 | Publisher abstract | Retrospective acceptance-coping associations; full text restricted |
+| randall2017 | Monash institutional abstract and metadata | Mobile ESM, n=327; listening not creation |
+| shiffman2008 | PubMed abstract and metadata | EMA methodological rationale, not direct music evidence |
+| curran2011 | Publisher and PubMed records, available full-text excerpts | Distinguishing within- and between-person effects; no guarantee of causal interpretation |
+
+Searches: adaptive maladaptive music regulation Carlson; sad music acceptance coping; music sadness rewards; music listening mobile experience sampling; ecological momentary assessment; disaggregation within/between-person effects. Rechecked Polish BEAQ publisher abstract and RRS-R publisher page. Sources were not obtained via exhaustive database search. No new claim of full-text audit or instrument-use permission. Total bibliography: 16 records.
