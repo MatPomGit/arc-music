@@ -6,10 +6,9 @@ import argparse
 import json
 import subprocess
 import numpy as np
-from scipy.linalg import cholesky
 from scipy.optimize import minimize
 from scipy.special import expit
-from scipy.stats import t
+from scipy.stats import t, norm
 from longitudinal_checks import design, fit, summarize
 
 
@@ -84,8 +83,12 @@ def logistic(x,y):
 
 
 def estimated_probability(x,y,mask,n,k,kind):
-    if mask.all(): return np.ones(n*k)
     xx=x.reshape(n,k,-1); yy=y.reshape(n,k); mm=mask.reshape(n,k)
+    if kind not in ('h6','h10'):
+        raise ValueError('unknown design')
+    if kind=='h10' and (not mm[:,0].all() or np.any(mm[:,1:] & ~mm[:,:-1])):
+        raise ValueError('H10 requires observed baseline and monotone dropout')
+    if mask.all(): return np.ones(n*k)
     if kind=='h6':
         # Reconstruct observed Q and baseline D from within/between columns.
         a=np.column_stack([np.ones(n*k),x[:,1]+x[:,2],x[:,3]+x[:,4]])
@@ -95,12 +98,17 @@ def estimated_probability(x,y,mask,n,k,kind):
     risk=mm[:,:-1]
     arm=xx[:,1:,1][risk]; previous=yy[:,:-1][risk]
     a=np.column_stack([np.ones(len(arm)),arm,previous])
-    _,b=logistic(a,mm[:,1:][risk].astype(float))
+    retained=mm[:,1:][risk].astype(float)
+    predicted,b=logistic(a,retained)
     prob=np.ones((n,k))
     for j in range(1,k):
         active=mm[:,j-1]
-        if b is not None:
-            prob[active,j]=prob[active,j-1]*expit(b[0]+b[1]*xx[active,j,1]+b[2]*yy[active,j-1])
+        # Degenerate response: use the constant fitted hazard, not survival=1.
+        hazard=predicted[0] if b is None else expit(
+            b[0]+b[1]*xx[active,j,1]+b[2]*yy[active,j-1])
+        prob[active,j]=prob[active,j-1]*hazard
+        # After dropout, no further observed history is available. These
+        # carried-forward values are NOT used as weights for missing outcomes.
         prob[~active,j]=prob[~active,j-1]
     return np.maximum(prob.ravel(),.025)
 
@@ -146,6 +154,31 @@ def bootstrap(x,y,mask,n,k,kind,c,reps=199,seed=1732):
                 valid=len(out),requested=reps,weight_cap=40)
 
 
+def wilson(successes,total,alpha=.05):
+    """Binomial Monte Carlo interval, including zero/all successes."""
+    if total<=0 or not 0<=successes<=total:
+        raise ValueError('invalid binomial count')
+    z=norm.ppf(1-alpha/2)
+    q=successes/total
+    den=1+z*z/total
+    center=(q+z*z/(2*total))/den
+    radius=z*np.sqrt(q*(1-q)/total+z*z/(4*total**2))/den
+    return [max(0.,center-radius),min(1.,center+radius)]
+
+
+def diagnostic_summary(values,truth,requested):
+    result=summarize(values,truth,requested)
+    a=np.asarray(values)
+    est,rad=a.T
+    valid=len(est)
+    result.update(failed=requested-valid,
+                  valid_fraction=valid/requested,
+                  rejection_mc_interval=wilson(int(np.sum(np.abs(est)>rad)),valid),
+                  coverage_mc_interval=wilson(int(np.sum(np.abs(est-truth)<=rad)),valid),
+                  bias_mcse=float(np.std(est,ddof=1)/np.sqrt(valid)) if valid>1 else None)
+    return result
+
+
 def scenario(kind,missing,effect,n=80,k=8,reps=20,seed=1732):
     rng=np.random.default_rng(seed); mixed=[]; weighted=[]; boundary=0
     for _ in range(reps):
@@ -164,16 +197,22 @@ def scenario(kind,missing,effect,n=80,k=8,reps=20,seed=1732):
             pass
     x,y,g,c,m,_,_=design(rng,kind,n,k,effect,missing)
     y=np.where(m,y,np.nan)
-    return dict(mixed=summarize(mixed,effect,reps),ipw=summarize(weighted,effect,reps),
-                boundary=boundary,sensitivity=bootstrap(x,y,m,n,k,kind,c,seed=seed+1))
+    return dict(mixed=diagnostic_summary(mixed,effect,reps),
+                ipw=diagnostic_summary(weighted,effect,reps),
+                boundary=boundary,boundary_mc_interval=wilson(boundary,len(mixed)),
+                sensitivity=bootstrap(x,y,m,n,k,kind,c,seed=seed+1))
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reps',type=int,default=20);p.add_argument('--seed',type=int,default=1732)
+    p.add_argument('--n',type=int,default=80);p.add_argument('--k',type=int,default=8)
     a=p.parse_args()
-    out={'sha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'seed':a.seed,'reps':a.reps}
+    if a.reps<2 or a.n<40 or a.n%2 or a.k<4:
+        p.error('require reps>=2, even n>=40 and k>=4')
+    out={'sha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+         'seed':a.seed,'reps':a.reps,'n':a.n,'k':a.k}
     for kind,effect in [('h6',-.25),('h10',-.35)]:
-        out[kind]={f'{mode}_{e}':scenario(kind,mode,e,reps=a.reps,seed=a.seed) for mode in ('none','mar','mnar') for e in (0.,effect)}
+        out[kind]={f'{mode}_{e}':scenario(kind,mode,e,n=a.n,k=a.k,reps=a.reps,seed=a.seed) for mode in ('none','mar','mnar') for e in (0.,effect)}
     print(json.dumps(out,indent=2,allow_nan=False))
 
 if __name__=='__main__': main()
