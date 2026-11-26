@@ -11,8 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r manuscripts/MSC-MUS-P05/analysis/requirements.txt
       - run: python3 validate.py
       - run: python3 -m unittest discover -s manuscripts/MSC-MUS-P05/analysis -p 'test_*.py'
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended biber latexmk
+      - run: python3 manuscripts/MSC-MUS-P05/analysis/recovery.py --reps 12 > p05-recovery.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p05-synthetic-development
+          path: p05-recovery.json
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends lmodern texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended biber latexmk
       - working-directory: manuscripts/MSC-MUS-P05
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p05-manuscript
+          path: manuscripts/MSC-MUS-P05/main.pdf

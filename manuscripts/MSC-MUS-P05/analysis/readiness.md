@@ -9,3 +9,7 @@
 - Empirical results, norms and clinical cutoffs: none.
 
 Assessment is the existing target; its assessment science focus and registered-report route warrant an editorial scope check for a nonclinical instrument. Psychology of Music remains the alternative. Verify current publication conditions before submission.
+
+## v0.2.0 implementation
+
+The previous CI passed repository validation and initial unit tests but failed LaTeX because lmodern.sty was absent. The workflow now installs lmodern explicitly. Development ordinal EFA and synthetic recovery code are implemented; independent numerical checks, CI results and full-pool calibration remain pending. Robust ordinal CFA remains unimplemented. No participant data or simulated results are asserted before execution.
