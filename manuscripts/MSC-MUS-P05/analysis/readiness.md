@@ -21,3 +21,7 @@ CI 45892064058: all steps passed, including repository validation, unit tests, d
 ## v0.4.0 implementation
 
 CI 45892825483 passed on 493f27f1bef363ed37673dfb9c24e647c6daf6c6, including 35-item conditional-weight simulations and PDF compilation. New empirical influence-function DWLS with threshold uncertainty, sandwich covariance and a moment-matched residual test is implemented. Regression tests cover the analytic model Jacobian, leave-one-out influence checks, proper fits and missing-data rejection. New CI runs a small calibration with explicit failures and Monte Carlo uncertainty. Independent WLSMV reference, robust fit indices, larger coverage studies, measurement invariance, MAR/MNAR and scientific review remain outstanding. No empirical participant results.
+
+## v0.5.0 implementation
+
+CI 45893153993 at 002c0a6 passed validator and unit tests at time of inspection; final result pending. New MAR complete-record IPW, MNAR exponential tilt, weighted ordinal moments, bootstrap interface and synthetic comparison implemented. Five tests added. The planned item-level multiple imputation, full sample-size calibration, reference estimator comparison, robust fit indices and invariance remain outstanding. New CI results pending.
