@@ -1,0 +1,23 @@
+field,level,type,range_or_definition,time
+participant_id,person,string,pseudonymous,baseline
+session_id,session,string,unique,pre
+local_day,session,date,local calendar date,pre
+study_day,session,integer,1-14,pre
+pre_time,session,datetime,timezone offset required,pre
+post_time,session,datetime,timezone offset required,post
+followup_time,session,datetime,timezone offset required,followup
+eligible_first,session,boolean,prospectively selected first eligible session,pre
+activity_defined,session,boolean,valued action planned within 24 h,pre
+avoidance,session,integer,0-10,pre
+distress_pre,session,integer,0-10,pre
+expected_difficulty,session,integer,0-10,pre
+distress_post,session,integer,0-10,post
+brooding,session,integer,0-10,post
+reflection,session,integer,0-10,post
+generation_count,session,integer,nonnegative,post
+duration_minutes,session,number,nonnegative,post
+technical_failure,session,boolean,technical interruption,post
+interference,session,integer,0-10,followup
+activity_completed,session,boolean,planned action completed,followup
+distress_followup,session,integer,0-10,followup
+followup_missing_reason,session,category,optional reason,followup
