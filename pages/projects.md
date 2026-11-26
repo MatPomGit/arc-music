@@ -1,7 +1,3 @@
-# Publiczne projekty
+# Projekty badawcze
 
-Ten katalog obejmuje wyłącznie projekty zatwierdzone do publikacji przez właściciela.
-
-Brak zatwierdzonych wpisów publicznych.
-
-Informacje o badaniach i wynikach znajdują się w kanonicznych repozytoriach projektów. Nie publikuje się tutaj danych uczestników.
+ARC-MUSIC koncentruje się na psychologicznych mechanizmach tworzenia muzyki z AI. Pierwsze badania obejmują doświadczenia użytkowników generatorów muzycznych.

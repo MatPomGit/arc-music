@@ -19,3 +19,14 @@ results/private/
 *.pem
 *.p12
 *.key
+
+# Participant material must never enter Git.
+/data/
+/raw/
+/exports/
+/transcripts/
+*.wav
+*.mp3
+*.m4a
+*.xlsx
+*.csv

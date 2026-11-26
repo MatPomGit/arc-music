@@ -9,7 +9,8 @@ import unittest
 from pathlib import Path
 from jsonschema import Draft202012Validator
 
-ROOT=Path(__file__).resolve().parents[1]
+from template_fixture import template_root
+ROOT = template_root()
 sys.path.insert(0,str(ROOT/"scripts"))
 from validate_repository import validate
 from validate_registry_v2 import PAPER_FIELDS, DEP_FIELDS

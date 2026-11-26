@@ -1,5 +1,3 @@
-# Artykuły naukowe
+# Publikacje naukowe
 
-Publikacje i planowane badania prowadzone w programie.
-
-Brak zatwierdzonych artykułów do prezentacji.
+Projekt jest na etapie przygotowania badań.

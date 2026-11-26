@@ -18,7 +18,7 @@ from validate_state import check_state
 from validate_registry_v2 import validate_registry_v2
 from validate_study import validate_study
 
-ALLOWED_PROGRAMMES = frozenset(("arc-neuro", "arc-ai", "arc-xr", "arc-robo"))
+ALLOWED_PROGRAMMES = frozenset(("arc-neuro", "arc-ai", "arc-xr", "arc-robo", "arc-music"))
 ALLOWED_ROLES = frozenset(("primary", "related"))
 ALLOWED_VISIBILITY = frozenset(("public", "private"))
 ALLOWED_STAGES = frozenset(("concept", "protocol", "preregistered", "collection", "analysis", "draft", "submitted", "accepted", "published", "archived", "withdrawn"))

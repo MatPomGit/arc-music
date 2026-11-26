@@ -1,13 +1,10 @@
-# Zarządzanie programem badawczym ARC
+# Zespół i współpraca
 
-Program ARC zarządza **portfelem publikacji** i może prowadzić lokalne źródła naukowe, ale nie przejmuje treści cudzych projektów. Właściciel naukowy odpowiada za zakres programu, akceptację przypisania projektu i publikację publicznych metadanych. Zewnętrzne `msc-*` zachowują odpowiedzialność za swoje hipotezy, protokoły, wyniki, prawa i manuskrypty. W przypadku pracy lokalnej odpowiada za nie kanoniczny właściciel ARC.
+Projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
-Zmianę rejestru dopuszczaj tylko po potwierdzeniu kanonicznego właściciela, aktualnej wersji, zakresu i stanu dowodu. Każda publikacja ma jednego właściciela; referencje innych ARC oznaczaj `related`. W publicznym repozytorium zabronione są wpisy wskazujące prywatne projekty, nawet gdy `public_listing` jest wyłączone.
+- Ewa Sterniczuk: pomysłodawczyni i liderka; koordynacja, kontakt z grupą na Facebooku, ankiety, pytania otwarte i wywiady.
+- Dr hab. Cezary Biele: opiekun naukowy koła i kierownik Centrum; nadzór merytoryczny, konsultacje i wsparcie doświadczeniem.
+- Paulina Ficner: współbadaczka; projektowanie graficzne, komunikacja wizualna i UI/UX (doświadczenie w Untold Paulina Ficner).
+- Dr inż. Mateusz Pomianek: współbadacz; metodologia, analiza danych, psychometria i technologia; techniczna administracja repozytorium.
 
-## Uprawnienia, recenzje i publikacja
-
-Research Autopilot, jeśli dostępny i uprawniony, zarządza kolejką, leasingiem i limitem WIP. Zmiany wymagają uprawnień, przeglądu technicznego i testów finalnego SHA adekwatnych do ryzyka R0–R3 z [AGENTS.md](AGENTS.md). Niezależne review może być wykonane, ale nie jest obowiązkową bramką merge. Własnej kontroli nie przedstawiaj jako niezależnej.
-
-Migracje historii, przenoszenie projektów, ujawnienie prywatnych metadanych, wydania i GitHub Pages wymagają oddzielnego zatwierdzenia i możliwości wycofania. Scalenie PR nie oznacza publikacji. Decyzje architektoniczne przechowuje [ADR](docs/adr/README.md), natomiast stan i źródła faktów pozostają w `portfolio/`, `program.json` i `RESEARCH.md`. Nie utrzymuj równoległych rejestrów.
-
-Zasady ochrony danych: [SECURITY.md](SECURITY.md); zachowanie: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md); publikacja: [docs/pages.md](docs/pages.md).
+Decyzje naukowe uzgadnia zespół pod kierunkiem Ewy, z konsultacją opiekuna. Discord służy do dyskusji. GitHub przechowuje uzgodnione protokoły, kod i teksty. Autorstwo publikacji ustala się według rzeczywistego wkładu (CRediT), niezależnie od uprawnień GitHub. Dostęp nadaje się wyłącznie do ARC-MUSIC, bez poświadczeń innych projektów.
