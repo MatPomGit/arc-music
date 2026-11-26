@@ -54,3 +54,15 @@ Permissions: PAQ and ERQ-S Polish source tables support the reported reliability
 Seven previously limited-access articles now have targeted body evidence, including both Baltazar accepted manuscripts. Thirty-five of 37 entries have current or prior targeted body inspection; Zhang 2026 and Swarbrick 2026 remain abstract/conference-only. The Pennebaker full article copy (Methods and results) is at https://uploads-ssl.webflow.com/59faaf5b01b9500001e95457/5bc565d462d1401b8f061a89_Pennebaker%2C%20J.%20W.%2C%20%26%20Beall%2C%20S.%20K.%201986.pdf . Backward chain: Baltazar I cites Saarikallio & Erkkilä; Baltazar II cites Baltazar I and operationalises strategy/mechanism associations. This directly supports the narrow, rather than broad, novelty claim. Not an exhaustive forward chain or all-claims/all-pages audit. Zhang remains forthcoming at its publisher record; Swarbrick conference records https://nva.sikt.no/registration/01a0e8384ce1-9b25f6a5-42f5-4fc9-a240-0cbb4ef960ce and https://smc26.mbz.hr/en/conference/programme/day-2/paper-presentations-session-3-ai-co-creation-and-intelligent-musical-interaction do not establish a final full paper.
 
 Recheck 26 November 2026: Frontiers DOI 10.3389/fpsyg.2026.1987055 still explicitly advertises forthcoming formatted article (accepted 13 November); its abstract reports workflow assignment, no detectable between-workflow affect difference, and no uniquely AI-attributable within-workflow improvement. SMC26 programme and NVA registry still supply conference-level evidence for Swarbrick/Saarikallio, no full report verified. Preserve these access limitations; no promotion to full-text status. PAQ and ERQ-S online administration permissions and TAS-POL-R confidence intervals are now documented in psychometric-audit.md.
+
+## Extension to 41 sources (review #6077673611)
+The preceding register covers the original 37 entries. The following four entries bring the total to 41; do not treat targeted inspection as exhaustive claim verification.
+
+| Key | Access | Source and claim boundary |
+|---|---|---|
+| zhangpan2026 | body inspected | https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1965465/full ; Methods, Table 4 and Discussion: 304 prompts, 24 participants, role-defined groups; tentative P1–P6, not measured psychological outcomes or emotion regulation. |
+| ronchini2025 | body inspected | https://www.mdpi.com/2079-9292/14/17/3379 ; Study Design and Method: source PAGURI corpus; user experience, not causal affective regulation. |
+| louie2020 | abstract / author copy | https://doi.org/10.1145/3313831.3376739 ; prior interactive steering with novices; not a regulatory goal test. |
+| louie2022 | abstract / author copy | https://doi.org/10.1145/3490099.3511159 ; expressive communication and steering; not demonstrated emotion regulation. |
+
+Backward citation links: Zhang & Pan cites PAGURI and Louie steering research. AIM-ER's contribution is a proposed goal-by-affordance affective contrast, not the discovery of creative control. No firstness claim. Original two inaccessible reports remain limited-access.
