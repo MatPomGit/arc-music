@@ -60,6 +60,23 @@ def check(root=ROOT):
     nav = re.findall(r"(?m)^  - [^:]+: ([a-z.]+)$", config)
     if set(nav) != PUBLIC or len(nav) != len(PUBLIC):
         errors.append("Public navigation mismatch")
+    # Protect the current tree, not historical Git objects or external access.
+    private_url = re.compile(
+        r"https?://[^\s<>\x22\x27]*(?:sharepoint\.com|onedrive\.live\.com|1drv\.ms|discord\.gg)",
+        re.I,
+    )
+    candidates = [root / "README.md", root / "AGENTS.md", root / "LICENSE"]
+    for directory in ("docs", "manuscripts", "pages"):
+        candidates.extend((root / directory).rglob("*"))
+    for path in candidates:
+        relative = path.relative_to(root).as_posix()
+        if path.is_symlink():
+            errors.append(f"Unsafe linked path: {relative}")
+        elif path.suffix.lower() in {".desktop", ".url"}:
+            errors.append(f"Private shortcut prohibited: {relative}")
+        elif path.is_file() and (path.suffix.lower() in {".md", ".tex", ".bib", ".txt", ".yaml", ".yml", ".json", ".py", ".csv"} or path.name == "LICENSE"):
+            if private_url.search(path.read_text(encoding="utf-8")):
+                errors.append(f"Private access link prohibited: {relative}")
     manuscripts = root / "manuscripts"
     if not manuscripts.is_dir() or manuscripts.is_symlink():
         return errors + ["Unsafe or missing manuscripts directory"]
