@@ -1,5 +1,7 @@
 # Zespół badawczy
 
+[PL](team.md) · [EN](en-team.md)
+
 ## Ewa Sterniczuk
 
 Pomysłodawczyni i liderka projektu. Koordynuje pracę zespołu, utrzymuje kontakt ze społecznością twórców muzyki oraz prowadzi rekrutację do badań ankietowych i jakościowych.

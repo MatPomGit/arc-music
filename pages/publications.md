@@ -1,5 +1,7 @@
 # Publikacje naukowe
 
+[PL](publications.md) · [EN](en-publications.md)
+
 Poniższe prace są na etapie opracowywania koncepcji. Opisy przedstawiają ich zamierzony zakres badawczy.
 
 ## Model regulacji emocji AIM-ER
