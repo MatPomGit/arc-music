@@ -59,7 +59,7 @@ def theme_state(page, theme):
 def check_interactions(page, section):
     assert page.locator("input[type=range]").count() == 0
     if section in ("index", "neuropsychology", "studies"):
-        assert page.locator("#motion-toggle").is_hidden()
+        page.locator("#motion-toggle").wait_for(state="hidden")
         page.emulate_media(reduced_motion="no-preference")
         toggle = page.locator("#motion-toggle")
         toggle.wait_for(state="visible")
@@ -71,6 +71,7 @@ def check_interactions(page, section):
         if section in ("index", "studies"):
             assert page.locator(".step h3").count() == 4
             assert page.locator(".step p").count() == 4
+            page.locator(".step-active").wait_for(state="visible")
             assert page.locator(".step-active").count() == 1
             if section == "studies":
                 first = page.locator(".step-active").inner_text()
@@ -83,8 +84,14 @@ def check_interactions(page, section):
             page.wait_for_timeout(180)
             assert marker.get_attribute(attr) == before
         page.emulate_media(reduced_motion="reduce")
-        assert toggle.is_hidden()
-        assert page.locator(".step-active").count() == 0
+        # Media-query change events are asynchronous in Chromium and Firefox.
+        toggle.wait_for(state="hidden")
+        page.wait_for_function("() => !document.querySelector('.step-active')")
+        assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
+        if section != "studies":
+            stationary = marker.get_attribute(attr)
+            page.wait_for_timeout(180)
+            assert marker.get_attribute(attr) == stationary
     if section == "studies":
         assert page.locator(".pub").count() == 9
         assert all(page.locator(".pub h3").nth(i).is_visible() for i in range(9))

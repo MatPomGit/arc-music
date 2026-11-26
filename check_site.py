@@ -52,7 +52,7 @@ def accessibility(browser, base, out):
                 assert page.locator("audio,video").count()==0
                 assert page.locator("header a[hreflang]").count()==2
                 assert page.locator("#theme").get_attribute("id")=="theme"
-                assert page.evaluate("""() => Array.from(document.querySelectorAll('header a, header select, summary, input[type=range]')).filter(e=>e.getClientRects().length).every(e=>{const r=e.getBoundingClientRect();return r.width>=24&&r.height>=24})"""), (name,theme,width,"target size")
+                assert page.evaluate("""() => Array.from(document.querySelectorAll('header a, header select, summary, main button, input[type=range]')).filter(e=>e.getClientRects().length).every(e=>{const r=e.getBoundingClientRect();return r.width>=24&&r.height>=24})"""), (name,theme,width,"target size")
                 page.add_style_tag(content="*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}")
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"text spacing")
                 if width==1440:

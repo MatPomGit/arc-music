@@ -41,6 +41,7 @@ if(toggle){
     steps.forEach((step,i)=>step.classList.toggle("step-active",!reduced.matches&&i===active));
   }
   function tick(now){
+    if(reduced.matches||paused||document.hidden){frame=0;return}
     if(last!==null)elapsed+=Math.min(now-last,100);
     last=now;
     if(elapsed-lastDraw>=40){draw(elapsed);lastDraw=elapsed}
@@ -51,7 +52,7 @@ if(toggle){
     root.classList.toggle("motion-paused",paused||document.hidden||reduced.matches);
     toggle.hidden=reduced.matches;
     toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");
-    if(reduced.matches){draw(0);return}
+    if(reduced.matches){draw(0);lastDraw=-Infinity;return}
     if(!paused&&!document.hidden)frame=requestAnimationFrame(tick);
   }
   toggle.addEventListener("click",()=>{paused=!paused;sync()});
