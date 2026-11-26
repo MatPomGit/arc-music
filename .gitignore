@@ -22,4 +22,5 @@ transcripts/
 *.synctex.gz
 *.pdf
 *.desktop
+!/docs/BazaDanychOneDrive.desktop
 *.url

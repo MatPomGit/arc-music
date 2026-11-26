@@ -1,9 +1,9 @@
-# Dane i otwarta nauka
+# Zasady przechowywania i udostępniania danych
 
-Dane ankietowe, nagrania, transkrypcje, utwory uczestników i zgody przechowujemy na instytucjonalnym OneDrive VIZJA. Dostęp imienny i minimalne uprawnienia. Klucz pseudonimizacji i zgody oddzielnie od danych analitycznych. Podstawę przetwarzania, retencję i wycofanie uzgadniamy z uczelnią.
+Dane ankietowe, nagrania i transkrypcje wywiadów, utwory uczestników oraz formularze zgody przechowujemy w instytucjonalnym OneDrive Uniwersytetu VIZJA. Dostęp do [katalogu danych](BazaDanychOneDrive.desktop) wymaga uwierzytelnienia kontem uczelnianym i odpowiednich uprawnień. Klucz pseudonimizacji i zgody przechowujemy oddzielnie od danych analitycznych.
 
-GitHub i Discord nie są magazynem danych uczestników. Nie publikujemy linków dostępowych, danych identyfikujących ani pseudonimizowanych danych jednostkowych. Udostępniamy zatwierdzone materiały badawcze, kod, dane syntetyczne oraz wyniki zbiorcze po ocenie ryzyka identyfikacji i praw do materiałów. Dostęp do dodatkowych danych wyłącznie po ocenie etycznej, prawnej i zgodzie uprawnionych osób.
+W repozytorium udostępniamy zatwierdzone materiały, kod, dane syntetyczne i wyniki zbiorcze po ocenie ryzyka identyfikacji. Nie zamieszczamy danych jednostkowych, poświadczeń ani odnośników umożliwiających anonimowy dostęp do danych. Podstawę przetwarzania, okres retencji i procedurę wycofania zgody uzgadniamy z uczelnią.
 
-Otwarte pytania na Facebooku nie oznaczają zgody na wykorzystanie wypowiedzi w badaniach. Formalne zbieranie danych wymaga uzgodnionej procedury i informacji dla uczestników. Nie przesyłamy osobistych tekstów do generatorów zewnętrznych bez odpowiednich zabezpieczeń.
+Pozyskiwanie wypowiedzi z grupy na Facebooku do analizy wymaga uprzedniego uzgodnienia procedury etycznej i poinformowania uczestników. Osobistych tekstów nie przekazujemy zewnętrznym generatorom bez odpowiednich zabezpieczeń.
 
-Przed rozpoczęciem badań potwierdzających planujemy prerejestrację. Odstępstwa od planu i analizy eksploracyjne oznaczamy jawnie. Materiały publikujemy z informacją o wersji, zakresie dostępu i warunkach ponownego użycia.
+W badaniach potwierdzających prerejestrujemy hipotezy i plan analizy. W publikacjach rozróżniamy analizy potwierdzające i eksploracyjne oraz dokumentujemy odstępstwa od protokołu.

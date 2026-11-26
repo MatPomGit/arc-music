@@ -1,17 +1,17 @@
-# Zespół
+# Zespół badawczy
 
 ## Ewa Sterniczuk
 
-Pomysłodawczyni i liderka projektu. Psychologia twórczości i doświadczenia społeczności użytkowników generatorów muzyki.
+Pomysłodawczyni i liderka projektu. Koordynuje współpracę zespołu i kontakt ze społecznością twórców muzyki AI, w tym rekrutację do badań ankietowych i jakościowych.
 
 ## Paulina Ficner
 
-Współbadaczka. Psychologia cyfrowa, komunikacja wizualna i projektowanie doświadczenia użytkownika.
+Współbadaczka. Wykorzystuje doświadczenie w projektowaniu graficznym, komunikacji wizualnej oraz UI/UX przy opracowywaniu materiałów badawczych i prezentacji wyników.
 
 ## Dr inż. Mateusz Pomianek
 
-Współbadacz. Metodologia, analiza danych, psychometria i technologie generatywne.
+Współbadacz odpowiedzialny za metodologię, psychometrię, analizę danych oraz zaplecze informatyczne projektu.
 
 ## Dr hab. Cezary Biele
 
-Nadzór naukowy. Opiekun Koła Naukowego Psychologii Cyfrowej i kierownik Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+Sprawuje nadzór merytoryczny i wspiera zespół w podejmowaniu decyzji naukowych. Kierownik Centrum Psychologii Cyfrowej Uniwersytetu VIZJA i opiekun naukowy Koła Naukowego Psychologii Cyfrowej.

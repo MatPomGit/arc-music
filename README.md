@@ -1,30 +1,30 @@
-# ARC-MUSIC | AI, muzyka i emocje
+# ARC-MUSIC
 
-Czy tworzenie muzyki z generatywną AI może pomagać ludziom wyrażać emocje, rozumieć własne doświadczenia i nadawać im znaczenie? Kiedy sprzyja regulacji emocji, a kiedy może utrwalać ruminację lub unikanie?
+**Psychologiczne funkcje twórczości muzycznej wspomaganej przez generatywną sztuczną inteligencję**
 
-ARC-MUSIC to projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA. Jego wyróżnikiem jest badanie rzeczywistych doświadczeń społeczności twórców muzyki AI z wykorzystaniem metod jakościowych i ilościowych.
+Projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
-## Kierunki badań
+## Przedmiot badań
 
-- Motywacje, ekspresja i regulacja emocji.
-- Aleksytymia, sprawstwo i poczucie autorstwa.
-- Dobrostan, ruminacja i znaczenie autobiograficzne.
+Inspiracją do podjęcia badań były wypowiedzi użytkowników generatorów muzyki, którzy opisują tworzenie utworów jako sposób wyrażania trudnych emocji i porządkowania osobistych doświadczeń. Przedmiotem zainteresowania zespołu jest zarówno sam proces twórczy, od formułowania tekstu do wyboru i odsłuchu utworu, jak i jego znaczenie dla funkcjonowania psychicznego.
 
-[Model AIM-ER](docs/aim-er.md) · [Plan pierwszych badań](docs/first-study.md) · [Manuskrypty](manuscripts/)
+Planowane badania obejmują wywiady indywidualne i ankiety w społeczności twórców muzyki AI. Analizowane będą motywy podejmowania twórczości, regulacja emocji, aleksytymia, ruminacja oraz poczucie sprawstwa i autorstwa.
+
+[Model AIM-ER](docs/aim-er.md) · [Plan badań](docs/first-study.md) · [Manuskrypty](manuscripts/)
 
 ## Zespół
 
-| Osoba | Rola |
+| Osoba | Zakres odpowiedzialności |
 | --- | --- |
-| Ewa Sterniczuk | Pomysłodawczyni i liderka projektu |
-| Paulina Ficner | Współbadaczka, komunikacja wizualna i UX |
-| dr inż. Mateusz Pomianek | Współbadacz, metodologia i analiza danych |
-| dr hab. Cezary Biele | Nadzór merytoryczny, opiekun koła i kierownik Centrum |
+| Ewa Sterniczuk | Pomysłodawczyni i liderka projektu; badania społeczności twórców |
+| Paulina Ficner | Współbadaczka; komunikacja wizualna i UX |
+| dr inż. Mateusz Pomianek | Współbadacz; metodologia i analiza danych |
+| dr hab. Cezary Biele | Nadzór naukowy; opiekun koła i kierownik Centrum |
 
-## Open Science
+## Otwarta nauka
 
-Dążymy do prerejestracji hipotez i planów analiz, udostępniania protokołów, kodu i materiałów w granicach praw autorskich oraz raportowania również wyników niezgodnych z hipotezami. Dane uczestników pozostają w instytucjonalnym OneDrive VIZJA. [Zasady dostępu do danych](docs/data-policy.md).
+Protokoły badań potwierdzających będą prerejestrowane przed zbieraniem danych. Planujemy udostępniać materiały badawcze, kod analityczny i wyniki zbiorcze w zakresie dopuszczonym przez prawa autorskie, zgody uczestników i zasady etyczne. Wyniki niezależnie od ich zgodności z hipotezami będą przedmiotem raportowania w publikacjach.
 
-Projekt jest na etapie przygotowania badań. Zapraszamy do merytorycznej dyskusji i współpracy naukowej. Zasady licencjonowania materiałów wymagają uzgodnienia przez zespół.
+Dane jednostkowe są przechowywane w instytucjonalnym OneDrive VIZJA. [Zasady dostępu do danych](docs/data-policy.md).
 
-*ARC-MUSIC explores the psychology of AI-assisted music creation through creators' lived experiences, combining qualitative and quantitative research at VIZJA University.*
+Projekt znajduje się na etapie opracowania protokołów.

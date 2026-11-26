@@ -1,5 +1,6 @@
 """Offline checks for concise documentation and isolated site sources."""
 from pathlib import Path
+import hashlib
 import re
 import sys
 
@@ -65,6 +66,8 @@ def check(root=ROOT):
         r"https?://[^\s<>\x22\x27]*(?:sharepoint\.com|onedrive\.live\.com|1drv\.ms|discord\.gg)",
         re.I,
     )
+    approved_shortcut = "docs/BazaDanychOneDrive.desktop"
+    shortcut_blob = "9dea9bf85b3da7dc7385e4292a284fc28d8cb46c"
     candidates = [root / "README.md", root / "AGENTS.md", root / "LICENSE"]
     for directory in ("docs", "manuscripts", "pages"):
         candidates.extend((root / directory).rglob("*"))
@@ -72,6 +75,15 @@ def check(root=ROOT):
         relative = path.relative_to(root).as_posix()
         if path.is_symlink():
             errors.append(f"Unsafe linked path: {relative}")
+        elif relative == approved_shortcut:
+            # Exact user-approved institutional shortcut; no authorization check here.
+            if not path.is_file():
+                errors.append(f"Invalid institutional shortcut: {relative}")
+            else:
+                data = path.read_bytes()
+                blob = hashlib.sha1(b"blob " + str(len(data)).encode("ascii") + b"\x00" + data).hexdigest()
+                if blob != shortcut_blob:
+                    errors.append(f"Unreviewed institutional shortcut: {relative}")
         elif path.suffix.lower() in {".desktop", ".url"}:
             errors.append(f"Private shortcut prohibited: {relative}")
         elif path.is_file() and (path.suffix.lower() in {".md", ".tex", ".bib", ".txt", ".yaml", ".yml", ".json", ".py", ".csv"} or path.name == "LICENSE"):
