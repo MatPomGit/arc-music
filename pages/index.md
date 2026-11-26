@@ -1,9 +1,9 @@
-# Psychologia twórczości muzycznej z AI
+# Psychologia twórczości muzycznej wspomaganej przez AI
 
-Punktem wyjścia projektu ARC-MUSIC są wypowiedzi użytkowników generatorów muzyki, którzy wykorzystują utwory do wyrażania trudnych emocji i interpretowania własnych doświadczeń.
+Punktem wyjścia projektu ARC-MUSIC są wypowiedzi osób, które opisują tworzenie muzyki za pomocą generatywnej sztucznej inteligencji jako sposób wyrażania trudnych emocji i nadawania sensu własnym doświadczeniom.
 
-Badamy psychologiczne funkcje tej formy twórczości, ze szczególnym uwzględnieniem regulacji emocji, poczucia sprawstwa oraz znaczenia przypisywanego własnym utworom. Projekt łączy psychologię muzyki, psychologię twórczości i cyberpsychologię.
+Przedmiotem badań są psychologiczne funkcje tej formy twórczości, ze szczególnym uwzględnieniem regulacji emocji, poczucia sprawstwa i znaczenia przypisywanego własnym utworom. Interesuje nas zarówno przebieg procesu twórczego, jak i jego miejsce w życiu uczestników.
 
-ARC-MUSIC powstał w Kole Naukowym Psychologii Cyfrowej, działającym w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+ARC-MUSIC jest projektem Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
 [Zespół](team.md) · [Badania](studies.md) · [English](en.md)

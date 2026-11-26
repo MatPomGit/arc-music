@@ -1,9 +1,9 @@
-# AIM-ER
+# Model AIM-ER
 
-Model AI-assisted Music for Emotion Regulation (AIM-ER) ujmuje twórczość muzyczną z AI jako proces regulacji emocji. Uwzględnia predyspozycje indywidualne, motywy twórczości, formułowanie tekstu, generowanie, selekcję, edycję i odsłuch utworu.
+AIM-ER (AI-assisted Music for Emotion Regulation) jest proponowanym modelem teoretycznym regulacji emocji poprzez twórczość muzyczną wspomaganą przez sztuczną inteligencję. Uwzględnia predyspozycje indywidualne, motywy twórczości oraz kolejne etapy powstawania i słuchania utworu.
 
-Hipotetyczne mechanizmy obejmują nazywanie emocji, dystansowanie poznawcze, reinterpretację doświadczeń oraz poczucie sprawstwa i autorstwa. Doraźna ulga może współwystępować z ruminacją lub unikaniem.
+Do hipotetycznych mechanizmów należą nazywanie emocji, dystansowanie poznawcze, reinterpretacja doświadczeń oraz poczucie sprawstwa i autorstwa. Model zakłada, że doraźna ulga może współwystępować z ruminacją lub unikaniem.
 
-Wstępne hipotezy: H1 zmiana afektu; H2 dodatkowy efekt muzyki względem pisania; H3 autorstwo; H4 kontrola edycji i sprawstwo; H5 aleksytymia i jasność emocjonalna; H6 ruminacja; H7 odbiór społeczny; H8 kompetencje muzyczne; H9 elastyczność regulacji; H10 efekt nowości.
+Wstępne obszary hipotez obejmują zmianę afektu (H1), znaczenie muzyki w porównaniu z samym pisaniem (H2), autorstwo (H3), kontrolę edycji i sprawstwo (H4), aleksytymię i jasność emocjonalną (H5), ruminację (H6), odbiór społeczny (H7), kompetencje muzyczne (H8), elastyczność regulacji (H9) oraz efekt nowości (H10).
 
-Rozróżnienie doraźnych zmian afektu od odroczonych konsekwencji wymaga pomiarów powtarzanych i odpowiednich warunków porównawczych.
+Ocena doraźnych i odroczonych zmian afektu wymaga pomiarów powtarzanych. Wnioskowanie o wpływie poszczególnych elementów procesu twórczego wymaga odpowiednich warunków porównawczych.

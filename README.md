@@ -6,25 +6,16 @@ Projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psycholog
 
 ## Przedmiot badań
 
-Inspiracją do podjęcia badań były wypowiedzi użytkowników generatorów muzyki, którzy opisują tworzenie utworów jako sposób wyrażania trudnych emocji i porządkowania osobistych doświadczeń. Przedmiotem zainteresowania zespołu jest zarówno sam proces twórczy, od formułowania tekstu do wyboru i odsłuchu utworu, jak i jego znaczenie dla funkcjonowania psychicznego.
+Punktem wyjścia badań są wypowiedzi członków społeczności użytkowników generatorów muzyki, którzy opisują tworzenie utworów jako sposób wyrażania trudnych emocji i nadawania sensu osobistym doświadczeniom. Szczególnie interesuje nas znaczenie poszczególnych etapów twórczości: formułowania tekstu, generowania muzyki, wyboru utworu, jego edycji i słuchania.
 
-Planowane badania obejmują wywiady indywidualne i ankiety w społeczności twórców muzyki AI. Analizowane będą motywy podejmowania twórczości, regulacja emocji, aleksytymia, ruminacja oraz poczucie sprawstwa i autorstwa.
+W pierwszej kolejności planujemy przeprowadzić wywiady indywidualne oraz badanie ankietowe wśród twórców korzystających z generatywnej sztucznej inteligencji. Przedmiotem analiz będą motywy twórczości, regulacja emocji, aleksytymia, ruminacja, poczucie sprawstwa i autorstwa. Chcemy ustalić, w jakich okolicznościach twórcy dostrzegają korzyści psychologiczne, a w jakich doświadczają trudności. Planowane badania stanowią podstawę do sformułowania i późniejszej weryfikacji hipotez o mechanizmach tych zależności.
 
 [Model AIM-ER](docs/aim-er.md) · [Plan badań](docs/first-study.md) · [Manuskrypty](manuscripts/)
 
-## Zespół
-
-| Osoba | Zakres odpowiedzialności |
-| --- | --- |
-| Ewa Sterniczuk | Pomysłodawczyni i liderka projektu; badania społeczności twórców |
-| Paulina Ficner | Współbadaczka; komunikacja wizualna i UX |
-| dr inż. Mateusz Pomianek | Współbadacz; metodologia i analiza danych |
-| dr hab. Cezary Biele | Nadzór naukowy; opiekun koła i kierownik Centrum |
-
 ## Otwarta nauka
 
-Protokoły badań potwierdzających będą prerejestrowane przed zbieraniem danych. Planujemy udostępniać materiały badawcze, kod analityczny i wyniki zbiorcze w zakresie dopuszczonym przez prawa autorskie, zgody uczestników i zasady etyczne. Wyniki niezależnie od ich zgodności z hipotezami będą przedmiotem raportowania w publikacjach.
+Przed rozpoczęciem badań potwierdzających planujemy prerejestrować hipotezy i sposób analizy danych. Zamierzamy udostępniać protokoły, materiały badawcze, kod analityczny i wyniki zbiorcze, z poszanowaniem prywatności uczestników oraz praw autorskich. Będziemy przedstawiać również wyniki, które nie potwierdzają hipotez.
 
-Dane jednostkowe są przechowywane w instytucjonalnym OneDrive VIZJA. [Zasady dostępu do danych](docs/data-policy.md).
+Dane uczestników będą przechowywane w uczelnianej przestrzeni OneDrive. Szczegółowe zasady określa [polityka danych badawczych](docs/data-policy.md).
 
-Projekt znajduje się na etapie opracowania protokołów.
+Projekt jest na etapie opracowywania protokołów.
