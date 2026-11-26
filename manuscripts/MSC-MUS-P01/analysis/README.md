@@ -38,3 +38,7 @@ Completed extended diagnostics for simulation SHA `cee6e03d5f36103efb4ce084a76df
 ## Calibration and sample-size screening
 
 See `calibration-protocol.md`. New `calibration_checks.py` compares paired H6 model-based and cluster-GLS intervals and screens H10 marginal/estimated-IPW models at N=160,400,800,1200. Run `OPENBLAS_NUM_THREADS=1 python calibration_checks.py --kind h10 --missing mar --reps 500 --seed 91307`. Six workflow jobs, 500 paired draws per scenario, independent seed from the completed extended study. No MNAR identification claim or precision certification; report results only after artifact verification.
+
+## Revised primary statistical designs
+
+See `revised-statistical-design.md`. H6 uses marginal CR2/Satterthwaite and conservative 96% intervals, independently evaluated after pilot. H10 uses arm-specific endpoint-change standardization with active final-session recovery, not random slope covariance fitting. Run `OPENBLAS_NUM_THREADS=1 python revised_design.py --reps 2000` for exact-SHA output. H10 first-rating missingness and MNAR remain explicit sensitivity/identification issues. No change to H1–H10 hypotheses.
