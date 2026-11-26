@@ -62,7 +62,7 @@ def check_interactions(page, section):
         assert page.locator("#motion-toggle").is_hidden()
         page.emulate_media(reduced_motion="no-preference")
         toggle = page.locator("#motion-toggle")
-        assert toggle.is_visible()
+        toggle.wait_for(state="visible")
         selector, attr = ("#wave path", "d") if section == "index" else ("#affect-dot", "cx")
         if section != "studies":
             marker = page.locator(selector).first
@@ -72,7 +72,12 @@ def check_interactions(page, section):
             assert page.locator(".step h3").count() == 4
             assert page.locator(".step p").count() == 4
             assert page.locator(".step-active").count() == 1
+            if section == "studies":
+                first = page.locator(".step-active").inner_text()
+                page.wait_for_function("(x) => document.querySelector('.step-active')?.innerText !== x", arg=first, timeout=8000)
+                assert page.locator(".step-active").count() == 1
         toggle.click()
+        assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
         if section != "studies":
             before = marker.get_attribute(attr)
             page.wait_for_timeout(180)

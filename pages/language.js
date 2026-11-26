@@ -48,6 +48,7 @@ if(toggle){
   }
   function sync(){
     cancelAnimationFrame(frame);frame=0;last=null;
+    root.classList.toggle("motion-paused",paused||document.hidden||reduced.matches);
     toggle.hidden=reduced.matches;
     toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");
     if(reduced.matches){draw(0);return}
