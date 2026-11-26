@@ -65,3 +65,32 @@ jobs:
             manuscripts/MSC-MUS-P07/analysis/calibration-results.json
             manuscripts/MSC-MUS-P07/analysis/calibration-head.txt
           if-no-files-found: error
+  rare-creation-stress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        n: [160, 320]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P07/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p07"
+          "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
+          git rev-parse HEAD > stress-head.txt
+          "$RUNNER_TEMP/p07/bin/python" stress.py --n ${{ matrix.n }} --reps 1000 --reference-n 20000 > stress-results.json
+          "$RUNNER_TEMP/p07/bin/python" -c 'import json; d=json.load(open("stress-results.json")); print(json.dumps(d,separators=(",",":"))); assert len(d["cells"])==12 and all(c["valid"]+c["failures"]==1000 and c["valid"]>0 for c in d["cells"])'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p07-stress-${{ matrix.n }}
+          path: |
+            manuscripts/MSC-MUS-P07/analysis/stress-results.json
+            manuscripts/MSC-MUS-P07/analysis/stress-head.txt
+          if-no-files-found: error

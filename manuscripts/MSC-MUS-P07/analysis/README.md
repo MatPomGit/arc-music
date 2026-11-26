@@ -1,4 +1,4 @@
-# P07 analysis contract v0.4.0
+# P07 analysis contract v0.5.0
 
 PROSPECTIVE. Research owner: Mateusz Pomianek; authorship determined by actual contribution. No participant data. The unit is a prescheduled window, not a creation session. Retain all scheduled windows. The initial estimate uses complete observed switchers, not causal inference. No comparison of creation vs non-creation across different people as the primary model.
 
@@ -13,3 +13,5 @@ Narrow timing comparison uses baseline 0–5, exposure/first outcome 60–65 and
 Run python simulation.py --smoke --reps 20 --reference-n 1000 for smoke testing or python simulation.py --reps 200 --reference-n 10000 for the 44-cell synthetic screen. See simulation-plan.md. The simulator calls the same array estimator as the production H1 model. No sample target is locked; output is not empirical data.
 
 H1 missingness sensitivity now separately reports invalid/missing exposure and outcome among valid baselines. Sequential ridge-logistic weights for exposure availability and outcome availability are capped at 10/20; these are point estimates only. Deterministic outcome shifts (five additive by three exposure-dependent shifts) retain known exposure. Stochastic exposure scenarios vary log-odds by -1/0/+1 among valid outcomes, with fixed seed and 100 draws; no unknown exposure is classified as non-creation. Scenario quantiles are not uncertainty intervals. Neither analysis recovers missing baselines or jointly missing exposure/outcome. Bootstrap, joint missingness calibration and H2/H3 sensitivities remain pending. Initial CI calibration results are archived separately.
+
+Rare-creation stress calibration: see stress-plan.md. The new 24-cell grid uses 1000 replicates per cell and separately models ineligibility, timing failures and informative monotone withdrawal. It records unconditional rejection and switcher-count quantiles, not just conditional power. The results are pending.
