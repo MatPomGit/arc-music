@@ -53,3 +53,7 @@ CI 45894529075 passed all unit tests and simulations through invariance at inspe
 ## v0.12.0 implementation
 
 Both previous CI runs passed unit tests at inspection and remained in progress. Added selected-count EFA recovery, four factor-count smoke datasets including two with protocol 500 permutations, paired Wald/Fisher-delta/percentile/basic interval comparison, and five regression tests. New results pending. No claim of repaired coverage, increased power, full-pool protocol recovery or selected N. Invariance power, reference estimator, large calibration and scientific review remain open.
+
+## v0.13.0 implementation
+
+CI 45894529075 succeeded; CI 45895131526 completed unit tests and new recovery/interval smoke simulations successfully at inspection. Added item-level diagnostics and expanded group-size simulation with 16 scenarios and 20 replicates each. Five new regression tests. All new numerical results pending; no claim that power increased or that full-pool invariance has been established. Reference estimator and large calibration remain open.
