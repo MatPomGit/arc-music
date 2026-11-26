@@ -66,6 +66,15 @@ def check_study_content(page):
     assert article.locator(".pub").count() == 9
     assert article.locator(".pub h3").count() == 9
     assert article.locator(".pub details").count() == 0
+    for i in range(1,10):
+        panel = article.locator(f".pub#msc-mus-p{i:02d}")
+        assert panel.count() == 1
+        assert panel.locator(".pub-question").is_visible()
+        assert panel.locator(".pub-body h4").count() == 2
+        assert panel.locator(".pub-body p").count() == 2
+        assert panel.locator(".pub-target").is_visible()
+        assert all(len(s.strip()) >= 80 for s in panel.locator(".pub-body p").all_text_contents())
+    assert article.locator(".pub-list").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length") == 1
     assert article.locator(".section-card:last-child p").count() >= 1
     # Compare the full source article to the transformed article, including status.
     raw = page.context.request.get(page.url)

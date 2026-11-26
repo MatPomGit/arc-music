@@ -38,8 +38,8 @@ def check(root=ROOT):
     errors = []
     limits = dict(LIMITS)
     limits.update({f"pages/{name}": 2000 for name in PUBLIC})
-    # Research pages now contain nine expanded bilingual manuscript cards.
-    limits.update({"pages/studies.md": 7000, "pages/en-studies.md": 7000})
+    # Nine full-width bilingual manuscript panels, each with question, method and contribution.
+    limits.update({"pages/studies.md": 18000, "pages/en-studies.md": 18000})
     # Expanded bilingual scientific overview; retain an explicit finite budget.
     limits.update({"pages/neuropsychology.md": 7500, "pages/en-neuropsychology.md": 7500})
     for path in (root / "docs").glob("*.md"):
