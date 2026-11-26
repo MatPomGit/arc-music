@@ -16,11 +16,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Validate repository
         run: python3 validate.py
+      - name: Install analysis dependencies
+        working-directory: manuscripts/MSC-MUS-P01/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/aim-er-venv"
+          "$RUNNER_TEMP/aim-er-venv/bin/python" -m pip install -r requirements.txt
       - name: Run synthetic regression tests
         working-directory: manuscripts/MSC-MUS-P01/analysis
-        run: python3 -m unittest -v
+        run: |
+          "$RUNNER_TEMP/aim-er-venv/bin/python" -m unittest -v
+          "$RUNNER_TEMP/aim-er-venv/bin/python" design_checks.py > design-results.json
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
@@ -31,3 +39,12 @@ jobs:
           latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
           if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
           test -s main.pdf
+      - name: Publish exact-head validation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aim-er-validation
+          path: |
+            manuscripts/MSC-MUS-P01/main.pdf
+            manuscripts/MSC-MUS-P01/main.log
+            manuscripts/MSC-MUS-P01/analysis/design-results.json
+          if-no-files-found: error

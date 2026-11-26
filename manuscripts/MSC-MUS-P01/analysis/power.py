@@ -7,7 +7,7 @@ NORMAL = NormalDist()
 
 
 def power(n, effect, cells=2, alpha=0.05, r2=0.0):
-    if n < 2 or cells not in (2, 4) or not 0 < alpha < 1:
+    if type(n) is not int or n < 2 or type(cells) is not int or cells not in (2, 4) or not 0 < alpha < 1:
         raise ValueError('invalid design')
     if not 0 <= r2 < 1 or not math.isfinite(effect):
         raise ValueError('invalid effect or R2')
@@ -35,16 +35,16 @@ def plan(effect, cells=2, target=0.8, alpha=0.05, r2=0.0, loss=0.15):
     return lo, cells * math.ceil(lo / (1 - loss))
 
 
-def monte_carlo(n, effect, cells=2, reps=20000, seed=1729):
-    power(n, effect, cells)
-    if reps < 1:
+def monte_carlo(n, effect, cells=2, reps=20000, seed=1729, alpha=0.05, r2=0.0):
+    power(n, effect, cells, alpha, r2)
+    if type(reps) is not int or reps < 1:
         raise ValueError('reps must be positive')
     rng = random.Random(seed)
-    sd = 1 / math.sqrt(n)
+    sd = math.sqrt((1 - r2) / n)
     weights = (-1, 1) if cells == 2 else (0.5, -0.5, -0.5, 0.5)
     means = (0, effect) if cells == 2 else (effect, 0, 0, effect)
     se = sd * math.sqrt(sum(w * w for w in weights))
-    critical = NORMAL.inv_cdf(0.975)
+    critical = NORMAL.inv_cdf(1 - alpha / 2)
     hits = 0
     for _ in range(reps):
         estimate = sum(w * rng.gauss(m, sd) for w, m in zip(weights, means))
