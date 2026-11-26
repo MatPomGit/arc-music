@@ -43,6 +43,7 @@ def prepare(frame, upper_delay=15):
     d["status"]=np.select([~valid_base,~valid_exposure,~valid_outcome],["baseline_unavailable_or_ongoing","exposure_unavailable","outcome_unavailable"],default="complete")
     d["baseline_valid"]=valid_base
     d["exposure_valid"]=valid_exposure
+    d["outcome60_valid"]=valid_outcome
     d["h1_valid"]=valid_base & valid_exposure & valid_outcome
     d["h2_valid"]=valid_base & valid_exposure & delay("followup180_time").between(180,180+upper_delay) & d.valence180.notna()
     d["deviation0"]=(d.arousal0-d.desired_arousal0).abs()
@@ -116,7 +117,7 @@ def model_set(d):
         models[key]=safe_fit(a,outcome,predictors)
     return models
 
-def analyze(frame):
+def analyze(frame, sensitivity_draws=100):
     d,a=prepare(frame)
     models=model_set(d)
     pvalues={key:models[key].get("estimate",{}).get("p") for key in ["H2","H3"]}
@@ -133,6 +134,9 @@ def analyze(frame):
                                     "followup180_minutes":[180,185],"models":model_set(narrow)})
     if "estimate" in models["H1"]:result["primary"]=models["H1"]["estimate"]
     else:result["primary_unavailable"]=models["H1"]["unavailable"]
+    from sensitivity import assess
+    try: result["missingness"]=assess(d,draws=sensitivity_draws)
+    except (ValueError,np.linalg.LinAlgError) as exc: result["missingness_unavailable"]=str(exc)
     return result
 
 if __name__=="__main__":
