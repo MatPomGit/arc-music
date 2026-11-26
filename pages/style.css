@@ -97,3 +97,10 @@ body[data-section=studies] .article .section-grid{grid-template-columns:repeat(a
 @keyframes stage-unfold{from{clip-path:inset(0 0 90% 0);opacity:.45;transform:translateY(-3px)}to{clip-path:inset(0);opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:no-preference){.step-active p{animation:stage-unfold 1.15s ease-out both}}
 .motion-paused .step-active p{animation:none}
+
+/* Neuropsychology: generous reading measure, scoped to both language routes. */
+body[data-section=neuropsychology] .article{max-width:112ch;margin-inline:auto}
+body[data-section=neuropsychology] .article>p{max-width:104ch}
+body[data-section=neuropsychology] .article>h1{max-width:none}
+body[data-section=neuropsychology] .article>p:nth-of-type(2){font-size:clamp(1.05rem,1.5vw,1.25rem);color:var(--muted)}
+body[data-section=neuropsychology] .article>h2{border-top:1px solid var(--line);padding-top:1.15rem;margin-top:2rem}
