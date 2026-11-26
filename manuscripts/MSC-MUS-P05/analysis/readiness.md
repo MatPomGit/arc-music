@@ -37,3 +37,7 @@ CI 45893710926 at becaf6e passed computational steps when checked; final PDF sta
 ## v0.8.0 implementation
 
 CI 45894003009 on d4209e2 passed unit tests at inspection; simulations and PDF were still in progress. Added common-metric baseline/target discrepancy diagnostics, trace correction explicitly distinguished from validated robust CFI/TLI/RMSEA, rank/folded split R-hat, approximate ESS and seven regression tests. Paired synthetic calibration configured for 90 datasets. Full sample-size calibration, reference software comparison, RMSEA interval, joint FCS convergence, validity contrasts and scientific review remain outstanding. No participant results.
+
+## v0.9.0 implementation
+
+Added all six external validity contrast slots, multiplicity handling, five regression tests, synthetic null/alternative validity calibration and sample-size decision protocol. The CI smoke configuration is 300 datasets; results pending. Both prior runs were in progress with unit tests passing. The numerical sample-size decision, large calibration, reference-estimator comparison, full-text audit and independent scientific review remain open. No participant results.
