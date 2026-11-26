@@ -1,0 +1,58 @@
+name: MSC-MUS-P05 checks
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P05/**'
+      - '.github/workflows/manuscript-p05.yml'
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r manuscripts/MSC-MUS-P05/analysis/requirements.txt
+      - run: python3 validate.py
+      - run: python3 -m unittest discover -s manuscripts/MSC-MUS-P05/analysis -p 'test_*.py'
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/factor_count_calibration.py --k 2 --items 3 --n 400 --reps 2 --pa-reps 500 > p05-factor-count-protocol-smoke.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/factor_count_calibration.py --k 7 --items 5 --n 400 --reps 2 --pa-reps 20 > p05-factor-count-fullpool-smoke.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/interval_calibration.py --reps 2 --boot 99 > p05-interval-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_power.py --reps 20 > p05-invariance-power.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p05-recovery-interval-development
+          path: |
+            p05-factor-count-protocol-smoke.json
+            p05-factor-count-fullpool-smoke.json
+            p05-interval-calibration.json
+            p05-invariance-power.json
+      - run: python3 manuscripts/MSC-MUS-P05/analysis/recovery.py --reps 12 > p05-recovery.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/cfa_calibration.py --reps 8 > p05-cfa-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/robust_calibration.py --reps 30 --full-reps 3 > p05-robust-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/selection_calibration.py --reps 30 > p05-selection-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_calibration.py --reps 30 > p05-invariance-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/imputation_calibration.py --reps 8 --m 5 --sweeps 20 > p05-imputation-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/fit_calibration.py --reps 30 > p05-fit-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/validity_calibration.py --reps 30 --boot 199 > p05-validity-calibration.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p05-synthetic-development
+          path: |
+            p05-recovery.json
+            p05-cfa-calibration.json
+            p05-robust-calibration.json
+            p05-selection-calibration.json
+            p05-invariance-calibration.json
+            p05-imputation-calibration.json
+            p05-fit-calibration.json
+            p05-validity-calibration.json
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends lmodern texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended biber latexmk
+      - working-directory: manuscripts/MSC-MUS-P05
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p05-manuscript
+          path: manuscripts/MSC-MUS-P05/main.pdf

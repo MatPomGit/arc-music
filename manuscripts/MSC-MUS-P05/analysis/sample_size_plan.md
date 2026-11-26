@@ -1,0 +1,11 @@
+# Sample-size decision protocol v0.9.0
+
+Status: prospective, not frozen. The existing N=400 EFA and N=500 CFA are planning values, not demonstrated requirements.
+
+- Candidate N: 250, 400, 500, 650, 800 in independent EFA and CFA samples. For group invariance use balanced and 70:30 allocation, and check minimum category counts separately.
+- Core CFA grid: seven correlated factors, five items each, loading .60/.75, correlation .20/.50, balanced and moderately skewed categories. Stress: loading .40, correlation .80, cross-loadings, local dependence, and rare response categories. Include 0/10/20% item missingness with separately specified mechanisms. Do not equate 20% item missingness with 20% incomplete records.
+- EFA: evaluate recovery of factor number via the prespecified 500-permutation procedure, assignment accuracy and loading error. Do not use knowledge of generating factor number for the recovery gate.
+- CFA: proper convergence at least .95, absolute loading bias at most .05, marginal 95% coverage .92--.98 and type-I-error calibration; also report failures unconditionally. Assess validity hypotheses at meaningful observed-score associations fixed before data collection. Current latent comparator association .25 is a simulation input, not a clinically established effect.
+- For each core scenario use at least 1000 replications, increasing to 2000 near a decision boundary. Report Wilson intervals and Monte Carlo standard errors; use independent seeds across scenarios and reproducible child seeds. An inconclusive interval requires more simulation, not automatic acceptance.
+- Select the smallest candidate N meeting the frozen criteria across all core scenarios; report stress failures, group-specific requirements, and feasibility. If no N passes, revise the design, do not claim a power guarantee. Freeze recruitment caps before participant enrolment.
+- The present validity calibration is a small development screen (30 replicates per scenario, 199 bootstrap resamples). It does not evaluate full EFA/CFA recovery, 5000-resample inference, or measurement-model uncertainty. The final decision remains blocked pending reference estimator validation and the larger calibrated grid.
