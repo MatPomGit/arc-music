@@ -9,6 +9,9 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_public_render.py'
+      - 'test_render_regressions.py'
+      - 'embed_site_assets.py'
       - 'check_site_regressions.py'
       - 'verify_public.py'
       - 'test_verify_public.py'
@@ -21,6 +24,9 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_public_render.py'
+      - 'test_render_regressions.py'
+      - 'embed_site_assets.py'
       - 'check_site_regressions.py'
       - 'verify_public.py'
       - 'test_verify_public.py'
@@ -33,7 +39,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +51,7 @@ jobs:
       - name: Validate sources
         run: |
           python validate.py
-          python -m unittest -v test_verify_public
+          python -m unittest -v test_verify_public test_render_regressions
       - name: Build website
         run: |
           python -m pip install -r requirements-site.txt
@@ -58,6 +64,7 @@ jobs:
       - name: Browser layout checks
         run: |
           python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium firefox
           npm install --prefix "$RUNNER_TEMP/arc-a11y" --ignore-scripts --no-audit --no-fund axe-core@4.10.3
           AXE_PATH="$RUNNER_TEMP/arc-a11y/node_modules/axe-core/axe.min.js" python check_site.py
       - uses: actions/upload-artifact@v4
@@ -101,8 +108,8 @@ jobs:
   verify-public:
     if: github.ref == 'refs/heads/main'
     needs: [build, deploy]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     permissions:
       contents: read
     steps:
@@ -116,3 +123,13 @@ jobs:
         env:
           SITE_URL: ${{ needs.deploy.outputs.page_url }}
         run: python verify_public.py verify site-files.sha256 "$SITE_URL" "$GITHUB_SHA"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify live rendering in Chromium and Firefox
+        env:
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium firefox
+          python check_public_render.py "$SITE_URL"

@@ -11,13 +11,13 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ page.title if page else config.site_name }}</title>
 <meta name="description" content="{{ 'Research on emotion regulation and AI-assisted music creation.' if en else 'Badania nad regulacją emocji i twórczością muzyczną wspomaganą przez AI.' }}">
-<link rel="stylesheet" href="style.css"><script src="language.js" defer></script>
+<style id="arc-site-style">{{ arc_css | safe }}</style>
 </head>
 <body data-section="{{ section }}">
 <a class="skip" href="#main">{{ 'Skip to content' if en else 'Przejdź do treści' }}</a>
 <header class="masthead"><div class="header-inner">
 <a class="mark" href="{{ 'en.html' if en else 'index.html' }}" aria-label="{{ 'Home' if en else 'Strona główna' }}">
-<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="19" fill="#126b70"/><path d="M13 33 Q18 16 23 33 T33 33 T43 33 T53 33" fill="none" stroke="#ffcf93" stroke-width="4" stroke-linecap="round"/><path d="M14 43 Q23 51 32 43 T50 43" fill="none" stroke="#b1e1d5" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="17" r="4" fill="#f4a5bc"/></svg>
+<svg width="52" height="52" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="19" fill="#126b70"/><path d="M13 33 Q18 16 23 33 T33 33 T43 33 T53 33" fill="none" stroke="#ffcf93" stroke-width="4" stroke-linecap="round"/><path d="M14 43 Q23 51 32 43 T50 43" fill="none" stroke="#b1e1d5" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="17" r="4" fill="#f4a5bc"/></svg>
 </a>
 <nav aria-label="{{ 'Main navigation' if en else 'Nawigacja główna' }}" class="nav">
 {% for id,pl,english in navs %}<a href="{{ ('en.html' if id == 'index' else 'en-' + id + '.html') if en else id + '.html' }}"{% if id == section %} aria-current="page"{% endif %}>{{ english if en else pl }}</a>{% endfor %}
@@ -44,4 +44,5 @@
 {% endif %}
 </main>
 <footer class="footer"><div><span class="eyebrow">{{ 'Research project' if en else 'Projekt badawczy' }}</span><p>{{ 'Digital Psychology Student Research Group · Centre for Digital Psychology · VIZJA University' if en else 'Koło Naukowe Psychologii Cyfrowej · Centrum Psychologii Cyfrowej · Uniwersytet VIZJA' }}</p></div><a href="#main">{{ 'Back to top' if en else 'Do góry' }} ↑</a></footer>
+<script>{{ arc_js | safe }}</script>
 </body></html>
