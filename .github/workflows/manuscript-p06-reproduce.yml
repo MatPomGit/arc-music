@@ -1,0 +1,63 @@
+name: Reproduce MSC-MUS-P06 numerical evidence
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P06/analysis/**'
+      - '.github/workflows/manuscript-p06-reproduce.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [cluster, stress, missing]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P06/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p06-repro"
+          "$RUNNER_TEMP/p06-repro/bin/pip" install -r requirements.txt
+          git rev-parse HEAD > reproduction-head.txt
+          "$RUNNER_TEMP/p06-repro/bin/python" reproduce.py ${{ matrix.kind }} --output reproduction.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p06-reproduction-${{ matrix.kind }}
+          path: |
+            manuscripts/MSC-MUS-P06/analysis/reproduction.json
+            manuscripts/MSC-MUS-P06/analysis/reproduction-head.txt
+          if-no-files-found: error
+  bootstrap-screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P06/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p06-boot"
+          "$RUNNER_TEMP/p06-boot/bin/pip" install -r requirements.txt
+          git rev-parse HEAD > bootstrap-head.txt
+          "$RUNNER_TEMP/p06-boot/bin/python" bootstrap_calibration.py --reps 10 --bootstrap 49 --reference-n 10000 > bootstrap-screen.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p06-bootstrap-screen
+          path: |
+            manuscripts/MSC-MUS-P06/analysis/bootstrap-screen.json
+            manuscripts/MSC-MUS-P06/analysis/bootstrap-head.txt
+          if-no-files-found: error

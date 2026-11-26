@@ -1,0 +1,51 @@
+name: Validate MSC-MUS-P06 protocol
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P06/**'
+      - '.github/workflows/manuscript-p06.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - name: Test analysis
+        working-directory: manuscripts/MSC-MUS-P06/analysis
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p06-venv"
+          "$RUNNER_TEMP/p06-venv/bin/pip" install -r requirements.txt
+          "$RUNNER_TEMP/p06-venv/bin/python" -m unittest -v
+          "$RUNNER_TEMP/p06-venv/bin/python" simulation.py --smoke --reps 100 > smoke-results.json
+          "$RUNNER_TEMP/p06-venv/bin/python" bounded_simulation.py --reps 100 --reference-n 10000 > bounded-results.json
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
+      - name: Compile
+        working-directory: manuscripts/MSC-MUS-P06
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
+          test -s main.pdf
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p06-validation
+          path: |
+            manuscripts/MSC-MUS-P06/main.pdf
+            manuscripts/MSC-MUS-P06/main.log
+            manuscripts/MSC-MUS-P06/exact-head.txt
+            manuscripts/MSC-MUS-P06/analysis/smoke-results.json
+            manuscripts/MSC-MUS-P06/analysis/bounded-results.json
+          if-no-files-found: error
