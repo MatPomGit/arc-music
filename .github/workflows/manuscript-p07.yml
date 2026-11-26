@@ -22,6 +22,7 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/p07"
           "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
           "$RUNNER_TEMP/p07/bin/python" -m unittest -v
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 "$RUNNER_TEMP/p07/bin/python" simulation.py --smoke --reps 20 --reference-n 1000 > smoke-results.json
       - run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
@@ -37,4 +38,30 @@ jobs:
             manuscripts/MSC-MUS-P07/main.pdf
             manuscripts/MSC-MUS-P07/main.log
             manuscripts/MSC-MUS-P07/exact-head.txt
+            manuscripts/MSC-MUS-P07/analysis/smoke-results.json
+          if-no-files-found: error
+  calibration-screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P07/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p07"
+          "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
+          git rev-parse HEAD > calibration-head.txt
+          "$RUNNER_TEMP/p07/bin/python" simulation.py --reps 200 --reference-n 10000 > calibration-results.json
+          "$RUNNER_TEMP/p07/bin/python" -c 'import json; d=json.load(open("calibration-results.json")); print(json.dumps(d, separators=(",",":"))); assert all(c["valid"]+c["failures"]==d["reps"] and c["valid"]>0 for c in d["cells"])'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p07-calibration
+          path: |
+            manuscripts/MSC-MUS-P07/analysis/calibration-results.json
+            manuscripts/MSC-MUS-P07/analysis/calibration-head.txt
           if-no-files-found: error

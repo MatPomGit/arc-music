@@ -58,9 +58,19 @@ def switcher_rows(a):
 
 def fit(a, outcome="valence60", predictors=None):
     predictors=PRED if predictors is None else predictors
-    a=switcher_rows(a)
-    g=a.participant_id.to_numpy()
-    x=a[predictors].to_numpy(float);y=a[outcome].to_numpy(float)
+    return fit_arrays(a.participant_id.to_numpy(),a[predictors].to_numpy(float),a[outcome].to_numpy(float))
+
+def fit_arrays(group,x,y):
+    group=np.asarray(group);x=np.asarray(x,float);y=np.asarray(y,float)
+    if x.ndim!=2 or x.shape[1]<1 or y.ndim!=1 or group.ndim!=1 or not len(x)==len(y)==len(group):
+        raise ValueError("Invalid input shape")
+    if not np.isfinite(x).all() or not np.isfinite(y).all() or not np.isin(x[:,0],[0,1]).all():
+        raise ValueError("Invalid model values")
+    _,g=np.unique(group,return_inverse=True)
+    total=np.bincount(g)
+    exposed=np.bincount(g,weights=x[:,0])
+    keep=(exposed[g]>0)&(exposed[g]<total[g])
+    g,x,y=g[keep],x[keep],y[keep]
     _,g=np.unique(g,return_inverse=True); counts=np.bincount(g)
     G,N,p=len(counts),len(y),x.shape[1]
     if G<10 or N-G-p<=0:raise ValueError("Insufficient switcher clusters")
