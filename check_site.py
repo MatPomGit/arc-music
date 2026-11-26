@@ -7,6 +7,7 @@ import json
 import shutil
 import threading
 from playwright.sync_api import sync_playwright
+from check_public_render import run as check_browser_render
 from check_site_regressions import check_contrast, check_focus, check_text_layout, check_study_content, check_zoom_reflow
 
 ROOT=Path(__file__).resolve().parent
@@ -74,6 +75,7 @@ def main():
     base=f"http://127.0.0.1:{server.server_port}/"
     out=ROOT/"site-checks";out.mkdir(exist_ok=True)
     try:
+        check_browser_render(base)
         with sync_playwright() as p:
             browser=p.chromium.launch(executable_path=shutil.which("google-chrome") or shutil.which("chromium"),args=["--no-sandbox"])
             for width in (360,768,1024,1440,1920):

@@ -64,7 +64,7 @@ def check(root=ROOT):
     keys = [line.split(":", 1)[0].strip() for line in config.splitlines()
             if line and not line.startswith((" ", "#"))]
     if set(keys) != {"site_name", "docs_dir", "site_dir", "use_directory_urls",
-                     "theme", "plugins", "extra_javascript", "extra_css", "nav"} or len(keys) != 9:
+                     "theme", "plugins", "extra_javascript", "extra_css", "nav", "hooks"} or len(keys) != 10:
         errors.append("Unexpected site configuration")
     if not re.search(r"(?m)^docs_dir: pages$", config) or not re.search(r"(?m)^site_dir: site$", config):
         errors.append("Site source/output boundary changed")
@@ -75,6 +75,11 @@ def check(root=ROOT):
                     "  custom_dir: theme-overrides"):
         if setting not in config.splitlines():
             errors.append(f"Missing site setting: {setting}")
+    if not re.search(r"(?m)^hooks:\n  - embed_site_assets\.py$", config):
+        errors.append("Missing local asset embedding hook")
+    hook = root / "embed_site_assets.py"
+    if not hook.is_file() or hook.is_symlink():
+        errors.append("Missing or unsafe asset embedding hook")
     nav = re.findall(r"(?m)^  - [^:]+: ([a-z.-]+)$", config)
     if set(nav) != PUBLIC or len(nav) != len(PUBLIC):
         errors.append("Public navigation mismatch")
