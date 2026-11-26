@@ -1,0 +1,96 @@
+name: Validate MSC-MUS-P07 protocol
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P07/**'
+      - '.github/workflows/manuscript-p07.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - working-directory: manuscripts/MSC-MUS-P07/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p07"
+          "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
+          "$RUNNER_TEMP/p07/bin/python" -m unittest -v
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 "$RUNNER_TEMP/p07/bin/python" simulation.py --smoke --reps 20 --reference-n 1000 > smoke-results.json
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
+      - working-directory: manuscripts/MSC-MUS-P07
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p07-validation
+          path: |
+            manuscripts/MSC-MUS-P07/main.pdf
+            manuscripts/MSC-MUS-P07/main.log
+            manuscripts/MSC-MUS-P07/exact-head.txt
+            manuscripts/MSC-MUS-P07/analysis/smoke-results.json
+          if-no-files-found: error
+  calibration-screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P07/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p07"
+          "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
+          git rev-parse HEAD > calibration-head.txt
+          "$RUNNER_TEMP/p07/bin/python" simulation.py --reps 200 --reference-n 10000 > calibration-results.json
+          "$RUNNER_TEMP/p07/bin/python" -c 'import json; d=json.load(open("calibration-results.json")); print(json.dumps(d, separators=(",",":"))); assert all(c["valid"]+c["failures"]==d["reps"] and c["valid"]>0 for c in d["cells"])'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p07-calibration
+          path: |
+            manuscripts/MSC-MUS-P07/analysis/calibration-results.json
+            manuscripts/MSC-MUS-P07/analysis/calibration-head.txt
+          if-no-files-found: error
+  rare-creation-stress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        n: [160, 320]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P07/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p07"
+          "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
+          git rev-parse HEAD > stress-head.txt
+          "$RUNNER_TEMP/p07/bin/python" stress.py --n ${{ matrix.n }} --reps 1000 --reference-n 20000 > stress-results.json
+          "$RUNNER_TEMP/p07/bin/python" -c 'import json; d=json.load(open("stress-results.json")); print(json.dumps(d,separators=(",",":"))); assert len(d["cells"])==12 and all(c["valid"]+c["failures"]==1000 and c["valid"]>0 for c in d["cells"])'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p07-stress-${{ matrix.n }}
+          path: |
+            manuscripts/MSC-MUS-P07/analysis/stress-results.json
+            manuscripts/MSC-MUS-P07/analysis/stress-head.txt
+          if-no-files-found: error

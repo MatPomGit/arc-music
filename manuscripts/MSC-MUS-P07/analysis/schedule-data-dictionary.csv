@@ -1,0 +1,14 @@
+file,field,type,definition
+enrollment,participant_id,string,opaque study identifier
+enrollment,first_day,date,first planned local date
+enrollment,timezone,string,IANA timezone
+enrollment,available_from,time,HH:MM fixed daily availability start
+enrollment,available_until,time,HH:MM fixed daily availability end
+schedule,participant_id,string,opaque study identifier
+schedule,window_id,string,unique immutable token
+schedule,study_day,integer,1-21
+schedule,scheduled_time,datetime,immutable local timestamp and offset
+schedule,local_day,date,planned local calendar date
+schedule,timezone,string,IANA timezone
+withdrawals,participant_id,string,opaque enrolled participant identifier
+withdrawals,withdrawal_time,datetime,offset-aware first instant at which further collection stops
