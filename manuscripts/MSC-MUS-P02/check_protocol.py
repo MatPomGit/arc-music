@@ -15,5 +15,5 @@ assert len(keys) == len(set(keys)) and set(keys) == used, (set(keys)-used, used-
 assert len(re.findall(r"\\item\[RQ\d\.\]", body)) == 5
 assert r"\section{Results}" not in body
 assert "No participant data have yet been collected or analysed." in body
-assert all((root / p).is_file() for p in ("publication.md","interview-guide-pl.md","source-readiness.md"))
+assert all((root / p).is_file() for p in ("publication.md","interview-guide-pl.md","source-readiness.md","fieldwork-protocol-pl.md","analysis-records.md"))
 print(f"PASS: P02 protocol, 5 research questions, {len(keys)} matched references")
