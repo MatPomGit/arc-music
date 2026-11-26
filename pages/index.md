@@ -8,4 +8,4 @@ Przedmiotem badań są psychologiczne funkcje tej formy twórczości, ze szczeg�
 
 ARC-MUSIC jest projektem Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
-[Zespół](team.md) · [Badania](studies.md) · [Publikacje](publications.md)
+[Zespół](team.md) · [Badania](studies.md) · [Publikacje](publications.md) · [Muzyka i mózg](neuropsychology.md)
