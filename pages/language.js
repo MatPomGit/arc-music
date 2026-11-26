@@ -4,7 +4,8 @@
     ["index.html", "en.html"],
     ["team.html", "en-team.html"],
     ["studies.html", "en-studies.html"],
-    ["publications.html", "en-publications.html"]
+    ["publications.html", "en-publications.html"],
+    ["neuropsychology.html", "en-neuropsychology.html"]
   ];
   const key = "arc-music-language";
   const base = new URL("./", window.location.href);

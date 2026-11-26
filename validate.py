@@ -11,8 +11,17 @@ LIMITS = {
     "docs/data-policy.md": 2000,
 }
 PUBLIC = {"index.md", "team.md", "studies.md", "publications.md", "en.md",
-          "en-team.md", "en-studies.md", "en-publications.md"}
+          "en-team.md", "en-studies.md", "en-publications.md",
+          "neuropsychology.md", "en-neuropsychology.md"}
 ASSETS = {"language.js"}
+REFERENCES = {
+    "https://doi.org/10.1038/nrn3666",
+    "https://doi.org/10.1038/nn.2726",
+    "https://doi.org/10.1111/j.1467-9280.2007.01916.x",
+    "https://doi.org/10.1093/cercor/bhp008",
+    "https://doi.org/10.1177/03057356231212362",
+    "https://doi.org/10.3389/fnhum.2026.1967909",
+}
 FORBIDDEN = re.compile(
     r"\b(?:AGENTS\.md|TODO|FIXME|PLACEHOLDER|TBD|REPLACE_[A-Z0-9_]+)\b"
     r"|uwagi?\s+redakcyjne|instrukcj\w*\s+dla\s+agent\w*"
@@ -49,7 +58,7 @@ def check(root=ROOT):
             if FORBIDDEN.search(body):
                 errors.append(f"Unsafe public content: {name}")
             for target in re.findall(r"\]\(([^)]+)\)", body):
-                if target not in PUBLIC:
+                if target not in PUBLIC and not (name in {"neuropsychology.md", "en-neuropsychology.md"} and target in REFERENCES):
                     errors.append(f"Unapproved public link: {name}")
     config = (root / "mkdocs.yml").read_text(encoding="utf-8")
     keys = [line.split(":", 1)[0].strip() for line in config.splitlines()
@@ -69,7 +78,8 @@ def check(root=ROOT):
     if set(nav) != PUBLIC or len(nav) != len(PUBLIC):
         errors.append("Public navigation mismatch")
     pairs = (("index.md", "en.md"), ("team.md", "en-team.md"),
-             ("studies.md", "en-studies.md"), ("publications.md", "en-publications.md"))
+             ("studies.md", "en-studies.md"), ("publications.md", "en-publications.md"),
+             ("neuropsychology.md", "en-neuropsychology.md"))
     for pl, en in pairs:
         for name in (pl, en):
             path = folder / name
