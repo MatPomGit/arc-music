@@ -37,6 +37,7 @@ jobs:
           test -f site/neuropsychology.html
           test -f site/en-neuropsychology.html
           cmp theme-overrides/js/darkmode.js site/js/darkmode.js
+          cmp theme-overrides/js/base.js site/js/base.js
       - name: Browser layout checks
         run: |
           python -m pip install playwright==1.57.0

@@ -102,13 +102,14 @@ def check(root=ROOT):
         errors.append("Missing or unsafe theme overrides")
     else:
         entries = {p.relative_to(overrides).as_posix() for p in overrides.rglob("*")}
-        if entries != {"js", "js/darkmode.js"}:
+        if entries != {"js", "js/darkmode.js", "js/base.js"}:
             errors.append("Unexpected theme override files")
-        theme_script = overrides / "js/darkmode.js"
-        if theme_script.is_symlink() or theme_script.parent.is_symlink() or not theme_script.is_file():
-            errors.append("Missing or unsafe theme controller")
-        elif re.search(r"https?://|\bfetch\s*\(|XMLHttpRequest|\beval\s*\(", theme_script.read_text(encoding="utf-8")):
-            errors.append("Theme controller must be local and offline")
+        for name in ("darkmode.js", "base.js"):
+            theme_script = overrides / "js" / name
+            if theme_script.is_symlink() or theme_script.parent.is_symlink() or not theme_script.is_file():
+                errors.append(f"Missing or unsafe theme script: {name}")
+            elif re.search(r"https?://|\bfetch\s*\(|XMLHttpRequest|\beval\s*\(", theme_script.read_text(encoding="utf-8")):
+                errors.append(f"Theme script must be local and offline: {name}")
     # Protect the current tree, not historical Git objects or external access.
     private_url = re.compile(
         r"https?://[^\s<>\x22\x27]*(?:sharepoint\.com|onedrive\.live\.com|1drv\.ms|discord\.gg)",
