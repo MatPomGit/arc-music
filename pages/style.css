@@ -7,3 +7,11 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media print{.masthead,.art,.sliders,.footer a,.cta{display:none}.shell{padding:0}.feature,.section-card{box-shadow:none}}
 body[data-section=index] .article h2{margin-top:0;color:var(--ink)}.steps{position:relative}.step summary:hover,.pub summary:hover{color:var(--accent)}@media(prefers-reduced-motion:no-preference){.nav a,.cta,.pub,.step{transition:background-color .18s,color .18s,border-color .18s}.pub[open],.step[open]{border-color:var(--accent)}}
+
+/* Visual QA: preserve reading measure and usable controls on tablets. */
+body[data-section=neuropsychology] .article{margin-inline:auto}
+.article .pub-list,.steps{align-items:start}
+@media(min-width:901px){body[data-section=studies] .article .section-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1200px){.article .pub-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:721px) and (max-width:900px){.hero,.affect{grid-template-columns:1fr}.art{max-width:680px}.affect-plot{max-width:380px;justify-self:center}.sliders{max-width:100%}}
+@media(max-width:390px){.sliders label{grid-template-columns:1fr;gap:4px}.art{padding:14px}.nav a{min-height:44px}}
