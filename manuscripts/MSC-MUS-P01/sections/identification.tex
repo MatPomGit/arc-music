@@ -12,6 +12,14 @@ Substitution yields the same $M$ and $Y$ for every realisation of $(Z,U,\epsilon
 
 In potential-outcome notation the total assignment effect is $E[Y(1,M(1))-Y(0,M(0))]$. A natural indirect effect at assignment $z$ is $E[Y(z,M(1))-Y(z,M(0))]$. Random assignment identifies the total intention-to-treat effect under consistency, positivity and no interference, with suitable handling of missing outcomes. Identification of the natural indirect effect additionally requires mediator--outcome exchangeability and cross-world assumptions, including restrictions on treatment-induced mediator--outcome confounding \citep{imai2010}. Interventional indirect effects replace the individual cross-world mediator with draws from an intervention-specific distribution; their interpretation and identifying assumptions must be specified separately. Neither follows from temporal ordering alone.
 
+Figure~\ref{fig:dag} distinguishes the observational process from the factorial assignment. Outcome observation $S$ can depend on both distress and task engagement; restricting analysis to observed completers can induce selection. The primary assignment contrast does not condition on realised operations, quality or mediators.
+\begin{figure}[htbp]
+\centering
+\input{figures/causal-dags.tex}
+\caption{Candidate directed acyclic graphs for the observational session (A) and factorial experiment (B). Arrows are assumptions; unobserved $U$ is a common cause of mechanism and outcome. $S$ denotes observation. Arrows into assignment are absent in B by design.}
+\label{fig:dag}
+\end{figure}
+
 \paragraph{Goal--affordance contrast.} Let $\mu_{ga}$ denote mean goal attainment under random assignment to goal instruction $g$ and interface $a$, both coded as zero (articulation or fidelity preservation) and one (reinterpretation or perspective transformation). The prespecified equal-cell-weight matching contrast is
 \[
  \psi=\frac{\mu_{00}+\mu_{11}-\mu_{01}-\mu_{10}}{2}.
