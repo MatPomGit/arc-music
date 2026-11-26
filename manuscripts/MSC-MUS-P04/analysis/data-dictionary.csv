@@ -1,9 +1,7 @@
 name,time,kind,role
 study_token,T0,string,anonymous unique study key
 assignment,randomisation,binary,assigned access to semantic suggestions
-paq_nddf,T0,integer 4 to 28,primary moderator complete facet required
-paq_ndif,T0,integer 4 to 28 or missing,secondary predictor complete facet required for H2
-paq_ndaf,T0,integer 8 to 56 or missing,exploratory derived sum of complete N-DIF and N-DDF
+paq_s_total,T0,integer 6 to 42,complete six-item total required before randomisation
 expression_ease,T0,integer 0 to 10,baseline covariate
 clarity_t0,T0,integer 0 to 10,baseline covariate
 distress_t0,T0,integer 0 to 10,baseline covariate

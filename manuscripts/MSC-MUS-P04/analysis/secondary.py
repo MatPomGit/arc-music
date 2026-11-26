@@ -1,5 +1,6 @@
 """Secondary H2/H3 clarity analyses, fixed family and sensitivity grid."""
 import numpy as np
+from paq_scoring import validate_total
 from inference import (design,fit_hc3,contrast,impute_pmm,pooled_contrast,
                        shift_imputed,availability)
 
@@ -27,19 +28,16 @@ def _model(arm, moderator, cov, y, coefficient, m, seed):
                  **pooled_contrast(z,shift_imputed(x,y,completed,i,j,s),w)}
                  for i in (-2,0,2) for j in (-2,0,2) for s in (-1,0,1)]}
 
-def secondary(arm, nddf, ndif, covariates, clarity_t1, m=50, seed=20261126):
-    """covariate order: expression ease, clarity T0, distress, experience, scenario."""
-    a,d,f,c,y=map(lambda v:np.asarray(v,float),(arm,nddf,ndif,covariates,clarity_t1))
+def secondary(arm, paq_total, covariates, clarity_t1, m=50, seed=20261126):
+    """Same randomised population; covariates: ease, clarity T0, distress, experience, scenario."""
+    a,d,c,y=map(lambda v:np.asarray(v,float),(arm,paq_total,covariates,clarity_t1))
+    d=validate_total(d)
     n=len(a)
-    if a.shape!=(n,) or d.shape!=(n,) or f.shape!=(n,) or y.shape!=(n,) or c.shape!=(n,5):
+    if a.shape!=(n,) or d.shape!=(n,) or y.shape!=(n,) or c.shape!=(n,5):
         raise ValueError("Invalid dimensions")
-    if np.isinf(f).any() or np.isinf(y).any() or np.any((y<0)|(y>10)):
-        raise ValueError("Invalid outcomes or baseline scores")
-    # H2: N-DIF association, controlling for baseline clarity, assignment, distress, scenario.
-    valid=np.isfinite(f)
-    h2=_model(a[valid],f[valid],c[valid][:,[1,2,4]],y[valid],2,m,seed)
-    h2["excluded_missing_ndif"]=int((~valid).sum())
-    # H3: assignment effect, controlling for N-DDF and the five baseline covariates.
+    if np.isinf(y).any() or np.any((y<0)|(y>10)):
+        raise ValueError("Invalid outcomes")
+    h2=_model(a,d,c[:,[1,2,4]],y,2,m,seed)
     h3=_model(a,d,c,y,1,m,seed+1)
     adjusted=holm([h2["mar"]["p"],h3["mar"]["p"]])
     for h,p in zip((h2,h3),adjusted):

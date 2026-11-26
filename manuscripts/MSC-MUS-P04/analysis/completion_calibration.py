@@ -51,9 +51,13 @@ def observe(meaningful, fit, answered, status_recorded):
 def generate(n,delta,mechanism,rng):
     a=np.arange(n)%2
     rng.shuffle(a)
-    d=rng.integers(4,29,n)
+    # Hypothetical ordinal six-item one-factor score; not fitted to validation data.
+    latent=rng.normal(size=n)
+    continuous=.8*latent[:,None]+.75*rng.normal(size=(n,6))
+    items=1+np.sum(continuous[:,:,None]>np.array([-1.5,-.9,-.35,.2,.8,1.4]),axis=2)
+    d=items.sum(axis=1)
     # Correlated baseline measures, bounded continuous covariates and binary covariates.
-    t=(d-16)/12
+    t=(d-24)/18
     c=np.column_stack((np.clip(-.55*t+rng.uniform(-.6,.6,n),-1,1),
                        np.clip(-.45*t+rng.uniform(-.7,.7,n),-1,1),
                        np.clip(.45*t+rng.uniform(-.7,.7,n),-1,1),
