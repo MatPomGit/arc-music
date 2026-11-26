@@ -2,14 +2,14 @@
 
 ## Doświadczenia twórców
 
-Pierwsze badanie obejmie wywiady z użytkownikami generatorów muzyki. Przedmiotem analizy będą motywy twórczości, okoliczności powstawania utworów i znaczenie, jakie uczestnicy przypisują im w kontekście osobistych doświadczeń.
+W wywiadach indywidualnych będziemy poznawać motywy podejmowania twórczości, okoliczności powstawania utworów oraz znaczenie, jakie uczestnicy przypisują muzyce w kontekście osobistych doświadczeń.
 
 ## Regulacja emocji
 
-Badanie ankietowe posłuży ocenie związków między sposobami korzystania z generatorów muzyki, aleksytymią, regulacją emocji, ruminacją i dobrostanem. Model AIM-ER porządkuje hipotezy dotyczące mechanizmów tych zależności.
+Badanie ankietowe posłuży ocenie związków między sposobami korzystania z generatorów muzyki, aleksytymią, regulacją emocji, ruminacją i dobrostanem. Proponowany model AIM-ER stanowi teoretyczną podstawę do formułowania hipotez o mechanizmach tych zależności.
 
 ## Sprawstwo i autorstwo
 
-W kolejnych badaniach planujemy analizę znaczenia osobistego wkładu w tworzenie utworu oraz kontroli nad jego ostateczną postacią. Badania dzienniczkowe pozwolą rozpatrywać zmiany emocjonalne w czasie.
+W dalszych badaniach zamierzamy analizować znaczenie osobistego wkładu w tworzenie utworu oraz poczucia kontroli nad jego ostateczną postacią. Rozważamy również badania dzienniczkowe, które umożliwią analizę zmian emocjonalnych w czasie.
 
-Projekt znajduje się na etapie opracowania protokołów badawczych.
+Projekt jest na etapie opracowywania protokołów badawczych.
