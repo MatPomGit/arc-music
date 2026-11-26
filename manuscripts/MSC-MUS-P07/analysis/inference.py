@@ -40,7 +40,9 @@ def prepare(frame, upper_delay=15):
     valid_base=base.between(0,upper_delay)&d.creation_ongoing.eq(False)&d[["valence0","arousal0","intention0"]].notna().all(axis=1)
     valid_exposure=delay("exposure_time").between(60,60+upper_delay)&d.creation_first_hour.notna()
     valid_outcome=delay("followup60_time").between(60,60+upper_delay)&d.valence60.notna()
-    d["status"]=np.select([~valid_base,~valid_exposure,~valid_outcome],["baseline_unavailable_or_ongoing","exposure_unavailable","outcome_unavailable"],default="complete")
+    cancelled=d["withdrawn_before_prompt"].astype(bool) if "withdrawn_before_prompt" in d else pd.Series(False,index=d.index)
+    valid_base=valid_base & ~cancelled
+    d["status"]=np.select([cancelled,base.between(0,upper_delay)&d.creation_ongoing.eq(True),~valid_base,~valid_exposure,~valid_outcome],["cancelled_after_withdrawal","ongoing_creation","baseline_unavailable","exposure_unavailable","outcome_unavailable"],default="complete")
     d["baseline_valid"]=valid_base
     d["exposure_valid"]=valid_exposure
     d["outcome60_valid"]=valid_outcome
@@ -117,10 +119,14 @@ def model_set(d):
         models[key]=safe_fit(a,outcome,predictors)
     return models
 
-def analyze(frame, sensitivity_draws=100, schedule=None):
+def analyze(frame, sensitivity_draws=100, schedule=None, withdrawals=None):
+    if withdrawals is not None and schedule is None:raise ValueError("Withdrawal log requires frozen schedule")
     if schedule is not None:
         from schedule import reconcile
         frame=reconcile(schedule,frame)
+    if withdrawals is not None:
+        from withdrawal import apply_withdrawal
+        frame=apply_withdrawal(frame,withdrawals)
     d,a=prepare(frame)
     models=model_set(d)
     pvalues={key:models[key].get("estimate",{}).get("p") for key in ["H2","H3"]}
@@ -139,6 +145,10 @@ def analyze(frame, sensitivity_draws=100, schedule=None):
     if schedule is not None:
         result["response_records_received"]=int(frame.response_record_received.sum())
         result["scheduled_without_response_record"]=int((~frame.response_record_received).sum())
+    if withdrawals is not None:
+        from withdrawal import summarize
+        result["withdrawal_flow"]=summarize(d)
+    else:result["withdrawal_flow_unavailable"]="No verified cessation log supplied"
     if "estimate" in models["H1"]:result["primary"]=models["H1"]["estimate"]
     else:result["primary_unavailable"]=models["H1"]["unavailable"]
     from sensitivity import assess
@@ -147,7 +157,8 @@ def analyze(frame, sensitivity_draws=100, schedule=None):
     return result
 
 if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("csv");p.add_argument("--schedule",required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("csv");p.add_argument("--schedule",required=True);p.add_argument("--withdrawals",required=True);a=p.parse_args()
     d=pd.read_csv(a.csv,dtype={"participant_id":str,"window_id":str})
     s=pd.read_csv(a.schedule,dtype={"participant_id":str,"window_id":str})
-    print(json.dumps(analyze(d,schedule=s),indent=2,allow_nan=False))
+    w=pd.read_csv(a.withdrawals,dtype={"participant_id":str})
+    print(json.dumps(analyze(d,schedule=s,withdrawals=w),indent=2,allow_nan=False))

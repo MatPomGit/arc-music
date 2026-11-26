@@ -10,3 +10,5 @@ schedule,study_day,integer,1-21
 schedule,scheduled_time,datetime,immutable local timestamp and offset
 schedule,local_day,date,planned local calendar date
 schedule,timezone,string,IANA timezone
+withdrawals,participant_id,string,opaque enrolled participant identifier
+withdrawals,withdrawal_time,datetime,offset-aware first instant at which further collection stops
