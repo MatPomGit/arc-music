@@ -53,6 +53,8 @@ def profile(theta, data, details=False):
 
 
 def mixed_fit(x,y,mask,n,k,kind,contrast):
+    if np.linalg.matrix_rank(x[mask]) < x.shape[1]:
+        raise ValueError('rank-deficient observed design')
     data=blocks(x,y,mask,n,k,kind)
     if not data or mask.sum()<=x.shape[1]: raise ValueError('insufficient data')
     bounds=[(-5,3),(-3,3),(-5,2),(-5,3),(-2.5,2.5),(-1,1)]
@@ -206,13 +208,17 @@ def scenario(kind,missing,effect,n=80,k=8,reps=20,seed=1732):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reps',type=int,default=20);p.add_argument('--seed',type=int,default=1732)
     p.add_argument('--n',type=int,default=80);p.add_argument('--k',type=int,default=8)
+    p.add_argument('--kind',choices=['h6','h10']);p.add_argument('--missing',choices=['none','mar','mnar']);p.add_argument('--effect',choices=['null','alternative'])
     a=p.parse_args()
     if a.reps<2 or a.n<40 or a.n%2 or a.k<4:
         p.error('require reps>=2, even n>=40 and k>=4')
     out={'sha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
          'seed':a.seed,'reps':a.reps,'n':a.n,'k':a.k}
     for kind,effect in [('h6',-.25),('h10',-.35)]:
-        out[kind]={f'{mode}_{e}':scenario(kind,mode,e,n=a.n,k=a.k,reps=a.reps,seed=a.seed) for mode in ('none','mar','mnar') for e in (0.,effect)}
+        if a.kind and kind!=a.kind: continue
+        modes=[a.missing] if a.missing else ['none','mar','mnar']
+        effects=[0.] if a.effect=='null' else [effect] if a.effect=='alternative' else [0.,effect]
+        out[kind]={f'{mode}_{e}':scenario(kind,mode,e,n=a.n,k=a.k,reps=a.reps,seed=a.seed) for mode in modes for e in effects}
     print(json.dumps(out,indent=2,allow_nan=False))
 
 if __name__=='__main__': main()
