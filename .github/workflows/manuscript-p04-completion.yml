@@ -1,0 +1,47 @@
+name: P04 completion-dependent calibration
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P04/analysis/completion_calibration.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/test_completion_calibration.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/inference.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/calibration.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/simulation.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/requirements.txt'
+      - '.github/workflows/manuscript-p04-completion.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  completion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install pinned dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p04-completion"
+          "$RUNNER_TEMP/p04-completion/bin/pip" install -r manuscripts/MSC-MUS-P04/analysis/requirements.txt
+      - name: Test completion-specific assumptions
+        working-directory: manuscripts/MSC-MUS-P04/analysis
+        run: |
+          "$RUNNER_TEMP/p04-completion/bin/python" -m unittest -v test_completion_calibration
+      - name: Run 50-imputation calibration
+        working-directory: manuscripts/MSC-MUS-P04/analysis
+        run: |
+          git rev-parse HEAD > completion-head.txt
+          "$RUNNER_TEMP/p04-completion/bin/python" completion_calibration.py --reps 120 --imputations 50 > completion-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: msc-mus-p04-completion-calibration
+          path: |
+            manuscripts/MSC-MUS-P04/analysis/completion-head.txt
+            manuscripts/MSC-MUS-P04/analysis/completion-results.json
+          if-no-files-found: error
