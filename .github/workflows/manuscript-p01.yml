@@ -32,13 +32,15 @@ jobs:
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-pictures lmodern
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-pictures texlive-bibtex-extra texlive-extra-utils biber lmodern
       - name: Compile manuscript
         working-directory: manuscripts/MSC-MUS-P01
         run: |
           latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
           if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
           test -s main.pdf
+          texcount -inc -sum main.tex > word-count.txt
+          git ls-tree -r HEAD > source-tree.txt
       - name: Publish exact-head validation artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -46,5 +48,7 @@ jobs:
           path: |
             manuscripts/MSC-MUS-P01/main.pdf
             manuscripts/MSC-MUS-P01/main.log
+            manuscripts/MSC-MUS-P01/word-count.txt
+            manuscripts/MSC-MUS-P01/source-tree.txt
             manuscripts/MSC-MUS-P01/analysis/design-results.json
           if-no-files-found: error

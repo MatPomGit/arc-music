@@ -4,7 +4,10 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{amsmath,booktabs,tabularx}
-\usepackage[authoryear,round]{natbib}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[style=apa,backend=biber,natbib=true]{biblatex}
+\addbibresource{references.bib}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta}
 \usepackage[hidelinks]{hyperref}
@@ -67,7 +70,7 @@ AIM-ER distinguishes four interacting neurocognitive functions: auditory-affecti
 \paragraph{Psychophysiological measurement.} Electrodermal activity and cardiac measures may index changes in autonomic activation during generation, playback and recovery. Their interpretation depends on movement, respiration, sound level, attention and baseline activation. For example, compare matched silent decision periods and playback intervals, record respiration if heart rate variability is analysed, and prespecify artefact handling and minimum usable recording duration. EEG could examine auditory or attentional responses in a separate controlled study; neither scalp spectral power nor a frontal asymmetry score uniquely identifies emotional regulation, agency or reward. Neuroimaging and pharmacological methods are optional mechanistic extensions, not prerequisites for initial behavioural validation.
 
 \subsection{Strength and limits of transferable evidence}
-A meta-analysis of eight randomised studies involving 441 participants reported an overall standardised effect of $d=0.45$ for diverse musical activities on emotion regulation \citep{peters2024}. The interventions included listening, playing and creating, so the estimate cannot serve as the anticipated effect of AI-assisted generation relative to an active control. The heterogeneity of activities motivates explicit separation of the creative and receptive components. Neuroimaging studies establish plausible biological substrates of specific musical or regulatory operations, whereas evidence from AI co-creation studies concerns the affordances of the interface. Neither line alone establishes the incremental regulatory benefit of generative systems. The strongest test of AIM-ER therefore combines controlled manipulation of a creative operation with temporally ordered psychological outcomes and an active comparator.
+A meta-analysis of eight randomised studies involving 441 participants reported an overall standardised effect of $d=0.45$ for diverse musical activities on emotion regulation \citep{peters2024}. The interventions included listening, playing and creating, so the estimate cannot serve as the anticipated effect of AI-assisted generation relative to an active control. The heterogeneity of activities motivates explicit separation of the creative and receptive components. Neuroimaging studies establish plausible biological substrates of specific musical or regulatory operations, whereas evidence from AI co-creation studies concerns the affordances of the interface. Neither line alone establishes the incremental regulatory benefit of generative systems. A recent critical review of algorithmically personalised and AI-generated music found very low certainty across assessed physiological, behavioural and clinical outcome domains, with few studies of actual generative models and no independent replication of specific findings \citep{jin2026}. Distinguish emotional conveyance from induction and regulation, and do not transfer results from passive algorithmic delivery to active generation. The strongest test of AIM-ER therefore combines controlled manipulation of a creative operation with temporally ordered psychological outcomes and an active comparator.
 
 \section{The AIM-ER process model}
 The unit of analysis is a creative session nested within a person. A session is defined by a predeclared start and assessment window around a personally relevant or experimentally assigned goal. Revisiting an artefact later is a distinct observation. Figure~\ref{fig:aim} represents the proposed temporal architecture.
@@ -163,9 +166,11 @@ The effects may depend on platform affordances, cultural expectations, language,
 \section{Ethics and open research}
 Participation should be voluntary and based on informed consent, with the option to omit questions, stop a task or decline sharing any artefact. The initial validation programme should use mild material rather than require disclosures of trauma. A protocol should specify procedures for distress, withdrawal, and access to appropriate support. No unapproved identifiable or sensitive personal text should be submitted to external generation services. The generator's data retention, training use, licensing and age restrictions require assessment before study deployment. Start with adults and fictional or participant-approved minimal inputs. The data flow is consent and local task input, approved generation service only when necessary, pseudonymous operation logs and outcomes, restricted institutional storage, and disclosure-reviewed aggregate export. Specify retention and deletion windows, withdrawal limits for anonymised aggregates, data-controller and processor responsibilities, breach escalation and opt-out from sharing. Review input and output rights before dissemination. Obtain institutional ethics approval before recruitment; this theoretical proposal reports no approval or clinical efficacy. Research data and consent documentation should be separated and held in access-controlled institutional storage; share only approved materials, analysis code and disclosure-reviewed summaries. Preregister confirmatory hypotheses and analysis decisions before recruitment. Preserve distinctions between pilot, exploratory and confirmatory work.
 
+\section{Research transparency}
+No participant data were collected for this theoretical article. The equations and simulation code are intended to clarify design assumptions and are accompanied by reproducible computational examples. The availability of participant data, ethical approvals and preregistration will be reported for subsequent empirical studies.
+
 \section{Discussion and conclusion}
 AIM-ER identifies the process of translating an emotional intention into a personally meaningful musical artefact as a candidate regulatory mechanism. Its distinctive prediction concerns the interaction of user goals, creative affordances and psychological response, not the mere availability of generated music. It accommodates both beneficial and adverse trajectories and specifies how to distinguish musical exposure, expression, perceived control and authorship. The framework offers a basis for staged empirical validation across complementary methods. Its value will depend on whether these mechanisms explain and predict outcomes beyond simpler alternatives, with meaningful effects that replicate across users, tasks and technological contexts.
 
-\bibliographystyle{plainnat}
-\bibliography{references}
+\printbibliography
 \end{document}
