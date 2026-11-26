@@ -1,13 +1,136 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[T1]{fontenc}
+\usepackage[margin=27mm]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,booktabs,tabularx}
+\usepackage[authoryear,round]{natbib}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage[hidelinks]{hyperref}
 \title{AI-Assisted Music Creation as a Mechanism of Emotion Regulation: The AIM-ER Framework}
+\author{}
 \date{}
 \begin{document}
 \maketitle
-\section{Research question}
-Develop a falsifiable framework and critically synthesize evidence.
-\section{Proposed method}
-\section{Analysis plan}
-\section{Results}
-\section{Discussion}
+\begin{abstract}
+Generative artificial intelligence (AI) makes it possible to transform personal experiences into musical artefacts through prompting, generation, selection and revision, including for people without conventional composition skills. Existing research on music-related emotion regulation, expressive writing and human--AI co-creation provides plausible but incomplete explanations for the affective consequences of this practice. We propose AI-assisted Music for Emotion Regulation (AIM-ER), a process framework distinguishing the regulatory goal, creative operations, proximal psychological mechanisms and short- and longer-term outcomes. The framework specifies competing pathways involving affect labelling, psychological distance, reappraisal, agency, ownership, musical engagement and perseverative thinking. Its central proposition is that emotional consequences depend on the fit between the user's regulatory goal and the affordances of the creative process, rather than on AI use alone. Ten falsifiable propositions and complementary qualitative, cross-sectional, intensive longitudinal and experimental designs are presented. AIM-ER provides a research agenda for investigating when AI-assisted music creation supports emotional functioning, when it has little effect and when it may sustain maladaptive regulation.
+\end{abstract}
+\noindent\textbf{Keywords:} emotion regulation; generative AI; music psychology; creative agency; rumination; human--AI co-creation
+
+\section{Introduction}
+Music can elicit emotion, express a person's experience and serve deliberate regulatory purposes. These functions are related but not interchangeable: a listener may recognise sadness in a song without feeling sad, and may deliberately seek sad music without intending to increase distress. Research on musical mood regulation identifies distinct reasons for engaging with music \citep{saarikallio2007}; research on emotion induction identifies multiple routes from sound to felt emotion \citep{juslin2008}. Generative systems introduce a further operation: the listener can participate in constructing the stimulus that subsequently becomes the object of listening.
+
+Text-conditioned generation allows users to specify affective or aesthetic features without manually composing every musical element \citep{copet2023}. The creative process nevertheless includes decisions about lyrics, stylistic constraints, accepted outputs and revision. Early work on AI songwriting documents the importance of human selection and interaction with generative tools \citep{huang2020}. More recent research examines how users negotiate authorial identity \citep{zhao2026} and how automation can alter psychological ownership and state agency \citep{he2026}. These findings motivate an account of emotional consequences that explicitly distinguishes the process of making a piece from the experience of listening to it.
+
+The question motivating AIM-ER is not whether AI music is inherently beneficial. It is under which conditions transforming an emotional experience into a musical artefact changes the regulation of that experience, relative to available alternatives. A personally resonant output could facilitate emotional articulation and perspective-taking, but repeated attempts to reproduce an upsetting experience could also prolong attention to it. An account restricted to immediate mood improvement would miss this distinction.
+
+The contribution is threefold. First, AIM-ER integrates established psychological constructs into a staged account of AI-assisted music creation. Second, it identifies mechanisms that can be isolated from exposure to music or expressive writing alone. Third, it proposes operational contrasts that could disconfirm the account. The proposed mechanisms concern everyday self-directed creative activity; professional music therapy and clinical treatment are distinct contexts requiring separate evidence.
+
+\section{Conceptual scope and evidence base}
+AIM-ER denotes a person-directed process in which a generative music system contributes to a musical artefact and the person uses that activity in relation to an emotional goal. The goal can involve reducing unpleasant activation, sustaining positive affect, understanding an ambiguous emotion, expressing a difficult experience or tolerating it. Participants need not disclose autobiographical content; fictional material and instrumental music may serve analogous functions. Fully automated playback without a meaningful opportunity for human input is treated as a comparison condition, not as the prototypical creative process.
+
+The present framework is a theory-building narrative synthesis. Its initial evidence base comprises foundational studies of regulation, musical emotion, expressive writing and motivation, complemented by research on generative music technology and co-creation. It distinguishes direct evidence about AI music-making from evidence transferred from related activities. This targeted selection does not establish exhaustive coverage or permit pooled effect estimates. A reproducible extension should search psychology, music and computing databases, combining terms for music generation or co-creation with emotion regulation, affect, coping, agency, ownership and rumination; record search dates, eligibility decisions and contradictory findings; and update the synthesis before submission.
+
+\section{Theoretical foundations}
+\subsection{Emotion regulation and musical engagement}
+The process account of emotion regulation differentiates opportunities for changing situations, attention, appraisal and responses \citep{gross2015}. AI-assisted music creation can involve several of these operations within a single session. Choosing to create may redirect attention; revising lyrics may change appraisal; listening may modify affective activation. The operation performed and the regulatory strategy it serves should therefore be assessed separately. A prompt edit can either broaden perspective or intensify a negative interpretation.
+
+\citet{juslin2008} distinguish mechanisms of musical emotion that include associations, memories and expectations. A generated song could recruit such processes through its musical features, autobiographical references or perceived relevance. However, musical pleasantness, emotional resonance and successful regulation are distinct outcomes. A piece can be aesthetically satisfying yet inconsistent with a person's regulatory goal. Evidence concerning neurochemical responses to music \citep{chanda2013} motivates investigation of reward and arousal, but does not establish corresponding neural changes during AI co-creation.
+
+\subsection{Symbolic expression and psychological distance}
+Expressive writing provides an adjacent paradigm for studying the transformation of personally meaningful experiences into language \citep{pennebaker1986}. Affect labelling research also suggests that verbal identification of emotions can alter responses to emotional material \citep{lieberman2007}. In AIM-ER, writing or editing a prompt may make an otherwise diffuse affective state more explicit. Turning a description into an external artefact may permit the creator to observe, revise or reconsider it. These processes are plausible routes to emotional clarity and reappraisal, but neither a generated lyric nor a change in its wording establishes that reappraisal occurred. Direct measures and appropriate controls are required.
+
+\subsection{Agency, ownership and creative control}
+Self-determination theory provides a basis for distinguishing perceived autonomy and competence from mere task completion \citep{ryan2000}. AIM-ER distinguishes objective control (available and exercised operations), state agency (perceived influence over the process), psychological ownership (felt belonging of the artefact) and attributed authorship (perceived contribution). These constructs are not equivalent to legal authorship. A user may feel that an output represents their experience despite attributing much of its production to the system.
+
+Qualitative findings on authorial positioning in AI-mediated music highlight the negotiation of creative identity \citep{zhao2026}. In a recent co-creation experiment, increased automation was associated with diminished ownership and state agency, with expertise-related differences \citep{he2026}. This is directly relevant to the control pathway, but it does not demonstrate an emotion-regulation effect. AIM-ER extends these accounts by predicting when perceived influence and personal resonance are related to goal-congruent affective changes. Excessive control demands may also introduce frustration; increasing the number of editable parameters need not monotonically improve regulation.
+
+\subsection{Rumination and regulatory flexibility}
+Rumination involves repetitive thought that can sustain negative affect and interfere with adaptive responses \citep{nolen2008}. Research on healthy and unhealthy patterns of music use indicates the importance of differentiating functions of engagement rather than treating exposure as uniformly beneficial \citep{hums2015}. A user who repeatedly generates variations of a distressing narrative may be engaging in constructive reflection, perseveration or both. The distinction depends on changes in perspective, persistence, flexibility and functioning, rather than the emotional tone of the lyrics alone. Regulatory flexibility further implies that a strategy's value depends on context and responsiveness to feedback \citep{bonanno2013}.
+
+\section{The AIM-ER process model}
+The unit of analysis is a creative session nested within a person. A session begins with the decision to engage with a personally relevant or experimentally assigned goal and ends when the participant stops interacting with or listening to the resulting material. Revisiting an artefact later is a distinct observation. Figure~\ref{fig:aim} represents the proposed temporal architecture.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/process.tex}
+\caption{AIM-ER process architecture. Arrows specify proposed temporal dependencies, not established causal effects. Feedback influences subsequent sessions; context and individual differences can modify every transition.}
+\label{fig:aim}
+\end{figure}
+
+\subsection{Stages and candidate mechanisms}
+Initial conditions include baseline affect, goal, musical and AI experience, trait emotion regulation, available time and social context. The process comprises expression and prompting, generation, appraisal and selection, optional editing, and listening or sharing. The order can recur; the framework permits users to omit stages. For instrumental music, expressive input may consist of a description or musical constraint rather than lyrics.
+
+The proposed proximal mechanisms include emotional articulation, perceived distance from the experience, reappraisal, agency, ownership, perceived personal relevance and music-elicited affect. Frustration, repetitive negative thought and avoidance are competing pathways. Successful completion and liking are measured separately because they can explain apparent regulation benefits without the hypothesised mechanisms. Subsequent choices (repeat, revise, stop, switch activity or seek support) form a feedback loop.
+
+\subsection{Temporal and formal specification}
+Let $X_i$ denote stable individual characteristics, $C_{it}$ the context of session $t$ for person $i$, and $G_{it}$ the pre-session regulatory goal. Let $\mathbf{A}_{it}$ describe creative operations, $\mathbf{M}_{it}$ the candidate proximal mechanisms and $Y_{itk}$ an outcome measured at time $k$. The structural proposal is
+\begin{align}
+\mathbf{M}_{it}&=f_M(\mathbf{A}_{it},G_{it},X_i,C_{it},Y_{it0},\varepsilon_{it}),\\
+Y_{itk}&=f_Y(\mathbf{A}_{it},\mathbf{M}_{it},G_{it},X_i,C_{it},Y_{it0},\eta_{itk}).
+\end{align}
+Here $k=0$ denotes baseline, $k=1$ the end of the session and $k=2$ a prespecified follow-up. The equations express dependencies, not identification assumptions or fixed functional forms. In naturalistic data, baseline distress and unmeasured contextual factors may influence both the choice of activity and its outcome. A statistical path between a measured mechanism and an outcome does not by itself establish mediation.
+
+For a down-regulation goal, define immediate relief $R_{it}=D_{it0}-D_{it1}$ and delayed relief $L_{it}=D_{it0}-D_{it2}$, where $D$ is a prespecified distress measure with higher values indicating more distress. For other goals, report valence, arousal, clarity and goal attainment separately rather than applying the relief score indiscriminately. Immediate relief and delayed relief can have opposite signs. The framework predicts that their joint distribution is more informative than either outcome alone.
+
+\section{Falsifiable propositions}
+The propositions below preserve the ten conceptual areas of AIM-ER. Each is a candidate for a separate, preregistered test, not a simultaneous confirmatory battery.
+
+\begin{description}
+\item[H1: Affect.] In adults pursuing relief from everyday negative affect, a self-directed AI music session produces greater immediate distress reduction than a duration-matched neutral activity. A null or adverse contrast with adequate precision challenges this prediction.
+\item[H2: Musical contribution.] Following identical expressive writing, hearing a generated musical rendering yields higher immediate personal emotional resonance than reading the text alone, with distress reduction as a separate outcome. No incremental resonance challenges the proposed musical contribution.
+\item[H3: Authorship.] At comparable objective control, greater perceived authorial contribution is positively associated with psychological ownership. A negligible or inverse adjusted association challenges this link.
+\item[H4: Control.] A randomised opportunity for meaningful editing increases state agency relative to a selection-only interface using the same generator and time budget. A precise null or inverse effect challenges the control pathway.
+\item[H5: Alexithymia.] Higher baseline difficulty identifying emotions predicts lower post-session emotional clarity after controlling for baseline clarity. Whether explicit emotion-labelling prompts attenuate this association is a separate moderation prediction.
+\item[H6: Rumination.] Greater post-session state rumination predicts less delayed relief after controlling for baseline distress and immediate relief. A precise null or beneficial association challenges the proposed perseverative pathway.
+\item[H7: Social response.] Supportive rather than neutral feedback on a non-sensitive musical artefact increases perceived social validation and subsequent goal attainment. Rejection, privacy and voluntary sharing require separate treatment.
+\item[H8: Expertise.] The effect of reducing creative control on state agency is more negative at higher prior musical expertise. This interaction may not generalise across interfaces and requires prospective replication.
+\item[H9: Flexibility.] Greater baseline regulatory flexibility predicts a higher probability of switching or stopping after an unsuccessful session, rather than repeating an ineffective strategy, conditional on opportunity to switch.
+\item[H10: Novelty.] The incremental immediate enjoyment attributable to an AI tool, relative to a stable comparator, declines across repeated sessions as novelty decreases. Sustained effects challenge a novelty-only explanation; regulation may persist independently of novelty.
+\end{description}
+
+\section{Operationalisation and validation programme}
+\input{sections/measurement.tex}
+\subsection{Qualitative discovery and cross-sectional study}
+Purposeful interviews with adult users should include those reporting benefits, ambivalence, no effects and adverse experiences. Interview prompts should focus on a concrete recent episode, initial goal, operations, perceived contribution, immediate and subsequent consequences, and alternatives considered. Reflexive thematic analysis can identify missing mechanisms and divergent experiences. The interview sample is not a prevalence sample and does not determine the direction of quantitative effects.
+
+A cross-sectional survey may examine associations among use motives, difficulties identifying emotions, ownership, rumination and well-being. Recruitment through creator communities limits external validity and may overrepresent enthusiastic or highly engaged users. Exposure, self-reported outcomes and prior mental health cannot be assumed temporally ordered. Any mediation analysis using these data is descriptive. Scale adaptations require language-specific psychometric evidence, permissions and a separate evaluation of reliability and dimensionality. The development of a dedicated regulatory-function instrument is a distinct psychometric project.
+
+\subsection{Intensive longitudinal study}
+A prospective diary design can separate between-person differences from within-person fluctuations. Collect baseline ratings immediately before self-initiated sessions, process measures at the end and follow-up ratings at a fixed interval (for example 24 hours), together with comparable non-creation observations where feasible. Record other regulatory activities, elapsed time, session duration, generator and interface version, and whether the participant revisits the output. Avoid capturing raw prompts or audio by default.
+
+For H6, let $Q_{it}$ denote state rumination after the session and $\bar Q_i$ the participant mean. A candidate mixed model for delayed relief is
+\begin{align}
+L_{it}={}&\alpha+u_i+\beta_W(Q_{it}-\bar Q_i)+\beta_B\bar Q_i\nonumber\\
+&+\gamma R_{it}+\delta D_{it0}+\boldsymbol{\theta}^{\top}C_{it}+e_{it}.
+\end{align}
+The within-person coefficient $\beta_W$ is predicted to be negative. Interpret it as an adjusted association, not a causal effect. Where follow-up timing varies, specify a window, record actual delay and test robustness to deviations. Missing follow-up may depend on distress or disengagement; compare observed and missing cases on available baseline variables and conduct sensitivity analyses for departures from missing at random. Estimate uncertainty with participant-level dependence respected.
+
+\subsection{Experimental decomposition}
+A first experiment can isolate the effect of adding a generated musical rendering to a common expressive task. Randomise adults after a standardised mild, non-sensitive writing task to (A) reading their own text, (B) listening to a musical rendering of that text generated using a standardised procedure, or (C) listening to a duration-matched, non-personal musical excerpt. Use the same time budget, comparable playback levels and matched instructions. Condition B versus A estimates the incremental effect of the rendering package, while B versus C addresses personalisation combined with text-content differences; neither isolates AI from musical composition generally. An additional human-composed rendering arm is necessary to isolate differences associated with the production method, and requires appropriate matching.
+
+For H4 a separate randomised comparison assigns an editable versus selection-only interface while holding model, input material, exposure time and available candidate outputs as constant as feasible. State agency is assessed before any social sharing. Report the intention-to-treat contrast and manipulation checks separately; do not condition the primary estimate on achieved editing behaviour. Measure expectation, quality and perceived effort, but avoid adjusting the total effect for post-randomisation variables.
+
+For a distress-reduction experiment addressing H1, predefine the population and comparator, and randomise at the point of eligibility. The primary estimand is the mean difference in immediate distress under assignment to AI creation versus neutral activity, with baseline distress adjustment for precision. A two-arm analysis can use
+\begin{equation}
+D_{i1}=\alpha+\tau Z_i+\gamma D_{i0}+\boldsymbol{\theta}^{\top}X_i+e_i,
+\end{equation}
+where $Z_i=1$ denotes AI creation, and $\tau<0$ favours creation. Prespecify covariates, a smallest effect of interest, a two-sided confidence interval, attrition handling and a power calculation tied to the primary endpoint. For H2 the primary endpoint is resonance; H1 and H2 thus need distinct power calculations or a justified multiple-testing plan. Use a prespecified multiplicity correction for additional confirmatory contrasts, with exploratory mechanism analyses labelled accordingly. Tests of mediation need temporal separation and explicit assumptions about mediator--outcome confounding; where possible manipulate the proposed mechanism directly.
+
+\section{Competing explanations and boundary conditions}
+The framework would be weakened if well-controlled comparisons consistently found that matched listening, writing or general creative engagement explains the observed emotional changes with no meaningful contribution of control, personal relevance or their proposed interactions. This need not invalidate the usefulness of music itself. Null results with broad intervals are inconclusive; equivalence claims require a prespecified interval of practically negligible effects.
+
+Alternative explanations include expectancy, demand characteristics, regression to the mean following self-selection at high distress, novelty, generic distraction, musical preference, time away from stressors and social recognition. A useful test compares AIM-ER predictions with a simpler baseline model using these factors and baseline affect. Out-of-sample predictive performance may support incremental descriptive utility, but not causal identification.
+
+The effects may depend on platform affordances, cultural expectations, language, sensory preferences, previous musical expertise and reasons for use. A model version change can alter both output quality and available control; a study should record these changes and avoid silently pooling incompatible sessions. Clinical populations and traumatic experiences require separate safety protocols and cannot be inferred from convenience samples.
+
+\section{Ethics and open research}
+Participation should be voluntary and based on informed consent, with the option to omit questions, stop a task or decline sharing any artefact. The initial validation programme should use mild material rather than require disclosures of trauma. A protocol should specify procedures for distress, withdrawal, and access to appropriate support. No unapproved identifiable or sensitive personal text should be submitted to external generation services. The generator's data retention, training use, licensing and age restrictions require assessment before study deployment. Research data and consent documentation should be separated and held in access-controlled institutional storage; share only approved materials, analysis code and disclosure-reviewed summaries. Preregister confirmatory hypotheses and analysis decisions before recruitment. Preserve distinctions between pilot, exploratory and confirmatory work.
+
+\section{Discussion and conclusion}
+AIM-ER identifies the process of translating an emotional intention into a personally meaningful musical artefact as a candidate regulatory mechanism. Its distinctive prediction concerns the interaction of user goals, creative affordances and psychological response, not the mere availability of generated music. It accommodates both beneficial and adverse trajectories and specifies how to distinguish musical exposure, expression, perceived control and authorship. The framework offers a basis for staged empirical validation across complementary methods. Its value will depend on whether these mechanisms explain and predict outcomes beyond simpler alternatives, with meaningful effects that replicate across users, tasks and technological contexts.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
 \end{document}

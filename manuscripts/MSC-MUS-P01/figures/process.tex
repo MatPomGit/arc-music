@@ -1,0 +1,16 @@
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=2pt, align=center, text width=9.4cm,
+    inner sep=6pt, font=\small},
+  arrow/.style={-{Stealth[length=2mm]}, thick},
+  node distance=5mm]
+\node[box] (context) {Initial conditions: affect, goal, context, individual differences};
+\node[box,below=of context] (process) {Expression and prompting $\rightarrow$ generation $\rightarrow$ appraisal, selection and revision $\rightarrow$ listening or optional sharing};
+\node[box,below=of process] (mechanisms) {Candidate mechanisms: articulation, distance, reappraisal, agency, ownership, musical engagement; frustration, rumination and avoidance};
+\node[box,below=of mechanisms] (outcomes) {Immediate and delayed outcomes: distress, clarity, goal attainment, functioning};
+\node[box,below=of outcomes] (feedback) {Feedback: continue, revise, stop or switch strategy};
+\draw[arrow] (context) -- (process);
+\draw[arrow] (process) -- (mechanisms);
+\draw[arrow] (mechanisms) -- (outcomes);
+\draw[arrow] (outcomes) -- (feedback);
+\draw[arrow] (feedback.west) -- ++(-0.45,0) |- (context.west);
+\end{tikzpicture}
