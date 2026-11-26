@@ -6,4 +6,3 @@ S01: dobór celowy dorosłych użytkowników, także bez deklarowanych korzyści
 
 S02: ankieta o funkcjach twórczości, aleksytymii, regulacji emocji i dobrostanie. Zweryfikować polskie adaptacje skal i licencje; określić pierwszorzędową hipotezę i liczebność na podstawie mocy. Analiza przekrojowa nie przesądza o przyczynowości.
 
-Ewa prowadzi kontakt z grupą; Paulina wspiera materiały i UX; Mateusz metodologię i analizę; opiekun konsultuje merytorycznie. Nie uruchamiać rekrutacji przed uzgodnieniem procedury.
