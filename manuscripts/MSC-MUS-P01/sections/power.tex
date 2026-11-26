@@ -1,0 +1,28 @@
+\subsection{Precision, power and staged validation}
+Let $d$ denote the two-arm mean difference in absolute value, divided by the marginal outcome standard deviation, and $d_\psi=\psi/\sigma_Y$ the corresponding standardised matching contrast (half the conventional difference-in-differences). Under equal allocation, independent observations and a common residual variance $\sigma_Y^2(1-R^2)$, where $R^2$ is the variance explained by prespecified pre-assignment covariates, the standardised variance $v$ is $2(1-R^2)/n$ for the two-arm contrast and $(1-R^2)/n$ for the matching contrast, with $n$ retained per cell. The known-variance, two-sided normal-theory power is
+\[
+\pi(d,v)=\Phi(|d|/\sqrt{v}-z_{1-\alpha/2})
++\Phi(-|d|/\sqrt{v}-z_{1-\alpha/2}).
+\]
+Here $\Phi$ is the standard normal cumulative distribution function and $z_p$ its $p$ quantile. Recruitment of $K\lceil n/(1-\ell)\rceil$ participants across $K$ cells inflates the target for assumed loss $\ell$; it does not guarantee retention or correct informative missingness.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Illustrative total recruitment for a single primary contrast: 80\% power, two-sided $\alpha=.05$, 15\% assumed loss.}
+\label{tab:power}
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+&\multicolumn{2}{c}{Two arms}&\multicolumn{2}{c}{Four cells}\\
+Effect & $R^2=0$ & $R^2=.25$ & $R^2=0$ & $R^2=.25$\\
+\midrule
+.20 & 926 & 696 & 928 & 700\\
+.30 & 412 & 310 & 416 & 312\\
+.40 & 234 & 176 & 236 & 176\\
+.50 & 150 & 114 & 152 & 116\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The companion Python script computes the smallest retained cell size meeting the target and checks the formula by simulating independent Gaussian cell means. At a standardised effect of .30 and $R^2=0$, 175 retained participants per arm and 88 per factorial cell yield simulated powers of .80065 and .80200, respectively, in 20,000 repetitions per design. At the same sample sizes under the null, rejection proportions are .04865 and .04925 (20,000 repetitions each). Monte Carlo standard errors for the power estimates are approximately .0028.
+
+The sensitivity analysis assumes known variance. The final protocol must recalculate power for its actual estimator, variance estimation, clustering, attrition and multiplicity. Choose the smallest effect of interest from the meaning and precision of the selected outcome, rather than a pooled estimate from other musical activities or the illustrative parameters above. For H6, simulate participant-level dependence, within-person variation, serial correlation and follow-up loss rather than applying the independent-cell table. Begin with qualitative discovery, cognitive interviews and feasibility work before a focused confirmatory experiment. Pilot data should inform measurement properties, variance and completion rates, not determine the target effect through an unstable preliminary estimate.
