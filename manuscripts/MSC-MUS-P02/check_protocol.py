@@ -3,17 +3,37 @@ from pathlib import Path
 import re
 
 root = Path(__file__).resolve().parent
-main = (root / "main.tex").read_text(encoding="utf-8")
-files = [root / name for name in re.findall(r"\\input\{([^}]+)\}", main)]
-files.append(root / "sections/interview.tex")
-assert all(p.is_file() for p in files), files
-body = main + "\n" + "\n".join(p.read_text(encoding="utf-8") for p in files)
+seen = set()
+active = set()
+
+
+def expand(path):
+    path = path.resolve()
+    assert path.is_relative_to(root) and path.is_file(), path
+    assert path not in active and path not in seen, f"Repeated or cyclic input: {path}"
+    active.add(path)
+    seen.add(path)
+    text = path.read_text(encoding="utf-8")
+    text = re.sub(r"\\input\{([^}]+)\}", lambda m: expand(root / m.group(1)), text)
+    active.remove(path)
+    return text
+
+
+body = expand(root / "main.tex")
 bib = (root / "references.bib").read_text(encoding="utf-8")
 keys = re.findall(r"@\w+\{([^,]+),", bib)
 used = {k.strip() for group in re.findall(r"\\(?:citep|citet|cite)\{([^}]+)\}", body) for k in group.split(",")}
 assert len(keys) == len(set(keys)) and set(keys) == used, (set(keys)-used, used-set(keys))
-assert len(re.findall(r"\\item\[RQ\d\.\]", body)) == 5
+dois = re.findall(r"doi\s*=\s*\{([^}]+)\}", bib, flags=re.I)
+assert len(dois) == len({d.casefold() for d in dois}), "duplicate DOI"
+assert re.findall(r"\\item\[RQ(\d)\.\]", body) == list("12345")
 assert r"\section{Results}" not in body
 assert "No participant data have yet been collected or analysed." in body
-assert all((root / p).is_file() for p in ("publication.md","interview-guide-pl.md","source-readiness.md","fieldwork-protocol-pl.md","analysis-records.md"))
-print(f"PASS: P02 protocol, 5 research questions, {len(keys)} matched references")
+assert body.index(r"\subsection{Episode selection and interview comparability}") < body.index(r"\subsection{Interview guide}")
+assert "Context and alternatives &" in body
+guide = (root / "interview-guide-pl.md").read_text(encoding="utf-8")
+minutes = [int(x) for x in re.findall(r"\|\s*(\d+) min\s*\|", guide)]
+assert len(minutes) == 9 and sum(minutes) == 60, minutes
+assert "ostatniej kwalifikującej się sesji" in guide and "Kontekst i alternatywy" in guide
+assert all((root / p).is_file() for p in ("publication.md","source-readiness.md","fieldwork-protocol-pl.md","analysis-records.md"))
+print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
