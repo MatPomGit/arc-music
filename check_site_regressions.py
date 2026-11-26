@@ -12,8 +12,7 @@ def check_contrast(page):
       if(panel){
         const bg=style(panel).backgroundColor;
         for(const sel of ['.wave-control','.art-note'])record(sel,style(panel.querySelector(sel)).color,bg,4.5);
-        const input=panel.querySelector('input');
-        for(const token of ['--track','--thumb'])record('wave '+token,style(input).getPropertyValue(token).trim(),bg,3);
+        if(panel.querySelector('input'))throw Error('Wave slider must not exist');
       }
       const plot=document.querySelector('.affect-plot');
       if(plot){
@@ -62,6 +61,9 @@ def check_study_content(page):
     assert article.locator(":scope > .study-status").count() == 1
     assert article.locator(".section-card .study-status").count() == 0
     assert article.locator(".section-card").count() == 3
+    assert article.locator(".pub").count() == 9
+    assert article.locator(".pub h3").count() == 9
+    assert article.locator(".pub details").count() == 0
     assert article.locator(".section-card:last-child p").count() >= 1
     # Compare the full source article to the transformed article, including status.
     raw = page.context.request.get(page.url)

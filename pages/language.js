@@ -12,26 +12,50 @@ apply(read(themeKey)||"auto");theme.addEventListener("change",()=>apply(theme.va
 const article=document.querySelector(".article");
 for(const p of article.querySelectorAll("p"))if(p.textContent.trim()==="PL · EN")p.classList.add("language-links");
 const type=document.body.dataset.section;
-if(["team","studies","publications"].includes(type)){
+if(["team","studies"].includes(type)){
 const headings=Array.from(article.querySelectorAll(":scope > h2"));
 if(headings.length){
-const grid=document.createElement("div");grid.className=type==="publications"?"pub-list":"section-grid";headings[0].before(grid);
+const grid=document.createElement("div");grid.className="section-grid";headings[0].before(grid);
 for(const h of headings){
 const nodes=[];let next=h.nextElementSibling;while(next&&next.tagName!=="H2"&&!next.classList.contains("study-status")){nodes.push(next);next=next.nextElementSibling}
-const card=document.createElement(type==="publications"?"details":"section");card.className=type==="publications"?"pub":"section-card";
-if(type==="publications"){const summary=document.createElement("summary");summary.textContent=h.textContent;card.append(summary);h.remove()}else card.append(h);
+const card=document.createElement("section");card.className="section-card";card.append(h);
 for(const n of nodes)card.append(n);grid.append(card);
 }
 }}
-const wave=document.querySelector("#wave"), intensity=document.querySelector("#wave-intensity");
-if(wave&&intensity){
-const paths=Array.from(wave.querySelectorAll("path")), reduced=matchMedia("(prefers-reduced-motion: reduce)");
-let frame=0, start=0;
-function draw(t){const a=Number(intensity.value)/100, phase=reduced.matches?0:Math.sin(t/180)*a*28;paths.forEach((p,i)=>p.setAttribute("d","M -12 "+(95+i*9)+" C 130 "+(-45-a*100+i*13+phase)+", 175 "+(330+a*160-i*8-phase)+", 285 "+(180+i*2)+" S 450 "+(80-a*50+i*5+phase)+", 575 "+(140+i*6)))}
-function tick(t){if(!start)start=t;draw(t-start);if(t-start<650&&!reduced.matches)frame=requestAnimationFrame(tick);else frame=0}
-intensity.addEventListener("input",()=>{cancelAnimationFrame(frame);start=0;draw(0);if(!reduced.matches)frame=requestAnimationFrame(tick)});
-reduced.addEventListener("change",()=>{cancelAnimationFrame(frame);draw(0)});
+// One local animation clock; no user input is required.
+const wave=document.querySelector("#wave"), dot=document.querySelector("#affect-dot");
+const paths=wave?Array.from(wave.querySelectorAll("path")):[];
+const steps=Array.from(document.querySelectorAll(".step"));
+const toggle=document.querySelector("#motion-toggle");
+if(toggle){
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)");
+  let paused=false, frame=0, elapsed=0, last=null, lastDraw=-Infinity;
+  function draw(t){
+    const a=.5+.24*Math.sin(t/3400), phase=18*Math.sin(t/2600);
+    paths.forEach((p,i)=>p.setAttribute("d","M -12 "+(95+i*9)+" C 130 "+(-45-a*100+i*13+phase)+", 175 "+(330+a*160-i*8-phase)+", 285 "+(180+i*2)+" S 450 "+(80-a*50+i*5+phase)+", 575 "+(140+i*6)));
+    if(dot){
+      dot.setAttribute("cx",(170+105*Math.sin(t/4600)).toFixed(2));
+      dot.setAttribute("cy",(145-82*Math.sin(t/6200)).toFixed(2));
+    }
+    const active=Math.floor(t/5200)%Math.max(1,steps.length);
+    steps.forEach((step,i)=>step.classList.toggle("step-active",!reduced.matches&&i===active));
+  }
+  function tick(now){
+    if(last!==null)elapsed+=Math.min(now-last,100);
+    last=now;
+    if(elapsed-lastDraw>=40){draw(elapsed);lastDraw=elapsed}
+    frame=requestAnimationFrame(tick);
+  }
+  function sync(){
+    cancelAnimationFrame(frame);frame=0;last=null;
+    toggle.hidden=reduced.matches;
+    toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");
+    if(reduced.matches){draw(0);return}
+    if(!paused&&!document.hidden)frame=requestAnimationFrame(tick);
+  }
+  toggle.addEventListener("click",()=>{paused=!paused;sync()});
+  reduced.addEventListener("change",()=>{draw(reduced.matches?0:elapsed);sync()});
+  document.addEventListener("visibilitychange",sync);
+  draw(0);sync();
 }
-const val=document.querySelector("#valence"), ar=document.querySelector("#arousal"), dot=document.querySelector("#affect-dot"), out=document.querySelector("#affect-output");
-if(val&&ar&&dot&&out){function update(){const x=Number(val.value),y=Number(ar.value);dot.setAttribute("cx",String(170+x*1.25));dot.setAttribute("cy",String(145-y));out.textContent=(en?"Valence: ":"Walencja: ")+x+" · "+(en?"Arousal: ":"Pobudzenie: ")+y}val.addEventListener("input",update);ar.addEventListener("input",update);update()}
 })();

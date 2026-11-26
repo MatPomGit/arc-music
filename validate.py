@@ -35,6 +35,8 @@ def check(root=ROOT):
     errors = []
     limits = dict(LIMITS)
     limits.update({f"pages/{name}": 2000 for name in PUBLIC})
+    # Research pages now contain nine expanded bilingual manuscript cards.
+    limits.update({"pages/studies.md": 7000, "pages/en-studies.md": 7000})
     for path in (root / "docs").glob("*.md"):
         limits.setdefault(path.relative_to(root).as_posix(), 4000)
     for name, limit in sorted(limits.items()):
