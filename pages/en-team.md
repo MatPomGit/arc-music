@@ -10,7 +10,7 @@ Project initiator and lead. She coordinates the team, liaises with the community
 
 Researcher. She draws on her experience in graphic design, visual communication and user experience design to develop research materials and communicate findings.
 
-## Mateusz Pomianek, PhD
+## Mateusz Pomianek
 
 Researcher responsible for research methodology, psychometrics, data analysis and the project's technical infrastructure.
 

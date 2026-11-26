@@ -9,12 +9,27 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_site_regressions.py'
+      - 'verify_public.py'
+      - 'test_verify_public.py'
+      - '.github/workflows/pages.yml'
+  pull_request:
+    paths:
+      - 'pages/**'
+      - 'theme-overrides/**'
+      - 'mkdocs.yml'
+      - 'requirements-site.txt'
+      - 'validate.py'
+      - 'check_site.py'
+      - 'check_site_regressions.py'
+      - 'verify_public.py'
+      - 'test_verify_public.py'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   build:
@@ -28,7 +43,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Validate sources
-        run: python validate.py
+        run: |
+          python validate.py
+          python -m unittest -v test_verify_public
       - name: Build website
         run: |
           python -m pip install -r requirements-site.txt
@@ -41,7 +58,8 @@ jobs:
       - name: Browser layout checks
         run: |
           python -m pip install playwright==1.57.0
-          python check_site.py
+          npm install --prefix "$RUNNER_TEMP/arc-a11y" --ignore-scripts --no-audit --no-fund axe-core@4.10.3
+          AXE_PATH="$RUNNER_TEMP/arc-a11y/node_modules/axe-core/axe.min.js" python check_site.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -49,7 +67,17 @@ jobs:
           path: site-checks/
           if-no-files-found: ignore
           retention-days: 7
+      - name: Record published file digests
+        if: github.ref == 'refs/heads/main'
+        run: python verify_public.py manifest site site-files.sha256
+      - uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: site-files-manifest
+          path: site-files.sha256
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
         with:
           path: site
   deploy:
@@ -60,6 +88,8 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -67,3 +97,22 @@ jobs:
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-public:
+    if: github.ref == 'refs/heads/main'
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-files-manifest
+      - name: Verify deployed website against built files
+        env:
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: python verify_public.py verify site-files.sha256 "$SITE_URL" "$GITHUB_SHA"
