@@ -1,5 +1,7 @@
 # Program badań
 
+[PL](studies.md) · [EN](en-studies.md)
+
 ## Doświadczenia twórców
 
 W wywiadach indywidualnych będziemy poznawać motywy podejmowania twórczości, okoliczności powstawania utworów oraz znaczenie, jakie uczestnicy przypisują muzyce w kontekście osobistych doświadczeń.

@@ -10,7 +10,9 @@ LIMITS = {
     "docs/aim-er.md": 3000, "docs/first-study.md": 4000,
     "docs/data-policy.md": 2000,
 }
-PUBLIC = {"index.md", "team.md", "studies.md", "publications.md", "en.md"}
+PUBLIC = {"index.md", "team.md", "studies.md", "publications.md", "en.md",
+          "en-team.md", "en-studies.md", "en-publications.md"}
+ASSETS = {"language.js"}
 FORBIDDEN = re.compile(
     r"\b(?:AGENTS\.md|TODO|FIXME|PLACEHOLDER|TBD|REPLACE_[A-Z0-9_]+)\b"
     r"|uwagi?\s+redakcyjne|instrukcj\w*\s+dla\s+agent\w*"
@@ -38,7 +40,7 @@ def check(root=ROOT):
     if not folder.is_dir() or folder.is_symlink():
         return errors + ["Unsafe or missing public source directory"]
     entries = {p.relative_to(folder).as_posix() for p in folder.rglob("*")}
-    if entries != PUBLIC:
+    if entries != PUBLIC | ASSETS:
         errors.append("Unexpected or missing public files")
     for name in PUBLIC:
         path = folder / name
@@ -52,15 +54,33 @@ def check(root=ROOT):
     config = (root / "mkdocs.yml").read_text(encoding="utf-8")
     keys = [line.split(":", 1)[0].strip() for line in config.splitlines()
             if line and not line.startswith((" ", "#"))]
-    if set(keys) != {"site_name", "docs_dir", "site_dir", "theme", "nav"} or len(keys) != 5:
+    if set(keys) != {"site_name", "docs_dir", "site_dir", "use_directory_urls",
+                     "theme", "plugins", "extra_javascript", "nav"} or len(keys) != 8:
         errors.append("Unexpected site configuration")
     if not re.search(r"(?m)^docs_dir: pages$", config) or not re.search(r"(?m)^site_dir: site$", config):
         errors.append("Site source/output boundary changed")
     if not re.search(r"(?m)^  highlightjs: false$", config):
         errors.append("Remote highlighter must be disabled")
-    nav = re.findall(r"(?m)^  - [^:]+: ([a-z.]+)$", config)
+    for setting in ("use_directory_urls: false", "  color_mode: auto",
+                    "  user_color_mode_toggle: true", "  - language.js", "plugins: []"):
+        if setting not in config.splitlines():
+            errors.append(f"Missing site setting: {setting}")
+    nav = re.findall(r"(?m)^  - [^:]+: ([a-z.\\-]+)$", config)
     if set(nav) != PUBLIC or len(nav) != len(PUBLIC):
         errors.append("Public navigation mismatch")
+    pairs = (("index.md", "en.md"), ("team.md", "en-team.md"),
+             ("studies.md", "en-studies.md"), ("publications.md", "en-publications.md"))
+    for pl, en in pairs:
+        for name in (pl, en):
+            path = folder / name
+            if path.is_file() and not path.is_symlink():
+                if f"[PL]({pl}) · [EN]({en})" not in path.read_text(encoding="utf-8"):
+                    errors.append(f"Missing reciprocal language switch: {name}")
+    asset = folder / "language.js"
+    if not asset.is_file() or asset.is_symlink():
+        errors.append("Missing or unsafe language script")
+    elif re.search(r"https?://|\\bfetch\\s*\\(|XMLHttpRequest|\\beval\\s*\\(", asset.read_text(encoding="utf-8")):
+        errors.append("Language script must be local and offline")
     # Protect the current tree, not historical Git objects or external access.
     private_url = re.compile(
         r"https?://[^\s<>\x22\x27]*(?:sharepoint\.com|onedrive\.live\.com|1drv\.ms|discord\.gg)",
