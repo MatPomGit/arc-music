@@ -14,11 +14,13 @@ class SecondaryTests(unittest.TestCase):
     def test_secondary(self):
         rng=np.random.default_rng(42)
         x,y,_=generate(240,.4,"mar",rng)
-        f=x[:,2]+rng.normal(size=len(x))
-        f[:10]=np.nan
-        out=secondary(x[:,1]+.5,x[:,2],f,x[:,4:],y,m=4)
-        self.assertEqual(out["H2"]["excluded_missing_ndif"],10)
+        total=np.clip(np.rint(24+7*x[:,2]),6,42)
+        out=secondary(x[:,1]+.5,total,x[:,4:],y,m=4)
+        self.assertEqual(out["H2"]["n_baseline_eligible"],240)
         self.assertEqual(out["H3"]["n_baseline_eligible"],240)
+        invalid=total.copy(); invalid[0]=np.nan
+        with self.assertRaises(ValueError):
+            secondary(x[:,1]+.5,invalid,x[:,4:],y,m=4)
         self.assertEqual(len(out["H2"]["sensitivity"]),27)
         for h in ("H2","H3"):
             v=out[h]

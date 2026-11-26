@@ -1,14 +1,13 @@
 name,time,kind,role
 study_token,T0,string,anonymous unique study key
 assignment,randomisation,binary,assigned access to semantic suggestions
-paq_nddf,T0,integer,primary moderator authorised scoring
-paq_ndif,T0,integer,secondary predictor authorised scoring
+paq_s_total,T0,integer 6 to 42,complete six-item total required before randomisation
 expression_ease,T0,integer 0 to 10,baseline covariate
 clarity_t0,T0,integer 0 to 10,baseline covariate
 distress_t0,T0,integer 0 to 10,baseline covariate
 prior_ai_music,T0,binary,baseline covariate
 scenario_mode,T0,categorical,personal mild or fictional
-fit_t1,T1,integer 0 to 10 or missing,primary endpoint
+fit_t1,T1,integer 0 to 10 or missing,applicable fit rating component not the composite
 fit_missing_reason,T1,categorical,undefined or unavailable or withdrawn
 clarity_t1,T1,integer 0 to 10 or missing,secondary endpoint
 distress_t1,T1,integer 0 to 10 or missing,exploratory safety outcome
