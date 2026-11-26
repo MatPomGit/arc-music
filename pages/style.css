@@ -131,3 +131,22 @@ body[data-section=studies] .research-publications .pub-list{grid-template-column
 .research-publications .pub-body h4{font-size:1rem;line-height:1.4;margin:0 0 .45rem;color:var(--accent);font-weight:700}
 .research-publications .pub-body p{max-width:78ch;margin:0;color:var(--ink)}
 .research-publications .pub-target{max-width:none;padding-top:.85rem;border-top:1px solid var(--line);font-size:.92rem;color:var(--muted)}
+
+/* Subtle manuscript palette; adjacent cards differ in both themes. */
+.research-publications .pub:nth-child(4n+1){--pub-surface:#edf6f1;--pub-edge:#287b72}
+.research-publications .pub:nth-child(4n+2){--pub-surface:#f9edf1;--pub-edge:#a65a7a}
+.research-publications .pub:nth-child(4n+3){--pub-surface:#fbf2e5;--pub-edge:#a86a35}
+.research-publications .pub:nth-child(4n+4){--pub-surface:#f0edf8;--pub-edge:#7564a7}
+:root[data-theme=dark] .research-publications .pub:nth-child(4n+1){--pub-surface:#1c3539;--pub-edge:#88d9ce}
+:root[data-theme=dark] .research-publications .pub:nth-child(4n+2){--pub-surface:#342b39;--pub-edge:#f0a6c2}
+:root[data-theme=dark] .research-publications .pub:nth-child(4n+3){--pub-surface:#342f2b;--pub-edge:#ffbc85}
+:root[data-theme=dark] .research-publications .pub:nth-child(4n+4){--pub-surface:#2d3042;--pub-edge:#c6b9f5}
+@media(prefers-color-scheme:dark){
+ :root:not([data-theme=light]) .research-publications .pub:nth-child(4n+1){--pub-surface:#1c3539;--pub-edge:#88d9ce}
+ :root:not([data-theme=light]) .research-publications .pub:nth-child(4n+2){--pub-surface:#342b39;--pub-edge:#f0a6c2}
+ :root:not([data-theme=light]) .research-publications .pub:nth-child(4n+3){--pub-surface:#342f2b;--pub-edge:#ffbc85}
+ :root:not([data-theme=light]) .research-publications .pub:nth-child(4n+4){--pub-surface:#2d3042;--pub-edge:#c6b9f5}
+}
+.research-publications .pub{background:var(--pub-surface,var(--paper));border-top-color:var(--pub-edge,var(--accent))}
+.research-publications .pub-body p{font-size:.95rem;line-height:1.6;max-width:85ch}
+.aim-er-expansion{font-size:.73em;letter-spacing:0;font-weight:400}
