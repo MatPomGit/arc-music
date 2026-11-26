@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from models import prepare, fit
-from imputation import draw_imputations, sensitivity, pool
+from imputation import draw_imputations, sensitivity, pool, shift_outcome
 from test_analysis import fixture
 
 
@@ -38,6 +38,18 @@ class ImputationTests(unittest.TestCase):
         for x in a["scenarios"]:
             self.assertLess(x["ci95"][0],x["beta"])
             self.assertGreater(x["ci95"][1],x["beta"])
+
+    def test_differential_shift_integrity(self):
+        raw = fixture(100)
+        raw.loc[:2,"motive_expression"] = [0,5,10]
+        raw.loc[:2,"clarity_post"] = [5,5,5]
+        data,_ = prepare(raw)
+        mask = np.zeros(len(data),dtype=bool)
+        mask[:3] = True
+        shifted = shift_outcome(data,mask,0,2)
+        np.testing.assert_array_equal(shifted.clarity_post.iloc[:3],[3,5,7])
+        np.testing.assert_array_equal(shifted.clarity_post.iloc[3:],data.clarity_post.iloc[3:])
+        self.assertEqual(len(sensitivity(raw,m=2,sweeps=1)["differential_scenarios"]),12)
 
     def test_rubin_pool(self):
         a = pool([{"beta":.1,"se_hc3":.1,"n":100},
