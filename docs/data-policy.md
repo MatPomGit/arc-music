@@ -1,3 +1,7 @@
-# Dane badawcze i dostęp
+# Dane badawcze
 
-Surowe pomiary psychometryczne, EEG, okulometryczne, wideo, dane dotyczące zdrowia i inne dane identyfikowalne nie trafiają do programu ARC ani do GitHub Pages. Każdy manuskrypt, zarówno kanoniczny lokalnie w ARC (`local`), jak i prowadzony w zewnętrznym `msc-*` (`external`), wskazuje autoryzowany magazyn danych (np. kontrolowany zasób Synapse), politykę dostępu, retencji i analizę ryzyka reidentyfikacji. ARC może przechowywać lokalny plan, protokół i TeX, lecz nie surowe dane uczestników. W publicznym ARC sam commit lokalnych źródeł oznacza ich publiczne udostępnienie, niezależnie od ustawień Pages. W publicznej witrynie `pages/` znajdują się jedynie zatwierdzone metadane, bez prywatnych URL i sekretów. W publicznym rejestrze Git nie mogą występować nawet nazwy i ścieżki prywatnych projektów, niezależnie od flagi `public_listing`.
+Dane ankietowe, wywiady, transkrypcje, utwory i zgody przechowujemy wyłącznie na instytucjonalnym OneDrive Uniwersytetu VIZJA. Dostęp imienny, z minimalnymi uprawnieniami. Klucz pseudonimizacji i zgody oddzielnie od danych analitycznych. Uczelnia i zespół ustalają retencję, podstawę przetwarzania i zasady wycofania.
+
+GitHub i Discord nie są magazynem danych uczestników. W Git dopuszczalne są schematy, kod, dane syntetyczne i zatwierdzone wyniki zbiorcze. Zasada dotyczy manuskryptów local i external; w publicznym ARC nie ujawnia się także prywatnych odnośników. Link do folderu danych udostępniamy wyłącznie osobom uprawnionym po kontroli jego zakresu. Nie zapisujemy linków udostępniania w historii Git.
+
+Otwarte pytania na Facebooku nie uprawniają automatycznie do analizy wypowiedzi. Formalne zbieranie danych wymaga uzgodnionej procedury i informacji dla uczestników. Nie wysyłamy osobistych tekstów do generatorów zewnętrznych bez odpowiednich zabezpieczeń.

@@ -14,6 +14,8 @@ def safe_text(text:str)->str:
 
 
 def render(root:Path)->str:
+    if json.loads((root/"program.json").read_text(encoding="utf-8")).get("programme") == "arc-music":
+        return "# Projekty badawcze\n\nARC-MUSIC koncentruje się na psychologicznych mechanizmach tworzenia muzyki z AI. Pierwsze badania obejmują doświadczenia użytkowników generatorów muzycznych.\n"
     projects=json.loads((root/"portfolio/projects.json").read_text(encoding="utf-8")).get("projects",[])
     policy_file=root/"config/pages-policy.json"
     policy=(json.loads(policy_file.read_text(encoding="utf-8")) if policy_file.is_file()

@@ -24,6 +24,8 @@ def clean(value: object, ident: str) -> str:
 
 
 def render(root: Path) -> str:
+    if json.loads((root/"program.json").read_text(encoding="utf-8")).get("programme") == "arc-music":
+        return "# Publikacje naukowe\n\nProjekt jest na etapie przygotowania badań.\n"
     program=json.loads((root/"program.json").read_text(encoding="utf-8"))
     papers=json.loads((root/"portfolio/papers.json").read_text(encoding="utf-8"))
     projects=json.loads((root/"portfolio/projects.json").read_text(encoding="utf-8"))

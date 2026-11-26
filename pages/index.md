@@ -1,7 +1,11 @@
-# Program badawczy ARC
+# Muzyka, emocje i sztuczna inteligencja
 
-Informacje o programie i jego publikacjach zostaną udostępnione po zatwierdzeniu materiałów do publikacji.
+**ARC-MUSIC** to interdyscyplinarny projekt Koła Naukowego Psychologii Cyfrowej działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
-[Projekty](projects.md)
+Badamy, w jaki sposób współtworzenie muzyki z generatywną sztuczną inteligencją wiąże się z ekspresją emocji, sprawstwem i nadawaniem znaczenia osobistym doświadczeniom.
 
-[Artykuły naukowe](articles.md)
+[Poznaj zespół](team.md) · [Kierunki badań](studies.md) · [English](en.md)
+
+## Dlaczego muzyka?
+
+Generatory muzyczne pozwalają przekształcać doświadczenia w utwory także osobom bez przygotowania muzycznego. Interesuje nas zarówno potencjał tej formy twórczości, jak i jej ograniczenia.

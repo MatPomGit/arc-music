@@ -6,7 +6,10 @@
   "public_files": [
     "index.md",
     "projects.md",
-    "articles.md"
+    "articles.md",
+    "team.md",
+    "studies.md",
+    "en.md"
   ],
   "note": "All approved public files and rendered theme assets are reviewed and versioned; no implicit deployment.",
   "approved_theme_assets": {
