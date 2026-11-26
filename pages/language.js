@@ -27,7 +27,8 @@ const wave=document.querySelector("#wave"), dot=document.querySelector("#affect-
 const paths=wave?Array.from(wave.querySelectorAll("path")):[];
 const steps=Array.from(document.querySelectorAll(".step"));
 const toggle=document.querySelector("#motion-toggle");
-if(toggle){
+const brief=type==="neuropsychology"&&!!dot;
+if(toggle||brief){
   const reduced=matchMedia("(prefers-reduced-motion: reduce)");
   let paused=false, frame=0, elapsed=0, last=null, lastDraw=-Infinity;
   function draw(t){
@@ -42,21 +43,24 @@ if(toggle){
   }
   function tick(now){
     if(reduced.matches||paused||document.hidden){frame=0;return}
-    if(last!==null)elapsed+=Math.min(now-last,100);
+    if(last!==null)elapsed+=brief?now-last:Math.min(now-last,100);
+    if(brief&&elapsed>=4400){elapsed=4400;draw(elapsed);frame=0;root.classList.add("motion-paused");return}
     last=now;
     if(elapsed-lastDraw>=40){draw(elapsed);lastDraw=elapsed}
     frame=requestAnimationFrame(tick);
   }
   function sync(){
     cancelAnimationFrame(frame);frame=0;last=null;
-    root.classList.toggle("motion-paused",paused||document.hidden||reduced.matches);
-    toggle.hidden=reduced.matches;
-    toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");
+    root.classList.toggle("motion-paused",paused||document.hidden||reduced.matches||(brief&&elapsed>=4400));
+    if(toggle){
+      toggle.hidden=reduced.matches;
+      toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");
+    }
     if(reduced.matches){draw(0);lastDraw=-Infinity;return}
-    if(!paused&&!document.hidden)frame=requestAnimationFrame(tick);
+    if(!paused&&!document.hidden&&(!brief||elapsed<4400))frame=requestAnimationFrame(tick);
   }
-  toggle.addEventListener("click",()=>{paused=!paused;sync()});
-  reduced.addEventListener("change",()=>{draw(reduced.matches?0:elapsed);sync()});
+  if(toggle)toggle.addEventListener("click",()=>{paused=!paused;sync()});
+  reduced.addEventListener("change",()=>{if(brief)elapsed=0;draw(reduced.matches?0:elapsed);sync()});
   document.addEventListener("visibilitychange",sync);
   draw(0);sync();
 }
