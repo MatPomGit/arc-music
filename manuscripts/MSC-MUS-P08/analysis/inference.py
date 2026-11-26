@@ -72,7 +72,12 @@ def analyze(frame):
         try:models[k]=fit(d,k)
         except (ValueError,np.linalg.LinAlgError) as exc:models[k]={"unavailable":str(exc)}
     h1=models["ownership"].get("authority");h2=models["agency"].get("authority");h3=models["ownership"].get("interaction")
-    return dict(randomised=len(d),cells=cells,models=models,hypotheses={"H1":h1,"H2":h2,"H3":h3},
+    from sensitivity import assess
+    sensitivity={}
+    for key in ITEMS:
+        try:sensitivity[key]=assess(d,key)
+        except (ValueError,np.linalg.LinAlgError) as exc:sensitivity[key]={"unavailable":str(exc)}
+    return dict(randomised=len(d),cells=cells,models=models,hypotheses={"H1":h1,"H2":h2,"H3":h3},missingness=sensitivity,
                 secondary_holm=holm({"H2":h2["p"] if h2 else None,"H3":h3["p"] if h3 else None}))
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()
