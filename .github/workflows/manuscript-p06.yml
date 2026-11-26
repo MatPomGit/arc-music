@@ -27,6 +27,7 @@ jobs:
           "$RUNNER_TEMP/p06-venv/bin/pip" install -r requirements.txt
           "$RUNNER_TEMP/p06-venv/bin/python" -m unittest -v
           "$RUNNER_TEMP/p06-venv/bin/python" simulation.py --smoke --reps 100 > smoke-results.json
+          "$RUNNER_TEMP/p06-venv/bin/python" bounded_simulation.py --reps 100 --reference-n 10000 > bounded-results.json
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
@@ -46,4 +47,5 @@ jobs:
             manuscripts/MSC-MUS-P06/main.log
             manuscripts/MSC-MUS-P06/exact-head.txt
             manuscripts/MSC-MUS-P06/analysis/smoke-results.json
+            manuscripts/MSC-MUS-P06/analysis/bounded-results.json
           if-no-files-found: error
