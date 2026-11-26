@@ -182,7 +182,13 @@ def advance(page, time):
 
 
 def motion_state(page, expected):
-    page.wait_for_function("(s) => document.querySelector('#motion-status').dataset.state === s", arg=expected)
+    # The virtual RAF clock does not advance while waiting for a media-query event.
+    # Playwright's default RAF polling would deadlock; use independent timer polling.
+    page.wait_for_function(
+        "(s) => document.querySelector('#motion-status').dataset.state === s",
+        arg=expected, polling=50)
+    # Verify effective state against the browser, not just the UI status.
+    assert page.evaluate("matchMedia('(prefers-reduced-motion: reduce)').matches") == (expected == "system")
     assert page.locator("#motion-status").inner_text().strip()
     assert page.locator("#motion-preference").get_attribute("aria-describedby") == "motion-status"
 
