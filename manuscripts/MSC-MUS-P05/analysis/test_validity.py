@@ -32,7 +32,11 @@ class ValidityTests(unittest.TestCase):
         out=validity_family({"EXP":x},{"expression":x},authorized=True,reps=99)
         self.assertEqual(len(out),6)
         self.assertEqual(out["H5_EXP_specificity"]["holm_p"],1.)
-        self.assertTrue(out["H3_EXP_expression"]["supports_directional_hypothesis"])
+        self.assertFalse(out["H3_EXP_expression"]["supports_directional_hypothesis"])
+        self.assertAlmostEqual(out["H3_EXP_expression"]["holm_p"],.06)
+        fine=validity_family({"EXP":x},{"expression":x},authorized=True,reps=199)
+        self.assertTrue(fine["H3_EXP_expression"]["supports_directional_hypothesis"])
+        self.assertAlmostEqual(fine["H3_EXP_expression"]["holm_p"],.03)
         with self.assertRaises(ValueError):
             validity_family({},{})
 
