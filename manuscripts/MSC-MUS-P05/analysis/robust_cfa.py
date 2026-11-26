@@ -83,6 +83,7 @@ class RobustResult:
     p_value: float
     nominal_df: int
     sample_size: int
+    parameter_influence: np.ndarray
 
 def robust_fit(x,domains):
     """Diagonal inverse IF-variance weights, sandwich and residual test.
@@ -121,4 +122,4 @@ def robust_fit(x,domains):
     scale=tr2/tr; df=tr*tr/tr2
     return RobustResult(fit,estimates,covariance,intervals,float(statistic),
                         float(scale),float(df),float(chi2.sf(statistic/scale,df)),
-                        len(w)-J.shape[1],n)
+                        len(w)-J.shape[1],n,param_if)

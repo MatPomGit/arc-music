@@ -25,3 +25,7 @@ CI 45892825483 passed on 493f27f1bef363ed37673dfb9c24e647c6daf6c6, including 35-
 ## v0.5.0 implementation
 
 CI 45893153993 at 002c0a6 passed validator and unit tests at time of inspection; final result pending. New MAR complete-record IPW, MNAR exponential tilt, weighted ordinal moments, bootstrap interface and synthetic comparison implemented. Five tests added. The planned item-level multiple imputation, full sample-size calibration, reference estimator comparison, robust fit indices and invariance remain outstanding. New CI results pending.
+
+## v0.6.0 implementation
+
+CI 45893153993 passed at 002c0a6. CI 45893355394 on ca681f8 still in progress at inspection. New affine-linked ordinal group diagnostics with joint influence covariance, four regression tests and 120 synthetic two-group datasets are implemented. They do not constitute an independent validation of ordinal invariance. Final nested multi-group model, reference comparison, robust CFI/TLI/RMSEA, item-level MI and sample-size/coverage calibration remain open. No latent mean comparisons or participant results authorized.
