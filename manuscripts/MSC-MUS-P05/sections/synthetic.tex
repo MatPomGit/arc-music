@@ -1,0 +1,18 @@
+\subsection{Preliminary computational evidence (synthetic only)}
+A development run (GitHub Actions 45894186937, source commit \texttt{b3590c4}, verified archive 15152208946) examined simplified generated datasets. For nine-item EFA with the generating factor count supplied, moderate loadings (.65) and correlation (.35) yielded 12/12 proper solutions in each of two scenarios; weak loadings (.40), high correlation (.80) and skew yielded only 3/12. This is not a test of factor-count recovery.
+
+\begin{table}[ht]
+\centering\small
+\caption{Synthetic 35-item conditional-weight CFA, eight replications per scenario.}
+\begin{tabularx}{\linewidth}{Xrrr}
+\toprule
+Scenario & Proper & Mean bias & Mean complete $N$\\
+\midrule
+Moderate structure, no missingness & 8/8 & .0074 & 500\\
+Moderate, skew, 2\% item MCAR & 8/8 & .0069 & 248.6\\
+Weak loadings, high correlation, skew & 0/8 & --- & 500\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+For eight-item robust DWLS at $N=500$ with moderate loadings and correlations, the first loading interval covered 27/30 generating values (Wilson 95\% interval .744--.965), while the first factor correlation interval covered 23/30. The latter is below the intended coverage range. In group-comparability simulations, the loading-restriction test detected a loading violation in only 11/30 datasets. These results identify unresolved inferential and power limitations; they do not justify recruitment targets. With 35 independent item-missingness events at rate .10, the expected complete-record fraction is only $.9^{35}$, approximately .025. Complete-record analysis cannot be the sole strategy for such scenarios. A reproducible sharded calibration grid has been implemented, but no candidate sample size has been approved. The larger simulation, independent estimator comparison and adequate missing-data strategy remain prerequisites for confirmatory freeze.

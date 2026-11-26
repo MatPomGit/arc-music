@@ -41,3 +41,7 @@ validity.py implements the six H3--H5 slots, authorization-gated domain means, S
 ## v0.10.0 reference checks
 
 The independent conditional-normal quadrature test uses a distinct probability formulation and likelihood optimization for a synthetic pair. It is not a full independent CFA/WLSMV implementation or independent scientific review. The previous validity test failed because 99 bootstrap draws cannot produce a Holm-adjusted p <= .05 with six slots; the test now verifies this limitation and the 199-draw case. The primary 5000-resample protocol and alpha remain unchanged. See bibliography_audit.md for targeted source checking.
+
+## Full-pool calibration infrastructure v0.11.0
+
+calibration_grid.py --list enumerates 60 scenarios (40 complete-data core, five weak/high-correlation stress, 15 MCAR complete-case stress). Run a shard with --scenario 0 --offset 0 --count 10 --out shard-000.json. Aggregate disjoint same-scenario shards with --aggregate shard-000.json shard-010.json; duplicate replicate IDs and mixed seeds are rejected. The output preserves every failure and per-parameter errors/coverage. No automatic sample-size decision. A complete grid at 1000 replicates is computationally substantial and has not been launched on hosted CI. This driver does not implement the full EFA/MI/validity grid. See simulation_evidence.md for verified actual adverse findings and source provenance.

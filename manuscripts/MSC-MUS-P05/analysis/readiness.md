@@ -45,3 +45,7 @@ Added all six external validity contrast slots, multiplicity handling, five regr
 ## v0.10.0 implementation
 
 CI 45894003009 passed at d4209e2. CI 45894330847 on 9daea1e failed one of 47 unit tests: with 99 bootstrap draws the smallest Holm-adjusted p is .06 for six slots. Test now checks both 99-draw nonrejection and 199-draw rejection, with no change to the estimator, alpha or family. Added two independent-formulation polychoric numerical tests, partial bibliographic claim/metadata audit, corrected ERP-IA-6 context and explicit manuscript development gates. CI 45894186937 still running at initial inspection. Full estimator reference, larger sample-size calibration, complete source audit and independent review remain open.
+
+## v0.11.0 implementation
+
+CI 45894529075 passed all unit tests and simulations through invariance at inspection; later steps pending. Downloaded and SHA-256 verified artifact 15152208946 from completed CI 45894186937 (b3590c4); all seven JSON files inspected. Evidence and adverse outcomes recorded in simulation_evidence.md and manuscript. Eight-item first factor correlation coverage was 23/30; weak/high-correlation 35-item conditional CFA yielded 0/8 proper fits. No N selected. Added 60-scenario sharded CFA calibration driver, deterministic seeds, strict aggregation and four unit tests. Large calibration is not automatically launched; reference validation and broader EFA/MI/validity calibration remain open.
