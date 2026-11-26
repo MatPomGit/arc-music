@@ -6,3 +6,4 @@ S01: dobór celowy dorosłych użytkowników, także bez deklarowanych korzyści
 
 S02: ankieta o funkcjach twórczości, aleksytymii, regulacji emocji i dobrostanie. Zweryfikować polskie adaptacje skal i licencje; określić pierwszorzędową hipotezę i liczebność na podstawie mocy. Analiza przekrojowa nie przesądza o przyczynowości.
 
+Priorytet publikacyjny: P01, P02 i wspólne badanie ankietowe. P03/P04/P06 łączymy, jeżeli dane nie uzasadnią odrębnych wkładów. P05 zależy od możliwości niezależnej walidacji psychometrycznej. P07–P09 to kierunki dalszych badań online.

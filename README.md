@@ -11,6 +11,6 @@ Psychologia twórczości muzycznej wspomaganej przez generatywną AI. Projekt Ko
 
 ## Badania
 
-[Model AIM-ER](docs/aim-er.md) · [Pierwsze badania](docs/first-study.md) · [Plan publikacji](docs/publications.md) · [Dane badawcze](docs/data-policy.md).
+[Model AIM-ER](docs/aim-er.md) · [Pierwsze badania](docs/first-study.md) · [Manuskrypty](manuscripts/) · [Dane badawcze](docs/data-policy.md).
 
 Dyskusje prowadzimy na Discordzie. Dane uczestników przechowujemy na OneDrive VIZJA. GitHub służy do wspólnej pracy nad dokumentami i artykułami. Źródła strony znajdują się w `pages/`, manuskrypty LaTeX w `manuscripts/`.

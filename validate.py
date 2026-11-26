@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parent
 LIMITS = {
     "README.md": 2000, "AGENTS.md": 2000,
     "docs/aim-er.md": 3000, "docs/first-study.md": 4000,
-    "docs/publications.md": 4000, "docs/data-policy.md": 2000,
+    "docs/data-policy.md": 2000,
 }
 PUBLIC = {"index.md", "team.md", "studies.md", "en.md"}
 FORBIDDEN = re.compile(
@@ -60,14 +60,32 @@ def check(root=ROOT):
     nav = re.findall(r"(?m)^  - [^:]+: ([a-z.]+)$", config)
     if set(nav) != PUBLIC or len(nav) != len(PUBLIC):
         errors.append("Public navigation mismatch")
-    registry = (root / "docs/publications.md").read_text(encoding="utf-8")
-    links = re.findall(r"\[(MSC-MUS-P\d{2})\]\(\.\./(manuscripts/MSC-MUS-P\d{2}/main\.tex)\)", registry)
-    expected = {p.relative_to(root).as_posix() for p in (root / "manuscripts").glob("*/main.tex")}
-    if not links or len(links) != len({ident for ident, _ in links}) or {p for _, p in links} != expected:
-        errors.append("Manuscript list differs from canonical sources")
-    for ident, path in links:
-        if path != f"manuscripts/{ident}/main.tex" or not (root / path).is_file():
-            errors.append(f"Invalid manuscript path: {ident}")
+    manuscripts = root / "manuscripts"
+    if not manuscripts.is_dir() or manuscripts.is_symlink():
+        return errors + ["Unsafe or missing manuscripts directory"]
+    folders = sorted(manuscripts.iterdir())
+    if not folders:
+        errors.append("No manuscript directories")
+    for item in folders:
+        if not item.is_dir() or item.is_symlink() or not re.fullmatch(r"MSC-MUS-P\d{2}", item.name):
+            errors.append(f"Invalid manuscript directory: {item.name}")
+            continue
+        source = item / "main.tex"
+        target = item / "publication.md"
+        if not source.is_file() or source.is_symlink():
+            errors.append(f"Missing or unsafe LaTeX source: {item.name}")
+        if not target.is_file() or target.is_symlink():
+            errors.append(f"Missing or unsafe publication plan: {item.name}")
+            continue
+        content = target.read_text(encoding="utf-8")
+        if len(content) > 500:
+            errors.append(f"Publication plan exceeds 500 characters: {item.name}")
+        primary = re.findall(r"(?m)^\*\*Czasopismo docelowe:\*\* ([^\n]+)$", content)
+        alternative = re.findall(r"(?m)^\*\*Czasopismo alternatywne:\*\* ([^\n]+)$", content)
+        if (len(primary) != 1 or len(alternative) != 1
+                or not primary[0].strip() or not alternative[0].strip()
+                or primary[0].strip().casefold() == alternative[0].strip().casefold()):
+            errors.append(f"Invalid publication targets: {item.name}")
     return errors
 
 if __name__ == "__main__":
