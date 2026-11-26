@@ -240,7 +240,7 @@ def check_motion_regressions(browser, base, out=None):
         advance(page, 800)
         assert gen_frame() != gen0
         assert page.locator("#gen-wave").get_attribute("d") != gen_wave0
-        advance(page, 2700)
+        advance(page, 2720)
         assert gen_frame() == gen0, "Generative animation does not close its cycle"
         assert page.locator("#gen-wave").get_attribute("d") == gen_wave0
         initial = point(page)

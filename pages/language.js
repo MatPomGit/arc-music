@@ -46,9 +46,9 @@ if(wave||dot||steps.length||genWave){
     const a=.5+.24*Math.sin(w), phase=18*Math.sin(2*w+.4);
     paths.forEach((p,i)=>p.setAttribute("d","M -12 "+(95+i*9)+" C 130 "+(-45-a*100+i*13+phase)+", 175 "+(330+a*160-i*8-phase)+", 285 "+(180+i*2)+" S 450 "+(80-a*50+i*5+phase)+", 575 "+(140+i*6)));
     if(genWave){
-      const cycle=2700;
+      const cycle=2720;
       genPulses.forEach((p,i)=>{
-        const u=((t+i*900)%cycle)/cycle;
+        const u=((t+i*cycle/3)%cycle)/cycle;
         const segment=Math.min(2,Math.floor(u*3)), fraction=u*3-segment;
         const a=genRoutes[i][segment], b=genRoutes[i][segment+1];
         p.setAttribute("cx",(a[0]+(b[0]-a[0])*fraction).toFixed(2));
