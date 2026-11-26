@@ -7,6 +7,7 @@ import json
 import shutil
 import threading
 from playwright.sync_api import sync_playwright
+from check_site_regressions import check_contrast, check_focus, check_text_layout, check_study_content
 
 ROOT=Path(__file__).resolve().parent
 PAGES=("index","team","studies","publications","neuropsychology","en","en-team","en-studies","en-publications","en-neuropsychology")
@@ -31,8 +32,15 @@ def accessibility(browser, base, out):
                 })""")
                 entry = {"page":name,"theme":theme,"width":width,
                     "violations":[{"id":v["id"],"impact":v["impact"],"nodes":[n["target"] for n in v["nodes"]]} for v in result["violations"]],
-                    "incomplete":[v["id"] for v in result["incomplete"]]}
+                    "incomplete":[{"id":v["id"],"nodes":[{"target":n["target"],"html":n["html"],"failureSummary":n.get("failureSummary"),"any":n.get("any"),"all":n.get("all"),"none":n.get("none")} for n in v["nodes"]]} for v in result["incomplete"]]}
                 report.append(entry)
+                entry["contrast_evidence"] = check_contrast(page)
+                check_focus(page)
+                if "studies" in name:
+                    check_study_content(page)
+                # Return to a fresh page before the existing skip-link checks.
+                page.reload()
+                page.wait_for_function("document.documentElement.dataset.theme === " + repr(theme))
                 if entry["violations"]:
                     failures.append(entry)
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"reflow")
@@ -49,7 +57,11 @@ def accessibility(browser, base, out):
                 if width==1440:
                     page.add_style_tag(content="html{font-size:200%!important}")
                     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"text resize")
+                    page.locator("details").evaluate_all("(nodes) => nodes.forEach(n => n.open = true)")
+                    check_text_layout(page)
+                    page.screenshot(path=out/f"{name}-{theme}-text200.png",full_page=True,animations="disabled")
         ctx.close()
+    print("PASS: E3.1 focused contrast, focus, content and enlarged text checks",flush=True)
     (out/"accessibility.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
     assert not failures, failures
     print("PASS: 40 axe-core page/theme/viewport checks; keyboard, reflow, spacing and resize",flush=True)

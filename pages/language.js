@@ -17,8 +17,7 @@ const headings=Array.from(article.querySelectorAll(":scope > h2"));
 if(headings.length){
 const grid=document.createElement("div");grid.className=type==="publications"?"pub-list":"section-grid";headings[0].before(grid);
 for(const h of headings){
-const nodes=[];let next=h.nextElementSibling;while(next&&next.tagName!=="H2"){nodes.push(next);next=next.nextElementSibling}
-if(type==="studies"&&h===headings.at(-1)&&nodes.length>1)nodes.pop();
+const nodes=[];let next=h.nextElementSibling;while(next&&next.tagName!=="H2"&&!next.classList.contains("study-status")){nodes.push(next);next=next.nextElementSibling}
 const card=document.createElement(type==="publications"?"details":"section");card.className=type==="publications"?"pub":"section-card";
 if(type==="publications"){const summary=document.createElement("summary");summary.textContent=h.textContent;card.append(summary);h.remove()}else card.append(h);
 for(const n of nodes)card.append(n);grid.append(card);

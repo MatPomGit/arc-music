@@ -14,4 +14,4 @@ A survey will investigate associations between the use of music generators, alex
 
 Further studies will examine the role of personal contribution to music creation and perceived control over the finished work. We are also considering diary studies to examine emotional changes over time.
 
-Study protocols are currently being developed.
+<p class="study-status">Study protocols are currently being developed.</p>

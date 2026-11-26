@@ -9,6 +9,9 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_site_regressions.py'
+      - 'verify_public.py'
+      - 'test_verify_public.py'
       - '.github/workflows/pages.yml'
   pull_request:
     paths:
@@ -18,6 +21,9 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_site_regressions.py'
+      - 'verify_public.py'
+      - 'test_verify_public.py'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions:
@@ -37,7 +43,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Validate sources
-        run: python validate.py
+        run: |
+          python validate.py
+          python -m unittest -v test_verify_public
       - name: Build website
         run: |
           python -m pip install -r requirements-site.txt
@@ -59,14 +67,14 @@ jobs:
           path: site-checks/
           if-no-files-found: ignore
           retention-days: 7
-      - name: Record published HTML digests
+      - name: Record published file digests
         if: github.ref == 'refs/heads/main'
-        run: (cd site && sha256sum index.html en.html team.html en-team.html studies.html en-studies.html publications.html en-publications.html neuropsychology.html en-neuropsychology.html) > site-html.sha256
+        run: python verify_public.py manifest site site-files.sha256
       - uses: actions/upload-artifact@v4
         if: github.ref == 'refs/heads/main'
         with:
-          name: site-html-manifest
-          path: site-html.sha256
+          name: site-files-manifest
+          path: site-files.sha256
           retention-days: 7
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
@@ -98,30 +106,13 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
-          name: site-html-manifest
-      - name: Verify deployed website against built HTML
+          name: site-files-manifest
+      - name: Verify deployed website against built files
         env:
           SITE_URL: ${{ needs.deploy.outputs.page_url }}
-        run: |
-          set -euo pipefail
-          test -n "$SITE_URL"
-          while read -r digest file; do
-            [[ "$file" =~ ^[a-z-]+\.html$ ]]
-            matched=false
-            for attempt in 1 2 3 4 5 6; do
-              actual=$(curl --fail --silent --show-error --location --compressed --max-time 15 "${SITE_URL%/}/${file}?v=${GITHUB_SHA}" | sha256sum | cut -d' ' -f1) || true
-              if [[ "$actual" == "$digest" ]]; then
-                matched=true
-                break
-              fi
-              sleep 5
-            done
-            test "$matched" = true || { echo "FAIL: $file differs from build"; exit 1; }
-            echo "PASS: $file matches deployed build"
-          done < site-html.sha256
-          actual=$(curl --fail --silent --show-error --location --compressed --max-time 15 "${SITE_URL%/}/?v=${GITHUB_SHA}" | sha256sum | cut -d' ' -f1)
-          expected=$(awk '$2=="index.html" {print $1}' site-html.sha256)
-          test "$actual" = "$expected"
-          echo "PASS: project root matches index.html"
+        run: python verify_public.py verify site-files.sha256 "$SITE_URL" "$GITHUB_SHA"

@@ -14,4 +14,4 @@ Badanie ankietowe posłuży ocenie związków między sposobami korzystania z ge
 
 W dalszych badaniach zamierzamy analizować znaczenie osobistego wkładu w tworzenie utworu oraz poczucia kontroli nad jego ostateczną postacią. Rozważamy również badania dzienniczkowe, które umożliwią analizę zmian emocjonalnych w czasie.
 
-Projekt jest na etapie opracowywania protokołów badawczych.
+<p class="study-status">Projekt jest na etapie opracowywania protokołów badawczych.</p>
