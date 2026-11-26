@@ -1,0 +1,40 @@
+name: Validate MSC-MUS-P07 protocol
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P07/**'
+      - '.github/workflows/manuscript-p07.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - working-directory: manuscripts/MSC-MUS-P07/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p07"
+          "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
+          "$RUNNER_TEMP/p07/bin/python" -m unittest -v
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
+      - working-directory: manuscripts/MSC-MUS-P07
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msc-mus-p07-validation
+          path: |
+            manuscripts/MSC-MUS-P07/main.pdf
+            manuscripts/MSC-MUS-P07/main.log
+            manuscripts/MSC-MUS-P07/exact-head.txt
+          if-no-files-found: error

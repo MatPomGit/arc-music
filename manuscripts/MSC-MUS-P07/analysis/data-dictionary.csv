@@ -1,0 +1,20 @@
+field,type,definition
+participant_id,string,pseudonymous participant
+window_id,string,unique scheduled window
+study_day,integer,1-21
+scheduled_time,datetime,offset-aware prescheduled prompt
+baseline_time,datetime,offset-aware submitted within 0-15 min
+exposure_time,datetime,offset-aware first-hour report within 60-75 min
+followup60_time,datetime,offset-aware 60-75 min after baseline
+followup180_time,datetime,offset-aware 180-195 min after baseline
+creation_ongoing,boolean,ongoing at baseline or missing
+creation_first_hour,boolean,any active creation in first 60 min or missing
+valence0,integer,0-10
+arousal0,integer,0-10
+intention0,integer,0-10
+desired_arousal0,integer,0-10
+valence60,integer,0-10
+arousal60,integer,0-10
+valence180,integer,0-10
+arousal180,integer,0-10
+later_creation,boolean,creation after first hour or missing

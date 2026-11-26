@@ -1,13 +1,47 @@
 \documentclass[11pt]{article}
 \usepackage[T1]{fontenc}
-\title{Emotional Dynamics of AI-Assisted Music Creation in Everyday Life}
-\date{}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,natbib}
+\usepackage[hidelinks]{hyperref}
+\title{Emotional Dynamics of AI-Assisted Music Creation in Everyday Life: A Prospective Ecological Momentary Assessment Protocol}
+\date{Prospective protocol, version 0.1.0, 26 November 2026}
 \begin{document}
 \maketitle
-\section{Research question}
-Investigate within-person changes using diary measures.
-\section{Proposed method}
-\section{Analysis plan}
+\begin{abstract}
+AI-assisted music creation may coincide with changes in everyday affect, but event-triggered assessments alone cannot distinguish creation-related trajectories from ordinary affective fluctuations. We propose a 21-day observational ecological momentary assessment (EMA) study with independently scheduled observation windows. Current valence and arousal are assessed at baseline and approximately one and three hours later. Natural creation during the first hour is contrasted with windows without creation within the same person, adjusting for baseline affect and context. The primary endpoint is valence at the first follow-up. Secondary outcomes concern later valence and proximity to the participant's initial arousal goal. Exposure is self-selected; the contrast is associative rather than causal. No participant data or empirical results are available.
+\end{abstract}
+\noindent\textbf{Keywords:} affect dynamics; valence; arousal; ecological momentary assessment; generative AI; music creation; within-person association.
+\section{Introduction}
+The circumplex account distinguishes affective pleasantness from activation \citep{russell1980}. A rise in activation is not intrinsically beneficial or harmful; its meaning depends on context and desired affect. Emotion regulation includes attempts to influence emotional experience, rather than uniformly maximizing positive affect \citep{gross2015}. Everyday music research has used experience sampling to characterize situational variation in music-evoked emotion and listening motives \citep{juslin2008,randall2017}. These studies address listening rather than generative creation. AI songwriting adds iterative generation, selection and editing; observations of competition teams establish the relevance of creative iteration, not its effect on mood \citep{huang2020}.
+\par Affective persistence and variability are distinguishable constructs \citep{kuppens2010,houben2015}. Sparse, irregularly spaced reports do not identify continuous-time emotional inertia without stronger assumptions. We therefore focus on fixed observation horizons rather than interpreting a raw autocorrelation as regulatory capacity. EMA reduces dependence on distant recall \citep{shiffman2008}; separation of within-person and between-person variation is essential \citep{curran2011}.
+\section{Research question and hypotheses}
+Does naturally occurring AI-assisted creation during a prescheduled one-hour observation window coincide with a different affective trajectory than non-creation windows in the same individual?
+\begin{description}
+\item[P07-H1 (primary)] First-follow-up valence is higher in creation windows than non-creation windows, conditional on baseline valence, arousal, intention, time of day and study day. A two-sided test permits a contrary result.
+\item[P07-H2 (secondary)] Estimate the association of first-hour creation with valence at the three-hour follow-up, using the same baseline covariates. This is not a test of persistence of an isolated intervention because later activities may differ.
+\item[P07-H3 (secondary)] First-follow-up absolute deviation from the baseline desired arousal level is lower in creation windows, adjusting for initial deviation and the primary baseline covariates. No direction is assumed for arousal itself.
+\end{description}
+Exploratory analyses describe valence--arousal trajectories, listening-only windows, duration, later creation and heterogeneity. A precise null or reversed H1 constrains the directional hypothesis. The study is distinct from P01's assigned-task contrasts, P03's recalled motives, P06's functional-interference endpoint and P08's manipulation of creative agency. If participants are shared, disclose overlap and assess publication redundancy before submission.
+\section{Method}
+Recruit consenting Polish-speaking adult AI music creators who report recent routine use. Do not prescribe creation, paid platform use or emotional material. During 21 days, issue one prescheduled prompt per day at a randomly selected minute within a participant-defined available time band, leaving at least 195 minutes for follow-up. Freeze the schedule independently of affect and actual creation; record every scheduled window, including missed prompts. Baseline is valid within 15 minutes of the prompt. Follow-up prompts are scheduled at 60 and 180 minutes from actual baseline submission; accept 60--75 and 180--195 minutes. Do not open follow-ups early. Participants may skip any response.
+\par The exposure is any active AI-assisted music creation (prompting, generating, choosing or editing outputs as part of a creative task) during the first 60 minutes after baseline, regardless of completion. Listening alone is not creation. Collect actual first-hour exposure at the first follow-up or a separate exposure check, with its own timestamp; a later recollection is exploratory only. Record whether creation was already ongoing at baseline, and exclude ongoing windows from the primary comparison. Record pre-window intention, baseline context, other music activity, and later creation separately. Uncertain exposure is missing, never non-creation. Do not use post-baseline activities as primary adjustment covariates.
+\par Valence (0 very unpleasant, 10 very pleasant), arousal (0 very low activation, 10 very high activation) and desired arousal (same activation anchors) are proposed original single-item ratings, not validated clinical scales. The current state, not the emotional content of the song, is rated. Desired arousal is elicited before exposure. Assess interpretation through cognitive interviews and feasibility pilot. No proprietary questionnaire items are included.
+\section{Statistical analysis}
+Let $C_{it}$ indicate creation in the first hour, $V_{it,0}$ and $A_{it,0}$ denote baseline affect and $I_{it,0}$ pre-window intention (0--10). For the primary outcome $V_{it,60}$ use
+\[
+V_{it,60}=\alpha_i+\beta C_{it}+\gamma V_{it,0}+
+\delta A_{it,0}+\theta I_{it,0}+\eta d_{it}+\lambda h_{it}+\epsilon_{it},
+\]
+where $d$ is study day and $h$ is local baseline hour in decimal hours. Restrict the initial analysis to valid complete windows of participants with both exposure conditions represented, so $\beta$ describes the adjusted within-person linear projection in observed switchers. The target is not an average treatment effect or all creators. Use participant fixed effects, CR1 cluster standard errors with participant intercepts counted in degrees of freedom, and $t$ inference with $G-1$ degrees of freedom. Report coefficient and 95\% interval; require at least ten switcher clusters and full design rank as computational minima, not adequate sample size. H2 substitutes three-hour valence; H3 substitutes absolute arousal-goal deviation and includes baseline deviation. Holm adjustment covers H2 and H3; each uses its outcome-specific complete switcher subset. Report membership and compare the common subset descriptively. Later creation can influence H2 and is not conditioned upon in the primary H2 model.
+\par Enumerate all scheduled windows, timely baseline responses, ongoing exclusions, known exposures, valid outcomes and complete switchers. Missing exposure and outcome require separate sensitivity analysis; no missing exposure may be recoded as zero. Evaluate inverse-probability weights and bounded outcome shift sensitivity, overlap, cluster influence and narrower timing windows. The complete-case estimand may differ from the full-window target. Unmeasured time-varying confounding, changes in affect that precede creation within a window, anticipation and reporting reactivity prevent causal attribution.
+\par Conduct a separate 15--25-person pilot to assess prompt burden, frequency of creation windows, switching, timing compliance, score variation and missingness. Exclude pilot data from confirmation. Simulate 80--320 enrolled participants, 21 planned windows, creation prevalence .10--.40, heterogeneous individual propensities, correlated affect and 15--45\% missingness, including informative missingness. Examine effects of .0, .2, .4 and .6 valence points, coverage, bias, power and probability of sufficient switchers. Justify a smallest effect before final sample selection. No sample target or simulated power is claimed.
+\section{Ethics and reproducibility}
+Consent, ethics approval, approved recruitment and data storage precede the pilot. Do not collect songs, prompts, diagnoses or private narratives. The study is not treatment or monitored crisis support. Use pseudonymous identifiers and approved institutional storage; never commit participant-level records to Git. Freeze timing, instruments, sample target and analysis before confirmatory recruitment.
 \section{Results}
+No participants have been recruited and no empirical outcomes are available. Report all prespecified results and deviations regardless of direction.
 \section{Discussion}
+Prescheduled observation windows provide a natural non-creation comparison without assuming that creation occurs at random. The approach captures everyday short-horizon affective associations, but is vulnerable to selective participation, time-varying causes of creation and incomplete exposure reports. Results must not be interpreted as clinical benefit, physiological arousal or evidence of neural mechanisms. The initial bibliography is targeted, not systematic.
+\bibliographystyle{plainnat}
+\bibliography{references}
 \end{document}
