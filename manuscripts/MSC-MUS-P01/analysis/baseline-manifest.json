@@ -1,0 +1,72 @@
+{
+  "baseline": "4c30657dbfb2b9c53899a151c6be924c0d917cfe",
+  "reference": "c2bc24cb7e5c7b82ec29fb28ba194f664dc33aa5",
+  "truncated": false,
+  "blobs": [
+    {
+      "path": ".github/workflows/manuscript-p01.yml",
+      "sha": "12f9e1e35a8d3e5f5a9cf04c31d0db7d4453928b",
+      "size": 1109
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/analysis/README.md",
+      "sha": "e5c2080068851b2a4d422c23a5c5250360d746db",
+      "size": 716
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/analysis/power.py",
+      "sha": "4276beacd2fd7b03389c3a533b3ebcafe05c7f93",
+      "size": 2153
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/analysis/simulate.py",
+      "sha": "b751d470915b64fca48f38c2a5b2af344583aaa6",
+      "size": 2990
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/analysis/test_power.py",
+      "sha": "84614f2eb10ebb4f4ff9673092a43de182c83c9e",
+      "size": 1245
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/analysis/test_simulate.py",
+      "sha": "0c47d903bb77b6db5a205f18f072044e116f9fbb",
+      "size": 2004
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/figures/process.tex",
+      "sha": "bd79ab7d22a03211b8a803921b3009d54fd8c033",
+      "size": 1107
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/main.tex",
+      "sha": "6017380633175e94d020e66faa78b79e687d384b",
+      "size": 31700
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/publication.md",
+      "sha": "a576d6f55e0fba1294b63307c26eaffabf045454",
+      "size": 112
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/references.bib",
+      "sha": "9728b4d3f8e614bf083ac23257a1e0eea5ce51b7",
+      "size": 8084
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/sections/identification.tex",
+      "sha": "ddf4282a2a00850848fc119265edc093fa16c4be",
+      "size": 3942
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/sections/measurement.tex",
+      "sha": "0166cdebaf9f817d54ef56d67a0be8e6fb43cb3e",
+      "size": 3437
+    },
+    {
+      "path": "manuscripts/MSC-MUS-P01/sections/power.tex",
+      "sha": "a0acff8746371c97cef4f643d916b97256b14456",
+      "size": 2890
+    }
+  ]
+}

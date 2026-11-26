@@ -33,6 +33,15 @@ class TestAIMER(unittest.TestCase):
         self.assertGreater(r['delayed_low_rumination'], 0)
         self.assertLess(r['delayed_high_rumination'], 0)
 
+    def test_trajectory_boundaries(self):
+        self.assertAlmostEqual(trajectories(.6,1.,0.)['delayed_high_rumination'],.6)
+        self.assertEqual(trajectories(.6,0.,0.)['delayed_high_rumination'],0.)
+        self.assertAlmostEqual(trajectories(.6,.5,.3)['delayed_high_rumination'],0.)
+        v=trajectories(.6,.5,0.)
+        self.assertLess(v['delayed_high_rumination'],v['immediate_relief'])
+        self.assertGreater(v['delayed_high_rumination'],0.)
+        self.assertLess(trajectories(.6,.5,.8)['delayed_high_rumination'],0.)
+
     def test_reproducibility(self):
         self.assertEqual(identification(seed=5), identification(seed=5))
         self.assertEqual(factorial(seed=5), factorial(seed=5))

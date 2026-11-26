@@ -1,0 +1,8 @@
+# Independent scientific review handoff (Issue #17)
+Revision baseline 576f21ad15a1687cc77cfd331d25098281fdd728. Reviewer must inspect the exact current PR head, not merely this baseline. The existing author-side audit does not count as an independent review.
+
+Review target: MSC-MUS-P01, Musicae Scientiae. Score original rubric: novelty 20; theory/neuropsychology 20; methods/falsifiability 20; psychometrics 10; mathematics/code 15; literature 10; publication/ethics 5. For each of the 33 Issue #17 criteria, record pass/partial/fail/unverifiable, evidence location, rationale, and remaining corrective action. Do not change hypotheses or require empirical data simply because the article is theoretical. Use original acceptance criteria.
+
+Evidence: source tree, exact-SHA validation artifact, claim-audit-37.md, psychometric-audit.md, original review and extended Monte Carlo artifacts (run 45859894717, simulation-code baseline 576f21ad15a1687cc77cfd331d25098281fdd728). If current SHA differs, compare analysis code, dependency lock and workflow before reusing prior evidence. Record actual completed/valid replications and MC intervals, fit failures, boundaries; not planned counts. Identify source access limits explicitly. Verify theoretical claims, APA, figure readability, word count, privacy, author declarations and dissemination policy.
+
+Return a GitHub review or separately attributable review report with identity, reviewed SHA, date, evidence, scores and recommendation. Do not treat this handoff as reviewer approval. No authorised independent reviewer identified; no score assigned here.

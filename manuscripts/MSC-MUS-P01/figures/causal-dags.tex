@@ -1,0 +1,32 @@
+\begin{tikzpicture}[
+ n/.style={draw,rounded corners=2pt,inner sep=3pt,font=\small,align=center},
+ a/.style={-{Stealth[length=2mm]},thin}]
+\node[font=\small\bfseries] at (0,1.9) {A. Observational};
+\node[n] (c) at (-1.9,.9) {$C$};
+\node[n] (u) at (1.9,.9) {$U$};
+\node[n] (z) at (-1.9,-.3) {Goal, tool};
+\node[n] (m) at (0,-.3) {$M$};
+\node[n] (y) at (1.9,-.3) {$Y$};
+\node[n] (s) at (1.9,-1.5) {$S$};
+\draw[a] (c)--(z); \draw[a] (c)--(m); \draw[a] (c) to[bend left=22] (y);
+\draw[a] (u)--(m); \draw[a] (u)--(y);
+\draw[a] (z)--(m); \draw[a] (m)--(y);
+\draw[a] (z) to[bend right=22] (y);
+\draw[a] (y)--(s); \draw[a] (m)--(s);
+\begin{scope}[xshift=6.9cm]
+\node[font=\small\bfseries] at (0,1.9) {B. Randomised};
+\node[n] (g) at (-2,.9) {$G$};
+\node[n] (a) at (-2,-.3) {$A$};
+\node[n] (u) at (1.9,.9) {$U$};
+\node[n] (m) at (0,-.3) {$M$};
+\node[n] (y) at (1.9,-.3) {$Y$};
+\node[n] (s) at (1.9,-1.5) {$S$};
+\draw[a] (g)--(m); \draw[a] (a)--(m);
+\draw[a] (u)--(m); \draw[a] (u)--(y);
+\draw[a] (g) to[bend left=15] (y);
+\draw[a] (a) to[bend right=24] (y);
+\draw[a] (m)--(y); \draw[a] (y)--(s); \draw[a] (m)--(s);
+\end{scope}
+\node[font=\scriptsize,align=center] at (3.45,-2.15)
+{$C$: baseline context; $G,A$: independent assignments; $M$: realised operations/mechanisms; $Y$: outcome.};
+\end{tikzpicture}

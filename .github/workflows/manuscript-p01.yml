@@ -16,18 +16,43 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Validate repository
         run: python3 validate.py
+      - name: Install analysis dependencies
+        working-directory: manuscripts/MSC-MUS-P01/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/aim-er-venv"
+          "$RUNNER_TEMP/aim-er-venv/bin/python" -m pip install -r requirements.txt
       - name: Run synthetic regression tests
         working-directory: manuscripts/MSC-MUS-P01/analysis
-        run: python3 -m unittest -v
+        run: |
+          OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" -m unittest -v
+          "$RUNNER_TEMP/aim-er-venv/bin/python" design_checks.py > design-results.json
+          OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" longitudinal_checks.py > longitudinal-results.json
+          OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" mixed_checks.py --reps 8 > mixed-results.json
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-pictures lmodern
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-pictures texlive-bibtex-extra texlive-extra-utils biber lmodern
       - name: Compile manuscript
         working-directory: manuscripts/MSC-MUS-P01
         run: |
           latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
           if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
           test -s main.pdf
+          texcount -inc -sum main.tex > word-count.txt
+          git ls-tree -r HEAD > source-tree.txt
+      - name: Publish exact-head validation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aim-er-validation
+          path: |
+            manuscripts/MSC-MUS-P01/main.pdf
+            manuscripts/MSC-MUS-P01/main.log
+            manuscripts/MSC-MUS-P01/word-count.txt
+            manuscripts/MSC-MUS-P01/source-tree.txt
+            manuscripts/MSC-MUS-P01/analysis/design-results.json
+            manuscripts/MSC-MUS-P01/analysis/longitudinal-results.json
+            manuscripts/MSC-MUS-P01/analysis/mixed-results.json
+          if-no-files-found: error
