@@ -32,6 +32,8 @@ class TestP06(unittest.TestCase):
         return pd.DataFrame([dict(participant_id="p",session_id="s",
           local_day="2026-11-01",eligible_first=True,activity_defined=True,
           pre_time="2026-11-01T10:00:00+01:00",
+          start_time="2026-11-01T10:00:00+01:00",
+          end_time="2026-11-01T10:25:00+01:00",
           post_time="2026-11-01T10:30:00+01:00",
           followup_time="2026-11-02T10:30:00+01:00",
           avoidance=5,distress_pre=4,expected_difficulty=3,study_day=1,

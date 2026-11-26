@@ -6,3 +6,5 @@
 - Input to sensitivity is a prevalidated session ledger with complete predictors and post timestamps, including missing/out-of-window outcomes; automatic construction of that ledger from raw logs remains a gate.
 - Secondary tests are three predeclared coefficients; Holm adjustment across all three. Interaction uses centered avoidance and relief; reports association, not mediation.
 - The previous CI failed because publication.md exceeded 500 characters. It was shortened without changing repository validation. Remaining gates: full calibration, missing-ledger implementation, ethics, instruments, bibliography and independent review.
+
+Update v0.4.0: the raw-session ledger now enforces the timing rules and preserves missing follow-ups. Primary observations are not conditioned on post-response completion. The session-ledger CLI is implemented. Recruitment/consent, activity identifiers across follow-ups, independent daily check-ins and field data capture are still separate implementation gates.

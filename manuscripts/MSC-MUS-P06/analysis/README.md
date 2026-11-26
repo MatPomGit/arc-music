@@ -1,6 +1,6 @@
 # P06 prospective analysis contract
 
-Version 0.1.0. No participant data. Owner: Mateusz Pomianek.
+Version 0.4.0. No participant data. Owner: Mateusz Pomianek.
 
 The primary target is the within-person slope of pre-session avoidance on interference with a predeclared valued activity at 24 h, adjusted for pre-session distress, expected difficulty and study day. First eligible session per local day; eligibility determined before exposure outcome. Restrict primary complete-case analysis to timestamp-valid sessions with at least two observations per person. Do not select sessions according to relief or completed activity.
 
@@ -11,3 +11,6 @@ Power calibration: simulate 80/120/160/240 creators, 4/6/10 eligible sessions, 1
 Primary endpoint and hypotheses must be preregistered. Secondary relief and brooding analyses are separate from P01 H6; avoid duplicate confirmatory reporting. Use Python; no R dependency. Diary items are proposed operational indicators, not validated scales. No scale items or copyrighted lyrics are included.
 
 Remaining gates: measurement permissions and Polish validation, ethics, diary implementation, simulation and calibrated inference, missingness sensitivity, full-text literature audit, PDF compilation and independent review.
+
+## Executable ledger
+Run `python analyze.py session-log.csv --bootstrap 499` after data lock. The raw log contains session start and end events, pre/post/follow-up responses and prospectively assigned eligibility. Pre assessment is 0–15 minutes before start; post assessment 0–15 minutes after end; follow-up 20–28 hours after end. Missing post responses do not exclude an otherwise eligible primary observation. Invalid or missing follow-up is retained as a missing outcome in the sensitivity ledger. Report exclusion counts; no imputation of non-creation days. Enrollment and evening check-in denominator logs are separate and not yet implemented. Use only synthetic data for CI.

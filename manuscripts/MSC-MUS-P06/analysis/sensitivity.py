@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.special import expit
 from scipy.optimize import minimize
-from inference import PREDICTORS, fit_arrays, eligible_rows
+from inference import PREDICTORS, fit_arrays
 
 def weighted_within(g,x,y,w):
     g=np.asarray(g); x=np.asarray(x,float); y=np.asarray(y,float); w=np.asarray(w,float)
@@ -42,7 +42,7 @@ def observation_probability(x, observed):
     return expit(z@opt.x)
 
 def sensitivity(frame):
-    # Contract: one row per eligible session with valid pre/post and complete
+    # Contract: one row per eligible session with valid pre/start/end and complete
     # predictors; y missing denotes unavailable or out-of-window follow-up.
     g=frame.participant_id.to_numpy()
     x=frame[PREDICTORS].to_numpy(float)

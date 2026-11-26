@@ -4,6 +4,8 @@ session_id,session,string,unique,pre
 local_day,session,date,local calendar date,pre
 study_day,session,integer,1-14,pre
 pre_time,session,datetime,timezone offset required,pre
+start_time,session,datetime,actual session start offset required,start
+end_time,session,datetime,actual session end offset required,end
 post_time,session,datetime,timezone offset required,post
 followup_time,session,datetime,timezone offset required,followup
 eligible_first,session,boolean,prospectively selected first eligible session,pre

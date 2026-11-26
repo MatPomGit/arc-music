@@ -1,50 +1,14 @@
 """P06 primary within-person association; prospective, no clinical inference."""
 import argparse
 import json
-from datetime import datetime
 import numpy as np
 import pandas as pd
 from scipy.stats import t
 
-PREDICTORS = ["avoidance", "distress_pre", "expected_difficulty", "study_day"]
-SCORES = PREDICTORS[:3] + ["interference"]
+from ledger import PREDICTORS, analysis_ledger
 
 def eligible_rows(frame):
-    required = {"participant_id", "session_id", "local_day", "eligible_first",
-                "activity_defined", "pre_time", "post_time", "followup_time",
-                *PREDICTORS, "interference"}
-    if not required <= set(frame):
-        raise ValueError(f"Missing columns: {sorted(required - set(frame))}")
-    d = frame.copy()
-    if d[["participant_id", "session_id"]].isna().any().any() or d["session_id"].duplicated().any():
-        raise ValueError("Missing or duplicate identifiers")
-    for flag in ["eligible_first", "activity_defined"]:
-        if not d[flag].isin([True, False]).all():
-            raise ValueError(f"Invalid flag: {flag}")
-    d = d[d["eligible_first"] & d["activity_defined"]].copy()
-    if d.duplicated(["participant_id", "local_day"]).any():
-        raise ValueError("More than one eligible session per day")
-    for col in SCORES + ["study_day"]:
-        values = pd.to_numeric(d[col], errors="raise")
-        lo, hi = (1, 14) if col == "study_day" else (0, 10)
-        nonnull = values.dropna()
-        if not (nonnull.between(lo, hi) & (nonnull % 1 == 0)).all():
-            raise ValueError(f"Invalid score: {col}")
-        d[col] = values
-    def parse(value):
-        if pd.isna(value):
-            return pd.NaT
-        x = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
-        if x.utcoffset() is None:
-            raise ValueError("Timezone offset required")
-        return pd.Timestamp(x).tz_convert("UTC")
-    for col in ["pre_time", "post_time", "followup_time"]:
-        d[col] = pd.to_datetime(d[col].map(parse), utc=True)
-    # Follow-up target is measured relative to the end of the session.
-    post_delay = (d["post_time"] - d["pre_time"]).dt.total_seconds()/3600
-    follow = (d["followup_time"] - d["post_time"]).dt.total_seconds()/3600
-    valid = (post_delay >= 0) & follow.between(20, 28)
-    return d.loc[valid].dropna(subset=PREDICTORS + ["interference"]).copy()
+    return analysis_ledger(frame).dropna(subset=["interference"]).copy()
 
 def fit_arrays(group, x, y):
     group = np.asarray(group)
