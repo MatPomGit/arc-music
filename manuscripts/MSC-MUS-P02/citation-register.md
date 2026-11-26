@@ -1,27 +1,27 @@
 # P02 citation register (26 November 2026)
 
-Scope: all 30 keys inventoried, not all independently verified. Status indicates actual access, not quality or certification. Entries marked prior register / not reopened are inherited, still require claim-level inspection. Use DOI or URL in references.bib for exact source. No source was considered fully audited merely because a bibliography entry resolves.
+Scope: all 32 keys inventoried, not all independently verified. Status indicates actual access, not quality or certification. Entries marked prior register / not reopened are inherited, still require claim-level inspection. Use DOI or URL in references.bib for exact source. No source was considered fully audited merely because a bibliography entry resolves.
 
 | Key | Access / verification | Claim boundary or follow-up |
 |---|---|---|
 | gross2015 | prior register / not reopened | Regulation process distinctions; not evidence of AI effects. |
-| saarikallio2007 | prior register / not reopened | Adolescent music-use motives; avoid generalising to adult AI creators. |
+| saarikallio2007 | targeted author-hosted body | Methods pp. 90–91: eight Finnish adolescents, group interviews, personally meaningful recordings and 120 follow-up forms; constructivist grounded theory, not adult AI creation. |
 | juslin2008 | prior register / not reopened | Music emotion induction mechanisms, not regulation efficacy. |
 | baltazar2016 | prior register / not reopened | Goals, tactics and mechanisms of music-related regulation. |
-| baltazar2019 | prior register / not reopened | Conceptual relations among musical regulation components. |
+| baltazar2019 | publisher abstract / restricted body | N=571; correspondence analysis of reported strategies and mechanisms; no causal conclusions. |
 | pennebaker1986 | prior register / not reopened | Expressive writing is adjacent, not interchangeable with AI songwriting. |
 | nolen2008 | prior register / not reopened | Rumination theory; no attribution from lyrics alone. |
 | bonanno2013 | prior register / not reopened | Regulatory flexibility; context-dependent evaluation. |
 | ryan2000 | prior register / not reopened | Autonomy/competence concepts; not a music-generation experiment. |
 | zhao2026 | targeted publisher body | Research methods and authorial positioning: 11 Mandarin interviews, public output histories, online 45–60 min. Updated issue/pages 11(3),352–367. |
-| huang2020 | prior register / not reopened | Iterative curation and songwriting; no emotional efficacy claim. |
-| copet2023 | prior register / not reopened | Text-conditioned music generation affordances, not user psychology. |
+| huang2020 | targeted proceedings PDF body, p. 708 inspected | 13 teams, 61 participants, survey and multi-model curation; contest setting, not emotion-regulation efficacy. |
+| copet2023 | targeted proceedings PDF body, p. 1 inspected | MusicGen text/melody conditioning; human evaluation of generated audio, not psychological consequences. Pages 47704–47720 verified. |
 | he2026 | targeted publisher body | Methods 3.1–3.3: 180 recruited, 162 analysed, 3×2 automation/expertise design, controlled 30-second MIDI task; exclusions and limited ecological transfer. |
 | hums2015 | prior register / not reopened | Healthy/unhealthy music-use constructs; not validation for AI use. |
-| carlson2015 | prior register / not reopened | Associations in music regulation; not proof of harm from creation. |
-| janata2009 | prior register / not reopened | Music-evoked autobiographical memory during listening; not identity change. |
+| carlson2015 | targeted publisher body | Methods and Table 2: N=123, fMRI subset 56; Discharge correlated with anxiety and neuroticism; observational associations, not harm caused by music creation. |
+| janata2009 | indexed body excerpt / direct page access blocked | 13 subjects, familiar music cues; listening task and autobiographical salience, not identity change. |
 | kross2011 | prior register / not reopened | Self-distancing as adjacent construct; not necessarily an AI mechanism. |
-| peters2024 | prior register / not reopened | Mixed musical activities; no AI-specific effect transfer. |
+| peters2024 | targeted publisher body | Methods, Table 1, results and limitations: eight studies, 441 participants, two creative components, heterogeneous interventions and no moderator analysis by activity; no AI-specific effect transfer. |
 | braun2021 | metadata / access blocked | DOI and volume/pages verified via repository metadata; publisher body 403. |
 | braunsaturation2021 | indexed body excerpt / repository abstract | Explicit incompatibility of saturation with reflexive TA; full body audit outstanding. |
 | malterud2016 | abstract / publisher timeout | Five information-power dimensions; not sample-size proof or a quantitative threshold. |
@@ -35,6 +35,12 @@ Scope: all 30 keys inventoried, not all independently verified. Status indicates
 | raffa2025 | publisher abstract | Milan musicians/producers, interviews and focus groups about SUNO; full text not inspected. |
 | levitt2018 | publisher-indexed text / metadata | Psychology-specific JARS-Qual, situated interpretation; 73(1),26–46. Full-text audit outstanding. |
 
+| baker2018 | targeted publisher body | Individual interviews (N=15), interpretative phenomenological analysis after structured therapeutic songwriting in neurorehabilitation; precedent for meaning-making, not evidence of AI benefit. |
+| baker2019 | PubMed abstract | Pilot RCT N=47, 12 sessions; no significant primary self-concept group difference (p=.38); clinical intervention, not an AI study. |
+
 New source anchors: RTARG https://doi.org/10.1177/02692163241234800 (publisher body: reporting clarity and methodological incoherence); Zhao https://doi.org/10.1177/20594364261423866 (methods and publication metadata); He https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1835406/full (Methods 3.1–3.3); Kallio https://doi.org/10.1111/jan.13031 (abstract); Malterud https://pubmed.ncbi.nlm.nih.gov/26613970/ (abstract); Braun and Clarke https://doi.org/10.1080/2159676X.2019.1704846 (indexed excerpts); Peachey https://zenodo.org/records/22256495 (description); Wang https://so02.tci-thaijo.org/index.php/jam/article/view/288549 (abstract); Raffa https://www.rivisteweb.it/doi/10.1405/118716 (abstract); Levitt https://doi.org/10.1037/amp0000151 (indexed text and metadata). No PDF full-text audit claimed for failed retrievals.
 
 Editorial policy checked at https://journals.sagepub.com/author-instructions/pom and https://us2.sagepub.com/en-us/nam/journal/psychology-music: typical empirical papers 4,000–6,000 words, qualitative reporting flexibility; published article types are original empirical and theoretical critical papers. Seek editorial clarification before considering this protocol itself a submission. Do not inflate word count with invented findings.
+
+## Targeted follow-up (26 November 2026)
+Huang: https://program.ismir2020.net/static/final_papers/167.pdf (p.708, introduction; original page image inspected). Copet: https://proceedings.neurips.cc/paper_files/paper/2023/file/94b472a1842cd7c56dcb125fb2765fbd-Paper-Conference.pdf (p.1, original page image inspected); pages from https://www.proceedings.com/075280-2066.html. Carlson: https://www.frontiersin.org/journals/human-neuroscience/articles/10.3389/fnhum.2015.00466/full (methods/Table 2). Peters: https://journals.sagepub.com/doi/10.1177/03057356231212362 (methods, Tables 1–2 and limitations). Saarikallio: https://www.researchgate.net/publication/229471062_The_role_of_music_in_adolescents%27_mood_regulation (methods pp.90–91). Baltazar: https://doi.org/10.1177/1029864917715061 (abstract; restricted). Janata: indexed publisher text at https://doi.org/10.1093/cercor/bhp008; direct retrieval unsuccessful. Baker 2018: https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.01422/full (methods and results excerpts). Baker 2019: https://pubmed.ncbi.nlm.nih.gov/30791702/ (abstract; 47 enrolled, no significant primary group effect). Neither Baker report establishes benefit from AI songwriting. These are targeted claim checks, not all-page audits.
