@@ -148,6 +148,15 @@ def check_interactions(page, section):
         assert page.locator(".pub").count() == 9
         assert all(page.locator(".pub h3").nth(i).is_visible() for i in range(9))
         assert page.locator(".pub details").count() == 0
+        for i in range(1,10):
+            panel = page.locator(f".pub#msc-mus-p{i:02d}")
+            assert panel.count() == 1
+            assert panel.locator(".pub-question").is_visible()
+            assert panel.locator(".pub-body h4").count() == 2
+            assert panel.locator(".pub-body p").count() == 2
+            assert panel.locator(".pub-target").is_visible()
+            assert all(len(s.strip()) >= 80 for s in panel.locator(".pub-body p").all_text_contents())
+        assert page.locator(".pub-list").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length") == 1
     if section == "publications":
         assert page.locator(".article a[href$='studies.html']").count() == 1
     if section == "team":
