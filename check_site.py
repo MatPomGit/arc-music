@@ -7,7 +7,7 @@ import json
 import shutil
 import threading
 from playwright.sync_api import sync_playwright
-from check_site_regressions import check_contrast, check_focus, check_text_layout, check_study_content
+from check_site_regressions import check_contrast, check_focus, check_text_layout, check_study_content, check_zoom_reflow
 
 ROOT=Path(__file__).resolve().parent
 PAGES=("index","team","studies","publications","neuropsychology","en","en-team","en-studies","en-publications","en-neuropsychology")
@@ -59,6 +59,7 @@ def accessibility(browser, base, out):
                     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"text resize")
                     page.locator("details").evaluate_all("(nodes) => nodes.forEach(n => n.open = true)")
                     check_text_layout(page)
+                    check_zoom_reflow(page)
                     page.screenshot(path=out/f"{name}-{theme}-text200.png",full_page=True,animations="disabled")
         ctx.close()
     print("PASS: E3.1 focused contrast, focus, content and enlarged text checks",flush=True)

@@ -20,10 +20,13 @@ def check_contrast(page):
         const bg=style(plot).backgroundColor;
         const q=[...plot.querySelectorAll('rect')].map(e=>style(e).fill);
         const surfaces=[bg,...q];
+        const figure=plot.closest('.affect-figure');
+        const labels=[...figure.querySelectorAll('.affect-label')];
+        if(labels.length!==4||plot.querySelector('text'))throw Error('Missing scalable HTML axis labels');
+        for(const [j,label] of labels.entries())record('plot label '+j,style(label).color,style(figure).backgroundColor,4.5);
         const dot=plot.querySelector('#affect-dot');
         const axis=plot.querySelector('path');
         for(const [i,b] of surfaces.entries()){
-          for(const [j,t] of [...plot.querySelectorAll('text')].entries())record('plot label '+j+' / surface '+i,style(t).fill,b,4.5);
           record('plot axis / surface '+i,style(axis).stroke,b,3);
           record('plot marker / surface '+i,style(dot).fill,b,3);
         }
@@ -94,6 +97,24 @@ def check_text_layout(page):
       for(let i=0;i<controls.length;i++)for(let j=i+1;j<controls.length;j++){
         const a=controls[i].getBoundingClientRect(),b=controls[j].getBoundingClientRect();
         if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2)bad.push(['controls overlap',controls[i].outerHTML.slice(0,80),controls[j].outerHTML.slice(0,80)]);
+      }
+      return bad;
+    }""")
+    assert not issues, issues
+
+
+def check_zoom_reflow(page):
+    """Regression: enlarged text must not retain narrow desktop columns."""
+    issues = page.evaluate("""() => {
+      const bad=[], root=parseFloat(getComputedStyle(document.documentElement).fontSize);
+      for(const grid of document.querySelectorAll('.section-grid,.pub-list,.steps,.hero,.affect')){
+        const columns=getComputedStyle(grid).gridTemplateColumns.split(' ').map(parseFloat);
+        if(columns.length>2)bad.push(['too many columns at 200%',grid.className,columns]);
+        if(columns.length>1&&Math.min(...columns)<15*root)bad.push(['narrow columns',grid.className,columns,root]);
+      }
+      for(const label of document.querySelectorAll('.affect-label')){
+        const size=parseFloat(getComputedStyle(label).fontSize);
+        if(size<.875*root-.1)bad.push(['axis label does not scale',label.textContent,size,root]);
       }
       return bad;
     }""")
