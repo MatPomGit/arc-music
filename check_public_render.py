@@ -21,6 +21,7 @@ def check_identity(page, base, path):
     assert page.locator("html").get_attribute("lang") == lang, path
     assert page.locator("body").get_attribute("data-section") == section, path
     active = page.locator("nav a[aria-current=page]")
+    section = "studies" if section == "publications" else section
     expected = ("en.html" if section == "index" else "en-" + section + ".html") if lang == "en" else section + ".html"
     assert active.count() == 1 and active.get_attribute("href") == expected, path
 
@@ -56,26 +57,47 @@ def theme_state(page, theme):
 
 
 def check_interactions(page, section):
-    if section == "index":
-        before = page.locator("#wave path").first.get_attribute("d")
-        page.locator("#wave-intensity").focus()
-        page.keyboard.press("ArrowRight")
-        assert page.locator("#wave path").first.get_attribute("d") != before
-    if section in ("index", "neuropsychology"):
-        for control, axis in (("#valence", "cx"), ("#arousal", "cy")):
-            before = page.locator("#affect-dot").get_attribute(axis)
-            page.locator(control).focus()
-            page.keyboard.press("ArrowRight")
-            assert page.locator("#affect-dot").get_attribute(axis) != before
-    if section in ("index", "studies"):
-        detail = page.locator(".step").nth(1)
-        detail.locator("summary").click()
-        assert detail.get_attribute("open") is not None
-    if section == "publications":
+    assert page.locator("input[type=range]").count() == 0
+    if section in ("index", "neuropsychology", "studies"):
+        page.locator("#motion-toggle").wait_for(state="hidden")
+        page.emulate_media(reduced_motion="no-preference")
+        toggle = page.locator("#motion-toggle")
+        toggle.wait_for(state="visible")
+        selector, attr = ("#wave path", "d") if section == "index" else ("#affect-dot", "cx")
+        if section != "studies":
+            marker = page.locator(selector).first
+            before = marker.get_attribute(attr)
+            page.wait_for_function("(x) => document.querySelector(x[0]).getAttribute(x[1]) !== x[2]", arg=[selector, attr, before])
+        if section in ("index", "studies"):
+            assert page.locator(".step h3").count() == 4
+            assert page.locator(".step p").count() == 4
+            page.locator(".step-active").wait_for(state="visible")
+            assert page.locator(".step-active").count() == 1
+            if section == "studies":
+                first = page.locator(".step-active").inner_text()
+                page.wait_for_function("(x) => document.querySelector('.step-active')?.innerText !== x", arg=first, timeout=8000)
+                assert page.locator(".step-active").count() == 1
+        toggle.click()
+        assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
+        if section != "studies":
+            before = marker.get_attribute(attr)
+            page.wait_for_timeout(180)
+            assert marker.get_attribute(attr) == before
+        page.emulate_media(reduced_motion="reduce")
+        # Media-query change events are asynchronous in Chromium and Firefox.
+        toggle.wait_for(state="hidden")
+        page.wait_for_function("() => !document.querySelector('.step-active')")
+        assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
+        if section != "studies":
+            stationary = marker.get_attribute(attr)
+            page.wait_for_timeout(180)
+            assert marker.get_attribute(attr) == stationary
+    if section == "studies":
         assert page.locator(".pub").count() == 9
-        detail = page.locator(".pub").first
-        detail.locator("summary").click()
-        assert detail.get_attribute("open") is not None
+        assert all(page.locator(".pub h3").nth(i).is_visible() for i in range(9))
+        assert page.locator(".pub details").count() == 0
+    if section == "publications":
+        assert page.locator(".article a[href$='studies.html']").count() == 1
     if section == "team":
         assert page.locator(".section-card").count() == 4
 

@@ -52,7 +52,7 @@ def accessibility(browser, base, out):
                 assert page.locator("audio,video").count()==0
                 assert page.locator("header a[hreflang]").count()==2
                 assert page.locator("#theme").get_attribute("id")=="theme"
-                assert page.evaluate("""() => Array.from(document.querySelectorAll('header a, header select, summary, input[type=range]')).filter(e=>e.getClientRects().length).every(e=>{const r=e.getBoundingClientRect();return r.width>=24&&r.height>=24})"""), (name,theme,width,"target size")
+                assert page.evaluate("""() => Array.from(document.querySelectorAll('header a, header select, summary, main button, input[type=range]')).filter(e=>e.getClientRects().length).every(e=>{const r=e.getBoundingClientRect();return r.width>=24&&r.height>=24})"""), (name,theme,width,"target size")
                 page.add_style_tag(content="*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}")
                 assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"text spacing")
                 if width==1440:
@@ -96,22 +96,13 @@ def main():
                         assert page.locator("h1").count()==1 and page.locator("h1").is_visible()
                         assert page.evaluate("""() => {const s=getComputedStyle(document.documentElement);const l=h=>{const a=h.trim().slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return a[0]*.2126+a[1]*.7152+a[2]*.0722};const ratio=(a,b)=>{const x=l(s.getPropertyValue(a)),y=l(s.getPropertyValue(b));return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};return ["--ink","--muted","--accent"].every(a=>["--bg","--paper"].every(b=>ratio(a,b)>=4.5))}"""), (name, theme, "text token contrast")
                         assert not page.locator("header").inner_text().lower().count("arc-music")
-                        if "publications" in name:
+                        assert page.locator("input[type=range]").count()==0
+                        if "studies" in name:
                             assert page.locator(".pub").count()==9
-                            page.locator(".pub summary").first.focus()
-                            page.keyboard.press("Enter")
-                            assert page.locator(".pub").first.get_attribute("open") is not None
+                            assert all(page.locator(".pub h3").nth(i).is_visible() for i in range(9))
                         if "team" in name:
                             assert page.locator(".section-card").count()==4
                             assert page.get_by_role("heading",name="Mateusz Pomianek",exact=True).count()==1
-                        if name in ("index","en"):
-                            before=page.locator("#wave path").first.get_attribute("d")
-                            page.locator("#wave-intensity").focus();page.keyboard.press("ArrowRight")
-                            assert before!=page.locator("#wave path").first.get_attribute("d")
-                        if page.locator("#valence").count():
-                            before=page.locator("#affect-dot").get_attribute("cx")
-                            page.locator("#valence").focus();page.keyboard.press("ArrowRight")
-                            assert before!=page.locator("#affect-dot").get_attribute("cx")
                         page.screenshot(path=out/f"{name}-{theme}-{width}.png",full_page=True,animations="disabled")
                     print(f"PASS: {theme} / {width}: ten pages",flush=True)
                 page.goto(base+"publications.html")
