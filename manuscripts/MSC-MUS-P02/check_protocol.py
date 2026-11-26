@@ -36,4 +36,8 @@ minutes = [int(x) for x in re.findall(r"\|\s*(\d+) min\s*\|", guide)]
 assert len(minutes) == 9 and sum(minutes) == 60, minutes
 assert "ostatniej kwalifikującej się sesji" in guide and "Kontekst i alternatywy" in guide
 assert all((root / p).is_file() for p in ("publication.md","source-readiness.md","fieldwork-protocol-pl.md","analysis-records.md"))
+register = (root / "citation-register.md").read_text(encoding="utf-8")
+registered = re.findall(r"^\| ([a-z]+\d{4}) \|", register, flags=re.M)
+assert len(registered) == len(set(registered)) and set(registered) == set(keys), (set(keys)-set(registered), set(registered)-set(keys))
+assert (root / "independent-review-handoff.md").is_file()
 print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
