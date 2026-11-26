@@ -29,7 +29,13 @@ def design(d):
 def fit(d,outcome):
     a=d.loc[d[outcome].notna()]
     if a.groupby(["authority","manual"]).ngroups!=4:raise ValueError("Missing factorial cell")
-    x=design(a);y=a[outcome].to_numpy(float)
+    return fit_arrays(design(a),a[outcome].to_numpy(float))
+
+def fit_arrays(x,y):
+    x=np.asarray(x,float);y=np.asarray(y,float)
+    if x.ndim!=2 or x.shape[1]!=8 or y.ndim!=1 or len(x)!=len(y) or not np.isfinite(x).all() or not np.isfinite(y).all():raise ValueError("Invalid design or outcome")
+    if not np.isin(x[:,1:3],[-.5,.5]).all() or len(np.unique(x[:,1:3],axis=0))!=4:raise ValueError("Missing or invalid factorial cell")
+    if not np.allclose(x[:,0],1) or not np.allclose(x[:,3],x[:,1]*x[:,2]):raise ValueError("Invalid effect coding")
     n,p=x.shape
     if n<=p or np.linalg.matrix_rank(x)<p:raise ValueError("Insufficient or rank deficient design")
     bread=np.linalg.inv(x.T@x);b=bread@x.T@y
