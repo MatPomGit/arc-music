@@ -10,7 +10,7 @@ LIMITS = {
     "docs/aim-er.md": 3000, "docs/first-study.md": 4000,
     "docs/data-policy.md": 2000,
 }
-PUBLIC = {"index.md", "team.md", "studies.md", "en.md"}
+PUBLIC = {"index.md", "team.md", "studies.md", "publications.md", "en.md"}
 FORBIDDEN = re.compile(
     r"\b(?:AGENTS\.md|TODO|FIXME|PLACEHOLDER|TBD|REPLACE_[A-Z0-9_]+)\b"
     r"|uwagi?\s+redakcyjne|instrukcj\w*\s+dla\s+agent\w*"

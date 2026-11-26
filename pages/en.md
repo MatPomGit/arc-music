@@ -12,4 +12,4 @@ Ewa Sterniczuk initiated the project and leads the research team. Paulina Ficner
 
 Study protocols are currently being developed.
 
-[Polski](index.md)
+[Publications in development (Polish)](publications.md) · [Polski](index.md)
