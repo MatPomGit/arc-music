@@ -1,16 +1,23 @@
 \begin{tikzpicture}[
-  box/.style={draw, rounded corners=2pt, align=center, text width=9.4cm,
-    inner sep=6pt, font=\small},
-  arrow/.style={-{Stealth[length=2mm]}, thick},
-  node distance=5mm]
-\node[box] (context) {Initial conditions: affect, goal, context, individual differences};
-\node[box,below=of context] (process) {Expression and prompting $\rightarrow$ generation $\rightarrow$ appraisal, selection and revision $\rightarrow$ listening or optional sharing};
-\node[box,below=of process] (mechanisms) {Candidate mechanisms: articulation, distance, reappraisal, agency, ownership, musical engagement; frustration, rumination and avoidance};
-\node[box,below=of mechanisms] (outcomes) {Immediate and delayed outcomes: distress, clarity, goal attainment, functioning};
-\node[box,below=of outcomes] (feedback) {Feedback: continue, revise, stop or switch strategy};
-\draw[arrow] (context) -- (process);
-\draw[arrow] (process) -- (mechanisms);
-\draw[arrow] (mechanisms) -- (outcomes);
-\draw[arrow] (outcomes) -- (feedback);
-\draw[arrow] (feedback.west) -- ++(-0.45,0) |- (context.west);
+ box/.style={draw,rounded corners=2pt,align=center,text width=8.1cm,inner sep=5pt,font=\small},
+ arrow/.style={-{Stealth[length=2mm]},thick},
+ ctx/.style={-{Stealth[length=2mm]},dashed},
+ node distance=6mm]
+\node[box] (context) {Baseline goal, affect, context and individual differences};
+\node[box,below=of context] (process) {Creative operation $\rightarrow$ candidate output $\rightarrow$ appraisal};
+\node[box,below=of process] (mechanisms) {Articulation, distance, reappraisal, agency, ownership, engagement; competing frustration and perseveration};
+\node[box,below=of mechanisms] (immediate) {Immediate goal attainment, clarity and affect};
+\node[box,below=of immediate] (delayed) {Delayed affect, functioning and unintended costs};
+\node[box,below=of delayed] (feedback) {Continue, revise, stop or switch; next session};
+\draw[arrow] (context)--(process);
+\draw[arrow] (process)--(mechanisms);
+\draw[arrow] (mechanisms)--(immediate);
+\draw[arrow] (immediate)--(delayed);
+\draw[arrow] (delayed)--(feedback);
+\draw[arrow] (process.east)--++(.6,0)|-(immediate.east);
+\draw[arrow] (process.west)--++(-.6,0) |- ([yshift=3mm]process.north west)--(process.north west);
+\draw[arrow] (feedback.west)--++(-1,0)|-(context.west);
+\draw[ctx] (context.east)--++(1.05,0)|-(mechanisms.east);
+\draw[ctx] (context.east)--++(1.05,0)|-(delayed.east);
+\node[font=\scriptsize,below=2mm of feedback,align=center]{Solid: proposed temporal paths; dashed: context dependencies.\\All paths are hypotheses, not established causal effects.};
 \end{tikzpicture}
