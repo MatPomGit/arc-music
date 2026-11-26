@@ -1,0 +1,22 @@
+field,type,definition
+participant_id,string,opaque unique randomised participant
+music,integer,0 visual or 1 musical
+training,integer,0 less than one year or 1 at least one year
+prior_use_days,integer,0-30
+importance0,integer,0-10
+randomised_at,datetime,offset-aware timestamp
+t1_at,datetime,offset-aware within 0-30 min after randomisation
+t2_at,datetime,offset-aware within 144-192 hours after randomisation
+same_event1,boolean,same event at T1 or unknown
+same_event2,boolean,same event at T2 or unknown
+understanding01,integer,0-10
+understanding02,integer,0-10
+understanding03,integer,0-10
+understanding11,integer,0-10 or missing
+understanding12,integer,0-10 or missing
+understanding13,integer,0-10 or missing
+understanding21,integer,0-10 or missing
+understanding22,integer,0-10 or missing
+understanding23,integer,0-10 or missing
+distance0,integer,0-10
+distance1,integer,0-10 or missing
