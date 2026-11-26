@@ -49,3 +49,7 @@ CI 45894003009 passed at d4209e2. CI 45894330847 on 9daea1e failed one of 47 uni
 ## v0.11.0 implementation
 
 CI 45894529075 passed all unit tests and simulations through invariance at inspection; later steps pending. Downloaded and SHA-256 verified artifact 15152208946 from completed CI 45894186937 (b3590c4); all seven JSON files inspected. Evidence and adverse outcomes recorded in simulation_evidence.md and manuscript. Eight-item first factor correlation coverage was 23/30; weak/high-correlation 35-item conditional CFA yielded 0/8 proper fits. No N selected. Added 60-scenario sharded CFA calibration driver, deterministic seeds, strict aggregation and four unit tests. Large calibration is not automatically launched; reference validation and broader EFA/MI/validity calibration remain open.
+
+## v0.12.0 implementation
+
+Both previous CI runs passed unit tests at inspection and remained in progress. Added selected-count EFA recovery, four factor-count smoke datasets including two with protocol 500 permutations, paired Wald/Fisher-delta/percentile/basic interval comparison, and five regression tests. New results pending. No claim of repaired coverage, increased power, full-pool protocol recovery or selected N. Invariance power, reference estimator, large calibration and scientific review remain open.

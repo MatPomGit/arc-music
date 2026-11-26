@@ -17,6 +17,16 @@ jobs:
       - run: pip install -r manuscripts/MSC-MUS-P05/analysis/requirements.txt
       - run: python3 validate.py
       - run: python3 -m unittest discover -s manuscripts/MSC-MUS-P05/analysis -p 'test_*.py'
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/factor_count_calibration.py --k 2 --items 3 --n 400 --reps 2 --pa-reps 500 > p05-factor-count-protocol-smoke.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/factor_count_calibration.py --k 7 --items 5 --n 400 --reps 2 --pa-reps 20 > p05-factor-count-fullpool-smoke.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/interval_calibration.py --reps 2 --boot 99 > p05-interval-calibration.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p05-recovery-interval-development
+          path: |
+            p05-factor-count-protocol-smoke.json
+            p05-factor-count-fullpool-smoke.json
+            p05-interval-calibration.json
       - run: python3 manuscripts/MSC-MUS-P05/analysis/recovery.py --reps 12 > p05-recovery.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/cfa_calibration.py --reps 8 > p05-cfa-calibration.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/robust_calibration.py --reps 30 --full-reps 3 > p05-robust-calibration.json
