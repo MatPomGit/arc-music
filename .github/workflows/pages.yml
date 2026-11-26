@@ -15,6 +15,7 @@ on:
       - 'pages/**'
       - 'theme-overrides/**'
       - 'mkdocs.yml'
+      - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
       - '.github/workflows/pages.yml'
@@ -49,7 +50,8 @@ jobs:
       - name: Browser layout checks
         run: |
           python -m pip install playwright==1.57.0
-          python check_site.py
+          npm install --prefix "$RUNNER_TEMP/arc-a11y" --ignore-scripts --no-audit --no-fund axe-core@4.10.3
+          AXE_PATH="$RUNNER_TEMP/arc-a11y/node_modules/axe-core/axe.min.js" python check_site.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

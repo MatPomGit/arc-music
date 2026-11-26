@@ -2,12 +2,58 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import os
+import json
 import shutil
 import threading
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parent
 PAGES=("index","team","studies","publications","neuropsychology","en","en-team","en-studies","en-publications","en-neuropsychology")
+def accessibility(browser, base, out):
+    """Additional WCAG checks, separate from the screenshot matrix."""
+    axe_path = Path(os.environ["AXE_PATH"])
+    assert axe_path.is_file(), "Pinned axe-core script missing"
+    report = []
+    failures = []
+    for width in (320, 1440):
+        ctx = browser.new_context(viewport={"width": width, "height": 900}, reduced_motion="reduce")
+        page = ctx.new_page()
+        for theme in ("light", "dark"):
+            page.goto(base + "index.html")
+            page.locator("#theme").select_option(theme)
+            for name in PAGES:
+                assert page.goto(base + name + ".html").ok
+                page.wait_for_function("document.documentElement.dataset.theme === " + repr(theme))
+                page.add_script_tag(path=axe_path)
+                result = page.evaluate("""async () => await axe.run(document, {
+                    runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']}
+                })""")
+                entry = {"page":name,"theme":theme,"width":width,
+                    "violations":[{"id":v["id"],"impact":v["impact"],"nodes":[n["target"] for n in v["nodes"]]} for v in result["violations"]],
+                    "incomplete":[v["id"] for v in result["incomplete"]]}
+                report.append(entry)
+                if entry["violations"]:
+                    failures.append(entry)
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"reflow")
+                page.keyboard.press("Tab")
+                assert page.evaluate("document.activeElement.classList.contains('skip')"), (name,theme,width,"skip link")
+                page.keyboard.press("Enter")
+                assert page.evaluate("document.activeElement.id === 'main'"), (name,theme,width,"skip target")
+                assert page.locator("audio,video").count()==0
+                assert page.locator("header a[hreflang]").count()==2
+                assert page.locator("#theme").get_attribute("id")=="theme"
+                assert page.evaluate("""() => Array.from(document.querySelectorAll('header a, header select, summary, input[type=range]')).filter(e=>e.getClientRects().length).every(e=>{const r=e.getBoundingClientRect();return r.width>=24&&r.height>=24})"""), (name,theme,width,"target size")
+                page.add_style_tag(content="*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}")
+                assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"text spacing")
+                if width==1440:
+                    page.add_style_tag(content="html{font-size:200%!important}")
+                    assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), (name,theme,width,"text resize")
+        ctx.close()
+    (out/"accessibility.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
+    assert not failures, failures
+    print("PASS: 40 axe-core page/theme/viewport checks; keyboard, reflow, spacing and resize",flush=True)
+
 def main():
     assert (ROOT/"site/index.html").is_file()
     server=ThreadingHTTPServer(("127.0.0.1",0),partial(SimpleHTTPRequestHandler,directory=ROOT/"site"))
@@ -64,6 +110,7 @@ def main():
                 assert not errors,errors
                 assert not external,external
                 context.close()
+            accessibility(browser,base,out)
             browser.close()
     finally:
         server.shutdown();server.server_close()
