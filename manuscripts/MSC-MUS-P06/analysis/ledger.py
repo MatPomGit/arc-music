@@ -16,8 +16,10 @@ def parse_time(value):
         raise ValueError("Timezone offset required")
     return pd.Timestamp(x).tz_convert("UTC")
 
-def ledger(frame):
-    required={"participant_id","session_id","local_day",*FLAGS,*TIMES,*PREDICTORS,"interference"}
+def ledger(frame, upper_hours=28):
+    if upper_hours not in (26,28):
+        raise ValueError("Only prespecified follow-up windows are allowed")
+    required={"participant_id","session_id","local_day","activity_id","followup_activity_id","activity_relevant",*FLAGS,*TIMES,*PREDICTORS,"interference"}
     if not required<=set(frame):
         raise ValueError(f"Missing columns: {sorted(required-set(frame))}")
     d=frame.copy()
@@ -30,6 +32,15 @@ def ledger(frame):
     for flag in FLAGS:
         if not d[flag].map(lambda v:isinstance(v,(bool,np.bool_))).all():
             raise ValueError(f"Invalid flag: {flag}")
+    # A unique opaque token per planned activity, never the description.
+    for col in ["activity_id","followup_activity_id"]:
+        d[col]=d[col].map(lambda v: None if pd.isna(v) or not str(v).strip() else str(v).strip())
+    if (d.activity_defined & d.activity_id.isna()).any():
+        raise ValueError("Defined activity requires identifier")
+    if d.loc[d.activity_defined,"activity_id"].duplicated().any():
+        raise ValueError("Activity identifier reused across sessions")
+    if not d.activity_relevant.dropna().map(lambda v:isinstance(v,(bool,np.bool_))).all():
+        raise ValueError("Invalid activity relevance flag")
     for col in PREDICTORS+["interference"]+[c for c in OPTIONAL_SCORES if c in d]:
         v=pd.to_numeric(d[col],errors="raise")
         lo,hi=(1,14) if col=="study_day" else (0,10)
@@ -77,17 +88,22 @@ def ledger(frame):
     d["post_valid"]=post.between(0,15)
     for c in OPTIONAL_SCORES[:3]:
         if c in d: d.loc[~d.post_valid,c]=np.nan
-    follow_status=np.select([d.followup_time.isna(),~follow.between(20,28),
-                             d.interference.isna()],
-                            ["no_followup","outside_window","missing_score"],
+    same_activity=d.activity_id.notna() & d.followup_activity_id.notna() & d.activity_id.eq(d.followup_activity_id)
+    relevant=d.activity_relevant.map(lambda v: bool(v) if pd.notna(v) else False)
+    follow_status=np.select([d.followup_time.isna(),~follow.between(24,upper_hours),
+                             ~same_activity,d.activity_relevant.isna(),~relevant,d.interference.isna()],
+                            ["no_followup","outside_window","activity_mismatch","relevance_unknown","activity_no_longer_relevant","missing_score"],
                             default="observed")
     d["followup_status"]=follow_status
     d["interference_raw"]=d.interference
     d.loc[d.followup_status.ne("observed"),"interference"]=np.nan
+    if "activity_completed" in d:
+        d["activity_completed"]=d["activity_completed"].astype("boolean")
+        d.loc[d.followup_status.ne("observed"),"activity_completed"]=pd.NA
     return d
 
-def analysis_ledger(frame):
-    d=ledger(frame)
+def analysis_ledger(frame, upper_hours=28):
+    d=ledger(frame, upper_hours=upper_hours)
     return d.loc[d.session_status.eq("eligible")].copy()
 
 def flow_counts(d):

@@ -14,6 +14,9 @@ def row(**overrides):
            followup_time="2026-11-02T10:25:00+01:00",avoidance=5,distress_pre=4,
            expected_difficulty=3,interference=2,distress_post=3,brooding=4)
     r.update(overrides)
+    r.setdefault("activity_id","a-"+r["session_id"])
+    r.setdefault("followup_activity_id",r["activity_id"])
+    r.setdefault("activity_relevant",True)
     return r
 
 class TestLedger(unittest.TestCase):
@@ -50,6 +53,30 @@ class TestLedger(unittest.TestCase):
         d=pd.DataFrame([row(),row(session_id="s2",eligible_first=False,
             start_time="2026-11-01T09:00:00+01:00")])
         with self.assertRaisesRegex(ValueError,"contradicts"):
+            ledger(d)
+    def test_early_followup_is_missing(self):
+        a=analysis_ledger(pd.DataFrame([row(followup_time="2026-11-02T09:25:00+01:00")]))
+        self.assertEqual(len(a),1)
+        self.assertEqual(a.iloc[0].followup_status,"outside_window")
+        self.assertTrue(pd.isna(a.iloc[0].interference))
+    def test_activity_mismatch(self):
+        a=analysis_ledger(pd.DataFrame([row(followup_activity_id="another")]))
+        self.assertEqual(a.iloc[0].followup_status,"activity_mismatch")
+        self.assertTrue(pd.isna(a.iloc[0].interference))
+    def test_activity_no_longer_relevant(self):
+        a=analysis_ledger(pd.DataFrame([row(activity_relevant=False)]))
+        self.assertEqual(a.iloc[0].followup_status,"activity_no_longer_relevant")
+        self.assertTrue(pd.isna(a.iloc[0].interference))
+    def test_unknown_relevance(self):
+        a=analysis_ledger(pd.DataFrame([row(activity_relevant=None)]))
+        self.assertEqual(a.iloc[0].followup_status,"relevance_unknown")
+    def test_narrow_window(self):
+        d=pd.DataFrame([row(followup_time="2026-11-02T13:25:00+01:00")])
+        self.assertEqual(ledger(d).iloc[0].followup_status,"observed")
+        self.assertEqual(ledger(d,upper_hours=26).iloc[0].followup_status,"outside_window")
+    def test_reused_activity_token(self):
+        d=pd.DataFrame([row(),row(session_id="s2",activity_id="a-s",eligible_first=False)])
+        with self.assertRaisesRegex(ValueError,"identifier reused"):
             ledger(d)
     def test_end_to_end(self):
         g,x,y=draw(np.random.default_rng(42),40,6,.3,missing=0)

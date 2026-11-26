@@ -8,3 +8,5 @@
 - The previous CI failed because publication.md exceeded 500 characters. It was shortened without changing repository validation. Remaining gates: full calibration, missing-ledger implementation, ethics, instruments, bibliography and independent review.
 
 Update v0.4.0: the raw-session ledger now enforces the timing rules and preserves missing follow-ups. Primary observations are not conditioned on post-response completion. The session-ledger CLI is implemented. Recruitment/consent, activity identifiers across follow-ups, independent daily check-ins and field data capture are still separate implementation gates.
+
+Version 0.10.0 supersedes earlier follow-up timing and activity-identity descriptions. The primary window is 24–28 h from session end, with 24–26 h sensitivity. Opaque identifiers must match; unknown relevance and cancelled activities remain missing outcomes.

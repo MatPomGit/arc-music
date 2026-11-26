@@ -31,6 +31,7 @@ class TestP06(unittest.TestCase):
     def fixture(self):
         return pd.DataFrame([dict(participant_id="p",session_id="s",
           local_day="2026-11-01",eligible_first=True,activity_defined=True,
+          activity_id="a1",followup_activity_id="a1",activity_relevant=True,
           pre_time="2026-11-01T10:00:00+01:00",
           start_time="2026-11-01T10:00:00+01:00",
           end_time="2026-11-01T10:25:00+01:00",
@@ -60,6 +61,7 @@ class TestP06(unittest.TestCase):
     def test_duplicate_day(self):
         d=pd.concat([self.fixture(),self.fixture()],ignore_index=True)
         d.loc[1,"session_id"]="s2"
+        d.loc[1,"activity_id"]="a2"
         with self.assertRaisesRegex(ValueError,"one eligible"):
             eligible_rows(d)
 

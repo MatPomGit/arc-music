@@ -9,7 +9,10 @@ end_time,session,datetime,actual session end offset required,end
 post_time,session,datetime,timezone offset required,post
 followup_time,session,datetime,timezone offset required,followup
 eligible_first,session,boolean,prospectively selected first eligible session,pre
-activity_defined,session,boolean,valued action planned within 24 h,pre
+activity_defined,session,boolean,valued action planned for first 24 h after session end,pre
+activity_id,session,string,unique opaque token assigned at pre assessment,pre
+followup_activity_id,session,string,token of assessed original activity,followup
+activity_relevant,session,boolean,original activity still applicable or missing if unknown,followup
 avoidance,session,integer,0-10,pre
 distress_pre,session,integer,0-10,pre
 expected_difficulty,session,integer,0-10,pre
