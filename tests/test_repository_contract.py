@@ -8,7 +8,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-ROOT=Path(__file__).resolve().parents[1]
+from template_fixture import template_root
+ROOT = template_root()
 sys.path.insert(0,str(ROOT/"scripts"))
 from validate_repository import validate, github_repo_url, safe_public_page_url
 from build_public_catalog import render, write_catalog

@@ -10,7 +10,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from template_fixture import template_root
+ROOT = template_root()
 sys.path.insert(0, str(ROOT/"scripts"))
 import _generator_io
 from _generator_io import write_batch

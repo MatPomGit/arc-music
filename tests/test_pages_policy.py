@@ -8,7 +8,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from template_fixture import template_root
+ROOT = template_root()
 SPEC = importlib.util.spec_from_file_location(
     "arc_pages_check", ROOT / "scripts/validate_pages.py")
 validator = importlib.util.module_from_spec(SPEC)
