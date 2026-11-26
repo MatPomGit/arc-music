@@ -11,7 +11,7 @@ permissions:
 jobs:
   protocol:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,6 +29,7 @@ jobs:
           "$RUNNER_TEMP/p04-venv/bin/python" -m unittest -v
           "$RUNNER_TEMP/p04-venv/bin/python" power.py > power-results.json
           "$RUNNER_TEMP/p04-venv/bin/python" simulation.py --reps 250 --imputations 10 > simulation-results.json
+          "$RUNNER_TEMP/p04-venv/bin/python" calibration.py --reps 120 --imputations 10 > calibration-results.json
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
@@ -49,4 +50,5 @@ jobs:
             manuscripts/MSC-MUS-P04/exact-head.txt
             manuscripts/MSC-MUS-P04/analysis/power-results.json
             manuscripts/MSC-MUS-P04/analysis/simulation-results.json
+            manuscripts/MSC-MUS-P04/analysis/calibration-results.json
           if-no-files-found: error
