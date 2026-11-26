@@ -9,6 +9,7 @@ import numpy as np
 from scipy.linalg import cho_factor,cho_solve,solve_triangular
 from scipy.stats import truncnorm,t,norm
 from robust_cfa import robust_fit
+from chain_diagnostics import summarize
 
 def _validate(x,z):
     x=np.asarray(x,float); z=np.asarray(z,float)
@@ -83,7 +84,7 @@ def impute(x,z,m=50,sweeps=100,gibbs_steps=5,delta=0.,seed=20261126):
             obs=~missing[:,j]
             y[~obs,j]=rng.choice(y[obs,j],size=(~obs).sum())
             states[j]=State(np.zeros(p+z.shape[1]),np.array([0.,.6,1.2,1.8]))
-        trace=[]
+        trace=[]; item_traces={str(j):[] for j in states}
         for sweep in range(sweeps):
             for j in rng.permutation(list(states)):
                 obs=~missing[:,j]
@@ -93,10 +94,12 @@ def impute(x,z,m=50,sweeps=100,gibbs_steps=5,delta=0.,seed=20261126):
                 y[~obs,j]=np.digitize(latent,state.cuts)
             if sweep>=sweeps//2:
                 trace.append(float(y[missing].mean()) if missing.any() else None)
+                for j in states:
+                    item_traces[str(j)].append(float(y[missing[:,j],j].mean()))
         if not np.array_equal(y[~missing],x[~missing]) or not np.isin(y,np.arange(5)).all():
             raise ArithmeticError("imputation violated observed/category constraints")
         result.append(y.astype(int))
-        diagnostics.append({"missing_mean_trace":trace,
+        diagnostics.append({"missing_mean_trace":trace,"item_mean_traces":item_traces,
                             "final_missing_means":[float(y[missing[:,j],j].mean())
                             if missing[:,j].any() else None for j in range(p)]})
     return result,diagnostics
@@ -138,4 +141,4 @@ def fit_multiple(x,z,domains,**kwargs):
     # Strict gate: excluding failed draws can bias pooling.
     pooled=rubin_pool([f.parameters for f in fits],[f.covariance for f in fits]) if not failures else None
     return {"requested":len(completed),"proper":len(fits),"failures":failures,
-            "pooled":pooled,"diagnostics":diagnostics}
+            "pooled":pooled,"diagnostics":diagnostics,"chain_screen":summarize(diagnostics)}

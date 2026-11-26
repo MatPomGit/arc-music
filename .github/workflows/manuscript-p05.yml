@@ -23,6 +23,7 @@ jobs:
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/selection_calibration.py --reps 30 > p05-selection-calibration.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_calibration.py --reps 30 > p05-invariance-calibration.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/imputation_calibration.py --reps 8 --m 5 --sweeps 20 > p05-imputation-calibration.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/fit_calibration.py --reps 30 > p05-fit-calibration.json
       - uses: actions/upload-artifact@v4
         with:
           name: p05-synthetic-development
@@ -33,6 +34,7 @@ jobs:
             p05-selection-calibration.json
             p05-invariance-calibration.json
             p05-imputation-calibration.json
+            p05-fit-calibration.json
       - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends lmodern texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended biber latexmk
       - working-directory: manuscripts/MSC-MUS-P05
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

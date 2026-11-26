@@ -33,3 +33,7 @@ CI 45893153993 passed at 002c0a6. CI 45893355394 on ca681f8 still in progress at
 ## v0.7.0 implementation
 
 CI 45893710926 at becaf6e passed computational steps when checked; final PDF status pending. Added ordinal probit FCS, independent chains, delta sensitivity, Rubin parameter pooling, strict failure accounting, six unit tests and 24 synthetic datasets for smoke calibration. Convergence, congeniality, coverage and full-pool MI remain unverified. Robust fit indices, independent reference estimator, final sample-size calibration and scientific review remain open.
+
+## v0.8.0 implementation
+
+CI 45894003009 on d4209e2 passed unit tests at inspection; simulations and PDF were still in progress. Added common-metric baseline/target discrepancy diagnostics, trace correction explicitly distinguished from validated robust CFI/TLI/RMSEA, rank/folded split R-hat, approximate ESS and seven regression tests. Paired synthetic calibration configured for 90 datasets. Full sample-size calibration, reference software comparison, RMSEA interval, joint FCS convergence, validity contrasts and scientific review remain outstanding. No participant results.
