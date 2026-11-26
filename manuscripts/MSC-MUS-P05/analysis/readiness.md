@@ -29,3 +29,7 @@ CI 45893153993 at 002c0a6 passed validator and unit tests at time of inspection;
 ## v0.6.0 implementation
 
 CI 45893153993 passed at 002c0a6. CI 45893355394 on ca681f8 still in progress at inspection. New affine-linked ordinal group diagnostics with joint influence covariance, four regression tests and 120 synthetic two-group datasets are implemented. They do not constitute an independent validation of ordinal invariance. Final nested multi-group model, reference comparison, robust CFI/TLI/RMSEA, item-level MI and sample-size/coverage calibration remain open. No latent mean comparisons or participant results authorized.
+
+## v0.7.0 implementation
+
+CI 45893710926 at becaf6e passed computational steps when checked; final PDF status pending. Added ordinal probit FCS, independent chains, delta sensitivity, Rubin parameter pooling, strict failure accounting, six unit tests and 24 synthetic datasets for smoke calibration. Convergence, congeniality, coverage and full-pool MI remain unverified. Robust fit indices, independent reference estimator, final sample-size calibration and scientific review remain open.
