@@ -1,16 +1,30 @@
-# ARC-MUSIC
+# ARC-MUSIC | AI, muzyka i emocje
 
-Psychologia twórczości muzycznej wspomaganej przez generatywną AI. Projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+Czy tworzenie muzyki z generatywną AI może pomagać ludziom wyrażać emocje, rozumieć własne doświadczenia i nadawać im znaczenie? Kiedy sprzyja regulacji emocji, a kiedy może utrwalać ruminację lub unikanie?
+
+ARC-MUSIC to projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA. Jego wyróżnikiem jest badanie rzeczywistych doświadczeń społeczności twórców muzyki AI z wykorzystaniem metod jakościowych i ilościowych.
+
+## Kierunki badań
+
+- Motywacje, ekspresja i regulacja emocji.
+- Aleksytymia, sprawstwo i poczucie autorstwa.
+- Dobrostan, ruminacja i znaczenie autobiograficzne.
+
+[Model AIM-ER](docs/aim-er.md) · [Plan pierwszych badań](docs/first-study.md) · [Manuskrypty](manuscripts/)
 
 ## Zespół
 
-- Ewa Sterniczuk – pomysłodawczyni i liderka; rekrutacja społeczności twórców muzyki AI, ankiety i wywiady.
-- Paulina Ficner – współbadaczka; komunikacja wizualna, grafika i UI/UX.
-- dr inż. Mateusz Pomianek – współbadacz; metodologia, psychometria, analiza danych i technologia.
-- dr hab. Cezary Biele – nadzór merytoryczny; opiekun naukowy koła i kierownik Centrum.
+| Osoba | Rola |
+| --- | --- |
+| Ewa Sterniczuk | Pomysłodawczyni i liderka projektu |
+| Paulina Ficner | Współbadaczka, komunikacja wizualna i UX |
+| dr inż. Mateusz Pomianek | Współbadacz, metodologia i analiza danych |
+| dr hab. Cezary Biele | Nadzór merytoryczny, opiekun koła i kierownik Centrum |
 
-## Badania
+## Open Science
 
-[Model AIM-ER](docs/aim-er.md) · [Pierwsze badania](docs/first-study.md) · [Manuskrypty](manuscripts/) · [Dane badawcze](docs/data-policy.md).
+Dążymy do prerejestracji hipotez i planów analiz, udostępniania protokołów, kodu i materiałów w granicach praw autorskich oraz raportowania również wyników niezgodnych z hipotezami. Dane uczestników pozostają w instytucjonalnym OneDrive VIZJA. [Zasady dostępu do danych](docs/data-policy.md).
 
-Dyskusje prowadzimy na Discordzie. Dane uczestników przechowujemy na OneDrive VIZJA. GitHub służy do wspólnej pracy nad dokumentami i artykułami. Źródła strony znajdują się w `pages/`, manuskrypty LaTeX w `manuscripts/`.
+Projekt jest na etapie przygotowania badań. Zapraszamy do merytorycznej dyskusji i współpracy naukowej. Zasady licencjonowania materiałów wymagają uzgodnienia przez zespół.
+
+*ARC-MUSIC explores the psychology of AI-assisted music creation through creators' lived experiences, combining qualitative and quantitative research at VIZJA University.*

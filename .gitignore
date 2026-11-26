@@ -21,3 +21,5 @@ transcripts/
 *.fdb_latexmk
 *.synctex.gz
 *.pdf
+*.desktop
+*.url
