@@ -148,6 +148,16 @@ def shift_imputed(x,y,completed,offset0,offset1,slope):
     result[:,missing]=np.clip(result[:,missing]+offset[missing],0,10)
     return result
 
+def robustness_label(mar, sensitivity):
+    """Directional grid label, never a claim of identification under MNAR."""
+    if len(sensitivity) != 27:
+        raise ValueError("Full prespecified grid required")
+    if mar["lower"] > 0:
+        return "ROBUST_POSITIVE" if all(q["lower"]>0 for q in sensitivity) else "SENSITIVITY_DEPENDENT_POSITIVE"
+    if mar["upper"] < 0:
+        return "ROBUST_NEGATIVE" if all(q["upper"]<0 for q in sensitivity) else "SENSITIVITY_DEPENDENT_NEGATIVE"
+    return "INCONCLUSIVE"
+
 def analyze(x,y,m=50,seed=20261126,grid=True):
     w=target_weights(x)
     b,v,df=fit_hc3(x,y)
@@ -161,4 +171,5 @@ def analyze(x,y,m=50,seed=20261126,grid=True):
         result["sensitivity"]=[{"offset_control":i,"offset_scaffold":j,"differential_slope":s,
              **pooled_contrast(x,shift_imputed(x,y,completed,i,j,s),w)}
              for i in (-2,0,2) for j in (-2,0,2) for s in (-1,0,1)]
+        result["robustness_label"]=robustness_label(pooled,result["sensitivity"])
     return result
