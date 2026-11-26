@@ -58,7 +58,25 @@ def theme_state(page, theme):
 
 def check_interactions(page, section):
     assert page.locator("input[type=range]").count() == 0
-    if section in ("index", "neuropsychology", "studies"):
+    if section == "neuropsychology":
+        assert page.locator("#motion-toggle").count() == 0
+        assert page.locator(".article > h2").count() >= 7
+        assert page.locator(".article a[href^='https://doi.org/']").count() >= 9
+        if page.viewport_size["width"] >= 1200:
+            assert page.locator(".article").bounding_box()["width"] >= 850
+        marker = page.locator("#affect-dot")
+        before = marker.get_attribute("cx")
+        page.wait_for_timeout(180)
+        assert marker.get_attribute("cx") == before
+        page.emulate_media(reduced_motion="no-preference")
+        page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=before)
+        page.wait_for_function("() => document.documentElement.classList.contains('motion-paused')", timeout=4900)
+        stationary = marker.get_attribute("cx")
+        page.wait_for_timeout(180)
+        assert marker.get_attribute("cx") == stationary
+        page.emulate_media(reduced_motion="reduce")
+        page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'")
+    if section in ("index", "studies"):
         page.locator("#motion-toggle").wait_for(state="hidden")
         page.emulate_media(reduced_motion="no-preference")
         toggle = page.locator("#motion-toggle")
