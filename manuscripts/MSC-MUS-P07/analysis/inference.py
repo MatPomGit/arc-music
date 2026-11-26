@@ -117,7 +117,10 @@ def model_set(d):
         models[key]=safe_fit(a,outcome,predictors)
     return models
 
-def analyze(frame, sensitivity_draws=100):
+def analyze(frame, sensitivity_draws=100, schedule=None):
+    if schedule is not None:
+        from schedule import reconcile
+        frame=reconcile(schedule,frame)
     d,a=prepare(frame)
     models=model_set(d)
     pvalues={key:models[key].get("estimate",{}).get("p") for key in ["H2","H3"]}
@@ -132,6 +135,10 @@ def analyze(frame, sensitivity_draws=100):
                 models=models,secondary_holm=holm(pvalues),common_subset=shared,
                 timing_sensitivity={"baseline_minutes":[0,5],"followup60_minutes":[60,65],
                                     "followup180_minutes":[180,185],"models":model_set(narrow)})
+    result["schedule_verified"]=schedule is not None
+    if schedule is not None:
+        result["response_records_received"]=int(frame.response_record_received.sum())
+        result["scheduled_without_response_record"]=int((~frame.response_record_received).sum())
     if "estimate" in models["H1"]:result["primary"]=models["H1"]["estimate"]
     else:result["primary_unavailable"]=models["H1"]["unavailable"]
     from sensitivity import assess
@@ -140,5 +147,7 @@ def analyze(frame, sensitivity_draws=100):
     return result
 
 if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()
-    print(json.dumps(analyze(pd.read_csv(a.csv,dtype={"participant_id":str,"window_id":str})),indent=2,allow_nan=False))
+    p=argparse.ArgumentParser();p.add_argument("csv");p.add_argument("--schedule",required=True);a=p.parse_args()
+    d=pd.read_csv(a.csv,dtype={"participant_id":str,"window_id":str})
+    s=pd.read_csv(a.schedule,dtype={"participant_id":str,"window_id":str})
+    print(json.dumps(analyze(d,schedule=s),indent=2,allow_nan=False))
