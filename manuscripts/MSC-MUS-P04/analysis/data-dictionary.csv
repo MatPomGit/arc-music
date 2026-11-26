@@ -16,3 +16,5 @@ agency_t1,T1,integer 0 to 10 or missing,exploratory
 completed,T1,binary,postassignment process measure
 suggestions_used,T1,binary or missing,postassignment process measure
 clarity_t2,T2,integer 0 to 10 or missing,exploratory
+meaningful_sketch,T1,binary or missing,confirmed presence or absence distinct from technical completion
+expressive_success,T1,integer 0 to 10 or missing,derived primary composite
