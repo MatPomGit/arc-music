@@ -25,10 +25,9 @@ for(const n of nodes)card.append(n);grid.append(card);
 // One local animation clock; no user input is required.
 const wave=document.querySelector("#wave"), dot=document.querySelector("#affect-dot");
 const paths=wave?Array.from(wave.querySelectorAll("path")):[];
-const projection=dot?Object.fromEntries(["proj-x","proj-y","axis-x","axis-y","value-x","value-y"].map(k=>[k,document.getElementById("affect-"+k)])):null;
+const projection=dot?Object.fromEntries(["proj-x","proj-y","axis-x","axis-y","value-x","value-y","point-label","point-x","point-y"].map(k=>[k,document.getElementById("affect-"+k)])):null;
 const coordinateFormat=new Intl.NumberFormat(en?"en":"pl",{minimumFractionDigits:2,maximumFractionDigits:2,signDisplay:"exceptZero"});
 const steps=Array.from(document.querySelectorAll(".step"));
-const toggle=document.querySelector("#motion-toggle");
 const motion=document.querySelector("#motion-preference"), motionStatus=document.querySelector("#motion-status");
 const motionKey="arc-music-neuro-motion";
 if(wave||dot||steps.length){
@@ -54,7 +53,15 @@ if(wave||dot||steps.length){
       ["value-x","value-y"].forEach((key,i)=>{
         const value=coordinateFormat.format(Math.round(values[i]*100)/100||0);
         if(projection[key].textContent!==value)projection[key].textContent=value;
+        const live=projection[i===0?"point-x":"point-y"];
+        if(live.textContent!==value)live.textContent=value;
       });
+      // The wrapper has exactly the SVG viewBox aspect ratio. Percent coordinates
+      // keep the HTML label attached to the marker at every viewport and zoom.
+      const label=projection["point-label"];
+      label.style.setProperty("--point-x",((Number(x)-20)/300*100)+"%");
+      label.style.setProperty("--point-y",((Number(y)-20)/250*100)+"%");
+      label.dataset.side=Number(x)>170?"left":"right";
     }
     const active=Math.floor(t/3200)%Math.max(1,steps.length);
     steps.forEach((step,i)=>step.classList.toggle("step-active",!reduced.matches&&i===active));
@@ -75,14 +82,9 @@ if(wave||dot||steps.length){
       motionStatus.dataset.state=state;
       if(motionStatus.textContent!==messages[state])motionStatus.textContent=messages[state];
     }
-    if(toggle){
-      toggle.hidden=reduced.matches;
-      toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");
-    }
     if(reduced.matches){draw(0);lastDraw=-Infinity;return}
     if(!paused&&!document.hidden)frame=requestAnimationFrame(tick);
   }
-  if(toggle)toggle.addEventListener("click",()=>{paused=!paused;sync()});
   if(motion)motion.addEventListener("change",()=>{paused=motion.value==="off";save(motionKey,motion.value);sync()});
   reduced.addEventListener("change",()=>{draw(reduced.matches?0:elapsed);sync()});
   document.addEventListener("visibilitychange",sync);

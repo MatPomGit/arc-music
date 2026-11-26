@@ -63,7 +63,15 @@ def check_projections(page):
       const n=(id,a)=>+document.getElementById('affect-'+id).getAttribute(a);
       const x=n('dot','cx'), y=n('dot','cy');
       const value=id=>Number(document.getElementById('affect-value-'+id).textContent.replace(',', '.'));
-      return n('proj-x','x1')===x && n('proj-x','y1')===y && n('proj-x','x2')===x && n('proj-x','y2')===145
+      const label=document.getElementById('affect-point-label'), wrap=label.parentElement;
+      const r=label.getBoundingClientRect(), w=wrap.getBoundingClientRect(), dot=document.getElementById('affect-dot').getBoundingClientRect();
+      const nearX=label.dataset.side==='left'?Math.abs(r.right-dot.right+dot.width/2):Math.abs(r.left-dot.left-dot.width/2);
+      const nearY=Math.abs((r.top+r.bottom)/2-(dot.top+dot.bottom)/2);
+      const localized=id=>document.getElementById('affect-point-'+id).textContent===document.getElementById('affect-value-'+id).textContent;
+      return localized('x') && localized('y') && nearX<=17 && nearY<=1
+        && r.left>=w.left-1 && r.right<=w.right+1 && r.top>=w.top-1 && r.bottom<=w.bottom+1
+        && label.getAttribute('aria-hidden')==='true'
+        && n('proj-x','x1')===x && n('proj-x','y1')===y && n('proj-x','x2')===x && n('proj-x','y2')===145
         && n('proj-y','x1')===x && n('proj-y','y1')===y && n('proj-y','x2')===170 && n('proj-y','y2')===y
         && n('axis-x','cx')===x && n('axis-x','cy')===145 && n('axis-y','cx')===170 && n('axis-y','cy')===y
         && Math.abs(value('x')-(x-170)/140)<=.0051 && Math.abs(value('y')-(145-y)/115)<=.0051;
@@ -72,6 +80,7 @@ def check_projections(page):
 
 def check_interactions(page, section):
     assert page.locator("input[type=range]").count() == 0
+    assert page.locator("#motion-toggle, .motion-controls").count() == 0
     if section in ("index", "neuropsychology"):
         check_projections(page)
     if section == "neuropsychology":
@@ -109,41 +118,39 @@ def check_interactions(page, section):
         assert marker.get_attribute("cx") == "170.00"
         check_projections(page)
     if section in ("index", "studies"):
-        page.locator("#motion-toggle").wait_for(state="hidden")
+        preference = page.locator("#motion-preference")
+        assert preference.count() == 1
         page.emulate_media(reduced_motion="no-preference")
-        toggle = page.locator("#motion-toggle")
-        toggle.wait_for(state="visible")
-        selector, attr = ("#wave path", "d") if section == "index" else ("#affect-dot", "cx")
-        if section != "studies":
-            marker = page.locator(selector).first
-            before = marker.get_attribute(attr)
-            page.wait_for_function("(x) => document.querySelector(x[0]).getAttribute(x[1]) !== x[2]", arg=[selector, attr, before])
+        preference.select_option("on")
         if section == "index":
+            marker = page.locator("#wave path").first
+            before = marker.get_attribute("d")
+            page.wait_for_function("(x) => document.querySelector('#wave path').getAttribute('d') !== x", arg=before)
             check_projections(page)
-        if section in ("index", "studies"):
-            assert page.locator(".step h3").count() == 4
-            assert page.locator(".step p").count() == 4
-            page.locator(".step-active").wait_for(state="visible")
+        assert page.locator(".step h3").count() == 4
+        assert page.locator(".step p").count() == 4
+        page.locator(".step-active").wait_for(state="visible")
+        assert page.locator(".step-active").count() == 1
+        if section == "studies":
+            first = page.locator(".step-active").inner_text()
+            page.wait_for_function("(x) => document.querySelector('.step-active')?.innerText !== x", arg=first, timeout=8000)
             assert page.locator(".step-active").count() == 1
-            if section == "studies":
-                first = page.locator(".step-active").inner_text()
-                page.wait_for_function("(x) => document.querySelector('.step-active')?.innerText !== x", arg=first, timeout=8000)
-                assert page.locator(".step-active").count() == 1
-        toggle.click()
+        preference.select_option("off")
         assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
-        if section != "studies":
-            before = marker.get_attribute(attr)
+        if section == "index":
+            before = marker.get_attribute("d")
             page.wait_for_timeout(180)
-            assert marker.get_attribute(attr) == before
+            assert marker.get_attribute("d") == before
+            check_projections(page)
+        preference.select_option("on")
         page.emulate_media(reduced_motion="reduce")
-        # Media-query change events are asynchronous in Chromium and Firefox.
-        toggle.wait_for(state="hidden")
         page.wait_for_function("() => !document.querySelector('.step-active')")
         assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
-        if section != "studies":
-            stationary = marker.get_attribute(attr)
+        if section == "index":
+            stationary = marker.get_attribute("d")
             page.wait_for_timeout(180)
-            assert marker.get_attribute(attr) == stationary
+            assert marker.get_attribute("d") == stationary
+            check_projections(page)
     if section == "studies":
         assert page.locator(".pub").count() == 9
         assert all(page.locator(".pub h3").nth(i).is_visible() for i in range(9))
@@ -247,6 +254,14 @@ def check_motion_regressions(browser, base, out=None):
         advance(page, 12800)
         assert page.locator(".step-active").inner_text() == stage0
         assert page.locator(".step-active").count() == 1
+
+        # Check attachment and bounds over the complete orbit on a narrow phone.
+        page.set_viewport_size({"width":320,"height":900})
+        page.goto(base + "index.html")
+        for t in range(0,6401,160):
+            advance(page,t)
+            check_projections(page)
+        page.set_viewport_size({"width":1440,"height":900})
 
         # Persist an explicit preference across reload and reciprocal language routes.
         page.goto(base + "neuropsychology.html")

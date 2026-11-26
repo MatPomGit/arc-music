@@ -23,6 +23,8 @@ def check_contrast(page):
         const labels=[...figure.querySelectorAll('.affect-label')];
         if(labels.length!==4||plot.querySelector('text'))throw Error('Missing scalable HTML axis labels');
         for(const [j,label] of labels.entries())record('plot label '+j,style(label).color,style(figure).backgroundColor,4.5);
+        const readout=figure.querySelector('.affect-point-label');
+        record('point coordinate readout',style(readout).color,style(readout).backgroundColor,4.5);
         const dot=plot.querySelector('#affect-dot');
         const axis=plot.querySelector('path');
         for(const [i,b] of surfaces.entries()){
