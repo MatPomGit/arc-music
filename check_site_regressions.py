@@ -23,6 +23,8 @@ def check_contrast(page):
         const labels=[...figure.querySelectorAll('.affect-label')];
         if(labels.length!==4||plot.querySelector('text'))throw Error('Missing scalable HTML axis labels');
         for(const [j,label] of labels.entries())record('plot label '+j,style(label).color,style(figure).backgroundColor,4.5);
+        const readout=figure.querySelector('.affect-point-label');
+        record('point coordinate readout',style(readout).color,style(readout).backgroundColor,4.5);
         const dot=plot.querySelector('#affect-dot');
         const axis=plot.querySelector('path');
         for(const [i,b] of surfaces.entries()){
@@ -35,6 +37,10 @@ def check_contrast(page):
           const s=style(input),bg=style(input.closest('.feature')).backgroundColor;
           for(const token of ['--track','--thumb'])record(input.id+' '+token,s.getPropertyValue(token).trim(),bg,3);
         }
+      }
+      for(const panel of document.querySelectorAll('.research-publications .pub')){
+        const bg=style(panel).backgroundColor;
+        for(const e of panel.querySelectorAll('h3,h4,p'))record(panel.id+' '+e.tagName,style(e).color,bg,4.5);
       }
       return records;
     }""")
@@ -74,6 +80,18 @@ def check_study_content(page):
         assert panel.locator(".pub-body p").count() == 2
         assert panel.locator(".pub-target").is_visible()
         assert all(len(s.strip()) >= 80 for s in panel.locator(".pub-body p").all_text_contents())
+    palettes = article.locator(".pub").evaluate_all("""nodes => nodes.map(e => ({
+      bg:getComputedStyle(e).backgroundColor, edge:getComputedStyle(e).borderTopColor,
+      description:parseFloat(getComputedStyle(e.querySelector('.pub-body p')).fontSize),
+      question:parseFloat(getComputedStyle(e.querySelector('.pub-question')).fontSize),
+      root:parseFloat(getComputedStyle(document.documentElement).fontSize)
+    }))""")
+    assert len({p["bg"] for p in palettes}) >= 4
+    assert all(a["bg"] != b["bg"] and a["edge"] != b["edge"] for a,b in zip(palettes,palettes[1:]))
+    assert all(.9*p["root"] <= p["description"] < p["question"] for p in palettes)
+    assert "PAQ-S" in article.locator("#msc-mus-p04").inner_text()
+    assert "480" in article.locator("#msc-mus-p03").inner_text()
+    assert all(len(s.strip()) >= 180 for s in article.locator("#msc-mus-p01 .pub-body p, #msc-mus-p02 .pub-body p, #msc-mus-p03 .pub-body p, #msc-mus-p04 .pub-body p").all_text_contents())
     assert article.locator(".pub-list").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length") == 1
     assert article.locator(".section-card:last-child p").count() >= 1
     # Compare the full source article to the transformed article, including status.
