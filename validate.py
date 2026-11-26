@@ -15,6 +15,9 @@ PUBLIC = {"index.md", "team.md", "studies.md", "publications.md", "en.md",
           "neuropsychology.md", "en-neuropsychology.md"}
 ASSETS = {"language.js", "style.css"}
 REFERENCES = {
+    "https://doi.org/10.1017/S0140525X08005293",
+    "https://doi.org/10.1126/science.1231059",
+    "https://doi.org/10.1080/1047840X.2014.940781",
     "https://doi.org/10.1038/nrn3666",
     "https://doi.org/10.1038/nn.2726",
     "https://doi.org/10.1111/j.1467-9280.2007.01916.x",
@@ -37,6 +40,8 @@ def check(root=ROOT):
     limits.update({f"pages/{name}": 2000 for name in PUBLIC})
     # Research pages now contain nine expanded bilingual manuscript cards.
     limits.update({"pages/studies.md": 7000, "pages/en-studies.md": 7000})
+    # Expanded bilingual scientific overview; retain an explicit finite budget.
+    limits.update({"pages/neuropsychology.md": 7500, "pages/en-neuropsychology.md": 7500})
     for path in (root / "docs").glob("*.md"):
         limits.setdefault(path.relative_to(root).as_posix(), 4000)
     for name, limit in sorted(limits.items()):
