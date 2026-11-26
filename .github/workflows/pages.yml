@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'pages/**'
+      - 'theme-overrides/**'
       - 'mkdocs.yml'
       - 'requirements-site.txt'
       - 'validate.py'
@@ -35,6 +36,7 @@ jobs:
           test -f site/index.html
           test -f site/neuropsychology.html
           test -f site/en-neuropsychology.html
+          cmp theme-overrides/js/darkmode.js site/js/darkmode.js
       - name: Browser layout checks
         run: |
           python -m pip install playwright==1.57.0
