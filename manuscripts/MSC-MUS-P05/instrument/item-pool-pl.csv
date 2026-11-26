@@ -1,0 +1,36 @@
+item_id,domain,wording,status
+EXP01,EXP,"wyrażeniu emocji, które trudno było mi przekazać inaczej",candidate
+EXP02,EXP,"nadaniu muzycznej formy temu, co czułem lub czułam",candidate
+EXP03,EXP,"uzewnętrznieniu przeżywanych uczuć",candidate
+EXP04,EXP,"przedstawieniu mojego stanu emocjonalnego w twórczej formie",candidate
+EXP05,EXP,"wyrażeniu uczuć bez konieczności opowiadania o nich wprost",candidate
+REF01,REF,"przyjrzeniu się temu, co dla mnie znaczyło dane przeżycie",candidate
+REF02,REF,"rozważeniu innego spojrzenia na moje doświadczenie",candidate
+REF03,REF,"zastanowieniu się nad źródłem moich uczuć",candidate
+REF04,REF,"uporządkowaniu myśli dotyczących przeżycia",candidate
+REF05,REF,"poszukiwaniu powiązań między moimi uczuciami a sytuacją",candidate
+MOD01,MOD,"wpływaniu na intensywność moich emocji",candidate
+MOD02,MOD,"próbie zmiany mojego nastroju",candidate
+MOD03,MOD,"próbie uzyskania pożądanego stanu emocjonalnego",candidate
+MOD04,MOD,"dostosowaniu mojego pobudzenia emocjonalnego do potrzeb chwili",candidate
+MOD05,MOD,"kształtowaniu tego, jak chciałem lub chciałam się czuć",candidate
+DIV01,DIV,"chwilowemu skierowaniu uwagi na inne sprawy",candidate
+DIV02,DIV,"zrobieniu przerwy od myślenia o trudnym przeżyciu",candidate
+DIV03,DIV,"skupieniu uwagi na samym procesie twórczym zamiast na troskach",candidate
+DIV04,DIV,"chwilowemu odsunięciu emocjonalnych zmartwień z centrum uwagi",candidate
+DIV05,DIV,"zajęciu myśli czymś innym na czas sesji",candidate
+SOC01,SOC,"przygotowaniu sposobu opowiedzenia innym o moich uczuciach",candidate
+SOC02,SOC,"poszukiwaniu formy, w której ktoś mógłby zrozumieć moje przeżycie",candidate
+SOC03,SOC,"wyrażeniu tego, co chciałem lub chciałam przekazać konkretnej osobie",candidate
+SOC04,SOC,"przygotowaniu się do dzielenia emocjonalnym doświadczeniem",candidate
+SOC05,SOC,"nawiązaniu emocjonalnego kontaktu z innymi poprzez muzykę",candidate
+PER01,PER,"powracaniu do tego samego emocjonalnego wątku",candidate
+PER02,PER,"ponownemu przeżywaniu tej samej sytuacji w kolejnych próbach",candidate
+PER03,PER,"utrzymywaniu uwagi na jednym przeżyciu przez kolejne wersje",candidate
+PER04,PER,"wielokrotnemu odtwarzaniu w myślach tego samego uczucia",candidate
+PER05,PER,"dalszemu zajmowaniu się tym samym tematem emocjonalnym",candidate
+AVO01,AVO,"odłożeniu zajęcia się sprawą, która wywoływała emocje",candidate
+AVO02,AVO,"unikaniu rozmowy o trudnej sytuacji",candidate
+AVO03,AVO,"odsuwaniu decyzji dotyczącej problemu emocjonalnego",candidate
+AVO04,AVO,"zastępowaniu konfrontacji z problemem kolejną sesją twórczą",candidate
+AVO05,AVO,"pozostawieniu trudnej sprawy bez rozpatrzenia",candidate

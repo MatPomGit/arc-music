@@ -1,0 +1,18 @@
+name: MSC-MUS-P05 checks
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P05/**'
+      - '.github/workflows/manuscript-p05.yml'
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 validate.py
+      - run: python3 -m unittest discover -s manuscripts/MSC-MUS-P05/analysis -p 'test_*.py'
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended biber latexmk
+      - working-directory: manuscripts/MSC-MUS-P05
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

@@ -1,0 +1,7 @@
+# Analysis plan and reproducibility
+
+Prospective only. The canonical statistical protocol is in sections/analysis.tex. The Python module provides only preliminary correlation planning and defensive domain-scoring functions. It is not an ordinal EFA/CFA implementation, does not establish factor recovery, and cannot validate the instrument.
+
+Before recruitment implement and independently verify polychoric/ordinal parallel analysis, ordinal CFA with robust DWLS, ordinal reliability and bootstrap inference, missing-data procedures, and sample-size simulation. A Python implementation must be benchmarked against a trusted independent ordinal estimator; normal-theory CFA on raw scores is not a substitute. Freeze estimator version, seeds, category thresholds, factor correlation matrices, minimum group sizes and acceptance rules. At least 1000 replicates per core scenario and 2000 near decision boundaries; report Monte Carlo uncertainty. Grid: N 250/400/500/650/800; loadings .40/.60/.75; factor correlations .20/.50/.80; balanced vs skewed categories; 0/10/20% missing (MCAR/MAR plus MNAR sensitivity); include cross-loadings/local dependence and rare-category stress. Record convergence, improper estimates, factor recovery, bias, coverage and external validity power. Simulation is not participant data.
+
+Run from repository root: python3 -m unittest discover -s manuscripts/MSC-MUS-P05/analysis -p 'test_*.py'; python3 validate.py.
