@@ -1,15 +1,15 @@
-# Music, emotion and artificial intelligence
+# The psychology of AI-assisted music creation
 
-ARC-MUSIC is a research project of the Digital Psychology Student Research Group within the Centre for Digital Psychology at VIZJA University.
+ARC-MUSIC grew out of accounts from users of music generators who describe songwriting as a means of expressing difficult emotions and making sense of personal experiences.
 
-We investigate how AI-assisted music creation relates to emotional expression, emotion regulation, creative agency and autobiographical meaning.
+The project examines emotion regulation, creative agency and the meaning attributed to AI-assisted musical works. Initial studies will combine individual interviews with a survey of music creators. Subsequent diary studies and experiments will address emotional changes over time and the role of creative control.
+
+ARC-MUSIC is a project of the Digital Psychology Student Research Group within the Centre for Digital Psychology at VIZJA University.
 
 ## Research team
 
-Ewa Sterniczuk (project lead and concept originator), Paulina Ficner and Mateusz Pomianek (researchers). Scientific supervision: Cezary Biele, head of the Centre for Digital Psychology and academic supervisor of the student research group.
+Ewa Sterniczuk initiated the project and leads the research team. Paulina Ficner contributes to research, visual communication and user experience design. Mateusz Pomianek contributes expertise in methodology, psychometrics and data analysis. Cezary Biele, head of the Centre and academic supervisor of the student research group, provides scientific supervision.
 
-## Research directions
-
-Qualitative interviews, surveys and future longitudinal and experimental studies will address the experiences of music creators, creative control and both adaptive and maladaptive emotion regulation. Research is currently in preparation.
+Study protocols are currently being developed.
 
 [Polski](index.md)

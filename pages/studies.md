@@ -1,15 +1,15 @@
-# Kierunki badań
+# Program badań
 
 ## Doświadczenia twórców
 
-Badania jakościowe i ankietowe dotyczące motywacji, ekspresji emocjonalnej i sposobów korzystania z generatorów muzyki.
+Pierwsze badanie obejmie wywiady z użytkownikami generatorów muzyki. Przedmiotem analizy będą motywy twórczości, okoliczności powstawania utworów i znaczenie, jakie uczestnicy przypisują im w kontekście osobistych doświadczeń.
 
 ## Regulacja emocji
 
-Model AIM-ER opisuje hipotetyczne mechanizmy łączące proces twórczy z jasnością emocjonalną, reinterpretacją, sprawstwem, ruminacją i unikaniem.
+Badanie ankietowe posłuży ocenie związków między sposobami korzystania z generatorów muzyki, aleksytymią, regulacją emocji, ruminacją i dobrostanem. Model AIM-ER porządkuje hipotezy dotyczące mechanizmów tych zależności.
 
-## Współtworzenie i autorstwo
+## Sprawstwo i autorstwo
 
-Interesuje nas znaczenie osobistego wkładu, wyboru i edycji utworu oraz sposobu interpretowania własnych doświadczeń.
+W kolejnych badaniach planujemy analizę znaczenia osobistego wkładu w tworzenie utworu oraz kontroli nad jego ostateczną postacią. Badania dzienniczkowe pozwolą rozpatrywać zmiany emocjonalne w czasie.
 
-Projekt jest na etapie przygotowania badań.
+Projekt znajduje się na etapie opracowania protokołów badawczych.
