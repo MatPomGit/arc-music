@@ -10,11 +10,19 @@ on:
       - 'validate.py'
       - 'check_site.py'
       - '.github/workflows/pages.yml'
+  pull_request:
+    paths:
+      - 'pages/**'
+      - 'theme-overrides/**'
+      - 'mkdocs.yml'
+      - 'validate.py'
+      - 'check_site.py'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   build:
@@ -50,6 +58,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
       - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
         with:
           path: site
   deploy:

@@ -1,0 +1,47 @@
+<!doctype html>
+{% set src = page.file.src_uri if page else 'index.md' %}
+{% set en = src == 'en.md' or src.startswith('en-') %}
+{% set section = src.replace('en-', '').replace('.md','') %}
+{% if section == 'en' %}{% set section = 'index' %}{% endif %}
+{% set plfile = section + '.html' %}
+{% set enfile = 'en.html' if section == 'index' else 'en-' + section + '.html' %}
+{% set navs = [('index','O projekcie','About'),('team','Zespół','Team'),('studies','Program badań','Research'),('publications','Publikacje','Publications'),('neuropsychology','Muzyka i mózg','Music & brain')] %}
+<html lang="{{ 'en' if en else 'pl' }}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title if page else config.site_name }}</title>
+<meta name="description" content="{{ 'Research on emotion regulation and AI-assisted music creation.' if en else 'Badania nad regulacją emocji i twórczością muzyczną wspomaganą przez AI.' }}">
+<link rel="stylesheet" href="style.css"><script src="language.js" defer></script>
+</head>
+<body data-section="{{ section }}">
+<a class="skip" href="#main">{{ 'Skip to content' if en else 'Przejdź do treści' }}</a>
+<header class="masthead"><div class="header-inner">
+<a class="mark" href="{{ 'en.html' if en else 'index.html' }}" aria-label="{{ 'Home' if en else 'Strona główna' }}">
+<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="19" fill="#126b70"/><path d="M13 33 Q18 16 23 33 T33 33 T43 33 T53 33" fill="none" stroke="#ffcf93" stroke-width="4" stroke-linecap="round"/><path d="M14 43 Q23 51 32 43 T50 43" fill="none" stroke="#b1e1d5" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="17" r="4" fill="#f4a5bc"/></svg>
+</a>
+<nav aria-label="{{ 'Main navigation' if en else 'Nawigacja główna' }}" class="nav">
+{% for id,pl,english in navs %}<a href="{{ ('en.html' if id == 'index' else 'en-' + id + '.html') if en else id + '.html' }}"{% if id == section %} aria-current="page"{% endif %}>{{ english if en else pl }}</a>{% endfor %}
+</nav>
+<div class="controls"><div class="languages" aria-label="{{ 'Language' if en else 'Język' }}"><a href="{{ plfile }}" lang="pl" hreflang="pl" aria-label="Polski"{% if not en %} aria-current="page"{% endif %}>PL</a><a href="{{ enfile }}" lang="en" hreflang="en" aria-label="English"{% if en %} aria-current="page"{% endif %}>EN</a></div>
+<label class="theme-label"><span class="visually-hidden">{{ 'Colour theme' if en else 'Motyw kolorystyczny' }}</span><select id="theme"><option value="auto">{{ 'System' if en else 'System' }}</option><option value="light">{{ 'Light' if en else 'Jasny' }}</option><option value="dark">{{ 'Dark' if en else 'Ciemny' }}</option></select></label>
+</div></div></header>
+<main id="main" class="shell" tabindex="-1">
+{% if section == 'index' %}
+<div class="hero"><div class="hero-copy"><p class="eyebrow">{{ 'Psychology · Music · Artificial intelligence' if en else 'Psychologia · Muzyka · Sztuczna inteligencja' }}</p><h1>{{ 'When emotion takes the form of music' if en else 'Kiedy emocje przybierają formę muzyki' }}</h1><p class="lead">{{ 'We study how making music with generative AI relates to emotion regulation, agency and personal meaning.' if en else 'Badamy związki twórczości muzycznej wspomaganej przez generatywną AI z regulacją emocji, sprawstwem i nadawaniem znaczenia doświadczeniom.' }}</p><a class="cta" href="{{ 'en-studies.html' if en else 'studies.html' }}">{{ 'Explore the research' if en else 'Poznaj program badań' }} <span aria-hidden="true">↗</span></a></div>
+<div class="art"><svg id="wave" viewBox="0 0 560 380" role="img" aria-label="{{ 'Illustrative sound waves' if en else 'Ilustracyjne fale dźwiękowe' }}"><defs><linearGradient id="wave-gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#68d6ca"/><stop offset=".42" stop-color="#b7a7ee"/><stop offset=".72" stop-color="#f29bb7"/><stop offset="1" stop-color="#f9bd72"/></linearGradient></defs><g fill="none" stroke="url(#wave-gradient)" stroke-width="2" opacity=".85">{% for i in range(20) %}<path d="M -12 {{ 95+i*9 }} C 130 {{ -85+i*13 }}, 175 {{ 430-i*8 }}, 285 {{ 180+i*2 }} S 450 {{ 55+i*5 }}, 575 {{ 140+i*6 }}"/>{% endfor %}</g><circle cx="280" cy="190" r="122" fill="none" stroke="#ffffff" stroke-opacity=".13"/><circle cx="280" cy="190" r="155" fill="none" stroke="#ffffff" stroke-opacity=".1"/></svg><label class="wave-control">{{ 'Wave intensity' if en else 'Intensywność fali' }} <input id="wave-intensity" type="range" min="0" max="100" value="50"></label><p class="art-note">{{ 'Illustration · no audio' if en else 'Ilustracja · bez dźwięku' }}</p></div></div>
+{% endif %}
+<article class="article">{{ page.content }}</article>
+{% if section == 'index' or section == 'studies' %}
+<section class="feature" aria-labelledby="model-title"><p class="eyebrow">{{ 'Theoretical model · hypothesis' if en else 'Model teoretyczny · hipoteza' }}</p><h2 id="model-title">AIM-ER</h2><p>{{ 'AI-assisted Music for Emotion Regulation: a proposed framework for examining the successive stages of music creation and listening.' if en else 'AI-assisted Music for Emotion Regulation: proponowany model badania kolejnych etapów twórczości muzycznej i słuchania własnego utworu.' }}</p>
+<div class="steps">
+{% set stages = [('Doświadczenie','Experience','Indywidualne predyspozycje, motywy i kontekst emocjonalny.','Individual dispositions, motives and emotional context.'),('Wyrażanie','Expression','Nazywanie emocji i formułowanie tekstu lub polecenia.','Affect labelling and writing lyrics or prompts.'),('Tworzenie','Creation','Generowanie, wybór i edycja; możliwe poczucie sprawstwa.','Generation, selection and editing; potential sense of agency.'),('Słuchanie','Listening','Możliwa reinterpretacja, dystans lub utrwalanie ruminacji.','Potential reappraisal, distancing or continued rumination.')] %}
+{% for pl,eng,descpl,descen in stages %}<details class="step"{% if loop.first %} open{% endif %}><summary><span class="number">0{{ loop.index }}</span>{{ eng if en else pl }}</summary><p>{{ descen if en else descpl }}</p></details>{% endfor %}</div>
+<p class="small">{{ 'Possible mechanisms are not established causal pathways. Immediate relief and delayed effects may differ.' if en else 'Możliwe mechanizmy nie są ustalonymi zależnościami przyczynowymi. Doraźna ulga i odroczone skutki mogą się różnić.' }}</p></section>
+{% endif %}
+{% if section == 'neuropsychology' or section == 'index' %}
+<section class="feature affect" aria-labelledby="affect-title"><div><p class="eyebrow">{{ 'Conceptual illustration' if en else 'Ilustracja pojęciowa' }}</p><h2 id="affect-title">{{ 'A space of emotions' if en else 'Przestrzeń emocji' }}</h2><p>{{ 'Explore two dimensions of affect: pleasantness (valence) and activation (arousal). Positions are illustrative; they do not diagnose emotions or represent participant data.' if en else 'Poznaj dwa wymiary afektu: przyjemność (walencję) i pobudzenie. Położenie punktu ma charakter ilustracyjny i nie służy diagnozie.' }}</p><div class="sliders"><label>{{ 'Valence' if en else 'Walencja' }} <input id="valence" type="range" min="-100" max="100" value="0"></label><label>{{ 'Arousal' if en else 'Pobudzenie' }} <input id="arousal" type="range" min="-100" max="100" value="0"></label></div><output id="affect-output" aria-live="polite"></output></div>
+<svg class="affect-plot" viewBox="0 0 340 290" role="img" aria-label="{{ 'Valence and arousal axes' if en else 'Osie walencji i pobudzenia' }}"><rect x="30" y="30" width="140" height="115" rx="12" fill="#a64d77" opacity=".2"/><rect x="170" y="30" width="140" height="115" rx="12" fill="#ce8050" opacity=".25"/><rect x="30" y="145" width="140" height="115" rx="12" fill="#7468a8" opacity=".24"/><rect x="170" y="145" width="140" height="115" rx="12" fill="#44a29c" opacity=".25"/><path d="M30 145H310 M170 30V260" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 4"/><g fill="currentColor" font-size="12" text-anchor="middle"><text x="170" y="19">{{ 'High arousal' if en else 'Wysokie pobudzenie' }}</text><text x="170" y="278">{{ 'Low arousal' if en else 'Niskie pobudzenie' }}</text><text x="98" y="53">{{ 'Unpleasant' if en else 'Nieprzyjemne' }}</text><text x="242" y="53">{{ 'Pleasant' if en else 'Przyjemne' }}</text></g><circle id="affect-dot" cx="170" cy="145" r="9" fill="currentColor" stroke="#fff" stroke-width="2"/></svg></section>
+{% endif %}
+</main>
+<footer class="footer"><div><span class="eyebrow">{{ 'Research project' if en else 'Projekt badawczy' }}</span><p>{{ 'Digital Psychology Student Research Group · Centre for Digital Psychology · VIZJA University' if en else 'Koło Naukowe Psychologii Cyfrowej · Centrum Psychologii Cyfrowej · Uniwersytet VIZJA' }}</p></div><a href="#main">{{ 'Back to top' if en else 'Do góry' }} ↑</a></footer>
+</body></html>

@@ -102,7 +102,7 @@ def check(root=ROOT):
         errors.append("Missing or unsafe theme overrides")
     else:
         entries = {p.relative_to(overrides).as_posix() for p in overrides.rglob("*")}
-        if entries != {"js", "js/darkmode.js", "js/base.js"}:
+        if entries != {"main.html", "js", "js/darkmode.js", "js/base.js"}:
             errors.append("Unexpected theme override files")
         for name in ("darkmode.js", "base.js"):
             theme_script = overrides / "js" / name
