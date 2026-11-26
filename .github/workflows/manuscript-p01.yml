@@ -29,6 +29,7 @@ jobs:
         run: |
           "$RUNNER_TEMP/aim-er-venv/bin/python" -m unittest -v
           "$RUNNER_TEMP/aim-er-venv/bin/python" design_checks.py > design-results.json
+          OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" longitudinal_checks.py > longitudinal-results.json
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
@@ -51,4 +52,5 @@ jobs:
             manuscripts/MSC-MUS-P01/word-count.txt
             manuscripts/MSC-MUS-P01/source-tree.txt
             manuscripts/MSC-MUS-P01/analysis/design-results.json
+            manuscripts/MSC-MUS-P01/analysis/longitudinal-results.json
           if-no-files-found: error
