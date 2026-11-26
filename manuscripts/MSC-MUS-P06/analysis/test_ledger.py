@@ -96,5 +96,7 @@ class TestLedger(unittest.TestCase):
         self.assertEqual(r["flow"]["followup_status"]["missing_score"],60)
         self.assertEqual(r["missingness"]["reps"],5)
         self.assertEqual(len(r["secondary"]),3)
+        self.assertTrue(r["timing_sensitivity"]["same_complete_sessions"])
+        self.assertEqual(r["primary"],r["timing_sensitivity"]["estimate"])
 
 if __name__=="__main__":unittest.main()
