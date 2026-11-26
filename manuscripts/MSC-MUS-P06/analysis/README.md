@@ -1,6 +1,6 @@
 # P06 prospective analysis contract
 
-Version 0.11.0. No participant data. Owner: Mateusz Pomianek.
+Version 0.13.0. No participant data. Owner: Mateusz Pomianek.
 
 The primary target is the within-person slope of pre-session avoidance on interference with a predeclared valued activity at 24 h, adjusted for pre-session distress, expected difficulty and study day. First eligible session per local day; eligibility determined before exposure outcome. Restrict primary complete-case analysis to timestamp-valid sessions with at least two observations per person. Do not select sessions according to relief or completed activity.
 
@@ -19,3 +19,5 @@ Activity tokens must match and relevance must be confirmed. A missing, mismatche
 
 ## Denominator analysis
 Run `python analyze.py session-log.csv --enrollment enrollment.csv --checkins checkins.csv --bootstrap 499`. See daily-data-dictionary.csv. Enrollment specifies a 14-day calendar and optional effective withdrawal date (first date with no further collection). Evening check-in asks for all naturally initiated AI music sessions that local day, including unlogged sessions. A missing count or check-in is unknown, never zero. Counts conflicting with logged starts are flagged; report separately. The positive count discrepancy is a lower bound of unlogged sessions, not an outcome imputation. No raw text is collected. Window sensitivity compares the same prespecified model at 24–26 h against 24–28 h. The narrow-window estimate can be unavailable if too few clusters remain. No field collection application is implemented.
+
+Prespecified subset sensitivity now reports estimates excluding logged starts in the preceding 24 h, starts in the fixed outcome period, both, and sessions without confirmed absence of technical failure. These are descriptive selection-sensitive comparisons, not causal adjustments; absence of a log is not proof of absence of creation. See ethics-protocol.md for approval gates. No field collection has been enabled.

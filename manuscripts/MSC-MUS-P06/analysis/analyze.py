@@ -6,6 +6,7 @@ from inference import fit_arrays,PREDICTORS
 from secondary import secondary
 from sensitivity import cluster_bootstrap
 from daily import daily_ledger,summarize
+from robustness import robustness
 
 def analyze(frame,reps=499,seed=2606,enrollment=None,checkins=None):
     if (enrollment is None)!=(checkins is None):
@@ -23,6 +24,7 @@ def analyze(frame,reps=499,seed=2606,enrollment=None,checkins=None):
         result["timing_sensitivity"]["same_complete_sessions"]=set(n.session_id)==set(complete.session_id)
     except (ValueError,ArithmeticError) as exc:
         result["timing_sensitivity"]["unavailable"]=str(exc)
+    result["robustness"]=robustness(d)
     if enrollment is not None:
         result["daily_denominators"]=summarize(daily_ledger(enrollment,checkins,d))
     else:
