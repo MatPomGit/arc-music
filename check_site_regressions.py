@@ -28,6 +28,8 @@ def check_contrast(page):
         for(const [i,b] of surfaces.entries()){
           record('plot axis / surface '+i,style(axis).stroke,b,3);
           record('plot marker / surface '+i,style(dot).fill,b,3);
+          for(const line of plot.querySelectorAll('.affect-projections line'))record(line.id+' / surface '+i,style(line).stroke,b,3);
+          for(const point of plot.querySelectorAll('.affect-projections circle'))record(point.id+' / surface '+i,style(point).fill,b,3);
         }
         for(const input of document.querySelectorAll('.sliders input')){
           const s=style(input),bg=style(input.closest('.feature')).backgroundColor;
