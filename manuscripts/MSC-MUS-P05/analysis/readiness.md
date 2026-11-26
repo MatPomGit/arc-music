@@ -13,3 +13,7 @@ Assessment is the existing target; its assessment science focus and registered-r
 ## v0.2.0 implementation
 
 The previous CI passed repository validation and initial unit tests but failed LaTeX because lmodern.sty was absent. The workflow now installs lmodern explicitly. Development ordinal EFA and synthetic recovery code are implemented; independent numerical checks, CI results and full-pool calibration remain pending. Robust ordinal CFA remains unimplemented. No participant data or simulated results are asserted before execution.
+
+## v0.3.0 implementation
+
+CI 45892064058: all steps passed, including repository validation, unit tests, development simulation and PDF build. Artifact metadata confirmed exact HEAD f2be72f54c6f9da37e5117b01f844660ad80cc14. New conditional-weight ordinal CFA, participant-bootstrap interface and two reliability estimands are implemented. Full 35-item synthetic smoke scenarios are wired into CI. New results remain pending. Robust WLSMV, confidence-interval coverage, independent comparison, empirical content validation and permissions remain open.
