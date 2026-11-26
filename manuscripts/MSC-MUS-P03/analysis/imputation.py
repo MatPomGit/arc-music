@@ -90,18 +90,31 @@ def pool(estimates):
                 fraction_missing_information_approx=float(fraction))
 
 
+def shift_outcome(completed, missing_outcome, delta, slope=0.0):
+    """Pattern-mixture shift: delta + slope*(expression-5)/5, only missing outcomes."""
+    shifted = completed.copy()
+    adjustment = delta + slope*(shifted.loc[missing_outcome,"motive_expression"]-5)/5
+    shifted.loc[missing_outcome,"clarity_post"] = (
+        shifted.loc[missing_outcome,"clarity_post"]+adjustment).clip(0,10)
+    return shifted
+
+
 def sensitivity(raw,m=50,sweeps=15,seed=1729):
     data,_ = prepare(raw)
-    estimates = {delta: [] for delta in DELTAS}
+    # Slope denotes the additional shift at expression=10 relative to expression=5.
+    # Shared imputations avoid Monte Carlo noise in comparisons across scenarios.
+    grid = [(delta,0) for delta in DELTAS] + [
+        (delta,slope) for delta in (-1,0,1) for slope in (-2,-1,1,2)]
+    estimates = {key: [] for key in grid}
     for completed, missing_outcome in draw_imputations(data,m,sweeps,seed):
-        for delta in DELTAS:
-            shifted = completed.copy()
-            shifted.loc[missing_outcome,"clarity_post"] = (
-                shifted.loc[missing_outcome,"clarity_post"]+delta).clip(0,10)
-            estimates[delta].append(fit(shifted,"H1"))
+        for delta,slope in grid:
+            shifted = shift_outcome(completed,missing_outcome,delta,slope)
+            estimates[(delta,slope)].append(fit(shifted,"H1"))
     return {"eligible_n":len(data),"missing_clarity_n":int(data.clarity_post.isna().sum()),
             "seed":seed,"sweeps":sweeps,"method":"bootstrap chained donor matching",
-            "scenarios":[{"delta":delta,**pool(estimates[delta])} for delta in DELTAS]}
+            "scenarios":[{"delta":delta,**pool(estimates[(delta,0)])} for delta in DELTAS],
+            "differential_scenarios":[{"delta":delta,"slope":slope,**pool(estimates[(delta,slope)])}
+                                      for delta,slope in grid if slope != 0]}
 
 
 if __name__ == "__main__":
