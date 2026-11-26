@@ -42,6 +42,12 @@ def check_contrast(page):
         const bg=style(panel).backgroundColor;
         for(const e of panel.querySelectorAll('h3,h4,p'))record(panel.id+' '+e.tagName,style(e).color,bg,4.5);
       }
+      const flow=document.querySelector('.generative-flow');
+      if(flow){
+        const bg=style(flow).backgroundColor;
+        for(const e of flow.querySelectorAll('.gen-labels span, figcaption'))record('AI flow text',style(e).color,bg,4.5);
+        for(const [sel,attr] of [['.gen-input','fill'],['.gen-latent','fill'],['.gen-pulses','fill'],['.gen-wave','stroke']])record('AI flow '+sel,style(flow.querySelector(sel))[attr],bg,3);
+      }
       return records;
     }""")
     assert all(r["ratio"] >= r["min"] for r in evidence), evidence

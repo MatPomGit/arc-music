@@ -32,6 +32,20 @@
 <div class="art"><svg id="wave" viewBox="0 0 560 380" role="img" aria-label="{{ 'Illustrative sound waves' if en else 'Ilustracyjne fale dźwiękowe' }}"><defs><linearGradient id="wave-gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#68d6ca"/><stop offset=".42" stop-color="#b7a7ee"/><stop offset=".72" stop-color="#f29bb7"/><stop offset="1" stop-color="#f9bd72"/></linearGradient></defs><g fill="none" stroke="url(#wave-gradient)" stroke-width="2" opacity=".85">{% for i in range(20) %}<path d="M -12 {{ 95+i*9 }} C 130 {{ -85+i*13 }}, 175 {{ 430-i*8 }}, 285 {{ 180+i*2 }} S 450 {{ 55+i*5 }}, 575 {{ 140+i*6 }}"/>{% endfor %}</g><circle cx="280" cy="190" r="122" fill="none" stroke="#ffffff" stroke-opacity=".13"/><circle cx="280" cy="190" r="155" fill="none" stroke="#ffffff" stroke-opacity=".1"/></svg><div class="wave-panel"><p class="wave-control">{{ 'Wave intensity' if en else 'Intensywność fali' }}</p><p id="wave-note" class="art-note">{{ 'Illustration · no audio' if en else 'Ilustracja · bez dźwięku' }}</p></div></div></div>
 {% endif %}
 <article class="article">{% if section == "index" %}{{ page.content | replace("<h1", "<h2") | replace("</h1>", "</h2>") }}{% else %}{{ page.content }}{% endif %}</article>
+{% if section == 'index' %}
+<figure class="generative-flow" aria-describedby="generative-description">
+<svg id="generative-network" viewBox="0 0 340 120" aria-hidden="true" focusable="false">
+<g class="gen-edges" fill="none" stroke-width="1"><path d="M66 31L145 18 M66 31L145 55 M66 31L145 92 M66 55L145 18 M66 55L145 55 M66 55L145 92 M66 79L145 18 M66 79L145 55 M66 79L145 92 M145 18L193 34 M145 18L193 76 M145 55L193 34 M145 55L193 76 M145 92L193 34 M145 92L193 76 M193 34L242 55 M193 76L242 55"/></g>
+<g class="gen-input"><circle cx="66" cy="31" r="5"/><circle cx="66" cy="55" r="5"/><circle cx="66" cy="79" r="5"/></g>
+<g class="gen-latent"><circle cx="145" cy="18" r="5"/><circle cx="145" cy="55" r="5"/><circle cx="145" cy="92" r="5"/><circle cx="193" cy="34" r="5"/><circle cx="193" cy="76" r="5"/></g>
+<g class="gen-pulses"><circle cx="66" cy="31" r="3" data-gen-pulse="0"/><circle cx="145" cy="92" r="3" data-gen-pulse="1"/><circle cx="193" cy="34" r="3" data-gen-pulse="2"/></g>
+<path id="gen-wave" class="gen-wave" d="M242 55 Q248 27 255 55 T269 55 T283 55 T297 55 T311 55 T325 55" fill="none" stroke-width="2.4" stroke-linecap="round"/>
+</svg>
+<div class="gen-labels" aria-hidden="true"><span>{{ 'Emotional intention' if en else 'Intencja emocjonalna' }}</span><span>{{ 'Latent representation' if en else 'Reprezentacja latentna' }}</span><span>{{ 'Music generation' if en else 'Generowanie muzyki' }}</span></div>
+<figcaption>{{ 'from intention to music' if en else 'od intencji do muzyki' }}</figcaption>
+<span id="generative-description" class="visually-hidden">{{ 'Conceptual illustration of emotional intention, latent representation and music generation; not a specific AI architecture or live generation.' if en else 'Ilustracja pojęciowa przejścia od intencji emocjonalnej przez reprezentację latentną do muzyki; nie przedstawia konkretnej architektury AI ani generowania na żywo.' }}</span>
+</figure>
+{% endif %}
 {% if section == 'index' or section == 'studies' %}
 <section class="feature" aria-labelledby="model-title"><p class="eyebrow">{{ 'Theoretical model · hypothesis' if en else 'Model teoretyczny · hipoteza' }}</p><h2 id="model-title">AIM-ER <span class="aim-er-expansion">(AI-assisted Music for Emotion Regulation)</span></h2><p>{{ 'A proposed framework for examining the successive stages of music creation and listening.' if en else 'Proponowany model badania kolejnych etapów twórczości muzycznej i słuchania własnego utworu.' }}</p>
 <div class="steps">

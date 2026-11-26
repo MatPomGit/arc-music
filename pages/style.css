@@ -155,3 +155,15 @@ body[data-section=studies] .research-publications .pub-list{grid-template-column
 .affect-point-label[data-side=left]{left:calc(var(--point-x,50%) - 16px);transform:translate(-100%,-50%)}
 .affect-point-label strong{font-weight:650;white-space:nowrap}
 .controls{flex-wrap:wrap}
+
+/* Compact conceptual AI illustration: theme-aware, local, shared motion clock. */
+.generative-flow{width:min(100%,36rem);margin:clamp(20px,4vw,48px) auto;padding:clamp(14px,2.4vw,24px);border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);color:var(--ink);box-shadow:var(--shadow);text-align:center;min-width:0}
+.generative-flow svg{display:block;width:100%;height:auto}
+.gen-edges{stroke:var(--muted);opacity:.45}
+.gen-input{fill:var(--accent)}
+.gen-latent{fill:var(--lavender)}
+.gen-pulses{fill:var(--gold)}
+.gen-wave{stroke:var(--accent)}
+.gen-labels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem;font-size:.875rem;line-height:1.35;color:var(--ink)}
+.gen-labels span{min-width:0;overflow-wrap:anywhere}
+.generative-flow figcaption{font-size:.875rem;color:var(--muted);margin-top:.7rem;line-height:1.4}

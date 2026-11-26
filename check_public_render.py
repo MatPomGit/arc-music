@@ -81,6 +81,13 @@ def check_projections(page):
 def check_interactions(page, section):
     assert page.locator("input[type=range]").count() == 0
     assert page.locator("#motion-toggle, .motion-controls").count() == 0
+    assert page.locator(".generative-flow").count() == (1 if section == "index" else 0)
+    if section == "index":
+        lang = page.locator("html").get_attribute("lang")
+        assert page.locator(".generative-flow figcaption").inner_text() == (
+            "from intention to music" if lang == "en" else "od intencji do muzyki")
+        assert page.locator(".generative-flow input, .generative-flow button").count() == 0
+        assert page.locator("[data-gen-pulse]").count() == 3
     if section in ("index", "neuropsychology"):
         check_projections(page)
     if section == "neuropsychology":
@@ -226,6 +233,16 @@ def check_motion_regressions(browser, base, out=None):
         page.goto(base + "index.html")
         advance(page, 0)
         wave0 = wave_geometry(page)
+        gen_frame = lambda: page.locator("[data-gen-pulse]").evaluate_all(
+            "nodes => nodes.map(e => ['cx','cy','opacity'].map(a => e.getAttribute(a)))")
+        gen0 = gen_frame()
+        gen_wave0 = page.locator("#gen-wave").get_attribute("d")
+        advance(page, 800)
+        assert gen_frame() != gen0
+        assert page.locator("#gen-wave").get_attribute("d") != gen_wave0
+        advance(page, 2720)
+        assert gen_frame() == gen0, "Generative animation does not close its cycle"
+        assert page.locator("#gen-wave").get_attribute("d") == gen_wave0
         initial = point(page)
         stage0 = page.locator(".step-active").inner_text()
         advance(page, 3184)
@@ -254,6 +271,22 @@ def check_motion_regressions(browser, base, out=None):
         advance(page, 12800)
         assert page.locator(".step-active").inner_text() == stage0
         assert page.locator(".step-active").count() == 1
+
+        # Generative flow shares system motion and saved preference.
+        page.locator("#motion-preference").select_option("off")
+        stopped = gen_frame()
+        advance(page, 14400)
+        assert gen_frame() == stopped
+        page.locator("#motion-preference").select_option("on")
+        advance(page, 14600)
+        assert gen_frame() != stopped
+        page.emulate_media(reduced_motion="reduce")
+        motion_state(page, "system")
+        assert gen_frame() == gen0
+        advance(page, 16000)
+        assert gen_frame() == gen0
+        page.emulate_media(reduced_motion="no-preference")
+        motion_state(page, "active")
 
         # Check attachment and bounds over the complete orbit on a narrow phone.
         page.set_viewport_size({"width":320,"height":900})
