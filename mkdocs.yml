@@ -9,6 +9,8 @@ theme:
   color_mode: auto
   user_color_mode_toggle: true
 plugins: []
+extra_css:
+  - style.css
 extra_javascript:
   - language.js
 nav:

@@ -24,3 +24,4 @@ transcripts/
 *.desktop
 !/docs/BazaDanychOneDrive.desktop
 *.url
+site-checks/
