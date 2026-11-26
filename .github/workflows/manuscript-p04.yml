@@ -18,11 +18,17 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - run: python3 validate.py
+      - name: Install inference dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p04-venv"
+          "$RUNNER_TEMP/p04-venv/bin/pip" install -r manuscripts/MSC-MUS-P04/analysis/requirements.txt
       - name: Test design sensitivity
         working-directory: manuscripts/MSC-MUS-P04/analysis
         run: |
-          python3 -m unittest -v
-          python3 power.py > power-results.json
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+          "$RUNNER_TEMP/p04-venv/bin/python" -m unittest -v
+          "$RUNNER_TEMP/p04-venv/bin/python" power.py > power-results.json
+          "$RUNNER_TEMP/p04-venv/bin/python" simulation.py --reps 250 --imputations 10 > simulation-results.json
       - name: Install LaTeX
         run: |
           sudo apt-get update -qq
@@ -42,4 +48,5 @@ jobs:
             manuscripts/MSC-MUS-P04/main.log
             manuscripts/MSC-MUS-P04/exact-head.txt
             manuscripts/MSC-MUS-P04/analysis/power-results.json
+            manuscripts/MSC-MUS-P04/analysis/simulation-results.json
           if-no-files-found: error
