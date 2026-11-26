@@ -59,6 +59,15 @@ jobs:
           path: site-checks/
           if-no-files-found: ignore
           retention-days: 7
+      - name: Record published HTML digests
+        if: github.ref == 'refs/heads/main'
+        run: (cd site && sha256sum index.html en.html team.html en-team.html studies.html en-studies.html publications.html en-publications.html neuropsychology.html en-neuropsychology.html) > site-html.sha256
+      - uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: site-html-manifest
+          path: site-html.sha256
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:
@@ -71,6 +80,8 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -78,3 +89,39 @@ jobs:
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify-public:
+    if: github.ref == 'refs/heads/main'
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-html-manifest
+      - name: Verify deployed website against built HTML
+        env:
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          test -n "$SITE_URL"
+          while read -r digest file; do
+            [[ "$file" =~ ^[a-z-]+\.html$ ]]
+            matched=false
+            for attempt in 1 2 3 4 5 6; do
+              actual=$(curl --fail --silent --show-error --location --compressed --max-time 15 "${SITE_URL%/}/${file}?v=${GITHUB_SHA}" | sha256sum | cut -d' ' -f1) || true
+              if [[ "$actual" == "$digest" ]]; then
+                matched=true
+                break
+              fi
+              sleep 5
+            done
+            test "$matched" = true || { echo "FAIL: $file differs from build"; exit 1; }
+            echo "PASS: $file matches deployed build"
+          done < site-html.sha256
+          actual=$(curl --fail --silent --show-error --location --compressed --max-time 15 "${SITE_URL%/}/?v=${GITHUB_SHA}" | sha256sum | cut -d' ' -f1)
+          expected=$(awk '$2=="index.html" {print $1}' site-html.sha256)
+          test "$actual" = "$expected"
+          echo "PASS: project root matches index.html"
