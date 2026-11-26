@@ -70,12 +70,25 @@ def check_interactions(page, section):
         assert marker.get_attribute("cx") == before
         page.emulate_media(reduced_motion="no-preference")
         page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=before)
-        page.wait_for_function("() => document.documentElement.classList.contains('motion-paused')", timeout=4900)
+        # A substantial displacement within one second verifies the faster motion.
+        page.wait_for_function("() => Math.abs(+document.querySelector('#affect-dot').getAttribute('cx')-170)>40", timeout=1500)
+        # Observe beyond the former 4.4-second stop and the 6.4-second loop boundary.
+        page.wait_for_timeout(6600)
+        before = marker.get_attribute("cx")
+        page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=before, timeout=1000)
+        assert not page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
+        preference = page.locator("#motion-preference")
+        preference.select_option("off")
+        assert page.evaluate("localStorage.getItem('arc-music-neuro-motion')") == "off"
         stationary = marker.get_attribute("cx")
         page.wait_for_timeout(180)
         assert marker.get_attribute("cx") == stationary
+        preference.select_option("on")
+        page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=stationary)
         page.emulate_media(reduced_motion="reduce")
         page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'")
+        page.wait_for_timeout(180)
+        assert marker.get_attribute("cx") == "170.00"
     if section in ("index", "studies"):
         page.locator("#motion-toggle").wait_for(state="hidden")
         page.emulate_media(reduced_motion="no-preference")
