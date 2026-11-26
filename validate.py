@@ -74,7 +74,7 @@ def check(root=ROOT):
                     "  user_color_mode_toggle: true", "  - language.js", "plugins: []"):
         if setting not in config.splitlines():
             errors.append(f"Missing site setting: {setting}")
-    nav = re.findall(r"(?m)^  - [^:]+: ([a-z.\\-]+)$", config)
+    nav = re.findall(r"(?m)^  - [^:]+: ([a-z.-]+)$", config)
     if set(nav) != PUBLIC or len(nav) != len(PUBLIC):
         errors.append("Public navigation mismatch")
     pairs = (("index.md", "en.md"), ("team.md", "en-team.md"),
@@ -89,7 +89,7 @@ def check(root=ROOT):
     asset = folder / "language.js"
     if not asset.is_file() or asset.is_symlink():
         errors.append("Missing or unsafe language script")
-    elif re.search(r"https?://|\\bfetch\\s*\\(|XMLHttpRequest|\\beval\\s*\\(", asset.read_text(encoding="utf-8")):
+    elif re.search(r"https?://|\bfetch\s*\(|XMLHttpRequest|\beval\s*\(", asset.read_text(encoding="utf-8")):
         errors.append("Language script must be local and offline")
     # Protect the current tree, not historical Git objects or external access.
     private_url = re.compile(
