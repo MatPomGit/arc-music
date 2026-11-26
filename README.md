@@ -6,8 +6,8 @@ Psychologia twórczości muzycznej wspomaganej przez generatywną AI. Projekt Ko
 
 - Ewa Sterniczuk – pomysłodawczyni i liderka; rekrutacja społeczności twórców muzyki AI, ankiety i wywiady.
 - Paulina Ficner – współbadaczka; komunikacja wizualna, grafika i UI/UX.
-- Dr inż. Mateusz Pomianek – współbadacz; metodologia, psychometria, analiza danych i technologia.
-- Dr hab. Cezary Biele – nadzór merytoryczny; opiekun naukowy koła i kierownik Centrum.
+- dr inż. Mateusz Pomianek – współbadacz; metodologia, psychometria, analiza danych i technologia.
+- dr hab. Cezary Biele – nadzór merytoryczny; opiekun naukowy koła i kierownik Centrum.
 
 ## Badania
 
