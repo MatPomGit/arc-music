@@ -6,3 +6,5 @@ Assess: novelty and scope (15); alexithymia/music psychology and neuropsychologi
 Gates before preregistration: agreed minimum meaningful interaction, endpoint wording/cognitive interviews, feasibility and recruitment cap, stimulus manifest/rights, implementation and ethics approval, PAQ-S administration terms, full-text claim audit, final sample-size simulations including 50 imputations and completion-dependent missingness, independent review. A passing PR does not authorise recruitment. 
 
 The completion-dependent calibration must be checked against the exact-head completion workflow artefact, including paired valid counts and failures. The hybrid status-informed PMM is a sensitivity model, not the primary estimator or a general solution for selective missing status. Assess whether the assumed status-capture probabilities are feasible and ethically acceptable.
+
+Review the new ordinal-probit moment estimator of reliability of the actual sum, its assumptions, residual diagnostics and bootstrap failure rule. Check separate observed/latent targets in measurement calibration; oracle estimates are synthetic benchmarks, not a correction for participant data.
