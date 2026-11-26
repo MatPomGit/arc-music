@@ -1,9 +1,16 @@
 # ARC-MUSIC
 
-Psychologiczne mechanizmy twórczości muzycznej wspomaganej przez generatywną AI. Projekt Koła Naukowego Psychologii Cyfrowej, Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+Psychologia twórczości muzycznej wspomaganej przez generatywną AI. Projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
-Liderka i pomysłodawczyni: Ewa Sterniczuk. Nadzór naukowy: dr hab. Cezary Biele. Zespół: Paulina Ficner i dr inż. Mateusz Pomianek.
+## Zespół
 
-[Zakres badań](RESEARCH.md) · [Zespół i współpraca](GOVERNANCE.md) · [Plan](ROADMAP.md) · [Dane](docs/data-policy.md) · [Manuskrypty](portfolio/papers.json).
+- Ewa Sterniczuk – pomysłodawczyni i liderka; rekrutacja społeczności twórców muzyki AI, ankiety i wywiady.
+- Paulina Ficner – współbadaczka; komunikacja wizualna, grafika i UI/UX.
+- Dr inż. Mateusz Pomianek – współbadacz; metodologia, psychometria, analiza danych i technologia.
+- Dr hab. Cezary Biele – nadzór merytoryczny; opiekun naukowy koła i kierownik Centrum.
 
-Discord służy do rozmów, GitHub do uzgodnionych materiałów i kodu, a instytucjonalny OneDrive VIZJA do danych badawczych. Strona projektu ma odrębne źródła w `pages/`. Repozytorium pozostaje prywatne i niezależne od innych programów badawczych.
+## Badania
+
+[Model AIM-ER](docs/aim-er.md) · [Pierwsze badania](docs/first-study.md) · [Manuskrypty](manuscripts/) · [Dane badawcze](docs/data-policy.md).
+
+Dyskusje prowadzimy na Discordzie. Dane uczestników przechowujemy na OneDrive VIZJA. GitHub służy do wspólnej pracy nad dokumentami i artykułami. Źródła strony znajdują się w `pages/`, manuskrypty LaTeX w `manuscripts/`.

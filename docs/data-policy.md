@@ -1,7 +1,7 @@
 # Dane badawcze
 
-Dane ankietowe, wywiady, transkrypcje, utwory i zgody przechowujemy wyłącznie na instytucjonalnym OneDrive Uniwersytetu VIZJA. Dostęp imienny, z minimalnymi uprawnieniami. Klucz pseudonimizacji i zgody oddzielnie od danych analitycznych. Uczelnia i zespół ustalają retencję, podstawę przetwarzania i zasady wycofania.
+Dane ankietowe, nagrania wywiadów, transkrypcje, utwory i zgody przechowujemy na instytucjonalnym OneDrive VIZJA. Dostęp imienny i minimalne uprawnienia. Zgody oraz klucz pseudonimizacji oddzielnie od danych analitycznych. Zasady retencji i podstawę przetwarzania uzgadniamy z uczelnią.
 
-GitHub i Discord nie są magazynem danych uczestników. W Git dopuszczalne są schematy, kod, dane syntetyczne i zatwierdzone wyniki zbiorcze. Zasada dotyczy manuskryptów local i external; w publicznym ARC nie ujawnia się także prywatnych odnośników. Link do folderu danych udostępniamy wyłącznie osobom uprawnionym po kontroli jego zakresu. Nie zapisujemy linków udostępniania w historii Git.
+GitHub i Discord nie są magazynem danych uczestników. W Git dopuszczalne są kod, dane syntetyczne i zatwierdzone wyniki zbiorcze. Skrót OneDrive jest przeznaczony wyłącznie dla uprawnionego zespołu; przed rekrutacją należy zweryfikować jego zakres. Nie kopiujemy skrótu ani prywatnych adresów do strony.
 
-Otwarte pytania na Facebooku nie uprawniają automatycznie do analizy wypowiedzi. Formalne zbieranie danych wymaga uzgodnionej procedury i informacji dla uczestników. Nie wysyłamy osobistych tekstów do generatorów zewnętrznych bez odpowiednich zabezpieczeń.
+Otwarte pytania na Facebooku nie oznaczają zgody na wykorzystanie wypowiedzi w badaniach. Formalne pozyskiwanie danych wymaga uzgodnionej procedury i informacji dla uczestników. Nie wysyłamy osobistych tekstów do generatorów zewnętrznych bez odpowiednich zabezpieczeń.

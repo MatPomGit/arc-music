@@ -1,13 +1,7 @@
-# Zasady pracy ARC-MUSIC
+# Zasady pracy
 
-Czytaj README, GOVERNANCE, RESEARCH, ROADMAP, program.json i portfolio. Ewa Sterniczuk kieruje projektem; dr hab. Cezary Biele sprawuje nadzór naukowy. Mateusz administruje repozytorium. Nie przypisuj autorstwa ani nie zmieniaj decyzji naukowych bez uzgodnienia.
+Zachowuj zwięzłość i nie powielaj treści. Jedno źródło dokumentu, hipotezy lub manuskryptu. Nie dodawaj katalogów bez konkretnej potrzeby badawczej. Decyzje naukowe uzgadnia zespół pod kierunkiem Ewy Sterniczuk, z nadzorem dr hab. Cezarego Biele.
 
-Repozytorium jest autonomiczne. Nie uzyskuj dostępu do innych prywatnych projektów, nie używaj ich sekretów ani runnerów. Research Autopilot nie jest wymagany. Rozmowy na Discordzie, ustalenia w GitHub. Nie umieszczaj danych uczestników, linków udostępniania, identyfikatorów ani transkrypcji w Git/Discord. Dane pozostają na OneDrive VIZJA.
+Nie zapisuj danych uczestników ani poświadczeń w Git; zasady w docs/data-policy.md. Nie publikuj niczego spoza pages/. Nie umieszczaj w publicznych treściach notatek edytorskich, instrukcji agentowych ani prywatnych odnośników. Publikacja strony i nadawanie dostępów wymagają osobnego zatwierdzenia.
 
-Każdy manuskrypt ma jedno ID MSC i kanoniczne źródło LaTeX. Nie wymyślaj wyników, zgód, DOI ani statusów publikacji. Rozróżniaj plan i dowód.
-
-Przed zmianą sprawdź exact SHA, istniejące PR i limit 4 PR/4 gałęzi. DoR: cel, zakres, ryzyko, testy; DoD: dowody na HEAD, przegląd i akceptacja. R0: tekst; R1: drobna zmiana; R2: kontrakty, rejestry, CI; R3: dostęp, dane, publikacja. Nie uruchamiaj niezaufanych PR na stałym runnerze. Bez dodatkowych kosztów. Publikacja i zmiany uprawnień wymagają osobnego zatwierdzenia.
-
-Publiczne treści wyłącznie z allowlisty pages/. Bez instrukcji agentowych, uwag edytorskich, wewnętrznych URL, sekretów i danych. Sprawdź źródła i wyrenderowany HTML. Nie publikuj docs/.
-
-Limity Unicode: config/documentation-policy.json; waliduj scripts/validate_documentation.py. Pełne manuskrypty i protokoły naukowe nie podlegają administracyjnym limitom. Zwięzłe, merytoryczne dokumenty, bez powtórzeń.
+Manuskrypty mają kanoniczne źródło LaTeX; DOCX służy do wspólnej redakcji na OneDrive i zgłoszeń wymagających Worda, PDF do zatwierdzania, BibTeX do bibliografii. Nie utrzymuj równoległych źródeł. Każdy manuskrypt ma własny `publication.md` z czasopismem docelowym i alternatywnym. Preferuj publikację bez obowiązkowych APC; wybór zweryfikuj przed zgłoszeniem. Autorstwo ustalaj według rzeczywistego wkładu (CRediT). Nie wymyślaj wyników, zgód, autorstwa ani statusów publikacji. Przed zmianami sprawdzaj bieżącą gałąź i istniejące PR. Bez dodatkowych kosztów, bez uruchamiania na stałych runnerach. Przed integracją wykonaj python3 validate.py; odnotuj niewykonane kontrole. Limity znaków określa walidator.
