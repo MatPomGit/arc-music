@@ -8,4 +8,3 @@ Our research examines the psychological functions of this form of creativity, pa
 
 This is a project of the Digital Psychology Student Research Group within the Centre for Digital Psychology at VIZJA University.
 
-[Team](en-team.md) · [Research](en-studies.md) · [Publications](en-publications.md) · [Music and the brain](en-neuropsychology.md)

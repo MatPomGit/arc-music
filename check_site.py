@@ -32,7 +32,8 @@ def main():
                         assert page.locator("main").count()==1
                         assert page.locator("nav a[aria-current=page]").count()==1
                         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"),(name,width)
-                        assert page.locator("h1").first.is_visible()
+                        assert page.locator("h1").count()==1 and page.locator("h1").is_visible()
+                        assert page.evaluate("""() => {const s=getComputedStyle(document.documentElement);const l=h=>{const a=h.trim().slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return a[0]*.2126+a[1]*.7152+a[2]*.0722};const ratio=(a,b)=>{const x=l(s.getPropertyValue(a)),y=l(s.getPropertyValue(b));return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};return ["--ink","--muted","--accent"].every(a=>["--bg","--paper"].every(b=>ratio(a,b)>=4.5))}"""), (name, theme, "text token contrast")
                         assert not page.locator("header").inner_text().lower().count("arc-music")
                         if "publications" in name:
                             assert page.locator(".pub").count()==9

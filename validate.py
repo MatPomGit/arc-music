@@ -104,6 +104,15 @@ def check(root=ROOT):
         entries = {p.relative_to(overrides).as_posix() for p in overrides.rglob("*")}
         if entries != {"main.html", "js", "js/darkmode.js", "js/base.js"}:
             errors.append("Unexpected theme override files")
+        template = overrides / "main.html"
+        if not template.is_file() or template.is_symlink():
+            errors.append("Missing or unsafe public template")
+        else:
+            source = template.read_text(encoding="utf-8")
+            if re.search(r"sharepoint\.com|onedrive|github\.com/matpomgit|<\s*(?:iframe|object|embed|form|base)\b|\bon[a-z]+\s*=", source, re.I):
+                errors.append("Unsafe public template")
+            if set(re.findall(r"https?://[^\x22\x27\s<>]+", source)) - {"https://doi.org/10.1037/h0077714"}:
+                errors.append("Unapproved template URL")
         for name in ("darkmode.js", "base.js"):
             theme_script = overrides / "js" / name
             if theme_script.is_symlink() or theme_script.parent.is_symlink() or not theme_script.is_file():

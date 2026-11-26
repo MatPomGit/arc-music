@@ -8,4 +8,3 @@ Przedmiotem badań są psychologiczne funkcje tej formy twórczości, ze szczeg�
 
 Jest to projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
 
-[Zespół](team.md) · [Badania](studies.md) · [Publikacje](publications.md) · [Muzyka i mózg](neuropsychology.md)
