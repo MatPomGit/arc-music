@@ -1,0 +1,45 @@
+name: P04 PAQ-S measurement calibration
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P04/analysis/reliability.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/measurement_calibration.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/test_reliability.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/paq_scoring.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/inference.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/simulation.py'
+      - 'manuscripts/MSC-MUS-P04/analysis/requirements.txt'
+      - '.github/workflows/manuscript-p04-measurement.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  measurement:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install pinned dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p04-measurement"
+          "$RUNNER_TEMP/p04-measurement/bin/pip" install -r manuscripts/MSC-MUS-P04/analysis/requirements.txt
+      - name: Regression tests and synthetic calibration
+        working-directory: manuscripts/MSC-MUS-P04/analysis
+        run: |
+          "$RUNNER_TEMP/p04-measurement/bin/python" -m unittest -v test_reliability
+          git rev-parse HEAD > measurement-head.txt
+          "$RUNNER_TEMP/p04-measurement/bin/python" measurement_calibration.py --reps 300 > measurement-results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: msc-mus-p04-measurement
+          path: |
+            manuscripts/MSC-MUS-P04/analysis/measurement-head.txt
+            manuscripts/MSC-MUS-P04/analysis/measurement-results.json
+          if-no-files-found: error
