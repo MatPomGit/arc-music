@@ -1,0 +1,7 @@
+# P09 prospective protocol v0.1.0
+
+Research owner: Mateusz Pomianek. Two-arm experiment: private autobiographical text plus selected AI-generated instrumental setting versus the same text plus selected nonfigurative visual setting. Both use a fixed selection-and-reflection task. H1 day-7 understanding, H2 immediate understanding, H3 immediate distance. No actual lyrics, personal prompts or narratives are collected. Proposed measures are not validated; event-specific self-understanding is not global narrative identity.
+
+Run python -m unittest -v, python power.py, and python inference.py assigned.csv on approved locked records. Timing and same-event checks are endpoint-specific. H1/H2/H3 use HC3 regression; fixed Holm family H2/H3. Unadjusted hypothetical bounds and 25 bounded shift scenarios are point diagnostics, not calibrated intervals. No weights or bootstrap yet. All randomised rows must be retained; authoritative allocation ledger and cessation checks remain pending.
+
+Planning calculations: 90% power, alpha .05, d=.30 gives 470 complete, 588 randomised assuming 20% loss. At d=.35, 346 and 434. No final sample target. Next calibration crosses sample size, bounded item scores, baseline correlation, ceiling, heterogeneous variance and MCAR/MAR/MNAR. Pilot 30–50, no pilot effect-based sample selection. Metadata of four cited works checked 26 November 2026; full-text review, newer direct music-creation evidence and stimulus rights audit pending. No recruitment or production system.

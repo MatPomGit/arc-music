@@ -1,0 +1,39 @@
+{
+  "status": "ANALYTIC_PLANNING",
+  "alpha": 0.05,
+  "target": 0.9,
+  "expected_loss": 0.2,
+  "method": "two-sided balanced noncentral t; evaluated in Python/SciPy",
+  "rows": [
+    {
+      "d": 0.2,
+      "complete": 1054,
+      "randomised": 1318,
+      "power_rounded": 0.9004
+    },
+    {
+      "d": 0.25,
+      "complete": 676,
+      "randomised": 846,
+      "power_rounded": 0.9007
+    },
+    {
+      "d": 0.3,
+      "complete": 470,
+      "randomised": 588,
+      "power_rounded": 0.9007
+    },
+    {
+      "d": 0.35,
+      "complete": 346,
+      "randomised": 434,
+      "power_rounded": 0.9008
+    },
+    {
+      "d": 0.4,
+      "complete": 266,
+      "randomised": 334,
+      "power_rounded": 0.9015
+    }
+  ]
+}
