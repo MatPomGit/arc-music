@@ -71,7 +71,8 @@ def check(root=ROOT):
     if not re.search(r"(?m)^  highlightjs: false$", config):
         errors.append("Remote highlighter must be disabled")
     for setting in ("use_directory_urls: false", "  color_mode: auto",
-                    "  user_color_mode_toggle: true", "  - language.js", "  - style.css", "plugins: []"):
+                    "  user_color_mode_toggle: true", "  - language.js", "  - style.css", "plugins: []",
+                    "  custom_dir: theme-overrides"):
         if setting not in config.splitlines():
             errors.append(f"Missing site setting: {setting}")
     nav = re.findall(r"(?m)^  - [^:]+: ([a-z.-]+)$", config)
@@ -96,6 +97,18 @@ def check(root=ROOT):
         errors.append("Missing or unsafe stylesheet")
     elif re.search(r"https?://|@import\b|url\s*\(", stylesheet.read_text(encoding="utf-8"), re.I):
         errors.append("Stylesheet must use local assets")
+    overrides = root / "theme-overrides"
+    if not overrides.is_dir() or overrides.is_symlink():
+        errors.append("Missing or unsafe theme overrides")
+    else:
+        entries = {p.relative_to(overrides).as_posix() for p in overrides.rglob("*")}
+        if entries != {"js", "js/darkmode.js"}:
+            errors.append("Unexpected theme override files")
+        theme_script = overrides / "js/darkmode.js"
+        if theme_script.is_symlink() or theme_script.parent.is_symlink() or not theme_script.is_file():
+            errors.append("Missing or unsafe theme controller")
+        elif re.search(r"https?://|\bfetch\s*\(|XMLHttpRequest|\beval\s*\(", theme_script.read_text(encoding="utf-8")):
+            errors.append("Theme controller must be local and offline")
     # Protect the current tree, not historical Git objects or external access.
     private_url = re.compile(
         r"https?://[^\s<>\x22\x27]*(?:sharepoint\.com|onedrive\.live\.com|1drv\.ms|discord\.gg)",

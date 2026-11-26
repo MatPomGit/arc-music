@@ -26,6 +26,8 @@ def main():
             for width in (360, 768, 1024, 1440):
                 context = browser.new_context(viewport={"width": width, "height": 900})
                 page = context.new_page()
+                errors = []
+                page.on("pageerror", lambda error: errors.append(str(error)))
                 for lang, names in (("pl", PAGES), ("en", EN)):
                     for name in names:
                         response = page.goto(base + name + ".html")
@@ -42,6 +44,7 @@ def main():
                         assert 17 <= metrics["body"] <= 19, (name, width, metrics)
                         assert 30 <= metrics["title"] <= 54, (name, width, metrics)
                         assert metrics["line"] >= metrics["body"] * 1.55, (name, width, metrics)
+                print(f"PASS: 10 page layout checks at {width}px", flush=True)
                 page.goto(base + "publications.html")
                 if width < 992:
                     page.locator(".navbar-toggler").first.click()
@@ -62,6 +65,21 @@ def main():
                 page.locator('[data-bs-theme-value="light"]').click()
                 page.wait_for_function("document.documentElement.dataset.bsTheme === 'light'")
                 page.screenshot(path=out / f"home-light-{width}.png", full_page=True)
+                page.reload()
+                page.wait_for_function("document.documentElement.dataset.bsTheme === 'light'")
+                page.emulate_media(color_scheme="dark")
+                page.wait_for_function("document.documentElement.dataset.bsTheme === 'light'")
+                if width < 992:
+                    page.locator(".navbar-toggler").first.click()
+                page.locator("#theme-menu").click()
+                page.locator('[data-bs-theme-value="auto"]').click()
+                page.wait_for_function("document.documentElement.dataset.bsTheme === 'dark'")
+                page.emulate_media(color_scheme="light")
+                page.wait_for_function("document.documentElement.dataset.bsTheme === 'light'")
+                page.reload()
+                page.wait_for_function("document.documentElement.dataset.bsTheme === 'light'")
+                assert page.locator('[data-bs-theme-value="auto"]').get_attribute("aria-pressed") == "true"
+                assert not errors, (width, errors)
                 print(f"PASS: 10 pages, language, theme and typography at {width}px")
                 context.close()
             browser.close()
