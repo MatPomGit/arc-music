@@ -25,6 +25,8 @@ for(const n of nodes)card.append(n);grid.append(card);
 // One local animation clock; no user input is required.
 const wave=document.querySelector("#wave"), dot=document.querySelector("#affect-dot");
 const paths=wave?Array.from(wave.querySelectorAll("path")):[];
+const projection=dot?Object.fromEntries(["proj-x","proj-y","axis-x","axis-y","value-x","value-y"].map(k=>[k,document.getElementById("affect-"+k)])):null;
+const coordinateFormat=new Intl.NumberFormat(en?"en":"pl",{minimumFractionDigits:2,maximumFractionDigits:2,signDisplay:"exceptZero"});
 const steps=Array.from(document.querySelectorAll(".step"));
 const toggle=document.querySelector("#motion-toggle");
 const motion=document.querySelector("#motion-preference");
@@ -40,8 +42,19 @@ if(wave||dot||steps.length){
     paths.forEach((p,i)=>p.setAttribute("d","M -12 "+(95+i*9)+" C 130 "+(-45-a*100+i*13+phase)+", 175 "+(330+a*160-i*8-phase)+", 285 "+(180+i*2)+" S 450 "+(80-a*50+i*5+phase)+", 575 "+(140+i*6)));
     if(dot){
       const q=2*Math.PI*(t%6400)/6400;
-      dot.setAttribute("cx",(170+105*Math.sin(q)).toFixed(2));
-      dot.setAttribute("cy",(145-82*Math.sin(2*q)).toFixed(2));
+      const x=(170+105*Math.sin(q)).toFixed(2), y=(145-82*Math.sin(2*q)).toFixed(2);
+      dot.setAttribute("cx",x);dot.setAttribute("cy",y);
+      const px=projection["proj-x"],py=projection["proj-y"];
+      px.setAttribute("x1",x);px.setAttribute("y1",y);px.setAttribute("x2",x);
+      py.setAttribute("x1",x);py.setAttribute("y1",y);py.setAttribute("y2",y);
+      projection["axis-x"].setAttribute("cx",x);
+      projection["axis-y"].setAttribute("cy",y);
+      // Cartesian coordinates: SVG y increases downward; arousal increases upward.
+      const values=[(Number(x)-170)/140,(145-Number(y))/115];
+      ["value-x","value-y"].forEach((key,i)=>{
+        const value=coordinateFormat.format(Math.round(values[i]*100)/100||0);
+        if(projection[key].textContent!==value)projection[key].textContent=value;
+      });
     }
     const active=Math.floor(t/3200)%Math.max(1,steps.length);
     steps.forEach((step,i)=>step.classList.toggle("step-active",!reduced.matches&&i===active));
