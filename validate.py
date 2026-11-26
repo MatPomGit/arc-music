@@ -13,7 +13,7 @@ LIMITS = {
 PUBLIC = {"index.md", "team.md", "studies.md", "publications.md", "en.md",
           "en-team.md", "en-studies.md", "en-publications.md",
           "neuropsychology.md", "en-neuropsychology.md"}
-ASSETS = {"language.js"}
+ASSETS = {"language.js", "style.css"}
 REFERENCES = {
     "https://doi.org/10.1038/nrn3666",
     "https://doi.org/10.1038/nn.2726",
@@ -64,14 +64,14 @@ def check(root=ROOT):
     keys = [line.split(":", 1)[0].strip() for line in config.splitlines()
             if line and not line.startswith((" ", "#"))]
     if set(keys) != {"site_name", "docs_dir", "site_dir", "use_directory_urls",
-                     "theme", "plugins", "extra_javascript", "nav"} or len(keys) != 8:
+                     "theme", "plugins", "extra_javascript", "extra_css", "nav"} or len(keys) != 9:
         errors.append("Unexpected site configuration")
     if not re.search(r"(?m)^docs_dir: pages$", config) or not re.search(r"(?m)^site_dir: site$", config):
         errors.append("Site source/output boundary changed")
     if not re.search(r"(?m)^  highlightjs: false$", config):
         errors.append("Remote highlighter must be disabled")
     for setting in ("use_directory_urls: false", "  color_mode: auto",
-                    "  user_color_mode_toggle: true", "  - language.js", "plugins: []"):
+                    "  user_color_mode_toggle: true", "  - language.js", "  - style.css", "plugins: []"):
         if setting not in config.splitlines():
             errors.append(f"Missing site setting: {setting}")
     nav = re.findall(r"(?m)^  - [^:]+: ([a-z.-]+)$", config)
@@ -91,6 +91,11 @@ def check(root=ROOT):
         errors.append("Missing or unsafe language script")
     elif re.search(r"https?://|\bfetch\s*\(|XMLHttpRequest|\beval\s*\(", asset.read_text(encoding="utf-8")):
         errors.append("Language script must be local and offline")
+    stylesheet = folder / "style.css"
+    if not stylesheet.is_file() or stylesheet.is_symlink():
+        errors.append("Missing or unsafe stylesheet")
+    elif re.search(r"https?://|@import\b|url\s*\(", stylesheet.read_text(encoding="utf-8"), re.I):
+        errors.append("Stylesheet must use local assets")
     # Protect the current tree, not historical Git objects or external access.
     private_url = re.compile(
         r"https?://[^\s<>\x22\x27]*(?:sharepoint\.com|onedrive\.live\.com|1drv\.ms|discord\.gg)",

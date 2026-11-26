@@ -35,6 +35,7 @@
   }
   save(language);
   document.documentElement.lang = language;
+  if (pair === pairs[0]) document.body.classList.add("arc-home");
 
   const navbar = document.querySelector("#navbar-collapse");
   if (!navbar) return;
