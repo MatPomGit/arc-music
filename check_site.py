@@ -75,7 +75,7 @@ def main():
     base=f"http://127.0.0.1:{server.server_port}/"
     out=ROOT/"site-checks";out.mkdir(exist_ok=True)
     try:
-        check_browser_render(base)
+        check_browser_render(base, out)
         with sync_playwright() as p:
             browser=p.chromium.launch(executable_path=shutil.which("google-chrome") or shutil.which("chromium"),args=["--no-sandbox"])
             for width in (360,768,1024,1440,1920):

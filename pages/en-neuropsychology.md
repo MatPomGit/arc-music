@@ -2,7 +2,7 @@
 
 [PL](neuropsychology.md) · [EN](en-neuropsychology.md)
 
-Music connects perception, memory, prediction, emotion and action. AIM-ER examines the transition from personal experience to a musical piece created with generative AI. Does giving emotions a musical form change how they are experienced and understood?
+Music connects perception, memory, prediction, emotion and action. AIM-ER examines the transition from personal experience to a musical piece created with generative AI. We examine whether giving emotions a musical form changes how they are experienced and understood.
 
 ## From sound to meaning
 
@@ -12,7 +12,7 @@ Music can evoke emotions through multiple mechanisms, including episodic memory,
 
 ## Perception, emotion and reward
 
-Musical pleasure involves interactions between the auditory cortex and reward circuitry, including the nucleus accumbens. Dopamine release has been observed during intensely pleasurable music listening ([Salimpoor et al., 2011](https://doi.org/10.1038/nn.2726); [Salimpoor et al., 2013](https://doi.org/10.1126/science.1231059)).
+Musical pleasure involves interactions between the auditory cortex and reward circuitry, including the nucleus accumbens ([Salimpoor et al., 2013](https://doi.org/10.1126/science.1231059)). Dopamine release has been observed during intensely pleasurable music listening ([Salimpoor et al., 2011](https://doi.org/10.1038/nn.2726)).
 
 Musical emotions engage distributed networks, including the amygdala, insula, prefrontal cortex and memory-related structures. No single region accounts for all music-evoked emotions ([Koelsch, 2014](https://doi.org/10.1038/nrn3666)).
 

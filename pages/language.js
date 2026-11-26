@@ -29,7 +29,7 @@ const projection=dot?Object.fromEntries(["proj-x","proj-y","axis-x","axis-y","va
 const coordinateFormat=new Intl.NumberFormat(en?"en":"pl",{minimumFractionDigits:2,maximumFractionDigits:2,signDisplay:"exceptZero"});
 const steps=Array.from(document.querySelectorAll(".step"));
 const toggle=document.querySelector("#motion-toggle");
-const motion=document.querySelector("#motion-preference");
+const motion=document.querySelector("#motion-preference"), motionStatus=document.querySelector("#motion-status");
 const motionKey="arc-music-neuro-motion";
 if(wave||dot||steps.length){
   const reduced=matchMedia("(prefers-reduced-motion: reduce)");
@@ -69,6 +69,12 @@ if(wave||dot||steps.length){
   function sync(){
     cancelAnimationFrame(frame);frame=0;last=null;
     root.classList.toggle("motion-paused",paused||document.hidden||reduced.matches);
+    if(motionStatus){
+      const state=reduced.matches?"system":paused?"off":document.hidden?"hidden":"active";
+      const messages=en?{system:"Paused by system preference",off:"Motion disabled",hidden:"Paused in background",active:"Motion active"}:{system:"Ruch ograniczony przez system",off:"Ruch wyłączony",hidden:"Ruch wstrzymany w tle",active:"Ruch aktywny"};
+      motionStatus.dataset.state=state;
+      if(motionStatus.textContent!==messages[state])motionStatus.textContent=messages[state];
+    }
     if(toggle){
       toggle.hidden=reduced.matches;
       toggle.textContent=paused?(en?"Resume animations":"Wznów animacje"):(en?"Pause animations":"Zatrzymaj animacje");

@@ -1,5 +1,6 @@
 """Verify cold, warm and resource-blocked browser rendering."""
 import sys
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -153,6 +154,155 @@ def check_interactions(page, section):
         assert page.locator(".section-card").count() == 4
 
 
+
+# Test-only virtual RAF queue. The production animation clock is unmodified.
+# Visibility events are simulated explicitly because headless tab activation
+# does not reliably change document.hidden across browser engines.
+MOTION_CLOCK = """(() => {
+  let now=0, next=0, hidden=false;
+  const queue=new Map();
+  window.requestAnimationFrame=cb=>{queue.set(++next,cb);return next};
+  window.cancelAnimationFrame=id=>queue.delete(id);
+  Object.defineProperty(document,'hidden',{configurable:true,get:()=>hidden});
+  window.__motionTest={
+    advance(target){
+      if(target<now)throw Error('clock cannot run backwards');
+      function frame(){const batch=[...queue];queue.clear();for(const [,cb] of batch)cb(now)}
+      frame();
+      while(now<target){now=Math.min(target,now+16);frame()}
+    },
+    visibility(value){hidden=value;document.dispatchEvent(new Event('visibilitychange'))},
+    pending(){return queue.size}
+  };
+})()"""
+
+
+def advance(page, time):
+    page.evaluate("(t) => window.__motionTest.advance(t)", time)
+
+
+def motion_state(page, expected):
+    page.wait_for_function("(s) => document.querySelector('#motion-status').dataset.state === s", arg=expected)
+    assert page.locator("#motion-status").inner_text().strip()
+    assert page.locator("#motion-preference").get_attribute("aria-describedby") == "motion-status"
+
+
+def point(page):
+    return page.locator("#affect-dot").evaluate("e => [+e.getAttribute('cx'), +e.getAttribute('cy')]")
+
+
+def wave_geometry(page):
+    return [float(v) for v in re.findall(r"-?\d+(?:\.\d+)?(?:e[+-]?\d+)?",
+                                        page.locator("#wave path").first.get_attribute("d"))]
+
+
+def check_motion_regressions(browser, base, out=None):
+    with browser.new_context(viewport={"width": 1440, "height": 900}, reduced_motion="no-preference") as ctx:
+        ctx.add_init_script(MOTION_CLOCK)
+        page = ctx.new_page()
+        # Real animation callbacks, driven at deterministic elapsed times.
+        page.goto(base + "index.html")
+        advance(page, 0)
+        wave0 = wave_geometry(page)
+        initial = point(page)
+        stage0 = page.locator(".step-active").inner_text()
+        advance(page, 3184)
+        assert page.locator(".step-active").inner_text() == stage0
+        advance(page, 3200)
+        assert page.locator(".step-active").inner_text() != stage0
+        assert page.locator(".step-active").count() == 1
+        advance(page, 4784)
+        w_before = wave_geometry(page)
+        advance(page, 4800)
+        w_boundary = wave_geometry(page)
+        advance(page, 4816)
+        w_after = wave_geometry(page)
+        assert w_boundary == wave0, "Wave does not close at its period"
+        assert max(abs(a-b) for a,b in zip(w_before,w_after)) < 10, "Wave jumps across period"
+        advance(page, 6384)
+        p_before = point(page)
+        check_projections(page)
+        advance(page, 6400)
+        assert point(page) == initial == [170,145]
+        check_projections(page)
+        advance(page, 6416)
+        p_after = point(page)
+        check_projections(page)
+        assert max(abs(a-b) for a,b in zip(p_before,p_after)) < 6, "Affect point jumps across period"
+        advance(page, 12800)
+        assert page.locator(".step-active").inner_text() == stage0
+        assert page.locator(".step-active").count() == 1
+
+        # Persist an explicit preference across reload and reciprocal language routes.
+        page.goto(base + "neuropsychology.html")
+        motion_state(page, "active")
+        advance(page, 800)
+        assert point(page) != [170,145]
+        page.locator("#motion-preference").select_option("off")
+        motion_state(page, "off")
+        stationary = point(page)
+        advance(page, 1600)
+        assert point(page) == stationary
+        page.reload()
+        motion_state(page, "off")
+        assert page.locator("#motion-preference").input_value() == "off"
+        advance(page, 800)
+        assert point(page) == [170,145]
+        page.locator("header a[hreflang=en]").click()
+        motion_state(page, "off")
+        assert page.locator("#motion-preference").input_value() == "off"
+        advance(page, 800)
+        assert point(page) == [170,145]
+        page.locator("#motion-preference").select_option("on")
+        motion_state(page, "active")
+        advance(page, 1600)
+        assert point(page) != [170,145]
+        page.emulate_media(reduced_motion="reduce")
+        motion_state(page, "system")
+        assert page.locator("#motion-preference").input_value() == "on"
+        assert point(page) == [170,145]
+        advance(page, 2400)
+        assert point(page) == [170,145]
+        page.locator("#motion-preference").select_option("off")
+        motion_state(page, "system")
+        page.emulate_media(reduced_motion="no-preference")
+        motion_state(page, "off")
+        advance(page, 3200)
+        assert page.evaluate("window.__motionTest.pending()") == 0
+        page.locator("#motion-preference").select_option("on")
+        motion_state(page, "active")
+        advance(page, 4000)
+        stationary = point(page)
+        page.evaluate("window.__motionTest.visibility(true)")
+        motion_state(page, "hidden")
+        advance(page, 8000)
+        assert point(page) == stationary
+        assert page.evaluate("window.__motionTest.pending()") == 0
+        page.evaluate("window.__motionTest.visibility(false)")
+        motion_state(page, "active")
+        advance(page, 8000)
+        assert point(page) == stationary, "Resume must not jump"
+        advance(page, 8320)
+        assert point(page) != stationary
+        check_projections(page)
+
+        # Evidence from nonzero frames, in both languages and both themes.
+        for path, lang in (("neuropsychology.html","pl"),("en-neuropsychology.html","en")):
+            page.goto(base + path)
+            motion_state(page, "active")
+            assert page.locator("#motion-preference").input_value() == "on"
+            advance(page, 800)
+            x,y = point(page)
+            assert abs(x-170)>30 and abs(y-145)>30
+            check_projections(page)
+            for theme in ("light","dark"):
+                page.locator("#theme").select_option(theme)
+                if out is not None:
+                    page.locator(".affect").screenshot(path=out / f"active-affect-{lang}-{theme}.png", animations="allow")
+                    page.locator(".controls").screenshot(path=out / f"active-controls-{lang}-{theme}.png", animations="allow")
+        print("PASS: E3.1 deterministic cycle, persisted preference, system and visibility regressions", flush=True)
+
+
 def visit(page, base, path, css, js):
     response = page.goto(base + path, wait_until="load")
     assert response and response.ok, path
@@ -161,7 +311,7 @@ def visit(page, base, path, css, js):
     check_render(page)
 
 
-def run(base):
+def run(base, out=None):
     from playwright.sync_api import sync_playwright
     base = base.rstrip("/") + "/"
     css = (ROOT / "pages/style.css").read_text(encoding="utf-8")
@@ -208,6 +358,7 @@ def run(base):
                             check_identity(returning, base, "index.html")
                             assert not errors and not external and not standalone, (errors, external, standalone)
                         print(f"PASS: {engine.name}, {width}px, {'blocked' if blocked else 'normal/warm'}, all 11 routes", flush=True)
+                check_motion_regressions(browser, base, out if engine.name == "chromium" else None)
             finally:
                 browser.close()
 

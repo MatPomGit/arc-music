@@ -2,7 +2,7 @@
 
 [PL](neuropsychology.md) · [EN](en-neuropsychology.md)
 
-Muzyka łączy percepcję, pamięć, przewidywanie, emocje i działanie. W projekcie AIM-ER interesuje nas szczególnie przejście od osobistego doświadczenia do utworu stworzonego przy wsparciu generatywnej AI. Czy nadanie emocjom formy muzycznej zmienia sposób ich przeżywania i rozumienia?
+Muzyka łączy percepcję, pamięć, przewidywanie, emocje i działanie. W projekcie AIM-ER interesuje nas szczególnie przejście od osobistego doświadczenia do utworu stworzonego przy wsparciu generatywnej AI. Badamy, czy nadanie emocjom formy muzycznej zmienia sposób ich przeżywania i rozumienia.
 
 ## Od dźwięku do znaczenia
 
@@ -12,7 +12,7 @@ Reakcje na muzykę powstają przez różne mechanizmy, w tym pamięć epizodyczn
 
 ## Percepcja, emocje i nagroda
 
-Przyjemność muzyczna wiąże się z interakcjami kory słuchowej i układu nagrody, w tym jądra półleżącego. W badaniach nad słuchaniem muzyki wywołującej silną przyjemność obserwowano uwalnianie dopaminy ([Salimpoor i in., 2011](https://doi.org/10.1038/nn.2726); [Salimpoor i in., 2013](https://doi.org/10.1126/science.1231059)).
+Przyjemność muzyczna wiąże się z interakcjami kory słuchowej i układu nagrody, w tym jądra półleżącego ([Salimpoor i in., 2013](https://doi.org/10.1126/science.1231059)). W badaniach nad słuchaniem muzyki wywołującej silną przyjemność obserwowano uwalnianie dopaminy ([Salimpoor i in., 2011](https://doi.org/10.1038/nn.2726)).
 
 Emocje muzyczne angażują rozproszone sieci, obejmujące m.in. ciało migdałowate, wyspę, korę przedczołową i struktury związane z pamięcią. Żaden pojedynczy obszar nie odpowiada za wszystkie emocje wywoływane muzyką ([Koelsch, 2014](https://doi.org/10.1038/nrn3666)).
 

@@ -113,3 +113,7 @@ body[data-section=neuropsychology] .article>h2{border-top:1px solid var(--line);
 .affect-coordinates span{display:block;font-size:.875rem;line-height:1.4;color:var(--muted)}
 .affect-coordinates strong{display:block;font-size:1.15rem;font-variant-numeric:tabular-nums;color:var(--ink)}
 @media(max-width:360px){.affect-coordinates{grid-template-columns:repeat(auto-fit,minmax(min(100%,7rem),1fr))}}
+
+/* Saved motion preference and effective state are distinct. */
+.motion-setting{min-width:0;max-width:100%}
+.motion-setting #motion-status{display:block;max-width:24ch;color:var(--muted);font-size:.78rem;line-height:1.4;margin-top:.25rem;overflow-wrap:anywhere}
