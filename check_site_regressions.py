@@ -102,6 +102,9 @@ def check_study_content(page):
     assert all(.9*p["root"] <= p["description"] < p["question"] for p in palettes)
     assert "PAQ-S" in article.locator("#msc-mus-p04").inner_text()
     assert "480" in article.locator("#msc-mus-p03").inner_text()
+    for i, targets in ((1, ("N=420",)), (8, ("N=480",)), (9, ("N=440", "600"))):
+        sample = article.locator(f"#msc-mus-p{i:02d} .pub-sample").inner_text()
+        assert all(target in sample for target in targets), sample
     assert all(len(s.strip()) >= 180 for s in article.locator("#msc-mus-p01 .pub-body p, #msc-mus-p02 .pub-body p, #msc-mus-p03 .pub-body p, #msc-mus-p04 .pub-body p").all_text_contents())
     assert article.locator(".pub-list").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length") == 1
     assert article.locator(".section-card:last-child p").count() >= 1
