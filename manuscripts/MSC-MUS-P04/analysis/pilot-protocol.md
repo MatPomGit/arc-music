@@ -16,3 +16,6 @@ Use structured elicitation before seeing confirmatory data: ask prospective user
 
 ## Required preregistration decisions
 Confirm primary and secondary estimands, authorised PAQ-S total scoring, endpoint wording, final material manifest, randomisation implementation, missingness sensitivity grid, minimum meaningful effect and fixed recruitment cap/date, final analysis code and exact-head CI evidence. Record institutional approvals, consent and withdrawal procedure, data-retention policy and rights clearance. Obtain a scientific review by someone independent of protocol authorship. None of these approvals is implied by passing CI.
+
+
+Before pilot freeze, test separate status questions for confirmed meaningful sketch, confirmed absence and unknown status, including technical interruption, explicit noncompletion, missing fit after confirmed production and withdrawal. No meaningful sketch is not automatically equivalent to a missing fit rating. Use a single approved ledger and the cohort validator in empirical.py; report production and conditional fit descriptively and the composite across assignment. A shift in composite moderation may arise from production alone. No component-specific causal conclusion is identified by conditioning on observed production. Verify electronic instrument permission separately; no recruitment until approved.
