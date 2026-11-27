@@ -7,14 +7,19 @@ from secondary import secondary
 from sensitivity import cluster_bootstrap
 from daily import daily_ledger,summarize
 from robustness import robustness
+from withdrawal_audit import audit
 
-def analyze(frame,reps=499,seed=2606,enrollment=None,checkins=None):
+def analyze(frame,reps=499,seed=2606,enrollment=None,checkins=None,*,data_kind="synthetic"):
+    if data_kind not in ("synthetic","empirical"):
+        raise ValueError("Explicit valid data kind required")
+    audit_result=audit(enrollment,checkins,frame) if data_kind=="empirical" else None
     if (enrollment is None)!=(checkins is None):
         raise ValueError("Supply both enrollment and daily check-ins")
     d=ledger(frame)
+    daily=summarize(daily_ledger(enrollment,checkins,d)) if enrollment is not None else None
     a=d[d.session_status.eq("eligible")].copy()
     complete=a.dropna(subset=["interference"])
-    result={"flow":flow_counts(d),"primary":fit_arrays(complete.participant_id,
+    result={"data_kind":data_kind,"confirmatory_authorized":False,"withdrawal_audit":audit_result,"flow":flow_counts(d),"primary":fit_arrays(complete.participant_id,
              complete[PREDICTORS],complete.interference)}
     narrow=ledger(frame,upper_hours=26)
     n=narrow.loc[narrow.session_status.eq("eligible")].dropna(subset=["interference"])
@@ -26,7 +31,7 @@ def analyze(frame,reps=499,seed=2606,enrollment=None,checkins=None):
         result["timing_sensitivity"]["unavailable"]=str(exc)
     result["robustness"]=robustness(d)
     if enrollment is not None:
-        result["daily_denominators"]=summarize(daily_ledger(enrollment,checkins,d))
+        result["daily_denominators"]=daily
     else:
         result["daily_denominators_unavailable"]="Enrollment and check-in logs not supplied"
     # Optional secondary outcomes cannot silently suppress the primary result.
@@ -48,12 +53,14 @@ if __name__=="__main__":
     p.add_argument("csv")
     p.add_argument("--bootstrap",type=int,default=499)
     p.add_argument("--seed",type=int,default=2606)
+    p.add_argument("--data-kind",choices=["synthetic","empirical"],required=True)
     p.add_argument("--enrollment")
     p.add_argument("--checkins")
     a=p.parse_args()
     if a.bootstrap<1:p.error("bootstrap must be positive")
     d=pd.read_csv(a.csv,dtype={"participant_id":str,"session_id":str})
     if bool(a.enrollment)!=bool(a.checkins):p.error("Supply both --enrollment and --checkins")
+    if a.data_kind=="empirical" and not a.enrollment:p.error("Empirical mode requires both ledgers")
     e=pd.read_csv(a.enrollment,dtype={"participant_id":str}) if a.enrollment else None
     c=pd.read_csv(a.checkins,dtype={"participant_id":str}) if a.checkins else None
-    print(json.dumps(analyze(d,a.bootstrap,a.seed,e,c),indent=2,allow_nan=False))
+    print(json.dumps(analyze(d,a.bootstrap,a.seed,e,c,data_kind=a.data_kind),indent=2,allow_nan=False))

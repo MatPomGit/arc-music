@@ -13,3 +13,7 @@ Assign opaque participant and activity identifiers. Keep consent and reidentific
 
 ## Approval checklist
 Before any interviews or pilot: ethics review and documented authorization; approved participant information and consent; data controller and lawful basis confirmed with university; storage/access/retention and withdrawal procedure; language and rights for each optional standardized instrument; approved recruitment and distress response. Before confirmatory recruitment: separate pilot results, revised and frozen diary, preregistration, final sample design, reproducible analysis and review. All are pending unless separately documented. Neither code completion nor a green CI substitutes for approval.
+
+## Candidate exact cessation gate
+
+Subject to university approval, the exact offset-aware withdrawal_time is the first instant at which further collection is prohibited; at or after is invalid, regardless of earlier session start. The calendar withdrawal_day is the first fully inactive date in the enrollment IANA zone. Check pre/start/end/post/follow-up and check-in timestamps before estimation, reject missing event time for supplied responses and unknown participants. The software does not decide what may be retained or delete records: obtain an authorized export after implementing the institution's actual withdrawal and deletion instructions. If reconciliation fails, stop; no silent truncation or retention extension. Approval of this candidate policy is outstanding.
