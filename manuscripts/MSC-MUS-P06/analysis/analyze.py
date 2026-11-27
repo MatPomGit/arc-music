@@ -39,7 +39,10 @@ def analyze(frame,reps=499,seed=2606,enrollment=None,checkins=None,*,data_kind="
         result["secondary"]=secondary(complete)
     except (ValueError,KeyError) as exc:
         result["secondary_unavailable"]=str(exc)
-    if a.interference.isna().any():
+    result["primary_target_status"]="descriptive_observed_defined_only" if not a.endpoint_state.eq("defined").all() else "defined_logged_sessions"
+    if not a.endpoint_state.eq("defined").all():
+        result["missingness_unavailable"]="Undefined or unascertained endpoint states; full-session estimand not identified. No numerical imputation."
+    elif a.interference.isna().any():
         try:
             result["missingness"]=cluster_bootstrap(a,reps=reps,seed=seed)
         except (ValueError,ArithmeticError) as exc:

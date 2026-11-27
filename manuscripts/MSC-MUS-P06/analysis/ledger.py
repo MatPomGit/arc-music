@@ -90,8 +90,19 @@ def ledger(frame, upper_hours=28):
         if c in d: d.loc[~d.post_valid,c]=np.nan
     same_activity=d.activity_id.notna() & d.followup_activity_id.notna() & d.activity_id.eq(d.followup_activity_id)
     relevant=d.activity_relevant.map(lambda v: bool(v) if pd.notna(v) else False)
-    follow_status=np.select([d.followup_time.isna(),~follow.between(24,upper_hours),
-                             ~same_activity,d.activity_relevant.isna(),~relevant,d.interference.isna()],
+    reason=d.get("activity_status_reason",pd.Series(index=d.index,dtype=object))
+    if not reason.dropna().isin(["barriers_prevented","independent_no_longer_applicable","unknown"]).all():
+        raise ValueError("Invalid activity status reason")
+    if (relevant & reason.isin(["barriers_prevented","independent_no_longer_applicable"])).any():
+        raise ValueError("Activity status reason contradicts relevance")
+    # Barriers to performing the originally intended activity do not erase it.
+    applicable=relevant | (d.activity_relevant.eq(False) & reason.eq("barriers_prevented"))
+    timely=follow.between(24,upper_hours)
+    defined=timely & same_activity & applicable
+    undefined=timely & same_activity & d.activity_relevant.eq(False) & reason.eq("independent_no_longer_applicable")
+    d["endpoint_state"]=np.select([defined,undefined],["defined","undefined"],default="unknown")
+    follow_status=np.select([d.followup_time.isna(),~timely,
+                             ~same_activity,d.activity_relevant.isna(),~applicable,d.interference.isna()],
                             ["no_followup","outside_window","activity_mismatch","relevance_unknown","activity_no_longer_relevant","missing_score"],
                             default="observed")
     d["followup_status"]=follow_status
@@ -114,4 +125,5 @@ def flow_counts(d):
             "eligible_sessions":len(eligible),
             "eligible_participants":int(eligible.participant_id.nunique()),
             "valid_post":int(eligible.post_valid.sum()),
-            "followup_status":{str(k):int(v) for k,v in eligible.followup_status.value_counts().items()}}
+            "followup_status":{str(k):int(v) for k,v in eligible.followup_status.value_counts().items()},
+            "endpoint_state":{str(k):int(v) for k,v in eligible.endpoint_state.value_counts().items()}}

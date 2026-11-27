@@ -18,7 +18,7 @@ distress_pre,session,integer,0-10,pre
 expected_difficulty,session,integer,0-10,pre
 distress_post,session,integer,0-10,post
 brooding,session,integer,0-10,post
-reflection,session,integer,0-10,post
+reflection,session,integer,0-10 perceived insight (legacy column name),post
 generation_count,session,integer,nonnegative,post
 duration_minutes,session,number,nonnegative,post
 technical_failure,session,boolean,technical interruption,post
@@ -26,3 +26,4 @@ interference,session,integer,0-10,followup
 activity_completed,session,boolean,planned action completed,followup
 distress_followup,session,integer,0-10,followup
 followup_missing_reason,session,category,optional reason,followup
+activity_status_reason,session,category,barriers_prevented or independent_no_longer_applicable or unknown; optional when relevance false,followup

@@ -20,6 +20,15 @@ class TestExtensions(unittest.TestCase):
         self.assertEqual(len(r["pattern_mean_shifts"]),15)
         self.assertAlmostEqual(r["observation_rate"],.75)
         self.assertTrue(np.isfinite(list(r["ipw"].values())).all())
+    def test_undefined_or_unknown_never_imputed(self):
+        for state in ("undefined","unknown",None):
+            d=self.fixture()
+            d["endpoint_state"]="defined"
+            d.loc[d.index[0],"endpoint_state"]=state
+            with self.assertRaisesRegex(ValueError,"undefined or unknown"):
+                sensitivity(d)
+            with self.assertRaisesRegex(ValueError,"undefined or unknown"):
+                cluster_bootstrap(d,reps=3)
     def test_bootstrap(self):
         r=cluster_bootstrap(self.fixture(),reps=5)
         self.assertEqual(r["valid"]+r["failed"],5)

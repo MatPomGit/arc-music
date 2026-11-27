@@ -29,3 +29,7 @@ Optional secondary models retain their prespecified three slots even if one mode
 ## Candidate empirical cessation gate
 
 Empirical CLI requires both authorized enrollment and check-in ledgers, with frozen IANA timezone, exact offset-aware cessation time (or explicit blank), first fully inactive day and check-in timestamp. `withdrawal_audit.py` checks every event before model execution, including follow-ups of earlier sessions; at or after cutoff fails. Calendar consistency is checked before fitting. Missing response timestamps and unknown IDs block inference. Synthetic mode preserves historical fixture behavior. No code authorizes retention or confirmation; actual university policy and consent must be agreed before fieldwork.
+
+## Endpoint ascertainment candidate
+
+The ledger separates defined (timely matched activity still relevant or prevented by barriers), undefined (timely matched activity independently no longer applicable), and unknown (no timely matched relevance/status evidence). No assumption that nonresponse implies a defined endpoint. The original complete-case model is descriptive among observed defined sessions if other states exist; full-session IPW/shift/bootstrap is withheld, not silently restricted to a selected population. Confirm the status wording and estimand with the owner and pilot. Existing synthetic calibration arrays without endpoint_state assume all outcomes defined; historical numbers do not validate this new ascertainment gate.

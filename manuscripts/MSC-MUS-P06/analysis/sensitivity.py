@@ -42,8 +42,10 @@ def observation_probability(x, observed):
     return expit(z@opt.x)
 
 def sensitivity(frame):
-    # Contract: one row per eligible session with valid pre/start/end and complete
-    # predictors; y missing denotes unavailable or out-of-window follow-up.
+    # Production ledger must not impute structurally undefined or unascertained
+    # endpoints. Historical synthetic arrays omit endpoint_state and assume defined.
+    if "endpoint_state" in frame and not frame.endpoint_state.eq("defined").all():
+        raise ValueError("Full-session sensitivity unavailable: undefined or unknown endpoint state")
     g=frame.participant_id.to_numpy()
     x=frame[PREDICTORS].to_numpy(float)
     y=frame.interference.to_numpy(float)
