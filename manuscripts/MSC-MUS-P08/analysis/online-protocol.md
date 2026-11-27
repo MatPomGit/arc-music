@@ -1,4 +1,4 @@
-# P08 online protocol v0.4.1
+# P08 online protocol v0.4.2
 
 Research owner: Mateusz Pomianek. Proposed Polish brief: „Zaaranżuj krótki utwór instrumentalny do spokojnej sceny otwarcia. Sprawdź po dwie wersje każdej zmiany. Po każdej parze zaznacz wersję, którą wolisz.”
 
@@ -19,3 +19,5 @@ After authorisation, run a 30 to 50 person feasibility pilot. Review by assigned
 Choose the randomised sample after agreeing on the smallest meaningful change on the 0 to 10 scale, estimating outcome dispersion and availability in the feasibility pilot, and rerunning the planning grid with those ranges. Provision for H1 separately from H2 and H3, which form a Holm family. If 90% primary power under approved assumptions exceeds feasible recruitment, defer confirmation. Report structural absence separately from missing ratings. This document does not launch a study.
 
 For each assigned cell distinguish confirmed hearing of an assessable version, confirmed non-hearing and unresolved exposure. Missing item ratings after confirmed hearing are not structural absence. If any hearing is false or unknown, full-cohort numerical sensitivity and confirmatory tests are withheld; heard-only contrasts remain descriptive. Review hearing feasibility before confirmation; do not select a postassignment survivor estimand after seeing results.
+
+See measurement-validation.md for proposed expert and cognitive interview procedures and timing equivalence rules. The two timing margins must be approved before inspecting pilot differences. Record joint role comprehension and separate playback initiation, success and hearing; preserve unknown flags.

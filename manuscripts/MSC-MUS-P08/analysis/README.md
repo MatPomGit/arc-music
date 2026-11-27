@@ -1,4 +1,4 @@
-# P08 analysis contract v0.4.1
+# P08 analysis contract v0.4.2
 
 PROSPECTIVE. Research owner: Mateusz Pomianek. H1 marginal decision-authority contrast on ownership; H2 same contrast on agency; H3 authority-by-execution interaction on ownership. Effect coding -0.5/+0.5, baseline covariates only, HC3 and fixed two-test Holm family. Preserve randomised denominators; never score absent or unheard output as zero. Run python -m unittest -v in this directory; python inference.py assigned.csv on approved locked exports only. The initial code estimates complete-outcome models. Full missingness calibration, secure allocation service integration, stimulus development, independent psychometric assessment, pilot-informed sample planning, ethics and independent review remain pending. Initial bibliography checked at metadata level on 26 November 2026; full-text and rights audit pending. No field application or participant data.
 
@@ -9,3 +9,5 @@ Missingness: each composite receives cell-based worst/best bounded marginal cont
 Allocation: allocation.py implements a local SQLite prototype with variable blocks 4/8/12 per training stratum, OS-backed randomness, atomic allocation, unique participant IDs and idempotent retries. Seeded RNG is synthetic-test-only. This is not a field service. Authentication, private storage permissions, eligibility/consent checks, independent allocation oversight and secure deployment are not implemented. Never expose pending slots or commit allocation databases.
 
 The offline task contract and sample-free audio fixtures cover all sixteen arrangement paths. The proposed participant procedure, approval requirements and pilot gates are in online-protocol.md. Evidence locations and remaining full-text gaps are in bibliography-audit.md.
+
+See measurement-validation.md for construct map, expert review, cognitive interviews and feasibility gates. Run python pilot_fidelity.py pilot.csv --task-margin <approved seconds> --preview-margin <approved seconds> with approved margins; report all assigned counts, exact binomial intervals and all six pairwise Welch timing contrasts per metric. No claim of empirical validity or equivalence.
