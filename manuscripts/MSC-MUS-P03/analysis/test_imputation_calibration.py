@@ -43,6 +43,33 @@ class CalibrationTests(unittest.TestCase):
         self.assertEqual(a["failures"],1)
         self.assertIsNone(summary([None,None],.1)["coverage"])
 
+    def test_operational_precision_and_failure_boundaries(self):
+        hit=dict(beta=.1,ci95=[0,.2],p=.01)
+        result=summary([hit,None],.1)
+        self.assertEqual(result["coverage_denominator"],1)
+        self.assertEqual(result["operational_coverage_denominator"],2)
+        self.assertEqual(result["operational_coverage_events"],1)
+        self.assertAlmostEqual(result["operational_coverage_mcse"],np.sqrt(.125))
+        self.assertEqual(result["failure_rate"],.5)
+        self.assertEqual(result["operational_rejection"],.5)
+        all_failed=summary([None,None],.1)
+        self.assertIsNone(all_failed["coverage_ci95"])
+        self.assertEqual(all_failed["operational_coverage"],0.)
+        self.assertGreater(all_failed["operational_coverage_ci95"][1],0.)
+        self.assertLess(all_failed["failure_rate_ci95"][0],1.)
+        empty=summary([],.1)
+        self.assertIsNone(empty["operational_coverage"])
+        self.assertIsNone(empty["failure_rate_ci95"])
+
+    def test_numeric_fields_are_consistently_normalized(self):
+        value=dict(beta="0.1",ci95=["0","0.2"],p="0.01")
+        result=summary([value],.1)
+        self.assertEqual(result["fitted"],1)
+        self.assertEqual(result["bias"],0.)
+        self.assertEqual(result["coverage"],1.)
+        self.assertEqual(result["rejection"],1.)
+        self.assertAlmostEqual(paired_difference([value],[dict(beta=.2,ci95=[.1,.3],p=.1)])["mean_difference"],-.1)
+
     def test_invalid_inference_is_counted_as_failure(self):
         valid = dict(beta=.1, ci95=[0,.2], p=.1)
         malformed = [

@@ -143,7 +143,7 @@ def paired_difference(values, oracle):
     """Estimate paired MI-minus-oracle error, with Monte Carlo precision."""
     if len(values) != len(oracle):
         raise ValueError("Unequal paired replication counts")
-    diff = np.asarray([a["beta"]-b["beta"] for a,b in zip(values,oracle)
+    diff = np.asarray([float(a["beta"])-float(b["beta"]) for a,b in zip(values,oracle)
                        if valid_inference(a) and valid_inference(b)], dtype=float)
     k = len(diff)
     return dict(attempted=len(values), paired=k,
@@ -165,6 +165,16 @@ def valid_inference(result):
                 and 0 <= p <= 1 and ci[0] <= beta <= ci[1])
 
 
+def binomial_metrics(events, total, name):
+    """Keep uncertainty visible at boundary rates, including zero failures."""
+    if not 0 <= events <= total:
+        raise ValueError("Invalid binomial counts")
+    rate = events/total if total else None
+    return {name: rate, name+"_events":int(events), name+"_denominator":int(total),
+            name+"_ci95":wilson(events,total) if total else None,
+            name+"_mcse":float(np.sqrt(rate*(1-rate)/total)) if total else None}
+
+
 def summary(values, truth):
     if not np.isfinite(truth):
         raise ValueError("Nonfinite projection reference")
@@ -172,22 +182,20 @@ def summary(values, truth):
     good = [v for v in values if valid_inference(v)]
     k = len(good)
     invalid = sum(v is not None and not valid_inference(v) for v in values)
-    out = dict(attempted=n, fitted=k, failures=n-k, invalid_results=invalid)
-    if not k:
-        return out | dict(bias=None, rmse=None, coverage=None, rejection=None,
-                          operational_coverage=0., operational_rejection=0.,
-                          coverage_mcse=None, rejection_mcse=None)
-    b = np.array([v["beta"] for v in good])
-    covered = sum(v["ci95"][0] <= truth <= v["ci95"][1] for v in good)
-    rejected = sum(v["p"] < .05 for v in good)
-    c, r = covered/k, rejected/k
-    out.update(bias=float(b.mean()-truth), rmse=float(np.sqrt(((b-truth)**2).mean())),
-               bias_mcse=float(b.std(ddof=1)/np.sqrt(k)) if k > 1 else None,
-               coverage=c, rejection=r, coverage_ci95=wilson(covered,k),
-               rejection_ci95=wilson(rejected,k),
-               coverage_mcse=float(np.sqrt(c*(1-c)/k)),
-               rejection_mcse=float(np.sqrt(r*(1-r)/k)),
-               operational_coverage=covered/n, operational_rejection=rejected/n)
+    b = np.asarray([float(v["beta"]) for v in good])
+    covered = sum(float(v["ci95"][0]) <= truth <= float(v["ci95"][1]) for v in good)
+    rejected = sum(float(v["p"]) < .05 for v in good)
+    out = dict(attempted=n, fitted=k, failures=n-k, invalid_results=invalid,
+               bias=float(b.mean()-truth) if k else None,
+               rmse=float(np.sqrt(((b-truth)**2).mean())) if k else None,
+               bias_mcse=float(b.std(ddof=1)/np.sqrt(k)) if k>1 else None)
+    # Conditional rates describe successful fits; operational rates count all
+    # attempted datasets, with failures contributing no coverage or rejection.
+    out.update(binomial_metrics(covered,k,"coverage"),
+               **binomial_metrics(rejected,k,"rejection"),
+               **binomial_metrics(covered,n,"operational_coverage"),
+               **binomial_metrics(rejected,n,"operational_rejection"),
+               **binomial_metrics(n-k,n,"failure_rate"))
     return out
 
 
@@ -281,7 +289,7 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
                           reference_kind="exact_rounded_projection" if rounded else "exact_continuous",
                           reference_check=reference,
                           mean_submitted=float(f[:,0].mean()), mean_complete=float(f[:,1].mean()),
-                          attainment=float((f[:,1]==target).mean()),
+                          **binomial_metrics(int((f[:,1]==target).sum()),reps,"attainment"),
                           mean_missing_outcome=float(f[:,2].mean()),
                           mean_missing_predictor=float(f[:,3].mean()),
                           methods={key: summary(v, truth) for key,v in values.items()}))
