@@ -1,0 +1,18 @@
+\begin{tikzpicture}[font=\small,
+ cell/.style={draw=black!65,minimum width=4.2cm,minimum height=1.1cm,align=center},
+ match/.style={cell,fill=blue!12},
+ mismatch/.style={cell,fill=black!3},
+ pred/.style={-{Stealth[length=2mm]},thick,blue!70!black}]
+\node[font=\bfseries] at (0,1.8) {Goal instruction};
+\node[font=\bfseries,align=center] at (4.0,1.8) {Preserve meaning};
+\node[font=\bfseries,align=center] at (8.5,1.8) {Transform meaning};
+\node[anchor=east] at (1.7,.65) {Articulation};
+\node[anchor=east] at (1.7,-1.15) {Reinterpretation};
+\node[match] (a) at (4,.65) {$\mu_{00}$\\Matched};
+\node[mismatch] (b) at (8.5,.65) {$\mu_{01}$\\Mismatched};
+\node[mismatch] (c) at (4,-1.15) {$\mu_{10}$\\Mismatched};
+\node[match] (d) at (8.5,-1.15) {$\mu_{11}$\\Matched};
+\draw[pred] (b.south) -- ++(0,-.27) -| node[pos=.25,below,font=\scriptsize] {$s_0=\mu_{00}-\mu_{01}>0$} (a.south);
+\draw[pred] (c.south) -- ++(0,-.27) -| node[pos=.25,below,font=\scriptsize] {$s_1=\mu_{11}-\mu_{10}>0$} (d.south);
+\node[align=center] at (6.25,-2.5) {Central prediction: both inequalities must hold};
+\end{tikzpicture}
