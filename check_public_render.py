@@ -85,7 +85,10 @@ def check_home_layout(page, section):
         lang = page.locator("html").get_attribute("lang")
         copy = page.locator(".affect-copy")
         assert copy.locator("h2").inner_text() == ("Music and emotions" if lang == "en" else "Muzyka i emocje")
-        assert copy.locator("p").count() == 2
+        assert copy.locator("p").count() == 3
+        assert copy.locator("a[href^='https://doi.org/']").count() == 2
+        assert copy.locator("a[href='https://doi.org/10.1080/17437199.2019.1627897']").count() == 1
+        assert copy.locator("a[href='https://doi.org/10.1177/03057356231212362']").count() == 1
         content = copy.inner_text().casefold()
         for phrase in (("release emotional tension", "express difficult feelings") if lang == "en" else ("rozładować napięcie emocjonalne", "wyrazić trudne uczucia")):
             assert phrase in content

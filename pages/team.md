@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-Zainicjowała projekt i kieruje jego rozwojem. Jej zainteresowania koncentrują się na psychologicznym wymiarze twórczości muzycznej.
+Jej zainteresowania obejmują psychologię twórczości, muzykę i arteterapię, ze szczególnym uwzględnieniem znaczenia ekspresji artystycznej w życiu człowieka.
 
 ## Paulina Ficner
 
-Wnosi do zespołu perspektywę łączącą psychologię, projektowanie i komunikację wizualną.
+Łączy zainteresowania psychologią biznesu z doświadczeniem w projektowaniu i komunikacji wizualnej. Interesuje się relacjami między procesami psychologicznymi a otoczeniem człowieka.
 
 ## Mateusz Pomianek
 
-Łączy perspektywę psychologii i informatyki w interdyscyplinarnych badaniach nad człowiekiem i technologią.
+Specjalizuje się w neuroinformatyce oraz interdyscyplinarnych zagadnieniach z pogranicza psychologii, neuronauki i informatyki.
 
 ## Cezary Biele
 
-Kieruje Centrum Psychologii Cyfrowej Uniwersytetu VIZJA i sprawuje opiekę naukową nad projektem.
+Jego zainteresowania naukowe obejmują psychologię poznawczą i psychologię cyfrową. Kierownik Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.

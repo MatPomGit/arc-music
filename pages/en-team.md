@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-She initiated the project and leads its development. Her interests focus on the psychological dimension of musical creativity.
+Her interests encompass the psychology of creativity, music and art therapy, with a particular focus on the significance of artistic expression in human life.
 
 ## Paulina Ficner
 
-She brings a perspective that connects psychology, design and visual communication.
+Her interests in business psychology intersect with her experience in design and visual communication. She is interested in the relationship between psychological processes and the human environment.
 
 ## Mateusz Pomianek
 
-He combines psychological and computational perspectives in interdisciplinary research on people and technology.
+He specialises in neuroinformatics and interdisciplinary topics at the intersection of psychology, neuroscience and computer science.
 
 ## Cezary Biele
 
-He heads the Centre for Digital Psychology at VIZJA University and provides academic supervision for the project.
+His research interests encompass cognitive psychology and digital psychology. Head of the Centre for Digital Psychology at VIZJA University.
