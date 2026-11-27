@@ -6,7 +6,15 @@ Każdy manuskrypt ma `monte_carlo.py`. P02: NOT_APPLICABLE, refleksyjna analiza 
 
 ## Uruchomienie
 
-Z katalogu repozytorium na zaufanym, sprawdzonym HEAD:
+Z katalogu repozytorium na zaufanym, sprawdzonym HEAD. WSL/Linux: przygotowanie odrębnych środowisk (jawna instalacja zależności), następnie uruchomienie:
+
+```bash
+bash run-monte-carlo.sh all --setup
+bash run-monte-carlo.sh all --profile smoke --jobs 4
+bash run-monte-carlo.sh P09 --profile full --jobs 8
+```
+
+Alternatywnie dla pojedynczej pracy:
 
 ```bash
 python3 manuscripts/MSC-MUS-P09/monte_carlo.py --profile full --list
@@ -17,7 +25,7 @@ python manuscripts/MSC-MUS-P09/monte_carlo.py --profile smoke --jobs 4
 python manuscripts/MSC-MUS-P09/monte_carlo.py --profile full --jobs 8
 ```
 
-Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Wspólne uruchomienie `python monte_carlo_runner.py --study all --profile smoke --jobs 4` wymaga zgodnego środowiska wszystkich badań (zalecane odrębne venv ze względu na różne przypięte NumPy/SciPy).
+Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. Bez skryptu wspólne uruchomienie runnera wymaga zgodnego środowiska; wersje NumPy/SciPy mogą się różnić.
 
 `--task 'ipw/cell-06/*'` wybiera konfigurację z zależnościami; `--list` wypisuje programy, ziarna, parametry i zależności bez obliczeń. Domyślnie jeden proces i jeden wątek BLAS; zwiększ --jobs ostrożnie względem pamięci, --threads domyślnie 1. GPU nie jest wykorzystywane przez obecne modele NumPy/SciPy/R.
 
@@ -27,4 +35,4 @@ P01: 96 komórek × 20 000; P03: 5 mechanizmów × 2000 na konfigurację, 50 imp
 
 ## Wyniki i wznowienie
 
-build/monte-carlo/<HEAD>/<Pxx>/<profil>/<run-id>/ (ignorowany przez Git). Każdy JSON ma metadane SHA-256, polecenie, środowisko i zależności. Wznowienie na poziomie ukończonego zadania/partii (nie wewnątrz monolitycznej symulacji P01/P03/P04/P06/P07/P08) przez identyczne polecenie wykorzystuje wyłącznie poprawne, zgodne wyniki; nie miesza środowisk, rewizji ani ziaren. Po zmianie środowiska użyj innego --run-id. Błąd pozostawia stderr i częściowy wynik, bez znacznika sukcesu; zależności są blokowane, pozostałe zadania kontynuowane. Usuń blokadę .run.lock tylko po upewnieniu się, że nie działa proces. Sukces wykonania nie oznacza zatwierdzonej kalibracji. Nie commituj surowych wyników automatycznie.
+build/monte-carlo/<HEAD>/<Pxx>/<profil>/<run-id>/ (ignorowany przez Git). Każdy JSON ma metadane SHA-256, polecenie, środowisko i zależności. Wznowienie na poziomie ukończonego zadania/partii (nie wewnątrz monolitycznej symulacji P01/P03/P04/P06/P07/P08) przez identyczne polecenie wykorzystuje wyłącznie poprawne, zgodne wyniki; nie miesza środowisk, rewizji ani ziaren. Po zmianie środowiska użyj innego --run-id. Błąd pozostawia stderr i częściowy wynik, bez znacznika sukcesu; zależności są blokowane, pozostałe zadania kontynuowane. Usuń blokadę .run.lock tylko po upewnieniu się, że nie działa proces. Testy orkiestracji: `python -m unittest -v test_monte_carlo_runner`. Sukces wykonania nie oznacza zatwierdzonej kalibracji. Nie commituj surowych wyników automatycznie.

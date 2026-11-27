@@ -39,12 +39,13 @@ def load_plan(study,profile):
     tasks=runpy.run_path(str(directory(study)/"monte_carlo.py"))["plan"](profile)
     names=[t.name for t in tasks]
     if len(set(names))!=len(names):raise ValueError("Duplicate task names")
+    known=set(names)
     for t in tasks:
         if not re.fullmatch(r"[a-z0-9_-]+(?:/[a-z0-9_-]+)*",t.name):
             raise ValueError("Unsafe task name")
         if not re.fullmatch(r"[a-zA-Z0-9_]+\.py",t.script) or not (directory(study)/"analysis"/t.script).is_file():
             raise ValueError("Missing or unsafe script: "+t.script)
-        if not set(t.deps)<=set(names) or t.name in t.deps:
+        if not set(t.deps)<=known or t.name in t.deps:
             raise ValueError("Invalid dependencies: "+t.name)
     pending=set(names);seen=set()
     while pending:
@@ -101,7 +102,7 @@ def source_hash(study):
 
 def environment(tasks,study,threads):
     requirements={"P01":("numpy","scipy"),"P03":("numpy","scipy","pandas","statsmodels"),
-                  "P05":("numpy","scipy")}
+                  "P04":("numpy","scipy"),"P05":("numpy","scipy")}
     versions={}
     for package in requirements.get(study,("numpy","scipy","pandas")):
         try:versions[package]=metadata.version(package)
@@ -169,8 +170,12 @@ def schedule(tasks,worker,jobs):
     state={};remaining={t.name:t for t in tasks};active={}
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         while remaining or active:
-            blocked=[t for t in remaining.values() if any(state.get(d) in ("FAILED","BLOCKED") for d in t.deps)]
-            for t in blocked:state[t.name]="BLOCKED";remaining.pop(t.name)
+            while True:
+                blocked=[t for t in remaining.values() if any(state.get(d) in ("FAILED","BLOCKED") for d in t.deps)]
+                if not blocked:break
+                for t in blocked:
+                    state[t.name]="BLOCKED";remaining.pop(t.name)
+                    print(t.name,"BLOCKED",flush=True)
             ready=[t for t in remaining.values() if all(state.get(d) in ("EXECUTED","REUSED") for d in t.deps)]
             for t in ready[:max(0,jobs-len(active))]:
                 active[pool.submit(worker,t)]=t;remaining.pop(t.name)
