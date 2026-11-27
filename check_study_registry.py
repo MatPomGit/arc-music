@@ -14,7 +14,7 @@ def numeric_tokens(html, lang):
     return collections.Counter(float(x) for x in re.findall(r"\d+(?:\.\d+)?|\.\d+",s))
 
 def validate(root=ROOT):
-    data=json.loads((root/"pages/study-estimates.json").read_text(encoding="utf-8"))
+    data=json.loads((root/"docs/study-estimates.json").read_text(encoding="utf-8"))
     assert data["schema"]=="arc-music-site-estimates-v1"
     assert [r["id"] for r in data["studies"]]==[f"P{i:02d}" for i in range(1,10)]
     pages={l:(root/"pages"/n).read_text(encoding="utf-8") for l,n in (("pl","studies.md"),("en","en-studies.md"))}
@@ -24,6 +24,8 @@ def validate(root=ROOT):
         for ref in [record["evidence"],*record.get("additional_evidence",[])]:
             assert (root/ref).is_file(),ref
         if record["sha"] is not None:assert re.fullmatch(r"[a-f0-9]{40}",record["sha"])
+        for subset in record.get("archived_subsets",[]):
+            assert re.fullmatch(r"[a-f0-9]{40}",subset["head"]) and isinstance(subset["run"],int)
         for lang,content in pages.items():
             panel=re.search(r'<article class="pub" id="msc-mus-'+record["id"].lower()+r'"[\s\S]*?</article>',content).group()
             for field in ("sample","estimate"):

@@ -1,7 +1,7 @@
 {
   "schema": "arc-music-site-estimates-v1",
   "date": "2026-11-27",
-  "note": "Canonical bilingual sample/estimate text. All results synthetic or plans; no approval. Historical source IDs are distinct from current procedure. Null provenance means not verified.",
+  "note": "Canonical bilingual sample/estimate text. All results synthetic or plans; no approval. Historical source IDs are distinct from current procedure. Null provenance means not verified. Canonical internal registry; not included in website build. Archived subsets refer only to identified runs; not all historical results have verified artifact provenance.",
   "studies": [
     {
       "id": "P01",
@@ -33,7 +33,21 @@
           "artifact": "15191799855",
           "scope": "historical mean matching contrast"
         }
-      ]
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15191799855
+        },
+        {
+          "run": 46008739611,
+          "head": "f3af537fe1ca58d80cea8226e735461d2a1b16ce",
+          "artifact": 15202454395
+        }
+      ],
+      "scope": "Mean and conjunction tests; Gaussian summary simulations with independent retention; historical N420 mean vs N1000 conjunction; symmetric and asymmetric effects.",
+      "source_commit": "180c809f4d75fae73a1583766faa59254a5b2c1e"
     },
     {
       "id": "P02",
@@ -54,7 +68,12 @@
           "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> 20–30 completed interviews; pilot of 2–3 adults.</p>",
           "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">20–30 interviews</span>. Purposive recruitment targets varied experiences and in-depth thematic analysis; material adequacy will be assessed after piloting. Statistical power does not apply to this qualitative design.</p>"
         }
-      }
+      },
+      "additional_evidence": [
+        "manuscripts/MSC-MUS-P02/sections/method.tex"
+      ],
+      "archived_subsets": [],
+      "scope": "Qualitative planning range only; no power or simulated outcomes."
     },
     {
       "id": "P03",
@@ -78,8 +97,17 @@
       },
       "additional_evidence": [
         "docs/p03-imputation-audit.md",
-        "docs/rounded-sensitivity-audit.md"
-      ]
+        "docs/rounded-sensitivity-audit.md",
+        "manuscripts/MSC-MUS-P03/main.tex"
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15193146592
+        }
+      ],
+      "scope": "Historical HC3 partial association; mixed MAR and MNAR, target assurance and PMM screen distinct."
     },
     {
       "id": "P04",
@@ -103,7 +131,20 @@
       },
       "additional_evidence": [
         "manuscripts/MSC-MUS-P04/analysis/measurement-evidence.md"
-      ]
+      ],
+      "archived_subsets": [
+        {
+          "run": 45888642713,
+          "head": "50192c297a709a53f75b0f637c2d702a6125537d",
+          "artifact": 15151041277
+        },
+        {
+          "run": 45889492136,
+          "head": "7ece9ac84bc64ffef6e14b7613afff42ea425c84",
+          "artifact": 15150727691
+        }
+      ],
+      "scope": "Historical status-dependent composite missingness, observed-score interaction; baseline PMM vs enhanced capture; 120 per cell."
     },
     {
       "id": "P05",
@@ -125,7 +166,10 @@
           "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">72 diagnostic CFA datasets</span>. EFA N=400 and CFA N=500 remain provisional. With .40 loadings and .80 factor correlations, proper fits: 1/12 (8.3%) at N=500, 4/12 (33.3%) at N=800; with .35 correlations and N=800, 12/12. Model stability, not empirical validation.</p>"
         }
       },
-      "provenance_note": "Exact run/artifact for the specific 72-cell summary not yet linked; inspect evidence file before release."
+      "provenance_note": "Exact run/artifact for the specific 72-cell summary not yet linked; inspect evidence file before release.",
+      "additional_evidence": [],
+      "archived_subsets": [],
+      "scope": "Ordinal CFA stability diagnostic, 12 per condition; not sample-size adequacy."
     },
     {
       "id": "P06",
@@ -150,7 +194,13 @@
       "additional_artifacts": [
         15153924538,
         15155175614
-      ]
+      ],
+      "additional_evidence": [
+        "manuscripts/MSC-MUS-P06/analysis/cluster-calibration-evidence.md",
+        "manuscripts/MSC-MUS-P06/main.tex"
+      ],
+      "archived_subsets": [],
+      "scope": "Historical FE/CR1 association under defined outcomes, MAR and attrition stress; not current endpoint-state gate calibration."
     },
     {
       "id": "P07",
@@ -173,9 +223,17 @@
         }
       },
       "additional_evidence": [
-        "manuscripts/MSC-MUS-P07/analysis/stress-plan.md"
+        "manuscripts/MSC-MUS-P07/analysis/stress-plan.md",
+        "manuscripts/MSC-MUS-P07/analysis/calibration-evidence.md"
       ],
-      "provenance_note": "Initial screen exact source; stress results reproduced by run 46010489946 but require separate artifact linkage."
+      "provenance_note": "Initial screen exact source; stress results reproduced by run 46010489946 but require separate artifact linkage.",
+      "archived_subsets": [
+        {
+          "run": 45899777729,
+          "head": "9e51be6c577869c506f9635bd6b6e2b9f00c6c0c"
+        }
+      ],
+      "scope": "Historical FE/CR1 observed switcher association; latent synthetic input, stage loss and informative dropout; not causal."
     },
     {
       "id": "P08",
@@ -199,7 +257,8 @@
       },
       "additional_evidence": [
         "docs/rounded-sensitivity-audit.md",
-        "docs/rounded-sensitivity-artifacts.json"
+        "docs/rounded-sensitivity-artifacts.json",
+        "manuscripts/MSC-MUS-P08/main.tex"
       ],
       "additional_sources": [
         {
@@ -208,7 +267,15 @@
           "artifact": "15192204427",
           "scope": "heard-only MAR null N660; cohort gate"
         }
-      ]
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15193456534
+        }
+      ],
+      "scope": "Historical HC3, 1000 per cell; heard-only IPW; separate availability calculation and blocked full-cohort gate; NO-GO."
     },
     {
       "id": "P09",
@@ -232,7 +299,8 @@
       },
       "additional_evidence": [
         "docs/rounded-sensitivity-audit.md",
-        "docs/rounded-sensitivity-artifacts.json"
+        "docs/rounded-sensitivity-artifacts.json",
+        "manuscripts/MSC-MUS-P09/analysis/calibration-audit.md"
       ],
       "additional_sources": [
         {
@@ -241,7 +309,15 @@
           "artifact": "15193008911",
           "scope": "H1 MAR null N600 bootstrap"
         }
-      ]
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15192343492
+        }
+      ],
+      "scope": "Historical HC3 500 per cell; defined-outcome IPW screen 40 per cell; present incomplete-outcome confirmation unavailable; candidate unapproved."
     }
   ]
 }
