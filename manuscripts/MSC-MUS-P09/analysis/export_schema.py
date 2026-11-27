@@ -1,4 +1,5 @@
 """Single P09 export contract for authorized offline records."""
+import csv
 import pandas as pd
 
 VERSION="p09-export-v2"
@@ -33,7 +34,11 @@ def validate_fields(frame):
 
 def read_export(path):
     """Preserve opaque identifiers/digests; parse Boolean tokens independently."""
-    d=pd.read_csv(path,dtype={k:"string" for k in ("participant_id","bank_digest","schema_version","same_event1","same_event2")},keep_default_na=False,na_values=["","NA"])
+    with open(path,newline="",encoding="utf-8-sig") as file:
+        header=next(csv.reader(file),[])
+    if not header or len(header)!=len(set(header)):
+        raise ValueError("Missing or duplicate CSV fields")
+    d=pd.read_csv(path,encoding="utf-8-sig",dtype={k:"string" for k in ("participant_id","bank_digest","schema_version","same_event1","same_event2")},keep_default_na=False,na_values=["","NA"])
     for k in ("same_event1","same_event2"):
         if k not in d:raise ValueError("Missing event flag")
         if not d[k].dropna().isin(("True","False","true","false")).all():
