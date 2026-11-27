@@ -21,6 +21,14 @@ def cr2(x, y, mask, contrast, alpha=.04):
     """
     if not 0 < alpha < 1:
         raise ValueError('invalid alpha')
+    if x.ndim != 3 or y.shape != x.shape[:2] or mask.shape != y.shape:
+        raise ValueError('CR2 requires aligned participant/session arrays')
+    if mask.dtype != np.bool_:
+        raise ValueError('CR2 mask must be boolean')
+    if contrast.shape != (x.shape[2],) or not np.isfinite(contrast).all():
+        raise ValueError('invalid contrast')
+    if not np.isfinite(x[mask]).all() or not np.isfinite(y[mask]).all():
+        raise ValueError('observed design and outcomes must be finite')
     x = np.where(mask[..., None], x, 0.)
     y = np.where(mask, y, 0.)
     _, k, p = x.shape
@@ -84,6 +92,9 @@ def endpoint(z, y0, y1, mask, shifts=(0., 0.)):
         raise ValueError('observed endpoint ratings must be finite')
     if not np.isfinite(y0).all():
         raise ValueError('first-session missingness requires separate model')
+    shifts = np.asarray(shifts, dtype=float)
+    if shifts.shape != (2,) or not np.isfinite(shifts).all():
+        raise ValueError('shifts must contain two finite arm-specific values')
     means, variances = [], []
     for arm in (0, 1):
         q = z == arm
