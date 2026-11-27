@@ -12,11 +12,11 @@
 \usepackage[hidelinks]{hyperref}
 \title{Emotional Dynamics of AI-Assisted Music Creation in Everyday Life: A Prospective Ecological Momentary Assessment Protocol}
 \author{Mateusz Pomianek}
-\date{Prospective protocol, version 0.9.0, 27 November 2026}
+\date{Prospective protocol, version 0.10.0, 27 November 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-AI-assisted music creation may coincide with changes in everyday affect, but event-triggered assessments alone cannot distinguish creation-related trajectories from ordinary affective fluctuations. We propose a 21-day observational ecological momentary assessment (EMA) study with independently scheduled observation windows. Current valence and arousal are assessed at baseline and approximately one and three hours later. Natural creation during the first hour is contrasted with windows without creation within the same person, adjusting for baseline affect, intention, study day and local time. The primary endpoint is valence at the first follow-up. Secondary outcomes concern later valence and proximity to the participant's initial arousal goal. Exposure is self-selected; the contrast is associative rather than causal. Archived synthetic calibration (32,800 datasets) illustrates the dependence of estimation on creation frequency, withdrawal and usable within-person contrasts. No recruitment target is approved and no participant data or empirical results are available.
+AI-assisted music creation may coincide with changes in everyday affect, but event-triggered assessments alone cannot distinguish creation-related trajectories from ordinary affective fluctuations. We propose a 21-day observational ecological momentary assessment (EMA) study with independently scheduled observation windows. Current valence and arousal are assessed at baseline and approximately one and three hours later. Natural creation during the first hour is contrasted with windows without creation within the same person, adjusting for baseline affect, intention, study day and local time. The primary endpoint is valence at the first follow-up. Secondary outcomes concern later valence and proximity to the participant's initial arousal goal. Exposure is self-selected; the contrast is associative rather than causal. Separate synthetic calibrations of the primary (32,800 datasets) and secondary (144,000 datasets) endpoints illustrate dependence on creation frequency and usable within-person contrasts. In the secondary screen, maximum false-family rejection was .0445 and .0425 under the MCAR and MAR response-stage scenarios, versus .2905 under MNAR. No recruitment target is approved and no participant data or empirical results are available.
 \end{abstract}
 \noindent\textbf{Keywords:} affect dynamics; valence; arousal; ecological momentary assessment; generative AI; music creation; within-person association.
 \section{Introduction}
@@ -110,7 +110,52 @@ $N$ & Prevalence & Rejection & Mean switchers & $Q_{.05}$ & Coverage\\
 \label{fig:rare-creation}
 \end{figure}
 
-A separate implemented secondary simulation crosses 72 scenarios (sample size, creation prevalence, global and partial nulls, joint alternatives and response mechanism), preserves endpoint-specific masks, and applies the fixed two-outcome Holm family. It must report both operational and conditional rejection, pointwise coverage and false-family rejection under the null configurations. Full secondary results are not available in the archived evidence. The smoke screen establishes executability only. Primary and secondary estimands, latent simulation contrasts and raw-score conditional-mean targets must not be combined into a single power estimate. Further calibration should evaluate the implemented joint missing-exposure/outcome scenario analysis, clustered uncertainty in sensitivity estimates and model misspecification. None of the synthetic scenarios justifies final recruitment until the pilot estimates usable exposure support and measurement properties.
+\subsection{Secondary outcome calibration}
+The full secondary simulation comprises 72 scenarios crossing $N=160$ and 320, creation prevalence .05, .10 and .25, four pairs of conditional-mean targets $(0,0)$, $(.4,0)$, $(0,-.2)$ and $(.4,-.2)$, and three response-stage missingness mechanisms. Each scenario contains 2,000 independent synthetic datasets, yielding 144,000 datasets and 288,000 endpoint-specific fit attempts. All fits succeeded. These targets are hypothetical raw-score associations, not validated smallest effects. The generator includes 45\% final-day withdrawal, ongoing-creation exclusions and timing loss in every scenario. The MCAR/MAR/MNAR labels refer to the varied response-stage mechanism, not the entire observation process; withdrawal can be informative relative to available data. H2 and H3 have distinct outcome masks and use the fixed Holm family.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Secondary calibration under the MAR response-stage scenario with joint alternative targets $(.4,-.2)$. Entries are operational Holm-adjusted rejection probabilities, including all simulated datasets.}
+\label{tab:secondary-power}
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+$N$ & Prevalence & H2 & H3 & Both\\
+\midrule
+160 & 5\% & .2100 & .1880 & .0655\\
+160 & 10\% & .4220 & .3695 & .2050\\
+160 & 25\% & .7485 & .6965 & .5740\\
+320 & 5\% & .4340 & .3845 & .2240\\
+320 & 10\% & .7365 & .6915 & .5480\\
+320 & 25\% & .9795 & .9530 & .9370\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\input{figures/secondary-power.tex}
+\caption{Secondary calibration under the joint alternative, $N=320$, MAR response-stage scenario. Lines connect evaluated prevalence levels only. Rejection of both hypotheses is a descriptive operating characteristic, not an additional prespecified test.}
+\label{fig:secondary-power}
+\end{figure}
+
+At $N=320$ and prevalence .25, operational joint rejection is .9370 under MAR and .9515 under MCAR. At prevalence .10, joint rejection falls to .5480 and .6130, respectively. Neither individual secondary rejection probability exceeds .80 in these latter joint-alternative cells. Thus even where the H1 stress screen appears adequately powered, secondary precision and rejection may remain insufficient. These are model-specific operating characteristics and not a recruitment decision. The maximum possible Monte Carlo standard error for a proportion at 2,000 replications is .0112.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Observed ranges of false-family rejection over global and partial null configurations, and marginal unadjusted 95\% interval coverage over all targets, by response-stage mechanism.}
+\label{tab:secondary-calibration}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Mechanism & False-family rejection & H2 coverage & H3 coverage\\
+\midrule
+MCAR & .0185--.0445 & .9530--.9685 & .9545--.9690\\
+MAR & .0195--.0425 & .9540--.9695 & .9490--.9685\\
+MNAR & .0275--.2905 & .5765--.9415 & .7995--.9555\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Under MCAR and MAR, the largest absolute estimated bias across the two endpoints is .00788 and .00993 raw points, respectively. The observed false-family rejection rates are below .05 in these tested cells, not a proof of uniform error control. Under MNAR, H2 bias ranges from -.19647 to -.13124 and H3 bias from -.06772 to -.04339. The worst observed false-family rejection (.2905; Monte Carlo standard error .01015) occurs at $N=320$, prevalence .25 and the global null. At the joint alternative in that same sample/prevalence configuration, H2 rejection is .6355 and H3 rejection is .9945. The latter is not evidence of superior estimation, because outcome-dependent selection biases H3 towards the hypothesised negative association. Marginal coverage is for the specified generator coefficients, not simultaneous Holm-adjusted intervals. Increasing recruitment does not remove selection bias. The synthetic primary and secondary targets cannot be combined into a single power estimate. Further calibration should evaluate the joint missingness scenario analysis, endpoint-specific sensitivity and clustered uncertainty. The results do not justify final recruitment until response-process evidence, effect targets and feasible exposure support are established.
 
 \section{Ethics and reproducibility}
 Consent, ethics approval, approved recruitment and data storage precede the pilot. Do not collect songs, prompts, diagnoses or private narratives. The study is not treatment or monitored crisis support. Use pseudonymous identifiers and approved institutional storage; never commit participant-level records to Git. Freeze timing, instruments, sample target and analysis before confirmatory recruitment.

@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=.43cm,y=5cm,font=\small]
+\draw[->] (0,0)--(28,0) node[below right] {Prevalence (\%)};
+\draw[->] (0,0)--(0,1.08) node[above] {Rejection};
+\foreach \y in {0,.2,.4,.6,.8,1}{\draw[gray!25] (0,\y)--(26,\y);\node[left] at (0,\y) {\y};}
+\foreach \x in {5,10,25}{\draw (\x,0)--++(0,-.015);\node[below] at (\x,-.015) {\x};}
+\draw[dotted,thick] (0,.8)--(26,.8);
+\draw[thick,blue!75!black] plot coordinates {(5,.434)(10,.7365)(25,.9795)};
+\draw[thick,orange!85!black,dashed] plot coordinates {(5,.3845)(10,.6915)(25,.953)};
+\draw[thick,teal!80!black,dashdotted] plot coordinates {(5,.224)(10,.548)(25,.937)};
+\foreach \x/\y in {5/.434,10/.7365,25/.9795}{\fill[blue!75!black] (\x,\y) circle[radius=1.5pt];}
+\foreach \x/\y in {5/.3845,10/.6915,25/.953}{\fill[orange!85!black] (\x,\y) circle[radius=1.5pt];}
+\foreach \x/\y in {5/.224,10/.548,25/.937}{\fill[teal!80!black] (\x,\y) circle[radius=1.5pt];}
+\node[anchor=west,blue!75!black] at (15,.32) {H2};
+\node[anchor=west,orange!85!black] at (15,.23) {H3};
+\node[anchor=west,teal!80!black] at (15,.14) {Both};
+\end{tikzpicture}
