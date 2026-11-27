@@ -69,3 +69,28 @@ jobs:
             manuscripts/MSC-MUS-P01/analysis/longitudinal-results.json
             manuscripts/MSC-MUS-P01/analysis/mixed-results.json
           if-no-files-found: error
+      - name: Reproduce revised H6 and H10 estimators (Issue 17)
+        id: revised
+        working-directory: manuscripts/MSC-MUS-P01/analysis
+        run: |
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" revised_design.py --reps 2000 > revised-design-results.json
+          "$RUNNER_TEMP/aim-er-venv/bin/python" - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          d = json.loads(Path("revised-design-results.json").read_text())
+          assert d["sha"] == subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          assert d["reps"] == 2000
+          assert len(d["h6"]) == 12 and len(d["h10"]) == 18
+          for kind in ("h6", "h10"):
+              for name, row in d[kind].items():
+                  assert row["requested"] == 2000 and row["valid"] == 2000 and row["failed"] == 0, (kind, name)
+                  assert 0 <= row["coverage"] <= 1 and 0 <= row["rejection"] <= 1, (kind, name)
+          print("Exact-head revised-design diagnostic: 30 scenarios, 60,000 valid fits.")
+          PY
+      - name: Publish revised-design diagnostics (including failed-fit evidence)
+        if: ${{ !cancelled() && steps.revised.outcome != 'skipped' && steps.revised.outcome != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: aim-er-revised-design
+          path: manuscripts/MSC-MUS-P01/analysis/revised-design-results.json
+          if-no-files-found: error
