@@ -1,6 +1,10 @@
 # Musicae Scientiae submission preparation
 
-Checked 26 November 2026: https://journals.sagepub.com/author-instructions/MSX. Full articles: 5,000–7,000 words; abstract 200–250 words; Word preferred, LaTeX accepted as specified by journal. Verify exact counting convention, anonymisation, references and figure/table counts on final PDF/source. Journal excludes manuscripts posted to preprint servers; public GitHub source distribution is not automatically equivalent to (or exempt from) that rule. Obtain explicit editorial clarification before submission. Do not remove history to conceal dissemination.
+Checked 27 November 2026: https://journals.sagepub.com/author-instructions/MSX. Full articles: 5,000–7,000 words; abstract 200–250 words; Word preferred, LaTeX accepted as specified by journal. Verify exact counting convention, anonymisation, references and figure/table counts on final PDF/source. Journal excludes manuscripts posted to preprint servers; public GitHub source distribution is not automatically equivalent to (or exempt from) that rule. Obtain explicit editorial clarification before submission. Do not remove history to conceal dissemination.
+
+## Alternative journal
+
+Psychology of Music accepts theoretical critical papers and considers submissions previously posted as preprints: https://journals.sagepub.com/author-instructions/pom (checked 27 November 2026). Its abstract limit is 150–200 words and it prefers Word; prepare a shorter abstract from the canonical source only if the team selects this journal. Disclose the public GitHub history and clarify the applicable policy with the editorial office. Do not invent a preprint DOI. Do not update any posted preprint during peer review. No change of target journal is authorised here.
 
 ## Title page (complete privately with author approval)
 
@@ -30,9 +34,9 @@ Could you clarify whether a theoretical manuscript whose LaTeX sources and revis
 
 ## Operational checklist
 
-- [ ] Obtain editorial response before submission.
+- [ ] Obtain editorial response before submission; confirm the selected journal and its current fees and manuscript requirements. Do not assume a public repository is exempt from prior-dissemination rules.
 - [ ] Confirm author order, contact, declarations and disclosures; keep identifying title page outside anonymised review copy.
 - [ ] Verify rights for instruments and externally sourced stimuli; no human-participant recruitment or data transfer is authorised by this manuscript.
 - [ ] For any future study: separate consent from research data; use approved institutional storage; pseudonymise identifiers; avoid raw sensitive prompts in vendor systems; document vendor terms, retention, withdrawal, moderation and escalation; obtain applicable ethics clearance before recruitment.
-- [ ] Validate latest SHA CI, inspect all PDF pages, reconcile word count and APA references.
+- [ ] Validate latest SHA CI, inspect all PDF pages, reconcile word count and APA references. The 27 November draft abstract contains 232 whitespace-separated words and six keyword phrases; final editorial word count and rendered review copy are not verified.
 - [ ] Resolve remaining scientific review criteria and obtain independent review; do not submit automatically.
