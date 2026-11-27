@@ -187,6 +187,8 @@ class ManuscriptPreviewTests(unittest.TestCase):
         for english, label in ((False, "Otwórz manuskrypt PDF"), (True, "Open manuscript PDF")):
             result = embed_site_assets.add_manuscript_previews(self.fixture(), english)
             self.assertEqual(result.count('class="pub-preview"'), 9)
+            self.assertEqual(result.count('loading="eager"'), 9)
+            self.assertNotIn('loading="lazy"', result)
             self.assertEqual(result.count('class="pub-authors"'), 9)
             authors = ", ".join(embed_site_assets.AUTHORS)
             self.assertEqual(result.count(authors), 9)
