@@ -42,3 +42,8 @@ See `calibration-protocol.md`. New `calibration_checks.py` compares paired H6 mo
 ## Revised primary statistical designs
 
 See `revised-statistical-design.md`. H6 uses marginal CR2/Satterthwaite and conservative 96% intervals, independently evaluated after pilot. H10 uses arm-specific endpoint-change standardization with active final-session recovery, not random slope covariance fitting. Run `OPENBLAS_NUM_THREADS=1 python revised_design.py --reps 2000` for exact-SHA output. H10 first-rating missingness and MNAR remain explicit sensitivity/identification issues. No change to H1–H10 hypotheses.
+
+
+## Central prediction joint power
+
+`cp_joint_power.py` uses four independent Gaussian cell summaries, Welch one-sided simple-effect tests and a conjunction at alpha .05. The union null includes either zero or reversed component. Historical power of the mean matching contrast is retained separately. Local execution with seed 20261203, 20,000 replicates per cell, 96 cells, NumPy 2.3.5 and SciPy 1.17.0 produced 1,920,000 valid fits; output SHA256 1f9530db7baf66459d32a090deed6631f08fdaecd931e83890801725bd6d863c. The local source blob is 6cf345b99955ad1cc033492690fe3ae6ed2b5af2. Run `python cp_joint_power.py > cp-joint-power.json`. At N=420 joint power for symmetric .30 component effects is .40685 (MCSE .00347); at N=1000 it is .85760/.81770 for equal/heterogeneous profiles. Partial-null and reversed effects are included. This is not a bounded-outcome or informative-loss calibration; measurement and final design are not approved.
