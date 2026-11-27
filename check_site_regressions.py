@@ -238,9 +238,17 @@ def check_manuscript_previews(page):
         assert link.get_attribute("href") == f"manuscript-previews/{identifier}.pdf"
         assert image.get_attribute("src") == f"manuscript-previews/{identifier}.png"
         assert identifier.upper() in image.get_attribute("alt")
+        # A scroll is not a guarantee of image readiness, especially with routed
+        # requests and a reflowing panel. Wait for the actual resource first.
         image.scroll_into_view_if_needed()
+        page.wait_for_function("""selector => {
+          const image = document.querySelector(selector);
+          return image && image.complete && image.naturalWidth > 100
+            && image.naturalHeight > 100;
+        }""", arg=f"#{identifier} .pub-preview img", timeout=15000)
         image.evaluate("async image => await image.decode()")
-        assert image.evaluate("image => image.naturalWidth > 100 && image.naturalHeight > 100")
+        assert image.evaluate("image => image.complete && image.naturalWidth > 100 && image.naturalHeight > 100")
+        assert image.is_visible()
         response = page.context.request.get(link.evaluate("a => a.href"))
         assert response.ok and response.body().startswith(b"%PDF-")
         assert panel.locator(".pub-header").evaluate("""header => {
