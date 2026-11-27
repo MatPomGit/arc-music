@@ -8,7 +8,7 @@ W wywiadach indywidualnych będziemy poznawać motywy podejmowania twórczości,
 
 ## Regulacja emocji
 
-Badanie ankietowe posłuży ocenie związków między sposobami korzystania z generatorów muzyki, aleksytymią, regulacją emocji, ruminacją i dobrostanem. Proponowany model AIM-ER (AI-assisted Music for Emotion Regulation) stanowi teoretyczną podstawę do formułowania hipotez o mechanizmach tych zależności.
+Ankieta P03 dotyczy związku motywu ekspresji z retrospektywną łatwością rozumienia emocji. Odrębne badania obejmują aleksytymię (P04), ruminację i interferencję (P06) oraz afekt w codziennym życiu (P07). AIM-ER stanowi podstawę teoretyczną tych odrębnych pytań.
 
 ## Sprawstwo i autorstwo
 

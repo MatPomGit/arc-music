@@ -8,7 +8,7 @@ Individual interviews will examine motives for creating music, the circumstances
 
 ## Emotion regulation
 
-A survey will investigate associations between the use of music generators, alexithymia, emotion regulation, rumination and well-being. The proposed AIM-ER (AI-assisted Music for Emotion Regulation) model provides a theoretical basis for hypotheses about the mechanisms underlying these associations.
+P03 examines the association between expression motive and recalled ease of understanding emotions. Separate studies address alexithymia (P04), brooding and interference (P06), and everyday affect (P07). AIM-ER provides the theoretical basis for these distinct questions.
 
 ## Agency and authorship
 
