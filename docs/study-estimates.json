@@ -219,31 +219,34 @@
     },
     {
       "id": "P07",
-      "estimand": "adjusted first-hour valence association in complete switchers",
-      "method": "FE CR1; planned combined loss; attrition/ongoing/timing stress",
-      "design": "N160/320; latent .4; 44×200 +24×1000",
+      "estimand": "Adjusted within-person valence and goal-deviation associations, outcome-specific complete switchers",
+      "method": "FE CR1; primary and secondary Holm simulations; informative withdrawal, joint MNAR and finite-design outcome bounds",
+      "design": "H1 32800 datasets; H2/H3 144000 datasets; extension N480/640/1000, 72×200",
       "sha": "9e51be6c577869c506f9635bd6b6e2b9f00c6c0c",
       "run": "45899777729",
       "artifact": null,
       "evidence": "manuscripts/MSC-MUS-P07/analysis/calibration-results-v0.3.0.json",
-      "status": "HISTORICAL_ESTIMATOR",
+      "status": "CONDITIONAL_CANDIDATE",
       "display": {
         "pl": {
-          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 15–25 osób; symulacje N=80–320, docelowe N nieustalone. Dwie rundy wywiadów poznawczych po 5–8 osób.</p>",
-          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 800 replikacji</span>. N=160, 30% planowanej łącznej utraty okien, kontrast 0,4 punktu: 83,5% i 99,0% odrzuceń H0 dla częstości twórczości 10% i 25%. W odrębnym scenariuszu 45% rezygnacji, N=320: 61,4% przy częstości 5%, 88,7% przy 10%. Ostateczne N zależy od dostępności obu typów okien u jednej osoby.</p>"
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 15–25 osób, dwie rundy wywiadów po 5–8; symulacje N=80–1000. N docelowe niezatwierdzone.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">191 200 replikacji</span>: H1 32 800, H2/H3 144 000, rozszerzenie 14 400 (200/scenariusz). H1, N=320, 45% rezygnacji: 61,4% przy częstości 5%, 88,7% przy 10%. H2/H3 MAR: 85% łącznych odrzuceń przy N=1000 i 5% lub N=480 i 10%. Łączny MNAR: do 40,5% błędu rodzinnego; granice współczynników obejmują zero. Wyniki wstępne.</p>"
         },
         "en": {
-          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 15–25 adults; simulated N=80–320, final N undetermined. Two cognitive-interview rounds of 5–8 adults each.</p>",
-          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,800 replications</span>. N=160, 30% planned combined window loss, .4-point contrast: 83.5% and 99.0% rejection at 10% and 25% creation prevalence. In a separate 45% withdrawal scenario, N=320: 61.4% at 5% prevalence, 88.7% at 10%. Final N depends on availability of both window types within individuals.</p>"
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 15–25 adults, two interview rounds of 5–8; simulated N=80–1000. Final N unapproved.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">191,200 replications</span>: H1 32,800, H2/H3 144,000, extension 14,400 (200/scenario). H1, N=320, 45% withdrawal: 61.4% at 5% prevalence, 88.7% at 10%. H2/H3 MAR: 85% joint rejection at N=1000 and 5% or N=480 and 10%. Joint MNAR: up to 40.5% family-wise error; coefficient bounds include zero. Preliminary results.</p>"
         }
       },
       "additional_evidence": [
         "manuscripts/MSC-MUS-P07/analysis/stress-plan.md",
         "manuscripts/MSC-MUS-P07/analysis/calibration-evidence.md",
         "manuscripts/MSC-MUS-P07/analysis/stress-results-n160-v0.5.0.json",
-        "manuscripts/MSC-MUS-P07/analysis/stress-results-n320-v0.5.0.json"
+        "manuscripts/MSC-MUS-P07/analysis/stress-results-n320-v0.5.0.json",
+        "manuscripts/MSC-MUS-P07/analysis/secondary-local-evidence.md",
+        "manuscripts/MSC-MUS-P07/analysis/extended-local-evidence.md",
+        "manuscripts/MSC-MUS-P07/analysis/extended_calibration.py"
       ],
-      "provenance_note": "Initial and stress screens reproduced in three downloaded exact-head archives, all 32,800 fits valid. Historical latent input is not a causal effect; endpoint-specific secondary screen separate.",
+      "provenance_note": "Historical exact-head H1 archives; local H2/H3 results and extended screen documented with SHA-256, source and environment limits; no independent full rerun. No causal claim or approved sample.",
       "archived_subsets": [
         {
           "run": 45899777729,
@@ -271,7 +274,7 @@
           "scope": "12×1000 stress N320"
         }
       ],
-      "scope": "Historical FE/CR1 observed switcher association; latent synthetic input, stage loss and informative dropout; not causal."
+      "scope": "Separate primary/secondary synthetic designs; 144000 local secondary datasets and 14400 exploratory extended datasets; no final N; joint MNAR error and inconclusive finite-design bounds."
     },
     {
       "id": "P08",
