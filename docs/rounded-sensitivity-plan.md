@@ -1,0 +1,9 @@
+# Rounded sensitivity follow-up (27 November 2026)
+
+Prior exact-HEAD evidence: docs/rounded-calibration-audit.md and docs/p03-imputation-audit.md. New screening complements, not replaces, those results. All synthetic.
+
+- P08: 640 and 660 assigned, 20% item loss, 15% feature suppression, 5%/10% non-hearing by execution, joint null. Four cells, 40 outer datasets and 199 bootstrap draws per cell. Existing production IPW and zero-shift percentile intervals for the heard-only authority contrast. Audit full-cohort undefined-outcome gate and conditional/operational coverage with Wilson intervals. No full-cohort ownership imputation.
+- P09: 440 and 600 assigned, MAR/MNAR under heteroskedastic null; alternative at 600. Six cells, 40 outer datasets and 199 bootstrap draws. Existing H1 sensitivity estimator with actual stratified-block allocation model. Separate raw-record gate diagnostic tests selective invalidation. Do not equate its DGP with bootstrap DGP.
+- P03: candidate cap 660, 500 complete target, mixed MAR and outcome MNAR; eight datasets each. Four independently initialized PMM chains, 30 sweeps, first ten discarded from diagnostics. Record rank-normalized and folded split Rhat for missing-value means and SDs only; constant or degenerate trace statistics yield unavailable diagnostics. No change to production PMM default settings or random draws when callback absent. This is a diagnostic of selected summaries, not proof of convergence or coverage.
+
+The small outer counts are screening only, with wide uncertainty; no automatic choice of sample size, no empirical conclusions. Higher-precision calibration depends on the results and computing budget. New CI not yet verified.

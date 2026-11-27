@@ -1,0 +1,58 @@
+name: Rounded sensitivity calibration
+on:
+  pull_request:
+    paths:
+      - 'rounded_sensitivity_calibration.py'
+      - 'test_rounded_sensitivity_calibration.py'
+      - '.github/workflows/rounded-sensitivity-calibration.yml'
+      - 'manuscripts/MSC-MUS-P03/analysis/imputation.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {study: P03, n: 660, mechanism: mixed_mar, effect: alternative, reps: 8}
+          - {study: P03, n: 660, mechanism: outcome_mnar, effect: alternative, reps: 8}
+          - {study: P08, n: 640, mechanism: mar, effect: 'null', reps: 40}
+          - {study: P08, n: 640, mechanism: mnar, effect: 'null', reps: 40}
+          - {study: P08, n: 660, mechanism: mar, effect: 'null', reps: 40}
+          - {study: P08, n: 660, mechanism: mnar, effect: 'null', reps: 40}
+          - {study: P09, n: 440, mechanism: MAR, effect: 'null', reps: 40}
+          - {study: P09, n: 440, mechanism: MNAR, effect: 'null', reps: 40}
+          - {study: P09, n: 600, mechanism: MAR, effect: 'null', reps: 40}
+          - {study: P09, n: 600, mechanism: MNAR, effect: 'null', reps: 40}
+          - {study: P09, n: 600, mechanism: MAR, effect: alternative, reps: 40}
+          - {study: P09, n: 600, mechanism: MNAR, effect: alternative, reps: 40}
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      STUDY: ${{ matrix.study }}
+      N: ${{ matrix.n }}
+      MECHANISM: ${{ matrix.mechanism }}
+      EFFECT: ${{ matrix.effect }}
+      REPS: ${{ matrix.reps }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - run: |
+          python3 -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.3.3 statsmodels==0.14.6
+          python3 -m unittest -v test_rounded_sensitivity_calibration
+          python3 rounded_sensitivity_calibration.py --study "$STUDY" --n "$N" --mechanism "$MECHANISM" --effect "$EFFECT" --reps "$REPS" --draws 199 > sensitivity.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sensitivity-${{ matrix.study }}-${{ matrix.n }}-${{ matrix.mechanism }}-${{ matrix.effect }}
+          path: |
+            sensitivity.json
+            exact-head.txt
+          if-no-files-found: error
