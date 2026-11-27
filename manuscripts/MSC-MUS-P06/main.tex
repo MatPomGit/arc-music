@@ -2,7 +2,11 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[margin=1in]{geometry}
-\usepackage{amsmath,booktabs,natbib}
+\usepackage{amsmath,booktabs}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage[style=apa,backend=biber,natbib=true]{biblatex}
+\addbibresource{references.bib}
 \usepackage[hidelinks]{hyperref}
 \title{Session-Specific Avoidance, Brooding and Subsequent Activity Interference in AI-Assisted Music Creation}
 \author{Mateusz Pomianek}
@@ -52,6 +56,5 @@ No participants or empirical outcomes are available. The reported synthetic simu
 The proposed contribution is a prospective within-person test of the distinction between immediate emotion regulation and subsequent everyday functioning. A positive association would be consistent with, but not prove, avoidance-related interference. A null association, a negative association or high heterogeneity would constrain the theoretical claim. Reverse causation, planned-activity difficulty, selective logging, concurrent stressors and shared self-report measurement remain limitations. The study is distinct from P01 H6 only if its functioning endpoint and analysis remain nonredundant. If data are shared, disclose overlap and assess whether separate publication is scientifically justified. Generalization beyond self-selected creators and the observed platforms is limited. The protocol is not a systematic review. The evidence base includes direct AI co-creation studies and transferred evidence from music listening, psychometrics and longitudinal methodology; a broader reproducible search and full-text audit remain necessary. Neural mechanisms are not directly measured. A negative or null within-person slope would challenge the directional prediction even if between-person correlations were positive.
 \paragraph{Within-person confounding diagnostic.} The fixed effects absorb time-invariant participant characteristics, not time-varying obligations, stressors or concurrent activities. Report a hypothetical omitted-variable bias magnitude over prespecified partial $R^2$ pairs (.01, .05, .10, .20), after removing participant effects and measured predictors. This diagnostic bounds the coefficient change for a single hypothetical variable with the stipulated associations; it is not an interval or a causal correction. A construct-to-item map records the indicator, timing and interpretation limits. Cognitive testing and plausible confounding strengths remain to be established.
 
-\bibliographystyle{plainnat}
-\bibliography{references}
+\printbibliography
 \end{document}
