@@ -32,7 +32,7 @@ jobs:
           "$RUNNER_TEMP/p09/bin/python" calibration_extended.py --stress --reps 20 --draws 49 > calibration-stress.json
       - run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-bibtex-extra biber lmodern
       - working-directory: manuscripts/MSC-MUS-P09
         run: |
           latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
@@ -50,4 +50,29 @@ jobs:
             manuscripts/MSC-MUS-P09/analysis/missingness-demo.json
             manuscripts/MSC-MUS-P09/analysis/calibration-extended.json
             manuscripts/MSC-MUS-P09/analysis/calibration-stress.json
+          if-no-files-found: error
+  candidate-screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P09/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p09-candidate"
+          "$RUNNER_TEMP/p09-candidate/bin/pip" install -r requirements.txt
+          "$RUNNER_TEMP/p09-candidate/bin/python" -m unittest -v test_assignment_candidate
+          "$RUNNER_TEMP/p09-candidate/bin/python" calibrate_assignment_candidate.py --smoke --n 600 --reps 2 --draws 199 > candidate-screen.json
+          git rev-parse HEAD > candidate-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p09-defined-outcome-candidate-screen
+          path: |
+            manuscripts/MSC-MUS-P09/analysis/candidate-screen.json
+            manuscripts/MSC-MUS-P09/analysis/candidate-head.txt
           if-no-files-found: error

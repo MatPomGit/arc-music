@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
+from intake import select, read_records
 
 MOTIVES = ["motive_expression", "motive_mood", "motive_explore", "motive_fun"]
 BACKGROUND = ["age", "experience", "use_days", "recency", "source"]
@@ -22,21 +23,19 @@ INTEGERS = set(OPS + ["prompted", "age", "use_days", "recency"])
 MODELS = {
     "H1": ("clarity_post", "motive_expression", ["clarity_pre"] + MOTIVES + BACKGROUND),
     "H2": ("valence_post", "motive_mood", ["valence_pre"] + MOTIVES + BACKGROUND),
-    "H3": ("iteration_count", "motive_explore", MOTIVES + BACKGROUND),
+    "H3": ("operation_diversity", "motive_explore", MOTIVES + BACKGROUND),
     "H4": ("resonance", "agency", ["agency"] + MOTIVES + BACKGROUND),
 }
 
 
 def prepare(raw):
     """Filter consent/eligibility; convert invalid observations to missing, not zero."""
-    required = {"consent", "eligible", *MOTIVES, *BACKGROUND, *OPS,
+    required = {"study_id", "consent", "eligible", *MOTIVES, *BACKGROUND, *OPS,
                 "clarity_pre", "clarity_post", "valence_pre", "valence_post", "agency", "resonance"}
     absent = required - set(raw.columns)
     if absent:
         raise ValueError(f"Missing columns: {sorted(absent)}")
-    data = raw.loc[raw.consent.eq(True) & raw.eligible.eq(True)].copy()
-    if "study_id" in data and (data.study_id.isna().any() or data.study_id.duplicated().any()):
-        raise ValueError("Missing or duplicate study_id; adjudicate before analysis")
+    data = select(raw)
     invalid = {}
     for key, (lo, hi) in RANGES.items():
         if key not in data:
@@ -50,7 +49,8 @@ def prepare(raw):
     valid = data.source.isin(SOURCES)
     invalid["source"] = int((data.source.notna() & ~valid).sum())
     data["source"] = data.source.where(valid)
-    data["iteration_count"] = data[OPS].sum(axis=1, min_count=len(OPS))
+    data["operation_diversity"] = data[OPS].sum(axis=1, min_count=len(OPS))
+    data["iteration_count"] = data["operation_diversity"]  # compatibility only
     return data, invalid
 
 
@@ -97,7 +97,7 @@ def analyze(raw):
     for h, p in zip(secondary, adjusted):
         if "p" in results[h]:
             results[h]["p_holm"] = float(p)
-    return {"eligible_n": len(data), "submitted_n": len(raw), "invalid": invalid,
+    return {"eligible_n": len(data), "submitted_n": len(raw), "intake_flow": data.attrs["intake_flow"], "invalid": invalid,
             "missing": {k: int(v) for k, v in data.isna().sum().items() if k != "study_id"},
             "models": results}
 
@@ -108,7 +108,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--data-kind", choices=["synthetic", "empirical"], required=True)
     args = parser.parse_args()
-    result = analyze(pd.read_csv(args.csv))
+    result = analyze(read_records(args.csv))
     result["data_kind"] = args.data_kind
     args.out.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 

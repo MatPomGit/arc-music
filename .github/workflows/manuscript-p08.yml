@@ -27,7 +27,7 @@ jobs:
           "$RUNNER_TEMP/p08/bin/python" -m unittest -v
       - run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-bibtex-extra biber lmodern
       - working-directory: manuscripts/MSC-MUS-P08
         run: |
           latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

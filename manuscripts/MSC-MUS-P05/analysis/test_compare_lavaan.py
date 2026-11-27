@@ -5,7 +5,7 @@ import unittest
 
 import numpy as np
 
-from compare_lavaan import read_reference
+from compare_lavaan import read_reference, reference_status, classify, screen, TOLERANCES
 
 
 class ReferenceParameters(unittest.TestCase):
@@ -28,3 +28,24 @@ class ReferenceParameters(unittest.TestCase):
         np.testing.assert_allclose(estimates[12:], [.12, .13, .23])
         np.testing.assert_allclose(errors[12:], [.05, .05, .05])
         np.testing.assert_array_equal(thresholds, np.arange(48))
+
+    def test_reference_status_and_full_gate(self):
+        meta = {"converged":1, "post_check":1, "minimum_uniqueness":.2,
+                "minimum_factor_eigenvalue":.02}
+        self.assertEqual(reference_status(meta), "PROPER")
+        self.assertEqual(reference_status(dict(meta, minimum_factor_eigenvalue=.009)), "IMPROPER")
+        self.assertEqual(reference_status(dict(meta, converged=0)), "NONCONVERGED")
+        agree = {"reference_status":"PROPER","python_status":"PROPER",
+                 "agreement": {k:v/2 for k,v in TOLERANCES.items()}, "loading":.65, "rho":.35}
+        self.assertEqual(classify(agree), "PAIRED_AGREEMENT")
+        agree["classification"] = classify(agree)
+        disagree = dict(agree, python_status="IMPROPER",loading=.4,rho=.8)
+        disagree["classification"] = classify(disagree)
+        self.assertEqual(disagree["classification"],"ADMISSIBILITY_DISAGREEMENT")
+        status = screen([agree,disagree])
+        self.assertTrue(status["core_agreement"])
+        self.assertFalse(status["full_agreement"])
+        self.assertFalse(status["model_readiness_authorized"])
+        self.assertEqual(classify(dict(agree,reference_status="IMPROPER",python_status="IMPROPER")), "BOTH_IMPROPER")
+        self.assertEqual(classify(dict(agree,agreement={})), "PARAMETER_DISAGREEMENT")
+        self.assertEqual(classify(dict(agree,reference_status="ERROR")), "EXECUTION_ERROR")

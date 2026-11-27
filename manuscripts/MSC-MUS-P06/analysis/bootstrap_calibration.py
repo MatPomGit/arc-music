@@ -35,34 +35,45 @@ def run(reps=100,bootstrap=499,reference_n=100000,n=160,seed=2609):
         reference=fit_arrays(*complete_data(rng,reference_n,6,beta))
         target=0. if beta==0 else reference["estimate"][0]
         for kind in ["mcar","mar","mnar"]:
-            points=[]; widths=[]; covered=[]; envelope=[]; valid_draws=[]; failed=0
+            methods={}; envelope=[]; valid_draws=[]; failed=0
             for _ in range(reps):
                 frame=dataset(rng,n,6,beta,.30,kind)
                 try:
                     out=cluster_bootstrap(frame,reps=bootstrap,seed=int(rng.integers(2**32)))
-                    ci=out["ipw_ci"]["10"]
-                    if ci is None or out["valid"]<.9*bootstrap:
-                        failed+=1
-                        continue
-                    points.append(out["point"]["ipw"]["10"])
-                    widths.append(ci[1]-ci[0])
-                    covered.append(ci[0]<=target<=ci[1])
-                    shift=out["point"]["pattern_mean_shifts"]
-                    envelope.append(min(shift.values())<=target<=max(shift.values()))
-                    valid_draws.append(out["valid"])
-                except (ValueError,np.linalg.LinAlgError):
+                except (ValueError,ArithmeticError,np.linalg.LinAlgError):
                     failed+=1
-            v=len(points)
-            cov=float(np.mean(covered)) if v else None
+                    continue
+                shift=out["point"]["pattern_mean_shifts"]
+                envelope.append(min(shift.values())<=target<=max(shift.values()))
+                valid_draws.append(out["valid"])
+                for label,point,interval in [
+                    *(("ipw/"+k,v,out["ipw_ci"][k]) for k,v in out["point"]["ipw"].items()),
+                    *(("shift/"+k,v,out["shift_ci"][k]) for k,v in shift.items())]:
+                    m=methods.setdefault(label,{"point":[],"width":[],"covered":[]})
+                    m["point"].append(point)
+                    if interval is not None:
+                        m["width"].append(interval[1]-interval[0])
+                        m["covered"].append(interval[0]<=target<=interval[1])
+            summary={}
+            for label,m in methods.items():
+                points=np.asarray(m["point"]); v=len(m["covered"]); k=sum(m["covered"])
+                rate=k/v if v else None
+                op=k/reps
+                summary[label]={"point_valid":len(points),"interval_valid":v,
+                    "interval_unavailable":reps-v,"bias":float(points.mean()-target),
+                    "bias_mcse":float(points.std(ddof=1)/np.sqrt(len(points))) if len(points)>1 else None,
+                    "coverage_conditional":rate,
+                    "coverage_conditional_mcse":float(np.sqrt(rate*(1-rate)/v)) if v else None,
+                    "coverage_operational":op,"coverage_operational_mcse":float(np.sqrt(op*(1-op)/reps)),
+                    "mean_width":float(np.mean(m["width"])) if v else None}
             cells.append(dict(beta=beta,mechanism=kind,missing=.30,n=n,target=target,
-                reference_se=reference["se"][0],valid=v,failures=failed,
-                bias=float(np.mean(points)-target) if v else None,
-                ipw_ci_coverage=cov,coverage_mcse=float(np.sqrt(cov*(1-cov)/v)) if v else None,
-                mean_width=float(np.mean(widths)) if v else None,
-                mean_valid_bootstrap=float(np.mean(valid_draws)) if v else None,
-                shift_envelope_fraction=float(np.mean(envelope)) if v else None))
-    return dict(status="SYNTHETIC_BOOTSTRAP",seed=seed,reps=reps,bootstrap=bootstrap,
+                reference_se=reference["se"][0],requested=reps,point_failures=failed,methods=summary,
+                mean_valid_bootstrap=float(np.mean(valid_draws)) if valid_draws else None,
+                shift_envelope_fraction=float(np.mean(envelope)) if envelope else None,
+                shift_envelope_is_ci=False))
+    return dict(status="SYNTHETIC_BOOTSTRAP_V2",seed=seed,reps=reps,bootstrap=bootstrap,
                 reference_n=reference_n,cells=cells,
+                interpretation="Coverage against the complete-outcome reference, not a guarantee under MNAR or a validated shift estimand.",
                 screening_only=bootstrap<499 or reps<1000)
 
 if __name__=="__main__":

@@ -1,0 +1,323 @@
+{
+  "schema": "arc-music-site-estimates-v1",
+  "date": "2026-11-27",
+  "note": "Canonical bilingual sample/estimate text. All results synthetic or plans; no approval. Historical source IDs are distinct from current procedure. Null provenance means not verified. Canonical internal registry; not included in website build. Archived subsets refer only to identified runs; not all historical results have verified artifact provenance.",
+  "studies": [
+    {
+      "id": "P01",
+      "estimand": "mean matching contrast (historical), directional conjunction (candidate)",
+      "method": "Welch intersection-union; independent retention and Gaussian summary model",
+      "design": "N420/1000; symmetric .30 and asymmetric .15/.45; 96×20000",
+      "sha": "f3af537fe1ca58d80cea8226e735461d2a1b16ce",
+      "run": "46008739611",
+      "artifact": "15202454395",
+      "evidence": "manuscripts/MSC-MUS-P01/analysis/cp_joint_power.py",
+      "status": "CONDITIONAL_CANDIDATE",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Praca teoretyczna, bez próby empirycznej. Eksperyment 2 × 2: warunkowe N=1000 jako pierwszy z badanych wariantów przekraczający moc 80% dla obu efektów 0,30; symulacyjnie 85,76% lub 81,77% w dwóch profilach wariancji i retencji. Historyczne N=420 dotyczyło tylko średniego kontrastu.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">200 000 replikacji</span>. N=420, po 105 osób w czterech grupach; oczekiwane N=357 po utracie 15%. Dla d=0,30 moc teoretyczna 80,69%, symulacyjna 80,58%; błąd I rodzaju 5,08%, pokrycie 95% CI przy alternatywie 94,98%. Dotyczy wyłącznie średniego kontrastu dopasowania. Nowy test łączny: 1 920 000 replikacji w 96 konfiguracjach; przy N=420 i symetrycznych efektach 0,30 moc 40,69%, przy N=1000 85,76% (MCSE 0,25 pkt proc.). Przy asymetrii 0,15/0,45 moc dla N=1000 wynosi 45,98%. Wielkości efektów, pomiar i rekrutacja nie są zatwierdzone.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Theoretical paper, no empirical sample. 2 × 2 experiment: conditional N=1000 is the first evaluated candidate exceeding 80% joint power for two .30 effects (85.76% and 81.77% across variance/retention profiles). Historical N=420 referred only to the mean contrast.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">200,000 replications</span>. N=420, 105 per factorial cell; expected N=357 after 15% loss. At d=.30, analytical power 80.69%, simulated power 80.58%; type I error 5.08%, alternative 95% CI coverage 94.98%. Mean matching contrast only. The new conjunction screen uses 1,920,000 replications in 96 configurations: joint power at N=420 is 40.69% for symmetric .30 effects, and at N=1000 is 85.76% (MCSE 0.25 percentage points). With asymmetric .15/.45 effects, power at N=1000 is 45.98%. Effect sizes, measurement and recruitment remain unapproved.</p>"
+        }
+      },
+      "additional_evidence": [
+        "docs/rounded-calibration-audit.md"
+      ],
+      "additional_sources": [
+        {
+          "sha": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "run": "45988878791",
+          "artifact": "15191799855",
+          "scope": "historical mean matching contrast"
+        }
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15191799855
+        },
+        {
+          "run": 46008739611,
+          "head": "f3af537fe1ca58d80cea8226e735461d2a1b16ce",
+          "artifact": 15202454395
+        }
+      ],
+      "scope": "Mean and conjunction tests; Gaussian summary simulations with independent retention; historical N420 mean vs N1000 conjunction; symmetric and asymmetric effects.",
+      "source_commit": "180c809f4d75fae73a1583766faa59254a5b2c1e"
+    },
+    {
+      "id": "P02",
+      "estimand": "reflexive thematic analysis of corpus",
+      "method": "purposive sampling; no numerical power",
+      "design": "20–30 interviews; pilot 2–3",
+      "sha": "50e10d81b44b6a39ead8a208b9f7018c9879941f",
+      "run": null,
+      "artifact": null,
+      "evidence": "manuscripts/MSC-MUS-P02/main.tex",
+      "status": "QUALITATIVE_PLAN",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> 20–30 ukończonych wywiadów; pilotaż 2–3 osoby.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">20–30 wywiadów</span>. Celowy dobór zróżnicowanych doświadczeń i pogłębiona analiza tematyczna; adekwatność materiału oceniana po pilotażu. Moc statystyczna nie dotyczy badania jakościowego.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> 20–30 completed interviews; pilot of 2–3 adults.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">20–30 interviews</span>. Purposive recruitment targets varied experiences and in-depth thematic analysis; material adequacy will be assessed after piloting. Statistical power does not apply to this qualitative design.</p>"
+        }
+      },
+      "additional_evidence": [
+        "manuscripts/MSC-MUS-P02/sections/method.tex"
+      ],
+      "archived_subsets": [],
+      "scope": "Qualitative planning range only; no power or simulated outcomes."
+    },
+    {
+      "id": "P03",
+      "estimand": "adjusted episode-level association",
+      "method": "historical complete-record HC3; separate PMM screens; varying caps, MAR/MNAR",
+      "design": "target 500; partial r=.15; 60×1000; attainment not guaranteed",
+      "sha": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+      "run": "45988878791",
+      "artifact": "15193146592",
+      "evidence": "docs/rounded-calibration-audit.md",
+      "status": "HISTORICAL_ESTIMATOR",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> 500 kompletnych rekordów (moc obliczeniowa 91,55%); warunkowy limit 660 zgłoszeń lub 8 tygodni; wymagane prawdopodobieństwo osiągnięcia celu co najmniej 95% przy konserwatywnym oszacowaniu kompletności; sprawdzenie zrozumiałości 8–12 osób.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">60 000 replikacji oraz 300 zbiorów PMM</span>. N=500, cząstkowe r=0,15: moc teoretyczna 91,55%, historyczna częstość odrzuceń 90,0–92,6% (cel 500, różne limity i mechanizmy braków; 1000 replikacji na konfigurację). Przy mieszanych brakach MAR szansa uzyskania 500 rekordów: 81,36% dla 640 zgłoszeń i 99,10% dla 660. Przy limicie 640 pokrycie CI w scenariuszu MNAR: 72,0%; w odrębnym przesiewowym badaniu PMM: 76,7%. Limit 660 jest wariantem planistycznym: przy p=0,78 prawdopodobieństwo wynosi 92,35%; dla p=0,75 potrzebny jest wariant 700, a dla p=0,70 wariant 760. Retencja oznacza łącznie kwalifikację i kompletność. Ostateczny limit zależy od pilotażu i zatwierdzenia.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> 500 complete records (calculated power 91.55%); conditional cap 660 submissions or eight weeks; require at least 95% assurance at a conservative eligibility-and-completeness probability; comprehension check with 8–12 volunteers.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">60,000 replications and 300 PMM datasets</span>. N=500, partial r=.15: analytical power 91.55%, historical rejection 90.0–92.6% (target 500, varying caps and missingness; 1,000 replications per cell). With mixed MAR, probability of reaching 500 complete records is 81.36% at 640 submissions and 99.10% at 660. At cap 640, MNAR CI coverage was 72.0%; in a separate PMM screen, 76.7%. Cap 660 is a planning candidate: at p=.78 assurance is 92.35%; at p=.75 the rounded candidate is 700, and at p=.70 it is 760. Final cap depends on feasibility review and approval.</p>"
+        }
+      },
+      "additional_evidence": [
+        "docs/p03-imputation-audit.md",
+        "docs/rounded-sensitivity-audit.md",
+        "manuscripts/MSC-MUS-P03/main.tex"
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15193146592
+        }
+      ],
+      "scope": "Historical HC3 partial association; mixed MAR and MNAR, target assurance and PMM screen distinct."
+    },
+    {
+      "id": "P04",
+      "estimand": "observed PAQ-S total × assignment on production-plus-fit",
+      "method": "PMM; status-dependent capture; separate measurement error screen",
+      "design": "N1000; .54/.72 points; 120 per cell; 50 imputations",
+      "sha": "50192c297a709a53f75b0f637c2d702a6125537d",
+      "run": "45888642713",
+      "artifact": "15151041277",
+      "evidence": "manuscripts/MSC-MUS-P04/analysis/paqs-calibration-evidence.md",
+      "status": "HISTORICAL_ESTIMATOR",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 30–50 osób; pułap planistyczny 1000 randomizowanych, przy 20% braków 800 obserwacji. Docelowe N nieustalone.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">720 zbiorów PAQ-S i 3600 zbiorów błędu pomiaru</span>. W historycznym scenariuszu braków zależnych od statusu szkicu (120 zbiorów na konfigurację), przy N=1000 i interakcji 0,54 punktu PMM dawała 89,2% odrzuceń H0, ale tylko 20,0% wyników odpornych w siatce wrażliwości. Lepsza rejestracja statusu szkicu: 91,7% i 26,7%; przy interakcji 0,72 punktu 70,8% odpornych wyników. Ostateczne N nieustalone.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 30–50; planning ceiling 1,000 randomised, 800 observed with 20% missingness. Final N undetermined.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">720 PAQ-S datasets and 3,600 measurement-error datasets</span>. Historical sketch-status-dependent missingness (120 datasets per cell), N=1,000 and a .54-point interaction: PMM gave 89.2% null rejection but 20.0% grid-robust rejection. Enhanced sketch-status capture: 91.7% and 26.7%; at .72 points, robust rejection was 70.8%. Final N undetermined.</p>"
+        }
+      },
+      "additional_evidence": [
+        "manuscripts/MSC-MUS-P04/analysis/measurement-evidence.md"
+      ],
+      "archived_subsets": [
+        {
+          "run": 45888642713,
+          "head": "50192c297a709a53f75b0f637c2d702a6125537d",
+          "artifact": 15151041277
+        },
+        {
+          "run": 45889492136,
+          "head": "7ece9ac84bc64ffef6e14b7613afff42ea425c84",
+          "artifact": 15150727691
+        }
+      ],
+      "scope": "Historical status-dependent composite missingness, observed-score interaction; baseline PMM vs enhanced capture; 120 per cell."
+    },
+    {
+      "id": "P05",
+      "estimand": "factor recovery/admissibility, not hypothesis power",
+      "method": "ordinal CFA diagnostic; weak loading/high correlation",
+      "design": "N500/800, loading .40, rho .80; 12 per cell; candidate caps not frozen",
+      "sha": null,
+      "run": null,
+      "artifact": null,
+      "evidence": "manuscripts/MSC-MUS-P05/analysis/simulation_evidence.md",
+      "status": "DEVELOPMENT_ONLY",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 30–50; niezależne próby EFA N=400 i CFA N=500 (wstępne limity zgłoszeń 500/600); retest 100 osób z CFA po 7–14 dniach.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">72 zbiory diagnostyczne CFA</span>. EFA N=400 i CFA N=500 pozostają wstępne. Przy ładunkach 0,40 i korelacji czynników 0,80 poprawne rozwiązania: N=500 1/12 (8,3%), N=800 4/12 (33,3%); przy korelacji 0,35 i N=800 12/12. Stabilność modelu, nie walidacja empiryczna.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 30–50; independent provisional EFA N=400 and CFA N=500 (candidate submission caps 500/600); retest of 100 CFA participants after 7–14 days.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">72 diagnostic CFA datasets</span>. EFA N=400 and CFA N=500 remain provisional. With .40 loadings and .80 factor correlations, proper fits: 1/12 (8.3%) at N=500, 4/12 (33.3%) at N=800; with .35 correlations and N=800, 12/12. Model stability, not empirical validation.</p>"
+        }
+      },
+      "provenance_note": "Exact run/artifact for the specific 72-cell summary not yet linked; inspect evidence file before release.",
+      "additional_evidence": [],
+      "archived_subsets": [],
+      "scope": "Ordinal CFA stability diagnostic, 12 per condition; not sample-size adequacy."
+    },
+    {
+      "id": "P06",
+      "estimand": "within-person interference slope",
+      "method": "historical full CR1 fixed effects; MAR/monotone loss; assumes defined endpoint",
+      "design": "N160, latent .15; six sessions; 27000 +10800 +2400",
+      "sha": "019c42a77daec6955b6b957b8d4d74dbf9f65791",
+      "run": "45899057946",
+      "artifact": "15155220619",
+      "evidence": "manuscripts/MSC-MUS-P06/analysis/reproduction-status.md",
+      "status": "HISTORICAL_ESTIMATOR",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Docelowe N nieustalone; N=160 w scenariuszu symulacyjnym. Obserwacja 14 dni; pilotaż przed badaniem głównym.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">40 200 replikacji</span>. N=160, latentne nachylenie 0,15, sześć sesji i 30% braków: 95,6% odrzuceń H0 pod MAR. W odrębnym scenariuszu MAR z 30% rezygnacji: 62,7%, 84,7%, 96,3% dla 4, 6, 10 sesji (różna autokorelacja); przy 45% rezygnacji i sześciu sesjach 77,7%. N=160 nie jest zatwierdzonym celem.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Final N undetermined; N=160 is a simulation scenario. Fourteen days of observation; feasibility pilot before main study.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">40,200 replications</span>. N=160, latent slope .15, six sessions and 30% missingness: 95.6% MAR rejection. In a separate MAR-style stress design with 30% attrition: 62.7%, 84.7%, 96.3% for 4, 6, 10 sessions (serial correlation also varied); with 45% attrition and six sessions: 77.7%. N=160 is not an approved target.</p>"
+        }
+      },
+      "additional_artifacts": [
+        15153924538,
+        15155175614
+      ],
+      "additional_evidence": [
+        "manuscripts/MSC-MUS-P06/analysis/cluster-calibration-evidence.md",
+        "manuscripts/MSC-MUS-P06/main.tex"
+      ],
+      "archived_subsets": [],
+      "scope": "Historical FE/CR1 association under defined outcomes, MAR and attrition stress; not current endpoint-state gate calibration."
+    },
+    {
+      "id": "P07",
+      "estimand": "adjusted first-hour valence association in complete switchers",
+      "method": "FE CR1; planned combined loss; attrition/ongoing/timing stress",
+      "design": "N160/320; latent .4; 44×200 +24×1000",
+      "sha": "9e51be6c577869c506f9635bd6b6e2b9f00c6c0c",
+      "run": "45899777729",
+      "artifact": null,
+      "evidence": "manuscripts/MSC-MUS-P07/analysis/calibration-results-v0.3.0.json",
+      "status": "HISTORICAL_ESTIMATOR",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 15–25 osób; symulacje N=80–320, docelowe N nieustalone. Dwie rundy wywiadów poznawczych po 5–8 osób.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 800 replikacji</span>. N=160, 30% planowanej łącznej utraty okien, kontrast 0,4 punktu: 83,5% i 99,0% odrzuceń H0 dla częstości twórczości 10% i 25%. W odrębnym scenariuszu 45% rezygnacji, N=320: 61,4% przy częstości 5%, 88,7% przy 10%. Ostateczne N zależy od dostępności obu typów okien u jednej osoby.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 15–25 adults; simulated N=80–320, final N undetermined. Two cognitive-interview rounds of 5–8 adults each.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,800 replications</span>. N=160, 30% planned combined window loss, .4-point contrast: 83.5% and 99.0% rejection at 10% and 25% creation prevalence. In a separate 45% withdrawal scenario, N=320: 61.4% at 5% prevalence, 88.7% at 10%. Final N depends on availability of both window types within individuals.</p>"
+        }
+      },
+      "additional_evidence": [
+        "manuscripts/MSC-MUS-P07/analysis/stress-plan.md",
+        "manuscripts/MSC-MUS-P07/analysis/calibration-evidence.md"
+      ],
+      "provenance_note": "Initial screen exact source; stress results reproduced by run 46010489946 but require separate artifact linkage.",
+      "archived_subsets": [
+        {
+          "run": 45899777729,
+          "head": "9e51be6c577869c506f9635bd6b6e2b9f00c6c0c"
+        }
+      ],
+      "scope": "Historical FE/CR1 observed switcher association; latent synthetic input, stage loss and informative dropout; not causal."
+    },
+    {
+      "id": "P08",
+      "estimand": "factorial authority contrast; heard-only descriptive when target undefined",
+      "method": "historical HC3 and separate heard-only IPW; MAR/MNAR, feature suppression",
+      "design": "N660; .45/.60 raw latent; 76×1000; bootstrap 160×199; all 160 full cohort gates blocked",
+      "sha": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+      "run": "45988878791",
+      "artifact": "15193456534",
+      "evidence": "docs/rounded-calibration-audit.md",
+      "status": "NO_GO_FULL_COHORT",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 30–50; proponowane N=500 kompletnych obserwacji (d=0,30; moc 91,74%); rozważane N=640/660/720 randomizowanych; przy 20% braków i 5–10% nieodsłuchania N=720 daje oczekiwane 533 dostępne oceny. Dla N=660 historyczna częstość odrzuceń H1: 93,2% (MAR), 75,5% przy osłabieniu manipulacji; nie jest to moc aktualnej procedury potwierdzającej. Docelowe N nieustalone.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">76 000 zbiorów i bootstrap 160 × 199</span>. N=500 kompletnych ocen, d=0,30: moc 91,74%. Historyczny HC3 przy N=660: odrzucenia H1 93,2% (MAR) lub 75,5% przy 15% osłabieniu manipulacji; H3 po korekcie Holma: 58,6% lub 34,8%. N=720 przy niezależnych stratach 20% pomiarów i 5–10% nieodsłuchania: 532,8 oczekiwanych ocen, 99,74% szans uzyskania 500 dla jednego wyniku. IPW przy N=660: pokrycie CI 97,5% (MAR), 47,5% (MNAR), po 40 zbiorów, tylko wśród słuchających. W zweryfikowanym teście 160/160 pełnych analiz zablokowano z powodu niezdefiniowanych lub nieustalonych wyników. Potwierdzenie: NO-GO.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 30–50; proposed N=500 complete observations (d=.30; power 91.74%); candidate randomised N=640/660/720; with 20% measurement loss and 5–10% non-hearing, 720 yields 533 expected observed ratings. At 660, historical H1 rejection: 93.2% under MAR, 75.5% with feature suppression; not power of the current confirmatory procedure. Final N undetermined.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">76,000 datasets and bootstrap 160 × 199</span>. N=500 complete ratings, d=.30: power 91.74%. Historical HC3 at N=660: H1 rejection 93.2% (MAR) or 75.5% with 15% feature suppression; Holm H3: 58.6% or 34.8%. With independent 20% measurement loss and 5–10% non-hearing, N=720 yields 532.8 expected ratings and a 99.74% chance of reaching 500 for one endpoint. IPW at N=660: CI coverage 97.5% (MAR), 47.5% (MNAR), 40 datasets each, heard-only. All 160/160 full-cohort analyses were blocked in the screen due to undefined/unresolved targets. Confirmation: NO-GO.</p>"
+        }
+      },
+      "additional_evidence": [
+        "docs/rounded-sensitivity-audit.md",
+        "docs/rounded-sensitivity-artifacts.json",
+        "manuscripts/MSC-MUS-P08/main.tex"
+      ],
+      "additional_sources": [
+        {
+          "sha": "018081465b81983ae2618afba2d95eb9efb71511",
+          "run": "45990267481",
+          "artifact": "15192204427",
+          "scope": "heard-only MAR null N660; cohort gate"
+        }
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15193456534
+        }
+      ],
+      "scope": "Historical HC3, 1000 per cell; heard-only IPW; separate availability calculation and blocked full-cohort gate; NO-GO."
+    },
+    {
+      "id": "P09",
+      "estimand": "day-seven perceived event-specific understanding assignment contrast",
+      "method": "historical HC3; separate IPW percentile sensitivity; MAR/MNAR; current incomplete HC3 descriptive",
+      "design": "N440/600; .5 points; 64×500; bootstrap 240×199",
+      "sha": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+      "run": "45988878791",
+      "artifact": "15192343492",
+      "evidence": "docs/rounded-calibration-audit.md",
+      "status": "HISTORICAL_ESTIMATOR_NO_APPROVAL",
+      "display": {
+        "pl": {
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 30–50; proponowane N=440 lub 600 randomizowanych (d=0,35 lub 0,30; 20% braków, moc 90,56% lub 90,65%); historyczny HC3 w MAR dla N=600: 81,2–99,8% odrzuceń H1; nie moc aktualnej procedury. Docelowe N nieustalone.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 000 zbiorów i bootstrap 240 × 199</span>. N=440/600, przy 20% braków: oczekiwane 352/480 obserwacji, moc 90,56%/90,65% dla d=0,35/0,30. Historyczny HC3 w czterech profilach MAR dla efektu 0,5 punktu: odrzucenia H1 67,0–98,2%/81,2–99,8%. IPW przy N=600, H0: pokrycie CI 77,5% (MAR), 30,0% (MNAR), po 40 zbiorów. Przy brakującym wyniku obecna procedura HC3 nie daje testu potwierdzającego; kandydat IPW niezatwierdzony. Większe N nie usuwa selekcji.</p>"
+        },
+        "en": {
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 30–50; proposed N=440 or 600 randomised (d=.35 or .30; 20% loss, power 90.56% or 90.65%); historical HC3 H1 rejection under MAR at N=600: 81.2–99.8%, not current-procedure power. Final N undetermined.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,000 datasets and bootstrap 240 × 199</span>. N=440/600, 20% loss: 352/480 expected observations; power 90.56%/90.65% for d=.35/.30. Historical HC3 across four MAR profiles at a .5-point effect, H1 rejection 67.0–98.2%/81.2–99.8%. IPW at N=600 under H0: CI coverage 77.5% (MAR), 30.0% (MNAR), 40 datasets each. Current HC3 cannot provide confirmatory tests with missing outcomes; IPW candidate unapproved. Larger N does not remove selection bias.</p>"
+        }
+      },
+      "additional_evidence": [
+        "docs/rounded-sensitivity-audit.md",
+        "docs/rounded-sensitivity-artifacts.json",
+        "manuscripts/MSC-MUS-P09/analysis/calibration-audit.md"
+      ],
+      "additional_sources": [
+        {
+          "sha": "018081465b81983ae2618afba2d95eb9efb71511",
+          "run": "45990267481",
+          "artifact": "15193008911",
+          "scope": "H1 MAR null N600 bootstrap"
+        }
+      ],
+      "archived_subsets": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15192343492
+        }
+      ],
+      "scope": "Historical HC3 500 per cell; defined-outcome IPW screen 40 per cell; present incomplete-outcome confirmation unavailable; candidate unapproved."
+    }
+  ]
+}

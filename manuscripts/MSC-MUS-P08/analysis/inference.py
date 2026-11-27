@@ -100,9 +100,18 @@ def analyze(frame, bootstrap_draws=0, bootstrap_seed=2808):
 if __name__=="__main__":
     p = argparse.ArgumentParser()
     p.add_argument("csv")
+    p.add_argument("--data-kind",choices=["synthetic","empirical"],required=True)
+    p.add_argument("--ledger")
     p.add_argument("--bootstrap-draws", type=int, default=0)
     p.add_argument("--bootstrap-seed", type=int, default=2808)
     a = p.parse_args()
     if a.bootstrap_draws != 0 and a.bootstrap_draws < 199:
         p.error("--bootstrap-draws must be zero or at least 199")
-    print(json.dumps(analyze(pd.read_csv(a.csv,dtype={"participant_id":str}), a.bootstrap_draws, a.bootstrap_seed),indent=2,allow_nan=False))
+    frame=pd.read_csv(a.csv,dtype={"participant_id":str,"system_schedule":str,"bank_digest":str,"schema_version":str})
+    if a.data_kind=="empirical":
+        if not a.ledger:p.error("Empirical mode requires authoritative ledger")
+        from assignment_ledger import reconcile
+        reconcile(a.ledger,frame)
+    result=analyze(frame,a.bootstrap_draws,a.bootstrap_seed)
+    result.update(data_kind=a.data_kind,confirmatory_authorized=False)
+    print(json.dumps(result,indent=2,allow_nan=False))

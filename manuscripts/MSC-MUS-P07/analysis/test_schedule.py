@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime,timedelta,timezone
 import pandas as pd
 from schedule import generate,reconcile
-from inference import analyze
+from inference import analyze,prepare
 class TestSchedule(unittest.TestCase):
     def fixture(self):
         return pd.DataFrame([dict(participant_id="p",first_day="2026-10-20",timezone="Europe/Warsaw",available_from="09:00",available_until="20:00"),
@@ -21,6 +21,27 @@ class TestSchedule(unittest.TestCase):
         for s in a.scheduled_time:
             t=datetime.fromisoformat(s)
             self.assertLessEqual((t+timedelta(minutes=210)).hour*60+(t+timedelta(minutes=210)).minute,1200)
+    def test_equivalent_offsets_and_dst(self):
+        s=generate(self.fixture(),2707)
+        for offset in ("+02:00","+01:00"):
+            row=s.loc[s.scheduled_time.str.endswith(offset)].iloc[0]
+            t=datetime.fromisoformat(row.scheduled_time)
+            r=pd.DataFrame([dict(window_id=row.window_id,baseline_time=t.isoformat(),
+                scheduled_time=t.astimezone(timezone.utc).isoformat())])
+            d,_=prepare(reconcile(s,r))
+            expected=t.hour+t.minute/60
+            self.assertAlmostEqual(d.loc[d.window_id.eq(row.window_id),"local_hour"].iloc[0],expected)
+            r["baseline_time"]=t.astimezone(timezone.utc).isoformat()
+            utc,_=prepare(reconcile(s,r))
+            self.assertAlmostEqual(utc.loc[utc.window_id.eq(row.window_id),"local_hour"].iloc[0],expected)
+    def test_travel_does_not_change_frozen_zone(self):
+        s=generate(self.fixture(),2707)
+        row=s.iloc[0];t=datetime.fromisoformat(row.scheduled_time)
+        r=pd.DataFrame([dict(window_id=row.window_id,baseline_time=t.astimezone(timezone(timedelta(hours=5))).isoformat())])
+        d,_=prepare(reconcile(s,r))
+        self.assertAlmostEqual(d.loc[d.window_id.eq(row.window_id),"local_hour"].iloc[0],t.hour+t.minute/60)
+        s.loc[0,"timezone"]="Asia/Tokyo"
+        with self.assertRaisesRegex(ValueError,"stay fixed"):reconcile(s,r)
     def test_short_band(self):
         e=self.fixture();e.loc[0,"available_until"]="12:29"
         with self.assertRaisesRegex(ValueError,"210"):generate(e,1)

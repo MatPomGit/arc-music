@@ -53,3 +53,47 @@ A targeted diagnostic screen used the robust estimator on 72 additional independ
 | 105 | 800 | .65 | .80 | yes | 12/12 | .960 | 0/12 |
 
 At N=800, 4/12 proper fits imply an estimated Monte Carlo standard error of .136 and a Wilson interval of approximately .138 to .609. Even 12/12 proper fits yield a lower Wilson limit of .758. The comparisons point toward the joint difficulty of weak loadings and closely related factors. This screen cannot resolve the full-pool design or justify a sample size.
+
+
+## Correction of archived ordered-gate aggregation (27 November 2026)
+
+The historical development artifact [15192334440](https://github.com/MatPomGit/arc-music/actions/runs/45990267517/artifacts/15192334440) contains 320 completed fits (16 cells, 20 replications each). The original ZIP SHA-256 is `d4d7052bfaee1d7705844b728e0320d59d122a1938ee59190dbbd64cb8267095`; the original JSON SHA-256 is `06c803939403f1b0c4a58ff00742b32cf8dce4b726736304ce8f5a8869cc1a55`. The archived values of 1.00 in all cells for any ordered gate rejection were affected by a suffix-classification defect. Reaggregation from recorded final statuses, ignoring the erroneous derived Boolean, gives the following counts (denominator 20 throughout, zero estimation failures).
+
+| Group sizes | Invariant | Threshold DIF | Loading DIF | Intercept DIF |
+|---|---:|---:|---:|---:|
+| 250 + 250 | 3 (0.15) | 17 (0.85) | 14 (0.70) | 17 (0.85) |
+| 350 + 150 | 6 (0.30) | 20 (1.00) | 7 (0.35) | 17 (0.85) |
+| 400 + 400 | 2 (0.10) | 20 (1.00) | 16 (0.80) | 19 (0.95) |
+| 560 + 240 | 2 (0.10) | 20 (1.00) | 9 (0.45) | 18 (0.90) |
+
+Thirteen of 16 historical numerical rates change; three coincide with the corrected rates. No target-specific Wald statistic or p-value is changed. The 20-replication null results are imprecise and do not establish control of the joint type-I error. Any-gate rejection is not target-specific detection, and nonrejection is not proof of invariance. The original archive is not overwritten. Reproduce the comparison with `python3 reaggregate_invariance.py path/to/original.zip` from this directory. The production calibration now separates rejection, nonrejection and estimation failure and reports conditional and unconditional denominators and Wilson intervals. This correction does not change the ordered decision rule or authorize a group comparison or sample size.
+
+
+## Versioned reference-estimator discrepancy (27 November 2026)
+
+The exact archived comparison [15193905033](https://github.com/MatPomGit/arc-music/actions/runs/45990267517/artifacts/15193905033), ZIP SHA-256 `a8f9289195e1bbfee3a5ebf92c5febb364511c28dfc7cbe77032d4469cf4c12c`, was independently inspected. The workflow job 140476001715 logged Ubuntu 26.04, Python 3.12.16, R 4.5.2-1ubuntu2 and lavaan 0.6.21-1. NumPy and SciPy were pinned to 2.2.6 and 1.15.3 in requirements.txt.
+
+| Seed / draw | Reference | Python | Max loading / correlation / SE difference |
+|---|---|---|---|
+| 67, 8 items | proper | proper | .00455 / .00116 / .00121 |
+| 68, 35 items, moderate | proper | proper | .00495 / .00461 / .00191 |
+| 69, 35 items, weak | proper, minimum eigenvalue .01522 | improper | not estimable |
+| Historical weak draw | improper, minimum eigenvalue -.05252 | improper | not estimable |
+
+The historical comparison is immutable. The new comparison pins the observed runtime and numerical package versions, hashes the paired input, reports both estimator statuses even when one fails, and uses prospective development tolerances .02 for loadings, factor correlations and thresholds and .01 for standard errors. It requires both moderate cases to agree and all cases to execute, but any weak-case disagreement remains explicit and blocks a claim of full agreement. Different fit-statistic corrections are not required to yield identical p-values. The new execution and reproducibility remain to be verified; content validation and independent samples remain prerequisites.
+
+
+## Global five-test family candidate
+
+The previous ordered gate used two group-fit tests at .025 each and three cumulative restriction tests at .05 each. Nonrejection of a preceding test does not guarantee global error control. The new development candidate applies Holm at family alpha .05 over all five valid p-values, under arbitrary dependence. A significant group-fit test blocks interpretation of the restriction sequence; otherwise the first adjusted rejection is reported. Cumulative tests do not uniquely identify the violated restriction. No latent means are authorized. The old gate and archived outputs remain unchanged. The global control guarantee is conditional on valid individual null p-values; small-sample Wald and model-fit approximations must be calibrated.
+
+Paired retrospective screen from run 46006727066, artifact 15201653027 (ZIP SHA256 ef76147e785f424b1a2a7365adc01b538b07dbf63e5e46129016440718baac53): 20 proper fits per cell.
+
+| Group sizes | Invariant | Threshold DIF | Loading DIF | Intercept DIF |
+|---|---:|---:|---:|---:|
+| 250 + 250 | 1/20 | 16/20 | 7/20 | 12/20 |
+| 350 + 150 | 2/20 | 19/20 | 3/20 | 13/20 |
+| 400 + 400 | 0/20 | 20/20 | 8/20 | 17/20 |
+| 560 + 240 | 1/20 | 19/20 | 8/20 | 14/20 |
+
+These are any-gate rejections, not unique detection of the generating violation. The paired retrospective screen is not independent validation. Reduced loading-DIF sensitivity remains a problem. The independent-seed driver records the same gate, proper/failed counts, conditional and operational rejection, target cumulative-test rejection, Wilson intervals and Monte Carlo standard errors. Its 20-replicate CI run is an execution screen. Final calibration requires enough independent replications to resolve the intended error rate (e.g. at least 2,000 per intended null configuration; MCSE near .0049 at .05), partial-null configurations and a separately parameterized multigroup ordinal WLSMV reference. No approved group comparison or final sample size follows.

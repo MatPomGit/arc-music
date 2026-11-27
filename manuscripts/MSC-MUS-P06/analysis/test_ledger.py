@@ -70,6 +70,24 @@ class TestLedger(unittest.TestCase):
     def test_unknown_relevance(self):
         a=analysis_ledger(pd.DataFrame([row(activity_relevant=None)]))
         self.assertEqual(a.iloc[0].followup_status,"relevance_unknown")
+    def test_endpoint_states(self):
+        cases=[
+            (dict(), "defined",2),
+            (dict(interference=None),"defined",None),
+            (dict(activity_relevant=False,activity_status_reason="barriers_prevented"),"defined",2),
+            (dict(activity_relevant=False,activity_status_reason="independent_no_longer_applicable"),"undefined",None),
+            (dict(activity_relevant=False),"unknown",None),
+            (dict(activity_relevant=None),"unknown",None),
+            (dict(followup_activity_id="another"),"unknown",None),
+            (dict(followup_time=None,interference=None),"unknown",None),
+            (dict(followup_time="2026-11-02T09:25:00+01:00"),"unknown",None)]
+        for kw,state,value in cases:
+            a=ledger(pd.DataFrame([row(**kw)])).iloc[0]
+            self.assertEqual(a.endpoint_state,state)
+            if value is None:self.assertTrue(pd.isna(a.interference))
+            else:self.assertEqual(a.interference,value)
+        with self.assertRaisesRegex(ValueError,"contradicts"):
+            ledger(pd.DataFrame([row(activity_status_reason="independent_no_longer_applicable")]))
     def test_narrow_window(self):
         d=pd.DataFrame([row(followup_time="2026-11-02T13:25:00+01:00")])
         self.assertEqual(ledger(d).iloc[0].followup_status,"observed")

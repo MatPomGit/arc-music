@@ -5,8 +5,8 @@ training,integer,0 less than one year or 1 at least one year
 prior_use_days,integer,0-30
 importance0,integer,0-10
 randomised_at,datetime,offset-aware timestamp
-t1_at,datetime,offset-aware within 0-30 min after randomisation
-t2_at,datetime,offset-aware within 144-192 hours after randomisation
+t1_at,datetime,authoritative post-terminal submission within 0-30 min after randomisation
+t2_at,datetime,authoritative independent submission within 144-192 hours after randomisation
 same_event1,boolean,same event at T1 or unknown
 same_event2,boolean,same event at T2 or unknown
 understanding01,integer,0-10
@@ -22,3 +22,8 @@ distance0,integer,0-10
 distance1,integer,0-10 or missing
 target_status1,enum,defined or undefined or unknown for original-event target at T1
 target_status2,enum,defined or undefined or unknown for original-event target at T2
+bank_digest,string,64 lowercase hexadecimal SHA-256 frozen manifest digest
+schema_version,string,p09-export-v2
+task_started_at,datetime,authoritative start or blank
+task_ended_at,datetime,authoritative terminal instant or blank
+task_end_reason,enum,task_finished or task_stopped or task_technical_failure or blank

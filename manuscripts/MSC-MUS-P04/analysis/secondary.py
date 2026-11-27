@@ -37,10 +37,18 @@ def secondary(arm, paq_total, covariates, clarity_t1, m=50, seed=20261126):
         raise ValueError("Invalid dimensions")
     if np.isinf(y).any() or np.any((y<0)|(y>10)):
         raise ValueError("Invalid outcomes")
-    h2=_model(a,d,c[:,[1,2,4]],y,2,m,seed)
-    h3=_model(a,d,c,y,1,m,seed+1)
-    adjusted=holm([h2["mar"]["p"],h3["mar"]["p"]])
+    if set(np.unique(a))!={0.,1.} or not np.isfinite(c).all() or m<2:
+        raise ValueError("Invalid shared baseline schema or imputation count")
+    def attempt(cov,coefficient,draw_seed):
+        try:
+            return {"available":True,**_model(a,d,cov,y,coefficient,m,draw_seed)}
+        except (ValueError,ArithmeticError,np.linalg.LinAlgError) as exc:
+            return {"available":False,"reason":str(exc),"holm_p":None,"holm_reject":None}
+    h2=attempt(c[:,[1,2,4]],2,seed)
+    h3=attempt(c,1,seed+1)
+    adjusted=holm([h["mar"]["p"] if h["available"] else 1. for h in (h2,h3)])
     for h,p in zip((h2,h3),adjusted):
-        h["holm_p"]=float(p)
-        h["holm_reject"]=bool(p<.05)
+        if h["available"]:
+            h["holm_p"]=float(p)
+            h["holm_reject"]=bool(p<.05)
     return {"H2":h2,"H3":h3,"family":"H2-H3","n_randomised":n}

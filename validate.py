@@ -185,6 +185,8 @@ def check(root=ROOT):
                 or not primary[0].strip() or not alternative[0].strip()
                 or primary[0].strip().casefold() == alternative[0].strip().casefold()):
             errors.append(f"Invalid publication targets: {item.name}")
+    from check_research_registers import check as check_registers
+    errors.extend(check_registers(root))
     return errors
 
 if __name__ == "__main__":

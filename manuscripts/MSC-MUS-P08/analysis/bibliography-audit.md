@@ -16,3 +16,11 @@ Scope: decision authority, execution, automation, ownership and agency during AI
 | Tapal et al. (2017), DOI 10.3389/fpsyg.2017.01552 | Publisher abstract and PubMed 28955273 | General context-free agency beliefs, not a validated task state scale. |
 | Terwee et al. (2018), DOI 10.1007/s11136-018-1829-0 | PubMed 29550964 abstract and metadata | Content validity framework for PROMs; adapted principles, not evidence of P08 validity. |
 | Lakens (2017), DOI 10.1177/1948550617697177 | Publisher full-text equivalence discussion and PubMed metadata | Prespecified equivalence limits and TOST; pilot precision and justified margins remain necessary. |
+
+## Comparative update, 27 November 2026
+
+| Study | Design and population | Estimand and limitation |
+|---|---|---|
+| He (2026), full text §§3.2–3.5, 4.1 | 180 recruited, 162 retained university students; three automation packages × two training groups; 20-minute creation of 30-second segment; posttask measures/checks | Automation package contrasts after exclusions; no independently assigned execution/authority, no causal mediation; training thresholds differ from P08. |
+| Zhang (2026), DOI 10.3389/fpsyg.2026.1987055, publisher abstract | N380 high-alexithymic-trait young adults; user-directed versus AI-directed workflow, unequal revision/engagement/time opportunities | Greater ownership in user-directed arm; no detectable differential negative-affect or expression-difficulty change. No no-AI/no-songwriting control; measured mediators not randomised. Full URL redirects to abstract; formatted article pending. Do not infer detailed exclusions, instruments or transfer effect size. |
+| P08 | Prospective neutral arrangement of fixed clips; independent authority and execution 2×2; equal opportunities and shared deadlines, all assigned rows reconciled | Marginal authority contrast and interaction, subject to hearing-defined estimand gate. Not live unrestricted generation or replication of earlier mediation. |

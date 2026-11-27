@@ -13,3 +13,7 @@ ownership3,integer,0-10 or missing
 agency1,integer,0-10 or missing
 agency2,integer,0-10 or missing
 agency3,integer,0-10 or missing
+randomised_at,datetime,offset-aware authoritative allocation instant
+bank_digest,string,64 lowercase hex SHA-256 of frozen bank
+system_schedule,string,four binary characters including leading zeroes
+schema_version,string,p08-assignment-v1

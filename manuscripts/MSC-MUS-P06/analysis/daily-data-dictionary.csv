@@ -1,7 +1,10 @@
 file,field,type,definition
 enrollment,participant_id,string,pseudonymous unique enrolled participant
 enrollment,first_day,date,first of fourteen planned local study dates
-enrollment,withdrawal_day,date,first local date with no further collection or blank
+enrollment,withdrawal_day,date,first fully inactive local day (ceil of exact cutoff in enrollment zone) or blank
 checkins,participant_id,string,enrollment identifier
 checkins,local_day,date,study date being reported
 checkins,reported_sessions,integer,number of natural AI music sessions started that local day or missing
+enrollment,timezone,string,frozen IANA timezone for calendar and cessation checks
+enrollment,withdrawal_time,datetime,first prohibited collection instant with offset or blank
+checkins,checkin_time,datetime,actual check-in submission instant with offset

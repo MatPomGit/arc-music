@@ -36,13 +36,7 @@ variances to one, using the delta parameterization and aligning factor
 signs to the first item in each domain. For one 35-item sample with
 moderate loadings ($N=500$), absolute differences were at most .006 for
 loadings and factor correlations and .003 for their standard errors.
-For a separate weak case that passed both checks, the maximal factor
-correlation difference was .021. For the first draw in the historical
-weak scenario, the reference estimator returned a non-positive-definite
-latent covariance (minimum eigenvalue $-.00132$) despite convergence,
-and the development estimator rejected the fit. These paired checks
-identify a common failure mode and quantify agreement on selected
-datasets. The moment-matched residual statistic and WLSMV statistic use
+An earlier development comparison reported agreement in a selected weak case and a minimum eigenvalue of $-.00132$ for the historical draw. The later archived comparison (CI 45990267517, artifact 15193905033, \texttt{lavaan} 0.6-21, Python 3.12.16) differs: in the moderate 35-item case maximum differences were .00495 for loadings, .00461 for factor correlations and .00191 for standard errors. At weak seed 69, the reference passed its post-check (minimum eigenvalue .01522) while the development estimator rejected the fit. For the first historical weak draw, both failed admissibility; the reference minimum eigenvalue was $-.05252$ despite convergence and a scaled $p$-value of .59483. The versioned outcomes must not be conflated. The weak-model discrepancy remains unresolved; it does not support model readiness. The new comparison reports all cases and separates core parameter agreement, numerical execution and admissibility disagreement. The moment-matched residual statistic and WLSMV statistic use
 different corrections. Their $p$-values are reported separately.
 
 

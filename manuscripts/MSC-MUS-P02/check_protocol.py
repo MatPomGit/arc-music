@@ -41,3 +41,13 @@ registered = re.findall(r"^\| ([a-z]+\d{4}) \|", register, flags=re.M)
 assert len(registered) == len(set(registered)) and set(registered) == set(keys), (set(keys)-set(registered), set(registered)-set(keys))
 assert (root / "independent-review-handoff.md").is_file()
 print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
+
+# P02 corpus and artefact contract.
+field=(root / "fieldwork-protocol-pl.md").read_text(encoding="utf-8")
+assert "The corpus of interviews is the unit of thematic analysis" in body
+assert "not independent observations" in body
+assert "Showing is not consent to capture" in body
+assert "Korpus wywiadów jest jednostką analizy" in field and "Korpus wywiadów jest jednostką analizy" in guide
+assert "Nie wymagać powodu" in field and "Nie żądać powodu" in guide
+assert "zatrzymać nagrywanie i transkrypcję" in field
+assert "Zgoda na rozmowę lub pokaz nie jest zgodą" in guide

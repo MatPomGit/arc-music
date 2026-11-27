@@ -104,6 +104,8 @@ def compare_groups(x1,x2,domains,min_group=150):
                 gate=name+"_rejected"; break
         else:
             gate="all_restrictions_not_rejected"
-    return {"group_sizes":[len(x1),len(x2)],"configural_p_values":configural,
+    from invariance_family import global_decision
+    return {"global_family_candidate":global_decision(configural,tests),
+            "group_sizes":[len(x1),len(x2)],"configural_p_values":configural,
             "tests":tests,"ordered_gate":gate,"latent_mean_comparison_authorized":False,
             "label":"development ordinal invariance diagnostics; not nested WLSMV"}

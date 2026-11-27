@@ -27,3 +27,7 @@ Predefine acceptable task completion and exposure-equivalence rules after stimul
 ## Approval gate
 
 Review instrument version, coded interview findings, expert rationale, rights of comparators, data minimisation, accessibility, pilot flow, follow-up feasibility, SESOI and sample size before confirmation. No participant-facing production deployment or recruitment before separate approval.
+
+## Candidate revision v0.2.0
+
+See items-v0.2.0-pl.md. Replace the first double-barrelled question with a single self-event relation item and explicitly permit a well-understood absence of relation in the common instruction. Replace the capacity wording of distance with current perceived perspective. Use convergent/discriminant probes and a separate standardized neutral responsiveness exercise in a pilot component; no arm-effect item selection. Check longitudinal response shift, comparable assessment access/timing and identical neutral instructions. These changes remain proposals, not validated or frozen measures.

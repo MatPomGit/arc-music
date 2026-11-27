@@ -1,6 +1,7 @@
 """P07 outcome-specific complete-window switcher models; no causal claims."""
 import argparse,json
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import numpy as np
 import pandas as pd
 from scipy.stats import t
@@ -32,7 +33,22 @@ def prepare(frame, upper_delay=15):
     for c in ["creation_ongoing","creation_first_hour"]:
         if not d[c].dropna().map(lambda v:isinstance(v,(bool,np.bool_))).all():raise ValueError("Invalid boolean")
     parsed={c:d[c].map(parse) for c in TIMES+["followup180_time"]}
-    d["local_hour"]=parsed["baseline_time"].map(lambda v: v.hour+v.minute/60+v.second/3600 if pd.notna(v) else np.nan)
+    # Response offsets represent instants, not the study timezone.
+    zones=[]
+    for i,stamp in enumerate(parsed["scheduled_time"]):
+        if pd.isna(stamp):
+            raise ValueError("Missing schedule")
+        if "timezone" in d:
+            try: zone=ZoneInfo(str(d["timezone"].iloc[i]))
+            except (ValueError,KeyError) as exc: raise ValueError("Invalid schedule timezone") from exc
+        else:
+            zone=stamp.tzinfo  # direct synthetic fixtures only
+        zones.append(zone)
+    def hour(value,zone):
+        if pd.isna(value):return np.nan
+        v=value.astimezone(zone)
+        return v.hour+v.minute/60+v.second/3600+v.microsecond/3.6e9
+    d["local_hour"]=[hour(v,z) for v,z in zip(parsed["baseline_time"],zones)]
     for c in TIMES+["followup180_time"]:d[c]=pd.to_datetime(parsed[c],utc=True)
     if d.scheduled_time.isna().any():raise ValueError("Missing schedule")
     delay=lambda c:(d[c]-d.baseline_time).dt.total_seconds()/60
@@ -111,12 +127,34 @@ def holm(pvalues):
         adjusted[k]=prev
     return adjusted
 
+def exposure_flow(d, flag):
+    """Mutually exclusive participant categories, including zero response."""
+    ids=pd.Index(d.participant_id.unique())
+    def categories(mask):
+        a=d.loc[mask & d.exposure_valid]
+        counts=a.groupby("participant_id").creation_first_hour.agg(
+            n="size", exposed="sum").reindex(ids,fill_value=0)
+        n=counts.n.to_numpy(int); k=counts.exposed.to_numpy(int)
+        cat=np.select([n==0,k==0,k==n],
+                      ["no_known_window","noncreation_only","creation_only"],
+                      default="both")
+        return {"participants":len(ids),"no_known_window":int((cat=="no_known_window").sum()),
+                "noncreation_only":int((cat=="noncreation_only").sum()),
+                "creation_only":int((cat=="creation_only").sum()),"both":int((cat=="both").sum()),
+                "windows":int(n.sum()),"creation_windows":int(k.sum()),
+                "noncreation_windows":int((n-k).sum())}
+    return {"valid_baseline_known_exposure":categories(d.baseline_valid),
+            "complete_for_endpoint":categories(d[flag]),
+            "interpretation":"Observed exposure support only; absence of switching is not proof of structural nonpositivity."}
+
+
 def model_set(d):
     models={}
     for key,(flag,outcome,predictors) in MODELS.items():
         a=d.loc[d[flag]].copy()
         a["creation_first_hour"]=a.creation_first_hour.astype(int)
         models[key]=safe_fit(a,outcome,predictors)
+        models[key]["participant_flow"]=exposure_flow(d,flag)
     return models
 
 def analyze(frame, sensitivity_draws=100, schedule=None, withdrawals=None):
