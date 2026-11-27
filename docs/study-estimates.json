@@ -313,11 +313,11 @@
       "display": {
         "pl": {
           "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Pilotaż 30–50; proponowane N=440 lub 600 randomizowanych (d=0,35 lub 0,30; 20% braków, moc 90,56% lub 90,65%); historyczny HC3 w MAR dla N=600: 81,2–99,8% odrzuceń H1; nie moc aktualnej procedury. Docelowe N nieustalone.</p>",
-          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 000 zbiorów i bootstrap 240 × 199</span>. N=440/600, przy 20% braków: oczekiwane 352/480 obserwacji, moc 90,56%/90,65% dla d=0,35/0,30. Historyczny HC3 w czterech profilach MAR dla efektu 0,5 punktu: odrzucenia H1 67,0–98,2%/81,2–99,8%. IPW przy N=600, H0: pokrycie CI 77,5% (MAR), 30,0% (MNAR), po 40 zbiorów. Przy brakującym wyniku obecna procedura HC3 nie daje testu potwierdzającego; kandydat IPW niezatwierdzony. Większe N nie usuwa selekcji.</p>"
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 000 zbiorów i bootstrap 240 × 199</span>. N=440/600, przy 20% braków: oczekiwane 352/480 obserwacji, moc 90,56%/90,65% dla d=0,35/0,30. Historyczny HC3 w czterech profilach MAR dla efektu 0,5 punktu: odrzucenia H1 67,0–98,2%/81,2–99,8%. Historyczny IPW, N=600, H0: pokrycie CI 77,5% (MAR), 30,0% (MNAR), po 40 zbiorów. Kandydat: 80 × 999 na wynik; FWER H2–H3 przy MNAR, N=600: 20% (4/20), niepewne. Przy brakującym wyniku obecna procedura HC3 nie daje testu potwierdzającego; kandydat IPW niezatwierdzony. Większe N nie usuwa selekcji.</p>"
         },
         "en": {
           "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Pilot 30–50; proposed N=440 or 600 randomised (d=.35 or .30; 20% loss, power 90.56% or 90.65%); historical HC3 H1 rejection under MAR at N=600: 81.2–99.8%, not current-procedure power. Final N undetermined.</p>",
-          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,000 datasets and bootstrap 240 × 199</span>. N=440/600, 20% loss: 352/480 expected observations; power 90.56%/90.65% for d=.35/.30. Historical HC3 across four MAR profiles at a .5-point effect, H1 rejection 67.0–98.2%/81.2–99.8%. IPW at N=600 under H0: CI coverage 77.5% (MAR), 30.0% (MNAR), 40 datasets each. Current HC3 cannot provide confirmatory tests with missing outcomes; IPW candidate unapproved. Larger N does not remove selection bias.</p>"
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,000 datasets and bootstrap 240 × 199</span>. N=440/600, 20% loss: 352/480 expected observations; power 90.56%/90.65% for d=.35/.30. Historical HC3 across four MAR profiles at a .5-point effect, H1 rejection 67.0–98.2%/81.2–99.8%. Historical IPW at N=600 under H0: CI coverage 77.5% (MAR), 30.0% (MNAR), 40 datasets each. Candidate: 80 × 999 per endpoint; H2–H3 FWER under MNAR, N=600: 20% (4/20), uncertain. Current HC3 cannot provide confirmatory tests with missing outcomes; IPW candidate unapproved. Larger N does not remove selection bias.</p>"
         }
       },
       "additional_evidence": [
@@ -338,6 +338,34 @@
           "run": 45988878791,
           "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
           "artifact": 15192343492
+        },
+        {
+          "run": 46017681854,
+          "head": "0bf50ebaeae35492f5cd7a59847b1b9016396786",
+          "artifact": 15207720315,
+          "sha256": "6d7d6f6139dab4234e0712dd2799e923c9f02e22ee83f6dd88a698a889dcd335",
+          "scope": "candidate N440 MAR null"
+        },
+        {
+          "run": 46017681854,
+          "head": "0bf50ebaeae35492f5cd7a59847b1b9016396786",
+          "artifact": 15206736976,
+          "sha256": "e54a2eb9be6732dd6dcf50ec1136757af24a42a3fb08f6b259b4ee88cccb7fde",
+          "scope": "candidate N440 MAR partial null"
+        },
+        {
+          "run": 46017681854,
+          "head": "0bf50ebaeae35492f5cd7a59847b1b9016396786",
+          "artifact": 15207381598,
+          "sha256": "9ae1bd3a7214e7f4f73fde46f895cc233f129492247acbdb1a483e392e733b27",
+          "scope": "candidate N600 MAR null"
+        },
+        {
+          "run": 46017681854,
+          "head": "0bf50ebaeae35492f5cd7a59847b1b9016396786",
+          "artifact": 15207406827,
+          "sha256": "45ab0304a9958a3fa91de4f5efa06d5acb28fa30d321cc299c92b6f570bff23d",
+          "scope": "candidate N600 MNAR null"
         }
       ],
       "scope": "Historical HC3 500 per cell; defined-outcome IPW screen 40 per cell; present incomplete-outcome confirmation unavailable; candidate unapproved."

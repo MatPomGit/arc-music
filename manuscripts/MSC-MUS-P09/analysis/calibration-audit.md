@@ -52,3 +52,23 @@ Reproducibility: preserve the historical artifact link and report scope; no reru
 
 ## Targeted follow-up selection (v0.6.2)
 Historical grid identifies all eight coverage values below .60 as H1/H2 heteroskedastic MNAR at N=434/588. Worst null N=588: H1 .215 (bias .459566), H2 .210 (bias .466811). Compare matching MAR cells rather than treating larger N as a solution to nonidentification. New independent seeds; 8 HC3 cells × 2,000; H1 null at N=588 under heteroskedastic MAR/MNAR × 1,000 outer × 999 inner draws. Other bootstrap endpoints and alternatives remain lower-precision screening only. No high-precision output yet. Check aggregate exact SHA, all 20 shards, denominators, bias and coverage before further decisions.
+
+## Actual IPW candidate, 999-draw precision screen
+
+Run 46017681854, exact HEAD 0bf50ebaeae35492f5cd7a59847b1b9016396786, seed 20261207. Four cells, 20 independent datasets each, three endpoint models and 999 bootstrap draws per fit: 240/240 available intervals, 239,760/239,760 successful draws. Verified shard indices 0–19 per cell and identical metadata. All tables below are development results; no authorization.
+
+| N / mechanism / effect | H1/H2/H3 coverage | H1 nominal rejection | H2/H3 Holm rejection | True-null family error |
+|---|---|---:|---|---:|
+| 440 MAR null | .95/.95/.90 | .05 | .00/.05 | .05 |
+| 440 MAR distance-only .5 | .95/.90/1.00 | .05 | .05/.30 | .05 |
+| 600 MAR null | .90/1.00/1.00 | .10 | .00/.00 | .00 |
+| 600 MNAR null | .90/.85/.90 | .10 | .10/.10 | .20 |
+
+H1/H2/H3 bias in raw points: .00080/-.04007/.01280; -.01774/-.06019/-.05399; -.02786/.05275/-.04277; .07490/.10859/-.04366, respectively. True-null FWER 4/20 under MNAR has Wilson interval [.081,.416], MCSE .0894; even 0/20 gives upper limit .161. H3 partial-null Holm rejection 6/20 (Wilson [.145,.518]) cannot establish adequate power. Bias under MNAR and uncertain null error persist; more resampling does not identify missing outcomes. Preserve the historical HC3 and percentile-IPW summaries; this screen uses the actual centered-error candidate. No final N, SESOI or adoption.
+
+| Cell | Artifact ID | ZIP SHA-256 |
+|---|---:|---|
+| 6 | 15207720315 | 6d7d6f6139dab4234e0712dd2799e923c9f02e22ee83f6dd88a698a889dcd335 |
+| 8 | 15206736976 | e54a2eb9be6732dd6dcf50ec1136757af24a42a3fb08f6b259b4ee88cccb7fde |
+| 18 | 15207381598 | 9ae1bd3a7214e7f4f73fde46f895cc233f129492247acbdb1a483e392e733b27 |
+| 21 | 15207406827 | 45ab0304a9958a3fa91de4f5efa06d5acb28fa30d321cc299c92b6f570bff23d |
