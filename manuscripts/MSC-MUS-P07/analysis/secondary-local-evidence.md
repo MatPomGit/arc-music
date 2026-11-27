@@ -32,3 +32,7 @@ Joint alternative H2=.4, H3=-.2; operational probabilities:
 |MNAR|.0275–.2905|.5765–.9415|.7995–.9555|-.19647 to -.13124|-.06772 to -.04339|
 
 Worst family rejection: 581/2000, N320, prevalence .25, global null, MNAR; MCSE .0101515947. The response-stage labels do not imply globally MCAR/MAR because all scenarios include informative withdrawal. Marginal coverage is not simultaneous coverage. No final recruitment, empirical inference or proof of general error control. Reproduce using a new output path and record actual source HEAD, dependencies and raw-file digest.
+
+## Archive identity check (28 November 2026)
+
+At source HEAD `2e9d08dd6697c59f047ac033e1784a2682e4372b`, the current `secondary-full.json` has Git blob `d7c137ab70229aee42fe8672a4571c1955717150` (183896 bytes), not the original 190656-byte blob recorded above. Both Git objects were retrieved and parsed; recursive comparison after sorting object keys confirmed identical decoded JSON values, including all 72 cells and metadata. The original byte-level SHA-256 applies only to the original blob, not the current serialization. The current archive contains 288000 valid fits and zero failures. The extended archive retains its recorded Git blob `4ce5b07ab4d256faa2653166e87a3c7c145e4a10`, with 28800 valid fits and 28800 valid bounds. These are structural checks, not independent Monte Carlo execution.
