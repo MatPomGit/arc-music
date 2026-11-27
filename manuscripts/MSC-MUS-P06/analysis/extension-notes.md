@@ -1,4 +1,6 @@
-# Analysis extension v0.3.0
+# Historical analysis extension v0.3.0
+
+Historical implementation notes, not the current readiness contract. For current functionality and endpoint applicability use [README.md](README.md) and [computational-gates.md](computational-gates.md). The numerical claims are subject to [reproduction-status.md](reproduction-status.md).
 
 - Bounded simulation estimates the observed-scale target from a large independent synthetic reference per latent slope; report its Monte Carlo SE. This is not exact truth. Fixed six-session and 30% missingness design is a calibration slice, not final power.
 - Observation model uses pre-session covariates and day with ridge-regularized logistic slopes; report positivity and compare caps 10/20. Weight uncertainty is propagated by participant bootstrap with re-estimation.
@@ -9,4 +11,4 @@
 
 Update v0.4.0: the raw-session ledger now enforces the timing rules and preserves missing follow-ups. Primary observations are not conditioned on post-response completion. The session-ledger CLI is implemented. Recruitment/consent, activity identifiers across follow-ups, independent daily check-ins and field data capture are still separate implementation gates.
 
-Version 0.10.0 supersedes earlier follow-up timing and activity-identity descriptions. The primary window is 24–28 h from session end, with 24–26 h sensitivity. Opaque identifiers must match; unknown relevance and cancelled activities remain missing outcomes.
+Version 0.10.0 superseded earlier timing and activity-identity descriptions. Subsequent versions distinguish defined, undefined and unknown endpoints; see README.md for the current rules. Candidate empirical import and cessation checks are now implemented, but field collection and approval remain open.

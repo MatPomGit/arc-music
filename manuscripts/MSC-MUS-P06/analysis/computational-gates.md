@@ -1,10 +1,16 @@
-# Computational stage v0.2.0
+# Computational readiness gates
 
-- Primary implementation: within transformation, complete-case selection, cluster CR1 sandwich with participant degrees of freedom, two-sided t intervals. CR1 is provisional until null calibration. Timing: follow-up 24–28 hours after post-session assessment; pre-session timestamp must precede post-session timestamp. No actual session end timestamp exists yet; the diary needs an explicit start/end event to verify the 15-minute post window.
-- Synthetic generator: participant intercepts and random slopes, AR(1) errors, MCAR/MAR/MNAR outcome loss calibrated in expectation. Continuous generated outcomes preserve the known slope; bounded/ordinal outcome calibration, dropout and selective reporting are still necessary. MNAR bias is not corrected by complete-case analysis.
-- Smoke grid is CI only, not a basis for a final sample size. Full factorial run is deliberately separate; use at least 1000 replicates per retained design cell.
-- Missing-data sensitivity models, secondary tests, bounded outcomes and diary collection interface remain unimplemented.
-- Bibliographic metadata and full texts need independent verification; the prior measurement-gates claim of DOI checks was premature. Do not treat those six references as audited.
-- CI includes tests, synthetic smoke results, manuscript compilation, and exact HEAD evidence. No empirical results.
+Status: prospective. The current analysis contract is [README.md](README.md); the historical numerical evidence and its verification scope are recorded in [reproduction-status.md](reproduction-status.md).
 
-Version 0.10.0 supersedes earlier follow-up timing and activity-identity descriptions. The primary window is 24–28 h from session end, with 24–26 h sensitivity. Opaque identifiers must match; unknown relevance and cancelled activities remain missing outcomes.
+| Area | Implementation and remaining gate |
+|---|---|
+| Primary model | Within-person fixed effects and participant-cluster CR1 inference are implemented. Inferential calibration remains provisional. |
+| Session ledger | Actual start/end events, pre/post windows, matched activity tokens and endpoint states are implemented in ledger.py. The current timing rules are defined in README.md. |
+| Missingness and secondary models | sensitivity.py and secondary.py implement candidate IPW, bounded conditional-mean shifts, participant bootstrap and fixed-family Holm reporting. Full-session sensitivity is withheld when applicability is undefined or unknown. |
+| Denominators and import | daily.py, export_schema.py and withdrawal_audit.py implement candidate enrollment/check-in and cessation checks. They do not authorize collection or retention. |
+| Simulation | Continuous, bounded, cluster, missingness and stress simulations exist. Historical table reproduction is limited to the recorded HEAD and fields; full bootstrap coverage and final sample-size calibration remain open. |
+| Field collection | No approved diary application, validated state indicators or participant data. |
+| Literature | See bibliography-audit.md for the scope of metadata and selected-claim checks; full-text review remains incomplete. |
+| Validation | Dedicated CI tests, synthetic smoke runs and LaTeX compilation are configured; current-HEAD success must be verified separately. |
+
+No empirical outcomes, independent scientific validation, ethics clearance or final recruitment target are implied by implementation or a successful CI run.
