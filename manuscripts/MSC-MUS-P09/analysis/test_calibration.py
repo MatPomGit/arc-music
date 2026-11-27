@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from calibration import generate, run, cell, summarize, PROFILES, MECHANISMS
+from calibration import generate, run, cell, summarize, PROFILES, MECHANISMS, stratified_assignment
 
 
 class CalibrationTests(unittest.TestCase):
@@ -13,6 +13,20 @@ class CalibrationTests(unittest.TestCase):
                 self.assertTrue(np.all((values >= 0) & (values <= 10)))
                 factor = 1 if col.startswith("distance") else 3
                 np.testing.assert_allclose(values * factor, np.round(values * factor))
+
+    def test_stratified_blocks(self):
+        training = np.resize([0, 1, 1], 587)
+        for seed in range(20):
+            z = stratified_assignment(np.random.default_rng(seed), training)
+            self.assertEqual(len(z), len(training))
+            for stratum in (0, 1):
+                prefix = z[training == stratum]
+                self.assertTrue(np.all(np.abs(np.cumsum(2*prefix-1)) <= 3))
+        d = generate(np.random.default_rng(42), 588, "standard", "complete", "alternative", allocation="stratified_blocks")
+        for _, group in d.groupby("training"):
+            self.assertLessEqual(abs(int((2*group.music-1).sum())), 3)
+        with self.assertRaises(ValueError):
+            stratified_assignment(np.random.default_rng(1), [0, 2])
 
     def test_known_marginal_effects(self):
         d = generate(np.random.default_rng(21), 60000, "ceiling", "complete", "alternative")
