@@ -114,10 +114,18 @@ def pool(estimates):
 
 def shift_outcome(completed, missing_outcome, delta, slope=0.0):
     """Pattern-mixture shift: delta + slope*(expression-5)/5, only missing outcomes."""
+    mask = np.asarray(missing_outcome)
+    if mask.dtype.kind != "b" or mask.shape != (len(completed),):
+        raise ValueError("Missing-outcome mask must be a Boolean vector of row length")
+    if not np.isfinite([delta, slope]).all():
+        raise ValueError("Nonfinite sensitivity shift")
     shifted = completed.copy()
-    adjustment = delta + slope*(shifted.loc[missing_outcome,"motive_expression"]-5)/5
-    shifted.loc[missing_outcome,"clarity_post"] = (
-        shifted.loc[missing_outcome,"clarity_post"]+adjustment).clip(0,10)
+    x = shifted.loc[mask,"motive_expression"].to_numpy(float)
+    y = shifted.loc[mask,"clarity_post"].to_numpy(float)
+    if not np.isfinite(x).all() or not np.isfinite(y).all():
+        raise ValueError("Sensitivity shift requires finite imputed values")
+    adjustment = delta + slope*(x-5)/5
+    shifted.loc[mask,"clarity_post"] = np.clip(y+adjustment,0,10)
     return shifted
 
 
@@ -130,13 +138,31 @@ def sensitivity(raw,m=50,sweeps=15,seed=1729):
     estimates = {key: [] for key in grid}
     for completed, missing_outcome in draw_imputations(data,m,sweeps,seed):
         for delta,slope in grid:
-            shifted = shift_outcome(completed,missing_outcome,delta,slope)
-            estimates[(delta,slope)].append(fit(shifted,"H1"))
+            try:
+                shifted = shift_outcome(completed,missing_outcome,delta,slope)
+                estimates[(delta,slope)].append(fit(shifted,"H1"))
+            except (ValueError, ArithmeticError, np.linalg.LinAlgError):
+                estimates[(delta,slope)].append(None)
+
+    def scenario(delta, slope):
+        results = estimates[(delta,slope)]
+        fitted = sum(value is not None for value in results)
+        metadata = dict(delta=delta, attempted=m, fitted=fitted)
+        if slope != 0:
+            metadata["slope"] = slope
+        if len(results) != m or fitted != m:
+            return dict(metadata, status="fit_failure")
+        try:
+            return dict(metadata, status="ok", **pool(results))
+        except (ValueError, ArithmeticError, np.linalg.LinAlgError):
+            return dict(metadata, status="pool_failure")
+
+    constant = [scenario(delta,0) for delta in DELTAS]
+    differential = [scenario(delta,slope) for delta,slope in grid if slope != 0]
     return {"eligible_n":len(data),"intake_flow":data.attrs["intake_flow"],"missing_clarity_n":int(data.clarity_post.isna().sum()),
             "seed":seed,"sweeps":sweeps,"method":"bootstrap chained donor matching",
-            "scenarios":[{"delta":delta,**pool(estimates[(delta,0)])} for delta in DELTAS],
-            "differential_scenarios":[{"delta":delta,"slope":slope,**pool(estimates[(delta,slope)])}
-                                      for delta,slope in grid if slope != 0]}
+            "status":"ok" if all(s["status"]=="ok" for s in constant+differential) else "scenario_failure",
+            "scenarios":constant,"differential_scenarios":differential}
 
 
 if __name__ == "__main__":

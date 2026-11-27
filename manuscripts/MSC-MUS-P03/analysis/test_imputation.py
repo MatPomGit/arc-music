@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 import numpy as np
 from models import prepare, fit
 from imputation import draw_imputations, sensitivity, pool, shift_outcome
@@ -50,6 +51,34 @@ class ImputationTests(unittest.TestCase):
         np.testing.assert_array_equal(shifted.clarity_post.iloc[:3],[3,5,7])
         np.testing.assert_array_equal(shifted.clarity_post.iloc[3:],data.clarity_post.iloc[3:])
         self.assertEqual(len(sensitivity(raw,m=2,sweeps=1)["differential_scenarios"]),12)
+
+    def test_shift_rejects_malformed_mask_and_nonfinite_shift(self):
+        data,_ = prepare(fixture(100))
+        mask = np.zeros(len(data),dtype=bool)
+        for malformed in (mask[:-1], np.zeros(len(data),dtype=int), mask[:,None]):
+            with self.assertRaises(ValueError):
+                shift_outcome(data,malformed,0)
+        with self.assertRaises(ValueError):
+            shift_outcome(data,mask,np.nan)
+        with self.assertRaises(ValueError):
+            shift_outcome(data,mask,0,np.inf)
+
+    def test_failed_sensitivity_scenario_is_reported_without_partial_pooling(self):
+        raw = fixture(100)
+        raw.loc[:4,"clarity_post"] = np.nan
+        original = shift_outcome
+        def shifted(completed, missing, delta, slope):
+            if (delta,slope)==(0,-2):
+                raise ValueError("synthetic scenario failure")
+            return original(completed,missing,delta,slope)
+        with patch("imputation.shift_outcome",side_effect=shifted):
+            result = sensitivity(raw,m=2,sweeps=1,seed=9)
+        self.assertEqual(result["status"],"scenario_failure")
+        all_scenarios = result["scenarios"]+result["differential_scenarios"]
+        self.assertEqual(len(all_scenarios),17)
+        failed = [s for s in all_scenarios if s["status"]!="ok"]
+        self.assertEqual(failed,[dict(delta=0,slope=-2,attempted=2,fitted=0,status="fit_failure")])
+        self.assertTrue(all("beta" in s for s in all_scenarios if s["status"]=="ok"))
 
     def test_rubin_pool(self):
         a = pool([{"beta":.1,"se_hc3":.1,"n":100},
