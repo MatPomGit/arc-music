@@ -12,6 +12,9 @@ FILES = (
     "en-studies.html", "publications.html", "en-publications.html",
     "neuropsychology.html", "en-neuropsychology.html",
     "style.css", "language.js", "js/base.js", "js/darkmode.js",
+) + tuple(
+    f"manuscript-previews/msc-mus-p{i:02d}.{extension}"
+    for i in range(1, 10) for extension in ("png", "pdf")
 )
 
 def digest(data):
@@ -24,7 +27,7 @@ def manifest(site, output):
 def read_manifest(path):
     entries = {}
     for line in path.read_text(encoding="ascii").splitlines():
-        match = re.fullmatch(r"([a-f0-9]{64})  ([a-z./-]+)", line)
+        match = re.fullmatch(r"([a-f0-9]{64})  ([a-z0-9./-]+)", line)
         if not match or match[2] not in FILES or match[2] in entries:
             raise ValueError("Invalid manifest entry")
         entries[match[2]] = match[1]

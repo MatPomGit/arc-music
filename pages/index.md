@@ -2,9 +2,8 @@
 
 [PL](index.md) · [EN](en.md)
 
-Punktem wyjścia projektu są wypowiedzi osób, które opisują tworzenie muzyki za pomocą generatywnej sztucznej inteligencji jako sposób wyrażania trudnych emocji i nadawania sensu własnym doświadczeniom
+Twórczość muzyczna pozwala wyrażać siebie, eksplorować przeżycia i nadawać im osobiste znaczenie. Generatywna sztuczna inteligencja rozszerza możliwości uczestnictwa w tej aktywności, również w przypadku osób bez przygotowania kompozytorskiego. Punktem wyjścia projektu są relacje twórców opisujących powstawanie utworów w kontekście własnych doświadczeń emocjonalnych.
 
-Przedmiotem badań są psychologiczne funkcje tej formy twórczości, ze szczególnym uwzględnieniem regulacji emocji, poczucia sprawstwa i znaczenia przypisywanego własnym utworom. Interesuje nas zarówno przebieg procesu twórczego, jak i jego miejsce w życiu uczestników.
+Badamy, jak intencja, wybór słów, decyzje artystyczne i powracanie do własnego utworu wiążą się z jasnością emocjonalną, sprawstwem i rozumieniem osobistych przeżyć. Uwzględniamy także sytuacje, w których twórczość nie przynosi oczekiwanej ulgi, podtrzymuje ruminację lub utrudnia codzienne funkcjonowanie.
 
-Projekt Koła Naukowego Psychologii Cyfrowej Uniwersytetu VIZJA
-
+AIM-ER jest projektem badawczym Koła Naukowego Psychologii Cyfrowej Uniwersytetu VIZJA. Obecnie rozwijamy model teoretyczny i protokoły badań. Nie dysponujemy jeszcze wynikami empirycznymi projektu.

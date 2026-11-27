@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-W obszarze jej zainteresowań psychologicznych szczególne miejsce zajmują twórczość, muzyka i arteterapia. Bliska jest jej perspektywa ujmująca aktywność artystyczną jako istotny element ludzkiego doświadczenia, ekspresji emocjonalnej i rozwoju osobistego. Jej profil zainteresowań łączy wrażliwość na indywidualne przeżycia człowieka z refleksją nad psychologicznym znaczeniem sztuki w codziennym życiu.
+W centrum jej zainteresowań psychologicznych znajduje się twórczość człowieka, ze szczególnym uwzględnieniem muzyki i arteterapii. Interesuje ją znaczenie aktywności artystycznej dla ekspresji emocjonalnej, rozumienia osobistych doświadczeń i funkcjonowania psychicznego w życiu codziennym.
 
 ## Paulina Ficner
 
-Jej zainteresowania obejmują psychologię, w szczególności psychologię biznesu, oraz szeroko rozumiane projektowanie i komunikację wizualną. Łączy perspektywę psychologiczną z wrażliwością na estetykę, sposób postrzegania otoczenia i znaczenie ludzkich doświadczeń w kontakcie z technologią. Interdyscyplinarny charakter jej zainteresowań pozwala spojrzeć na człowieka w kontekście indywidualnym, społecznym i organizacyjnym.
+Jej zainteresowania obejmują psychologię biznesu, projektowanie i komunikację wizualną. Łączy te obszary z refleksją nad procesami psychicznymi, doświadczeniem estetycznym i relacją człowieka z otoczeniem, uwzględniając indywidualny, społeczny i organizacyjny kontekst funkcjonowania.
 
 ## Mateusz Pomianek
 
-Jego zainteresowania naukowe sytuują się na pograniczu psychologii, neuronauki i informatyki, ze szczególnym uwzględnieniem neuroinformatyki. Istotne miejsce w tym obszarze zajmuje zrozumienie złożonych zależności między funkcjonowaniem mózgu, procesami psychicznymi i zachowaniem człowieka. Perspektywa interdyscyplinarna pozwala ujmować te zagadnienia zarówno w wymiarze teoretycznym, jak i w kontekście współczesnych technologii.
+Problematyka jego zainteresowań naukowych obejmuje psychologię, neuronaukę i informatykę, ze szczególnym uwzględnieniem neuroinformatyki. Interesują go zależności między funkcjonowaniem mózgu, procesami psychicznymi i zachowaniem człowieka oraz znaczenie technologii dla rozumienia tych zależności.
 
 ## Cezary Biele
 
-Jego profil naukowy obejmuje psychologię poznawczą i psychologię cyfrową oraz problematykę funkcjonowania człowieka w środowisku nowych technologii. Szczególne znaczenie mają w tej perspektywie procesy poznawcze, ich związek z doświadczeniem człowieka oraz psychologiczne aspekty przemian cyfrowych. Jest kierownikiem Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+Jego zainteresowania naukowe koncentrują się na psychologii poznawczej i cyfrowej. Obejmują procesy poznawcze oraz relacje między doświadczeniem człowieka, zachowaniem i środowiskiem technologicznym. Jest kierownikiem Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.

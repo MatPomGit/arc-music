@@ -127,11 +127,7 @@ def check(root=ROOT):
             source = template.read_text(encoding="utf-8")
             if re.search(r"sharepoint\.com|onedrive|github\.com/matpomgit|<\s*(?:iframe|object|embed|form|base)\b|\bon[a-z]+\s*=", source, re.I):
                 errors.append("Unsafe public template")
-            if set(re.findall(r"https?://[^\x22\x27\s<>]+", source)) - {
-                    "https://doi.org/10.1037/h0077714",
-                    "https://doi.org/10.1080/17437199.2019.1627897",
-                    "https://doi.org/10.1177/03057356231212362",
-            }:
+            if set(re.findall(r"https?://[^\x22\x27\s<>]+", source)) - (REFERENCES | {"https://doi.org/10.1037/h0077714"}):
                 errors.append("Unapproved template URL")
         for name in ("darkmode.js", "base.js"):
             theme_script = overrides / "js" / name
