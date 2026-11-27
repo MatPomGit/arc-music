@@ -128,7 +128,9 @@ def check_interactions(page, section):
         preference = page.locator("#motion-preference")
         assert preference.count() == 1
         page.emulate_media(reduced_motion="no-preference")
+        page.wait_for_function("() => !matchMedia('(prefers-reduced-motion: reduce)').matches", polling=50)
         preference.select_option("on")
+        motion_state(page, "active")
         if section == "index":
             marker = page.locator("#wave path").first
             before = marker.get_attribute("d")
@@ -150,8 +152,10 @@ def check_interactions(page, section):
             assert marker.get_attribute("d") == before
             check_projections(page)
         preference.select_option("on")
+        motion_state(page, "active")
         page.emulate_media(reduced_motion="reduce")
-        page.wait_for_function("() => !document.querySelector('.step-active')")
+        motion_state(page, "system")
+        page.wait_for_function("() => !document.querySelector('.step-active')", polling=50)
         assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
         if section == "index":
             stationary = marker.get_attribute("d")
