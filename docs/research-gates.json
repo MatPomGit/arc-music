@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "date": "2026-11-27",
   "status": "PROSPECTIVE_NO_GO",
   "owner": "Mateusz Pomianek",
@@ -41,7 +41,8 @@
       "rights_status": "NOT_VERIFIED",
       "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
       "blocker": "eligibility/consent export; independent IDs and approved recruitment",
-      "fieldwork": "BLOCKED"
+      "fieldwork": "BLOCKED",
+      "additional_contracts": []
     },
     {
       "study": "P04",
@@ -71,7 +72,12 @@
       "rights_status": "NOT_VERIFIED",
       "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
       "blocker": "retention cutoff approval; endpoint applicability and state measure validity",
-      "fieldwork": "BLOCKED"
+      "fieldwork": "BLOCKED",
+      "additional_contracts": [
+        "manuscripts/MSC-MUS-P06/analysis/export_schema.py",
+        "manuscripts/MSC-MUS-P06/analysis/data-dictionary.csv",
+        "manuscripts/MSC-MUS-P06/analysis/daily-data-dictionary.csv"
+      ]
     },
     {
       "study": "P07",
@@ -91,7 +97,11 @@
       "rights_status": "NOT_VERIFIED",
       "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
       "blocker": "bank provenance/rights, authenticated service, hearing target, approved withdrawal",
-      "fieldwork": "BLOCKED"
+      "fieldwork": "BLOCKED",
+      "additional_contracts": [
+        "manuscripts/MSC-MUS-P08/analysis/export_schema.py",
+        "manuscripts/MSC-MUS-P08/analysis/data-dictionary.csv"
+      ]
     },
     {
       "study": "P09",
@@ -100,8 +110,13 @@
       "instruments": "original v0.2.0 understanding/perspective candidates",
       "rights_status": "NOT_VERIFIED",
       "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
-      "blocker": "music/image bank rights, authenticated state/payload integration, approved withdrawal",
-      "fieldwork": "BLOCKED"
+      "blocker": "music/image bank rights, authenticated monotonic task service, target-status ascertainment outside missed visits, approved retention",
+      "fieldwork": "BLOCKED",
+      "additional_contracts": [
+        "manuscripts/MSC-MUS-P09/analysis/allocation.py",
+        "manuscripts/MSC-MUS-P09/analysis/visit_payload.py",
+        "manuscripts/MSC-MUS-P09/analysis/data-dictionary.csv"
+      ]
     }
   ]
 }
