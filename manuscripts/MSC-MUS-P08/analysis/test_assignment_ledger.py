@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 from assignment_ledger import allocate,ledger,reconcile,withdraw
 from inference import analyze
+from export_schema import read_export
 from test_inference import fixture
 
 class LedgerTests(unittest.TestCase):
@@ -35,7 +36,7 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(reconcile(self.path,data),80)
         export=self.path.with_suffix(".csv")
         data.drop(columns="withdrawn").to_csv(export,index=False)
-        restored=pd.read_csv(export,dtype={"participant_id":str,"system_schedule":str,"bank_digest":str,"schema_version":str})
+        restored=read_export(export,empirical=True)
         self.assertEqual(reconcile(self.path,restored),80)
         self.assertEqual(analyze(data)["randomised"],80)
         for k,v in [("authority",2),("manual",2),("training",2),("bank_digest","b"*64),
@@ -49,3 +50,40 @@ class LedgerTests(unittest.TestCase):
         withdraw(self.path,f"{1:032x}");withdraw(self.path,f"{1:032x}")
         with self.assertRaises(ValueError):self.assign(1)
         with self.assertRaises(ValueError):reconcile(self.path,data)
+
+    def test_strict_export_tokens_and_leading_zeroes(self):
+        for i in range(80):
+            allocate(self.path,f"{i:032x}",i%2,"0"*63+"1",
+                     eligible=True,consented=True,baseline_complete=True,rng=random.Random(i))
+        records=pd.DataFrame(ledger(self.path)).drop(columns="withdrawn")
+        scores=fixture().iloc[:80].drop(columns=["participant_id","training","authority","manual"]).reset_index(drop=True)
+        data=pd.concat([records,scores],axis=1)
+        data["heard_version"]=data.heard_version.astype("object")
+        data.loc[0,"heard_version"]="false"
+        data.loc[1,"heard_version"]="NA"
+        data.loc[2,"heard_version"]="true"
+        path=self.path.with_suffix(".csv")
+        data.to_csv(path,index=False)
+        frame=read_export(path,empirical=True)
+        self.assertEqual(reconcile(self.path,frame),80)
+        self.assertEqual(frame.participant_id.iloc[0],"0"*32)
+        self.assertEqual(frame.bank_digest.iloc[0],"0"*63+"1")
+        self.assertTrue(frame.system_schedule.str.len().eq(4).all())
+        self.assertFalse(frame.heard_version.iloc[0])
+        self.assertTrue(pd.isna(frame.heard_version.iloc[1]))
+        self.assertTrue(frame.heard_version.iloc[2])
+        result=analyze(frame)
+        self.assertFalse(result["full_cohort_target_defined"])
+        self.assertEqual(result["secondary_holm"],{"H2":None,"H3":None})
+        for token in ("0","yes","FALSE","null"," "):
+            bad=data.copy();bad.loc[0,"heard_version"]=token
+            bad.to_csv(path,index=False)
+            with self.assertRaises(ValueError):read_export(path,empirical=True)
+        for bad in (data.assign(withdrawn=0),data.drop(columns="bank_digest"),
+                    data.assign(system_schedule="12"),data.assign(schema_version="wrong")):
+            bad.to_csv(path,index=False)
+            with self.assertRaises(ValueError):read_export(path,empirical=True)
+        data.to_csv(path,index=False)
+        text=path.read_text()
+        path.write_text(text.replace("participant_id,","participant_id,participant_id,",1))
+        with self.assertRaisesRegex(ValueError,"duplicate CSV fields"):read_export(path,empirical=True)
