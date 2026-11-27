@@ -80,16 +80,32 @@ def check_home_layout(page, section):
         assert geometry["ok"], ("About illustration/text layout", geometry)
     if section in ("index","neuropsychology"):
         assert page.locator("#affect-title").count() == 0
-        assert page.locator(".affect-compact > .affect-figure:only-child").count() == 1
-        assert page.locator(".affect-compact").get_attribute("aria-label")
+        assert page.locator(".affect-compact").count() == 0
+        assert page.locator(".affect-music > .affect-copy + .affect-figure").count() == 1
+        lang = page.locator("html").get_attribute("lang")
+        copy = page.locator(".affect-copy")
+        assert copy.locator("h2").inner_text() == ("Music and emotions" if lang == "en" else "Muzyka i emocje")
+        assert copy.locator("p").count() == 2
+        content = copy.inner_text().casefold()
+        for phrase in (("release emotional tension", "express difficult feelings") if lang == "en" else ("rozładować napięcie emocjonalne", "wyrazić trudne uczucia")):
+            assert phrase in content
+        for forbidden in ("valence", "arousal", "walencj", "pobudzen", "wykres", "chart", "russell"):
+            assert forbidden not in content, forbidden
+        assert page.locator(".affect-figure").get_attribute("aria-label")
         assert page.evaluate("""() => {
-          const card=document.querySelector('.affect-compact');
-          const shell=card.closest('main');
-          const a=card.getBoundingClientRect(), b=shell.getBoundingClientRect();
-          return getComputedStyle(card).gridTemplateColumns.split(' ').length===1 &&
-            Math.abs((a.left+a.right-b.left-b.right)/2)<2 &&
-            a.width<=36*parseFloat(getComputedStyle(document.documentElement).fontSize)+1;
-        }"""), "Affect card must be compact and centered"
+          const card=document.querySelector('.affect-music');
+          const figure=card.querySelector('.affect-figure').getBoundingClientRect();
+          const copy=card.querySelector('.affect-copy').getBoundingClientRect();
+          const style=getComputedStyle(card);
+          const columns=style.gridTemplateColumns.split(' ').length;
+          const root=parseFloat(getComputedStyle(document.documentElement).fontSize);
+          const inner=card.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);
+          const threshold=44*root+parseFloat(style.columnGap);
+          const sideBySide=columns===2 && copy.right<=figure.left+1 &&
+            Math.min(copy.bottom,figure.bottom)>Math.max(copy.top,figure.top);
+          const stacked=columns===1 && copy.bottom<=figure.top+1;
+          return inner>threshold+1 ? sideBySide : inner<threshold-1 ? stacked : (sideBySide || stacked);
+        }"""), "Music text left, figure right, or stacked on narrow screens"
 
 
 def theme_state(page, theme):

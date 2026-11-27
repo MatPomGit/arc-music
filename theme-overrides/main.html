@@ -56,8 +56,13 @@
 <p class="small">{{ 'Possible mechanisms are not established causal pathways. Immediate relief and delayed effects may differ.' if en else 'Możliwe mechanizmy nie są ustalonymi zależnościami przyczynowymi. Doraźna ulga i odroczone skutki mogą się różnić.' }}</p></section>
 {% endif %}
 {% if section == 'neuropsychology' or section == 'index' %}
-<section class="feature affect affect-compact" aria-label="{{ 'Illustrative valence and arousal space, based on Russell (1980); not a diagnostic tool or participant data.' if en else 'Ilustracyjna przestrzeń walencji i pobudzenia na podstawie Russella (1980); nie służy diagnozie ani nie przedstawia danych uczestników.' }}">
-<figure class="affect-figure"><figcaption class="affect-label affect-high">{{ 'High arousal' if en else 'Wysokie pobudzenie' }}</figcaption>
+<section class="feature affect affect-music" aria-labelledby="music-emotions-title">
+<div class="affect-copy">
+<h2 id="music-emotions-title">{{ 'Music and emotions' if en else 'Muzyka i emocje' }}</h2>
+<p>{{ 'Music can help release emotional tension, express difficult feelings and restore emotional balance. It gives form to experiences that are not always easy to put into words.' if en else 'Muzyka może pomagać rozładować napięcie emocjonalne, wyrazić trudne uczucia i odzyskać wewnętrzną równowagę. Pozwala nadać formę przeżyciom, które nie zawsze łatwo wyrazić słowami.' }}</p>
+<p>{{ 'Creating music can foster self-understanding, help people make sense of their experiences and strengthen their sense of agency.' if en else 'Tworzenie własnej muzyki może sprzyjać lepszemu rozumieniu siebie, porządkowaniu doświadczeń oraz budowaniu poczucia sprawstwa.' }}</p>
+</div>
+<figure class="affect-figure" aria-label="{{ 'Conceptual illustration based on Russell (1980); not a diagnostic tool or participant data.' if en else 'Ilustracja pojęciowa na podstawie Russella (1980); nie służy diagnozie ani nie przedstawia danych uczestników.' }}"><figcaption class="affect-label affect-high">{{ 'High arousal' if en else 'Wysokie pobudzenie' }}</figcaption>
     <div class="affect-valence"><span class="affect-label">{{ 'Unpleasant' if en else 'Nieprzyjemne' }}</span>
         <span class="affect-label">{{ 'Pleasant' if en else 'Przyjemne' }}</span></div>
         <div class="affect-plot-wrap">

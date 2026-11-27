@@ -187,6 +187,8 @@ body[data-section=studies] .research-publications .pub-list{grid-template-column
 body[data-section=index] .about-layout .article{min-width:0;width:100%;max-width:78ch;margin:0;justify-self:start}
 .about-layout .article p:last-child{margin-bottom:0}
 .about-layout .generative-flow{margin:0;justify-self:center;align-self:center}
-/* The affect illustration is a single compact card, with no empty text column. */
-.feature.affect-compact{width:min(100%,36rem);margin-inline:auto;grid-template-columns:minmax(0,1fr);gap:0;justify-items:center}
-.affect-compact .affect-figure{max-width:27.5rem}
+/* Music and emotions: text left, illustration right, responsive reflow. */
+.feature.affect-music{--affect-gap:clamp(24px,4vw,48px);grid-template-columns:repeat(auto-fit,minmax(min(100%,max(22rem,calc((100% - var(--affect-gap))/2))),1fr));gap:var(--affect-gap);align-items:center}
+.affect-music .affect-copy{min-width:0;max-width:72ch}
+.affect-music .affect-copy p:last-child{margin-bottom:0}
+.affect-music .affect-figure{max-width:27.5rem;justify-self:center}
