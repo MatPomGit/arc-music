@@ -5,6 +5,10 @@ import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from unittest.mock import patch
+from export_schema import FIELDS,VERSION
+from test_inference import fixture
+from inference import analyze,prepare
 import pandas as pd
 from allocation import allocate, ledger, withdraw, assert_active, reconcile, record_checkpoint
 from stimulus_bank import validate_manifest
@@ -29,7 +33,7 @@ class AllocationTests(unittest.TestCase):
         self.assertFalse(self.path.exists())
         a = self.assign(1)
         self.assertEqual(a,self.assign(1))
-        self.assertEqual(set(a),{"music","randomised_at","bank_digest"})
+        self.assertEqual(set(a),{"music","randomised_at","bank_digest","schema_version"})
         with self.assertRaises(ValueError):
             self.assign(1,1)
         self.bank = "b"*64
@@ -79,13 +83,13 @@ class AllocationTests(unittest.TestCase):
     def test_reconciliation_and_cessation(self):
         self.assign(1); self.assign(2,1)
         data = pd.DataFrame(ledger(self.path))
-        self.assertEqual(reconcile(self.path,data),2)
+        self.assertEqual(reconcile(self.path,data,strict=False),2)
         with self.assertRaises(ValueError):
-            reconcile(self.path,data.iloc[:1])
+            reconcile(self.path,data.iloc[:1],strict=False)
         corrupted = data.copy()
         corrupted.loc[0,"music"] = 1-corrupted.loc[0,"music"]
         with self.assertRaises(ValueError):
-            reconcile(self.path,corrupted)
+            reconcile(self.path,corrupted,strict=False)
         assert_active(self.path,f"{1:032x}")
         withdraw(self.path,f"{1:032x}")
         withdraw(self.path,f"{1:032x}")
@@ -94,7 +98,52 @@ class AllocationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.assign(1)
         with self.assertRaises(ValueError):
-            reconcile(self.path,data)
+            reconcile(self.path,data,strict=False)
+
+    def test_strict_export_and_ordering(self):
+        import csv
+        with patch("allocation.now",return_value="2026-11-01T10:00:00+00:00"):
+            self.assign(1);self.assign(2,1);self.assign(3)
+        pid=f"{1:032x}"
+        with patch("allocation.now",return_value="2026-11-01T10:00:01Z"):
+            for stage in ("task_finished","t1_submitted"):
+                with self.assertRaises(ValueError):record_checkpoint(self.path,pid,stage)
+            first=record_checkpoint(self.path,pid,"task_started")
+            self.assertEqual(record_checkpoint(self.path,pid,"task_started"),first)
+            with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"task_finished")
+        with patch("allocation.now",return_value="2026-11-01T10:08:01Z"):
+            record_checkpoint(self.path,pid,"task_finished")
+            with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"task_stopped")
+        with patch("allocation.now",return_value="2026-11-01T10:09:00Z"):
+            record_checkpoint(self.path,pid,"t1_submitted")
+        pid2=f"{2:032x}"
+        with patch("allocation.now",return_value="2026-11-01T10:00:01Z"):
+            record_checkpoint(self.path,pid2,"task_started")
+            record_checkpoint(self.path,pid2,"task_stopped")
+            record_checkpoint(self.path,pid2,"t1_submitted")
+        with patch("allocation.now",return_value="2026-11-08T10:00:00Z"):
+            record_checkpoint(self.path,f"{3:032x}","t2_submitted")
+        d=pd.DataFrame(ledger(self.path)).drop(columns="withdrawn")
+        f=fixture().iloc[:3].reset_index(drop=True)
+        for k in FIELDS:
+            if k not in d:d[k]=f[k]
+        for j in (1,2):
+            cols=[f"same_event{j}",*[f"understanding{j}{k}" for k in (1,2,3)]]
+            if j==1:cols.append("distance1")
+            d.loc[d[f"t{j}_at"].isna(),cols]=None
+        self.assertEqual(set(d),set(FIELDS))
+        with open(Path(__file__).with_name("data-dictionary.csv"),newline="") as file:
+            self.assertEqual({row["field"] for row in csv.DictReader(file)},set(FIELDS))
+        self.assertEqual(reconcile(self.path,d),3)
+        self.assertEqual(analyze(d)["randomised"],3)
+        self.assertEqual(int(prepare(d).valid1.sum()),2)
+        self.assertEqual(int(prepare(d).valid2.sum()),1)
+        for field,value in (("bank_digest","bad"),("bank_digest","b"*64),("schema_version","old"),("task_end_reason","task_stopped"),("t1_at","2026-11-01T10:00:02Z")):
+            bad=d.copy();bad.loc[0,field]=value
+            with self.assertRaises(ValueError):reconcile(self.path,bad)
+        with self.assertRaises(ValueError):reconcile(self.path,d.drop(columns="bank_digest"))
+        d.loc[0,"t1_at"]="2026-11-01T11:09:00+01:00"
+        self.assertEqual(reconcile(self.path,d),3)
 
 
 class BankTests(unittest.TestCase):

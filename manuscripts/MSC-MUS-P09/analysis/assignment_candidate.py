@@ -94,7 +94,7 @@ if __name__ == "__main__":
     parser.add_argument("--reps", type=int, default=999)
     parser.add_argument("--seed", type=int, default=20261127)
     args = parser.parse_args()
-    frame = pd.read_csv(args.csv, dtype={"participant_id": str})
+    frame = pd.read_csv(args.csv, dtype={"participant_id": str,"bank_digest":str,"schema_version":str})
     reconcile(args.ledger, frame)
     print(json.dumps(candidate_family(prepare(frame), args.reps, args.seed),
                      indent=2, allow_nan=False))

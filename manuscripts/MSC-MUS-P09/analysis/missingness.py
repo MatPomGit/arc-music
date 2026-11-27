@@ -168,7 +168,7 @@ if __name__ == "__main__":
         if not args.ledger:
             parser.error("--ledger is required for assigned-cohort CSV analysis")
         from allocation import reconcile
-        frame = pd.read_csv(args.csv, dtype={"participant_id": str})
+        frame = pd.read_csv(args.csv, dtype={"participant_id": str,"bank_digest":str,"schema_version":str})
         reconcile(args.ledger, frame)
         result = analyze_missingness(frame, args.reps, args.seed)
     print(json.dumps(result, indent=2, allow_nan=False))

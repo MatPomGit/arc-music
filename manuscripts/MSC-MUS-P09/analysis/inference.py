@@ -26,12 +26,22 @@ def prepare(frame):
         d[c]=v
     for c in times:d[c]=pd.to_datetime(d[c].map(parse),utc=True)
     if d.randomised_at.isna().any():raise ValueError("Missing assignment timestamp")
+    strict="schema_version" in d
+    if strict:
+        from export_schema import validate_fields, instant
+        validate_fields(frame)
+        d["task_ended_at"]=pd.to_datetime(d.task_ended_at.map(instant),utc=True)
+        d["task_started_at"]=pd.to_datetime(d.task_started_at.map(instant),utc=True)
+        if (~d.task_end_reason.dropna().isin(("task_finished","task_stopped","task_technical_failure"))).any():
+            raise ValueError("Invalid terminal reason")
     for j in (1,2):
         c=f"same_event{j}"
         if not d[c].dropna().map(lambda v:isinstance(v,(bool,np.bool_))).all():raise ValueError("Invalid event flag")
         elapsed=(d[f"t{j}_at"]-d.randomised_at).dt.total_seconds()/3600
         lo,hi=(0,.5) if j==1 else (144,192)
         timely=elapsed.between(lo,hi);same=d[c].eq(True)
+        if strict and j==1:
+            timely=timely & d.task_started_at.notna() & d.task_ended_at.notna() & d.task_end_reason.notna() & (d.task_started_at>=d.randomised_at) & (d.task_ended_at>=d.task_started_at) & (d.t1_at>=d.task_ended_at)
         d[f"valid{j}"]=timely&same
         d[f"timely{j}"]=timely
         d[f"event_confirmed{j}"]=same
