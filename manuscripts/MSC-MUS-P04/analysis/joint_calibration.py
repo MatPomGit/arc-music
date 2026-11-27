@@ -59,6 +59,7 @@ def estimate(x,y,status,m,seed,method,grid=True):
 
 
 def proportion(k,n):
+    k,n=int(k),int(n)
     if not n:
         return {"count":k,"denominator":n,"rate":None,"mcse":None,"mc95":None}
     p=k/n

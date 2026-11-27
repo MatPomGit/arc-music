@@ -1,6 +1,7 @@
 """P07 outcome-specific complete-window switcher models; no causal claims."""
 import argparse,json
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import numpy as np
 import pandas as pd
 from scipy.stats import t
@@ -32,7 +33,22 @@ def prepare(frame, upper_delay=15):
     for c in ["creation_ongoing","creation_first_hour"]:
         if not d[c].dropna().map(lambda v:isinstance(v,(bool,np.bool_))).all():raise ValueError("Invalid boolean")
     parsed={c:d[c].map(parse) for c in TIMES+["followup180_time"]}
-    d["local_hour"]=parsed["baseline_time"].map(lambda v: v.hour+v.minute/60+v.second/3600 if pd.notna(v) else np.nan)
+    # Response offsets represent instants, not the study timezone.
+    zones=[]
+    for i,stamp in enumerate(parsed["scheduled_time"]):
+        if pd.isna(stamp):
+            raise ValueError("Missing schedule")
+        if "timezone" in d:
+            try: zone=ZoneInfo(str(d["timezone"].iloc[i]))
+            except (ValueError,KeyError) as exc: raise ValueError("Invalid schedule timezone") from exc
+        else:
+            zone=stamp.tzinfo  # direct synthetic fixtures only
+        zones.append(zone)
+    def hour(value,zone):
+        if pd.isna(value):return np.nan
+        v=value.astimezone(zone)
+        return v.hour+v.minute/60+v.second/3600+v.microsecond/3.6e9
+    d["local_hour"]=[hour(v,z) for v,z in zip(parsed["baseline_time"],zones)]
     for c in TIMES+["followup180_time"]:d[c]=pd.to_datetime(parsed[c],utc=True)
     if d.scheduled_time.isna().any():raise ValueError("Missing schedule")
     delay=lambda c:(d[c]-d.baseline_time).dt.total_seconds()/60

@@ -1,4 +1,5 @@
 import unittest
+import json
 import numpy as np
 from joint_calibration import generate,estimate,run
 
@@ -22,3 +23,4 @@ class JointCalibrationTests(unittest.TestCase):
                 self.assertEqual(v["requested"],2)
                 self.assertEqual(v["valid"]+v["failed"],2)
         self.assertFalse(out["confirmatory_authorized"])
+        json.dumps(out,allow_nan=False)

@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 
 UTC=timezone.utc
-KEYS=["participant_id","window_id","study_day","scheduled_time"]
+KEYS=["participant_id","window_id","study_day","scheduled_time","local_day","timezone"]
 RESPONSE=["baseline_time","exposure_time","followup60_time","followup180_time",
           "creation_ongoing","creation_first_hour","valence0","arousal0",
           "intention0","desired_arousal0","valence60","arousal60","valence180","arousal180","later_creation"]
@@ -76,6 +76,16 @@ def reconcile(schedule,responses):
     if s.participant_id.isna().any() or s.participant_id.astype(str).str.strip().eq("").any():raise ValueError("Invalid schedule participant")
     s["participant_id"]=s.participant_id.astype(str)
     for _,g in s.groupby("participant_id"):
+        if g.timezone.nunique(dropna=False)!=1:
+            raise ValueError("Schedule timezone must stay fixed during study")
+        try: zone=ZoneInfo(str(g.timezone.iloc[0]))
+        except (ValueError,KeyError) as exc: raise ValueError("Invalid schedule timezone") from exc
+        for row in g.itertuples():
+            stamp=datetime.fromisoformat(str(row.scheduled_time).replace("Z","+00:00"))
+            if stamp.utcoffset() is None or stamp.astimezone(zone).date().isoformat()!=str(row.local_day):
+                raise ValueError("Scheduled instant contradicts local calendar")
+            if stamp.utcoffset()!=stamp.astimezone(zone).utcoffset():
+                raise ValueError("Frozen scheduled offset contradicts timezone")
         if sorted(pd.to_numeric(g.study_day,errors="raise").tolist())!=list(range(1,22)):
             raise ValueError("Schedule must have exactly 21 unique days per participant")
     if not set(r.window_id)<=set(s.window_id):raise ValueError("Unscheduled response")
@@ -84,8 +94,11 @@ def reconcile(schedule,responses):
         if col=="window_id" or col not in r:continue
         expected=r.window_id.map(idx[col])
         if col=="scheduled_time":
-            # The frozen local offset is part of the schedule contract.
-            same=r[col].astype(str).eq(expected.astype(str))
+            def instant(value):
+                stamp=datetime.fromisoformat(str(value).replace("Z","+00:00"))
+                if stamp.utcoffset() is None: raise ValueError("Timestamp offset required")
+                return stamp.astimezone(UTC)
+            same=r[col].map(instant).eq(expected.map(instant))
         elif col=="study_day":same=pd.to_numeric(r[col],errors="raise").eq(pd.to_numeric(expected))
         else:same=r[col].astype(str).eq(expected.astype(str))
         if not same.all():raise ValueError("Response contradicts frozen "+col)
