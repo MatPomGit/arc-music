@@ -224,13 +224,36 @@
       },
       "additional_evidence": [
         "manuscripts/MSC-MUS-P07/analysis/stress-plan.md",
-        "manuscripts/MSC-MUS-P07/analysis/calibration-evidence.md"
+        "manuscripts/MSC-MUS-P07/analysis/calibration-evidence.md",
+        "manuscripts/MSC-MUS-P07/analysis/stress-results-n160-v0.5.0.json",
+        "manuscripts/MSC-MUS-P07/analysis/stress-results-n320-v0.5.0.json"
       ],
-      "provenance_note": "Initial screen exact source; stress results reproduced by run 46010489946 but require separate artifact linkage.",
+      "provenance_note": "Initial and stress screens reproduced in three downloaded exact-head archives, all 32,800 fits valid. Historical latent input is not a causal effect; endpoint-specific secondary screen separate.",
       "archived_subsets": [
         {
           "run": 45899777729,
           "head": "9e51be6c577869c506f9635bd6b6e2b9f00c6c0c"
+        },
+        {
+          "run": 46010489946,
+          "head": "f2c377ec0565610fe85578aa57f131349ef9ad2e",
+          "artifact": 15203936780,
+          "sha256": "ef9450d654e91e307f659229aac3672066592007c5f8562aaecf65386770e7a7",
+          "scope": "44×200 initial H1 calibration"
+        },
+        {
+          "run": 46010489946,
+          "head": "f2c377ec0565610fe85578aa57f131349ef9ad2e",
+          "artifact": 15204036765,
+          "sha256": "f4f7dcb8f30cdd0c239fffafa527d213fe0231e2c861bba01a4d776977bf2947",
+          "scope": "12×1000 stress N160"
+        },
+        {
+          "run": 46010489946,
+          "head": "f2c377ec0565610fe85578aa57f131349ef9ad2e",
+          "artifact": 15203786986,
+          "sha256": "3e2b306265cff3e6d1f4d893673e6c8dbdd37934a4919643b3379fb48f9a4800",
+          "scope": "12×1000 stress N320"
         }
       ],
       "scope": "Historical FE/CR1 observed switcher association; latent synthetic input, stage loss and informative dropout; not causal."
