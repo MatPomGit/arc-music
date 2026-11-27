@@ -8,9 +8,11 @@ if not "%~1"=="" goto args
  echo [2] Symulacja wstepna
  echo [3] Pelna symulacja
  echo [4] Test uruchomieniowy
+ echo [5] Wlasna symulacja
  echo [0] Wyjscie
- choice /c 12340 /n /m "Wybierz: "
- if errorlevel 5 exit /b 0
+ choice /c 123450 /n /m "Wybierz: "
+ if errorlevel 6 exit /b 0
+ if errorlevel 5 goto custom
  if errorlevel 4 goto smoke
  if errorlevel 3 goto full
  if errorlevel 2 goto pilot
@@ -28,6 +30,9 @@ if not "%~1"=="" goto args
  choice /c TN /n /m "Rozpoczac pelna symulacje? [T/N] "
  if errorlevel 2 goto menu
  call "%~dp0..\..\run-monte-carlo.bat" P04 --profile full
+ goto report
+:custom
+ call "%~dp0..\..\run-monte-carlo.bat" P04 --custom
  goto report
 :smoke
  call "%~dp0..\..\run-monte-carlo.bat" P04 --profile smoke

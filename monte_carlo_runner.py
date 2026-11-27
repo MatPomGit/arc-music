@@ -19,7 +19,7 @@ import time
 ROOT=Path(__file__).resolve().parent
 STUDIES=tuple(f"P{i:02}" for i in range(1,10))
 PROFILES=("smoke","pilot","full")
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 @dataclass(frozen=True)
 class Job:
@@ -95,7 +95,7 @@ def git(*args):
     return subprocess.check_output(["git",*args],cwd=ROOT,text=True).strip()
 
 def source_hash(study):
-    paths=[ROOT/"monte_carlo_runner.py",ROOT/"monte_carlo_results.py",directory(study)/"monte_carlo.py"]
+    paths=[ROOT/"monte_carlo_runner.py",ROOT/"monte_carlo_results.py",ROOT/"monte_carlo_custom.py",directory(study)/"monte_carlo.py"]
     tracked=git("ls-files","-z","--",str(directory(study).relative_to(ROOT))).split("\0")
     paths.extend(ROOT/p for p in tracked if p and Path(p).suffix in (".py",".R",".r",".csv",".txt",".json"))
     return {p.relative_to(ROOT).as_posix():sha(p) for p in sorted(set(paths))}
@@ -192,13 +192,13 @@ def schedule(tasks,worker,jobs):
                 print(f"[{len(state)}/{len(tasks)}] {t.name} {state[t.name]}",flush=True)
     return state
 
-def run_study(study,profile,pattern,jobs,threads,base,run_id):
-    tasks=selected(load_plan(study,profile),pattern)
+def run_study(study,profile,pattern,jobs,threads,base,run_id,custom=None):
+    tasks=selected(load_plan(study,profile),pattern) if custom is None else custom
     if not tasks:
         print(study+": NOT_APPLICABLE (qualitative design)")
         return True
     # Deliberately refuse dirty source trees; run only reviewed tracked code.
-    if git("status","--porcelain","--untracked-files=all","--","monte_carlo_runner.py","monte_carlo_results.py",str(directory(study).relative_to(ROOT))):
+    if git("status","--porcelain","--untracked-files=all","--","monte_carlo_runner.py","monte_carlo_results.py","monte_carlo_custom.py",str(directory(study).relative_to(ROOT))):
         raise ValueError("Commit or use a clean checkout of the reviewed source first")
     from monte_carlo_results import describe_plan, export_plots
     describe_plan(study,profile,tasks)
@@ -230,12 +230,22 @@ def main(default_study="all"):
     p.add_argument("--run-id",default="local",help="Separate environment/run namespace")
     p.add_argument("--list",action="store_true",help="List exact commands, no computation or dependency installation")
     p.add_argument("--summary",action="store_true",help="Show planned outer replications without running")
+    p.add_argument("--custom",action="store_true",help="Interactive custom simulation configuration")
     a=p.parse_args()
     if min(a.jobs,a.threads)<1 or not re.fullmatch("[a-zA-Z0-9_-]+",a.run_id):
         p.error("Positive jobs/threads and simple run ID required")
     if a.jobs*a.threads>(os.cpu_count() or 1):
         p.error("Requested workers × threads exceeds available logical CPUs")
     chosen=STUDIES if a.study=="all" else (a.study,)
+    if a.custom:
+        if a.study=="all" or a.summary or a.list:
+            p.error("Custom mode requires a single study and no list/summary flags")
+        from monte_carlo_custom import interactive
+        try:
+            raise SystemExit(interactive(a.study))
+        except (ValueError,OSError,subprocess.SubprocessError) as exc:
+            print(str(exc),file=sys.stderr)
+            raise SystemExit(1)
     if a.summary:
         from monte_carlo_results import describe_plan
         for study in chosen:
