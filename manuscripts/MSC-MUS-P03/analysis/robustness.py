@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from intake import read_records
 import statsmodels.api as sm
 from statsmodels.miscmodels.ordinal_model import OrderedModel
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -80,7 +81,7 @@ def safe(call):
 
 def run(raw):
     data,_=prepare(raw)
-    return dict(nonlinear_H1=safe(lambda:nonlinear(data)),
+    return dict(intake_flow=data.attrs["intake_flow"],nonlinear_H1=safe(lambda:nonlinear(data)),
                 ordinal={h:safe(lambda:ordinal(data,h)) for h in MODELS},
                 recent_H1=safe(lambda:fit(data.loc[data.recency<=7],"H1")),
                 diagnostics={h:safe(lambda:diagnostics(data,h)) for h in MODELS})
@@ -91,5 +92,5 @@ if __name__=="__main__":
     p.add_argument("csv",type=Path)
     p.add_argument("--out",type=Path,required=True)
     p.add_argument("--data-kind",choices=["synthetic","empirical"],required=True)
-    a=p.parse_args(); result=run(pd.read_csv(a.csv)); result["data_kind"]=a.data_kind
+    a=p.parse_args(); result=run(read_records(a.csv)); result["data_kind"]=a.data_kind
     a.out.write_text(json.dumps(result,indent=2,allow_nan=False)+"\n",encoding="utf-8")

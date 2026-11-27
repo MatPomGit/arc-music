@@ -15,11 +15,12 @@ Do not show hypotheses to participants. Test comprehension with 8–12 volunteer
 8. Background: age, musical experience (0–10), generator-use days over 30 days (0–30), source of recruitment, broad platform category. No direct identifiers.
 
 ## Data contract
-One row per participant, random study ID, no contact details. All unobserved values are NA, never zero. Core columns:
+One row per participant. Mandatory P03 study code: `p03-` plus a random canonical lowercase UUIDv4 issued once by the approved survey intake, never derived from a personal identifier or an identifier from another study. Keep codes and participant records only in restricted institutional storage; no IP retention or direct identifiers. Import only authorized exports; withhold analysis of duplicate codes until adjudication, including a duplicate across an accepted and excluded row. An invalid or missing code among consented eligible submissions blocks analysis. Declined or malformed flags exclude that row before any response conversion; aggregate intake counts only, do not persist excluded sensitive answers. All unobserved values are NA, never zero. Core columns:
 
 | Column | Type / range |
 |---|---|
-| eligible, consent | Boolean |
+| study_id | mandatory canonical P03-prefixed lowercase UUIDv4 for accepted rows |
+| eligible, consent | native Boolean or exact CSV tokens True/true, False/false; missing: blank or NA; all other tokens invalid |
 | age | integer ≥18 |
 | experience | 0–10 |
 | use_days, recency | integer 0–30 |
@@ -37,7 +38,7 @@ Define iteration_count = regenerated + selected + edited only if all three are o
 - Verify Polish comprehensibility; check rights for any external instrument; do not describe custom indicators as validated scales.
 - Confirm sample-size simulation under bounded ratings, correlated motives and missingness; freeze stopping rules.
 - Implement complete-record OLS-HC3, Holm, ordered-model sensitivity, MAR multiple imputation and delta scenarios; test synthetic data before enrollment.
-- Record dataset linkage to S02 and distinct primary estimands for P04/P06; no independent replication claims.
+- P03, P04 and P06 have separate participant identifiers, data dictionaries and intended cohorts. P03-S02 identifies only the P03 dataset. No automatic join or shared recruitment assumption; any cross-study linkage needs separate approved consent, protected linkage table, predefined estimands and disclosure of overlap. Prevent repeated submissions with a single-use study code where approved, not IP tracking; self-report prior participation and review conflicting codes outside the analysis pipeline.
 - Obtain institutional review and preregistration. No fieldwork or claims of observed benefits yet.
 
 ## Source readiness

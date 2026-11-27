@@ -26,7 +26,7 @@ CORE = [MODELS["H1"][0], *MODELS["H1"][2]]
 def raw_records(x, y):
     """Match the production schema without inventing predictive auxiliary variables."""
     return pd.DataFrame(dict(
-        study_id=np.arange(len(y)), consent=True, eligible=True,
+        study_id=[f"p03-00000000-0000-4000-8000-{i:012x}" for i in range(len(y))], consent=True, eligible=True,
         motive_expression=x[:, 1], motive_mood=x[:, 2],
         motive_explore=x[:, 3], motive_fun=x[:, 4], clarity_pre=x[:, 5],
         age=x[:, 6], experience=x[:, 7], use_days=x[:, 8], recency=x[:, 9],

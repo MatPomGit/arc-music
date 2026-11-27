@@ -21,7 +21,7 @@ def fixture(n=500, seed=7):
     raw["agency"] = rng.uniform(0,10,n)
     raw["resonance"] = 5+.4*(raw.agency-5)+rng.uniform(-1,1,n)
     raw["consent"] = raw["eligible"] = True
-    raw["study_id"] = [f"synthetic-{i}" for i in range(n)]
+    raw["study_id"] = [f"p03-00000000-0000-4000-8000-{i:012x}" for i in range(n)]
     return raw
 
 

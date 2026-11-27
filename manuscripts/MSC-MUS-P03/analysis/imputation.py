@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import t
 from models import prepare, fit, MODELS, SOURCES, RANGES
+from intake import read_records
 
 DELTAS = (-2, -1, 0, 1, 2)
 AUX = ["valence_pre", "valence_post", "agency", "resonance", "prompted",
@@ -112,7 +113,7 @@ def sensitivity(raw,m=50,sweeps=15,seed=1729):
         for delta,slope in grid:
             shifted = shift_outcome(completed,missing_outcome,delta,slope)
             estimates[(delta,slope)].append(fit(shifted,"H1"))
-    return {"eligible_n":len(data),"missing_clarity_n":int(data.clarity_post.isna().sum()),
+    return {"eligible_n":len(data),"intake_flow":data.attrs["intake_flow"],"missing_clarity_n":int(data.clarity_post.isna().sum()),
             "seed":seed,"sweeps":sweeps,"method":"bootstrap chained donor matching",
             "scenarios":[{"delta":delta,**pool(estimates[(delta,0)])} for delta in DELTAS],
             "differential_scenarios":[{"delta":delta,"slope":slope,**pool(estimates[(delta,slope)])}
@@ -128,6 +129,6 @@ if __name__ == "__main__":
     p.add_argument("--sweeps",type=int,default=15)
     p.add_argument("--seed",type=int,default=1729)
     a=p.parse_args()
-    result=sensitivity(pd.read_csv(a.csv),a.m,a.sweeps,a.seed)
+    result=sensitivity(read_records(a.csv),a.m,a.sweeps,a.seed)
     result["data_kind"]=a.data_kind
     a.out.write_text(json.dumps(result,indent=2,allow_nan=False)+"\n",encoding="utf-8")
