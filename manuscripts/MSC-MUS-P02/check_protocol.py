@@ -60,3 +60,9 @@ assert 'hypothetical illustration, not a result of P02' in body
 records=(root/'analysis-records.md').read_text(encoding='utf-8')
 assert '| Pilot review |' in records and '| Construct transfer |' in records
 assert 'wersja 0.3.0' in guide and 'Procedura terenowa 0.3.0' in field
+
+# Ethics preparation is explicitly prospective.
+ethics_draft=(root/'ethics-preparation-pl.md').read_text(encoding='utf-8')
+assert 'NO-GO dla rekrutacji i pilotażu' in ethics_draft
+assert 'NIEZWERYFIKOWANE' in ethics_draft
+assert 'does not constitute institutional approval' in body
