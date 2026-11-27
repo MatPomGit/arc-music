@@ -58,18 +58,26 @@ def check_home_layout(page, section):
         assert page.locator(".about-layout").count() == 1
         assert page.locator(".about-layout > .generative-flow + .article").count() == 1
         assert page.locator(".about-layout > .article h2").is_visible()
-        assert page.evaluate("""() => {
+        geometry = page.evaluate("""() => {
           const layout=document.querySelector('.about-layout');
           const figure=layout.querySelector('.generative-flow').getBoundingClientRect();
           const article=layout.querySelector('.article').getBoundingClientRect();
-          const columns=getComputedStyle(layout).gridTemplateColumns.split(' ').length;
+          const style=getComputedStyle(layout);
+          const tracks=style.gridTemplateColumns.trim().split(/\\s+/).map(parseFloat);
           const root=parseFloat(getComputedStyle(document.documentElement).fontSize);
-          const gap=parseFloat(getComputedStyle(layout).columnGap);
-          const canFit=layout.clientWidth+1>=48*root+gap;
-          if(canFit) return columns===2 && figure.right<=article.left+1 &&
+          const gap=parseFloat(style.columnGap);
+          const width=layout.getBoundingClientRect().width;
+          const threshold=48*root+gap;
+          const sideBySide=tracks.length===2 && tracks.every(t=>t>=24*root-1) &&
+            figure.right<=article.left+1 &&
             Math.min(figure.bottom,article.bottom)>Math.max(figure.top,article.top);
-          return columns===1 && figure.bottom<=article.top+1;
-        }"""), "About illustration/text layout"
+          const stacked=tracks.length===1 && figure.bottom<=article.top+1;
+          const ok=width>threshold+1 ? sideBySide :
+            width<threshold-1 ? stacked : (sideBySide || stacked);
+          return {ok,width,threshold,tracks,root,gap,figure:figure.toJSON(),
+                  article:article.toJSON(),viewport:innerWidth};
+        }""")
+        assert geometry["ok"], ("About illustration/text layout", geometry)
     if section in ("index","neuropsychology"):
         assert page.locator("#affect-title").count() == 0
         assert page.locator(".affect-compact > .affect-figure:only-child").count() == 1

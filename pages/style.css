@@ -183,7 +183,7 @@ body[data-section=studies] .research-publications .pub-list{grid-template-column
 .research-publications .pub-constructs p strong{font-weight:650}
 
 /* About: illustration on the left, text on the right; wrap with enlarged text. */
-.about-layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,24rem),1fr));align-items:center;gap:clamp(24px,4vw,64px);margin:0 0 clamp(28px,4vw,48px)}
+.about-layout{--about-gap:clamp(24px,4vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,max(24rem,calc((100% - var(--about-gap))/2))),1fr));align-items:center;gap:var(--about-gap);margin:0 0 clamp(28px,4vw,48px)}
 body[data-section=index] .about-layout .article{min-width:0;width:100%;max-width:78ch;margin:0;justify-self:start}
 .about-layout .article p:last-child{margin-bottom:0}
 .about-layout .generative-flow{margin:0;justify-self:center;align-self:center}
