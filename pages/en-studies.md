@@ -72,8 +72,8 @@ The programme examines personal contribution to music creation, perceived contro
 <article class="pub" id="msc-mus-p08" aria-labelledby="msc-mus-p08-title">
 <div class="pub-meta"><p class="pub-id">MSC-MUS-P08</p><p class="pub-type">Planned experiment</p></div>
 <h3 id="msc-mus-p08-title">Agency and psychological ownership</h3>
-<p class="pub-question"><strong>Research question:</strong> Does access to different editing operations change perceived influence over the process and psychological ownership of the track?</p>
-<div class="pub-body"><div><h4>Scope and methodology</h4><p>Planned random assignment to conditions differing in creative control, with comparable time and generator access. Logged operations and separate measures of agency, attributed contribution and ownership will address construct distinctness. Musical expertise will be considered.</p></div><div><h4>Scientific significance</h4><p>A test of proposed control and agency mechanisms in human–AI interaction; psychological ownership does not imply legal authorship.</p></div></div>
+<p class="pub-question"><strong>Research question:</strong> How do authority over arrangement decisions and the execution of changes affect agency and whether a track feels like one’s own?</p>
+<div class="pub-body"><div><h4>Scope and methodology</h4><p>A 2 × 2 experiment varies who selects an arrangement option and who applies it. Participants or a system rule select the option, while participants or the interface apply it at a shared deadline. All groups receive the same set of instrumental candidates and comparable preview time.</p></div><div><h4>Scientific significance</h4><p>The main outcome is psychological ownership of the version the participant heard. Perceived agency and attributed contribution are measured separately. The design tests whether manually applying a change modifies the effect of being able to choose it.</p></div></div>
 <p class="pub-target"><strong>Status:</strong> Study proposal · <strong>Target journal:</strong> <i>International Journal of Human-Computer Studies</i></p>
 </article>
 <article class="pub" id="msc-mus-p09" aria-labelledby="msc-mus-p09-title">

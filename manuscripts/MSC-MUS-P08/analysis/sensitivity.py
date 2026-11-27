@@ -1,4 +1,6 @@
 """P08 outcome sensitivity. Scenario contrasts, not identified causal effects."""
+from itertools import product
+
 import numpy as np
 from scipy.special import expit
 from scipy.optimize import minimize
@@ -30,7 +32,7 @@ def weights(x,observed):
     if not opt.success and np.linalg.norm(grad(opt.x))>1e-5:raise ValueError("Availability model failed")
     return expit(z@opt.x)
 
-def assess(d,outcome):
+def _assess(d,outcome):
     if not len(d):raise ValueError("Empty assigned sample")
     x=design(d);y=d[outcome].to_numpy(float);k=np.isfinite(y)
     result={"observed":int(k.sum()),"missing":int((~k).sum()),
@@ -49,13 +51,75 @@ def assess(d,outcome):
         pred=x@beta
         # Apply additive shift and contrasts of missing outcomes by assigned authority
         # and execution, without altering observed outcomes.
-        scenarios={}
-        for common in (-2,0,2):
-            for authority in (-2,0,2):
-                for interaction in (-2,0,2):
-                    fill=np.where(k,y,np.clip(pred+common+authority*x[:,1]+interaction*x[:,3],0,10))
-                    coef=np.linalg.lstsq(x,fill,rcond=None)[0]
-                    scenarios[f"{common}/{authority}/{interaction}"]={name:float(coef[j]) for j,name in enumerate(CONTRASTS,1)}
-        result["shift_scenarios"]=scenarios
+        scenarios = list(product((-2, 0, 2), repeat=3))
+        shift = np.asarray(scenarios)
+        adjusted = pred[:, None] + shift[:, 0] + x[:, 1, None] * shift[:, 1]
+        adjusted += x[:, 3, None] * shift[:, 2]
+        fill = np.where(k[:, None], y[:, None], np.clip(adjusted, 0, 10))
+        coefs = np.linalg.lstsq(x, fill, rcond=None)[0]
+        result["shift_scenarios"] = {
+            "/".join(map(str, shift)): {name: float(coefs[j, i]) for j, name in enumerate(CONTRASTS, 1)}
+            for i, shift in enumerate(scenarios)
+        }
     except (ValueError,np.linalg.LinAlgError) as exc:result["unavailable"]=str(exc)
+    return result
+
+
+
+def assess(d, outcome):
+    """Keep the all-assigned hypothetical diagnostic and the heard population apart."""
+    result = _assess(d, outcome)
+    heard = d.heard_version.eq(True).fillna(False)
+    unheard = d.heard_version.eq(False).fillna(False)
+    result["exposure_status"] = {
+        "defined_observed": int((heard & d[outcome].notna()).sum()),
+        "defined_missing": int((heard & d[outcome].isna()).sum()),
+        "undefined": int(unheard.sum()),
+        "unknown": int((~(heard | unheard)).sum()),
+    }
+    try:
+        result["heard_only_descriptive"] = _assess(d.loc[heard], outcome)
+    except (ValueError, np.linalg.LinAlgError) as exc:
+        result["heard_only_descriptive"] = {"unavailable": str(exc)}
+    return result
+
+
+def bootstrap(d, outcome, draws, seed):
+    """Refit availability and bounded mean-shift models in each cell bootstrap.
+
+    Only known heard records enter this descriptive analysis. Missing items
+    within that subset remain eligible for the conditional-mean scenarios.
+    """
+    if draws < 199:
+        raise ValueError("At least 199 bootstrap draws required")
+    heard = d.loc[d.heard_version.eq(True)].reset_index(drop=True)
+    groups = [
+        np.flatnonzero((heard.authority == a) & (heard.manual == e))
+        for a, e in CELLS
+    ]
+    point = _assess(heard, outcome)
+    if "unavailable" in point:
+        return {"unavailable": point["unavailable"], "draws": draws}
+    rng = np.random.default_rng(seed)
+    samples = {"ipw": [], "shift": []}
+    for _ in range(draws):
+        rows = np.concatenate([rng.choice(group, len(group), replace=True) for group in groups])
+        replicate = _assess(heard.iloc[rows], outcome)
+        if "unavailable" not in replicate:
+            samples["ipw"].append(list(replicate["ipw"]["point_estimates"].values()))
+            samples["shift"].append(list(replicate["shift_scenarios"].values()))
+    valid = len(samples["ipw"])
+    result = {"draws": draws, "valid": valid, "failures": draws - valid, "seed": seed}
+    if valid < .95 * draws:
+        return dict(result, unavailable="More than 5 percent of refits failed")
+    for method, labels in (
+        ("ipw", list(point["ipw"]["point_estimates"])),
+        ("shift", list(point["shift_scenarios"])),
+    ):
+        values = np.array([[list(contrasts.values()) for contrasts in row] for row in samples[method]])
+        lo, hi = np.quantile(values, [.025, .975], axis=0)
+        result[method] = {
+            label: {c: [float(lo[i, j]), float(hi[i, j])] for j, c in enumerate(CONTRASTS)}
+            for i, label in enumerate(labels)
+        }
     return result
