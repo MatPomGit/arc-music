@@ -15,4 +15,32 @@ Weak loadings, high correlation, skew & 0/8 & --- & 500\\
 \end{tabularx}
 \end{table}
 
-For eight-item robust DWLS at $N=500$ with moderate loadings and correlations, the first loading interval covered 27/30 generating values (Wilson 95\% interval .744--.965), while the first factor correlation interval covered 23/30. The latter is below the intended coverage range. In group-comparability simulations, the loading-restriction test detected a loading violation in only 11/30 datasets. These results identify unresolved inferential and power limitations; they do not justify recruitment targets. With 35 independent item-missingness events at rate .10, the expected complete-record fraction is only $.9^{35}$, approximately .025. Complete-record analysis cannot be the sole strategy for such scenarios. A reproducible sharded calibration grid has been implemented, but no candidate sample size has been approved. The larger simulation, independent estimator comparison and adequate missing-data strategy remain prerequisites for confirmatory freeze.
+For eight-item robust DWLS at $N=500$ with moderate loadings and correlations, the first loading interval covered 27/30 generating values (Wilson 95\% interval .744--.965), while the first factor correlation interval covered 23/30. The latter is below the intended coverage range. In group-comparability simulations, the loading-restriction test detected a loading violation in only 11/30 datasets. These results identify unresolved inferential and power limitations; they do not justify recruitment targets. With 35 independent item-missingness events at rate .10, the expected complete-record fraction is only $.9^{35}$, approximately .025. Complete-record analysis cannot be the sole strategy for such scenarios. A reproducible sharded calibration grid has been implemented, but no candidate sample size has been approved. Larger simulations, broader reference comparisons and an adequate missing-data strategy remain prerequisites for confirmatory freeze.
+
+\paragraph{Diagnosing the weak, highly correlated model.}
+The 35-item model is locally identified at the exact generating moments
+(56 free association parameters and full Jacobian rank). At a loading
+of .40 the within-domain latent response correlation is .16, versus .128
+between domains when the factor correlation is .80. An analytic Jacobian
+and a third, correlated start reproduced the historical 0/8 proper
+solutions. Seven fits reached a Cholesky bound with the smallest factor
+eigenvalue between .00023 and .00394, while one did not converge.
+The estimated uniquenesses in the seven converged fits exceeded .70.
+These diagnostics point to weak empirical separation of factors in the
+simulated samples.
+
+\paragraph{Reference comparison.}
+For identical complete synthetic records we compared the development
+estimator with \texttt{lavaan} WLSMV \parencite{rosseel2012}, fixing factor
+variances to one, using the delta parameterization and aligning factor
+signs to the first item in each domain. For one 35-item sample with
+moderate loadings ($N=500$), absolute differences were at most .006 for
+loadings and factor correlations and .003 for their standard errors.
+For a separate weak case that passed both checks, the maximal factor
+correlation difference was .021. For the first draw in the historical
+weak scenario, the reference estimator returned a non-positive-definite
+latent covariance (minimum eigenvalue $-.00132$) despite convergence,
+and the development estimator rejected the fit. These paired checks
+identify a common failure mode and quantify agreement on selected
+datasets. The moment-matched residual statistic and WLSMV statistic use
+different corrections. Their $p$-values are reported separately.

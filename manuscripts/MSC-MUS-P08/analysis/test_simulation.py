@@ -27,3 +27,23 @@ class TestSimulation(unittest.TestCase):
         x,y,k=draw(np.random.default_rng(1),240,.45,.6,"mar")
         with self.assertRaises(ValueError):fit_arrays(x[x[:,1]==.5],y[0][x[:,1]==.5])
 if __name__=="__main__":unittest.main()
+
+class TestAdherence(unittest.TestCase):
+    def test_joint_null_and_rmse(self):
+        run_result = run(8, 1200, seed=8, smoke=True, nonadherence=.15)
+        null, alternate = run_result["cells"]
+        self.assertEqual(run_result["nonadherence"], .15)
+        self.assertTrue(all(h["reference"] == 0 and h["exact_null"] and
+                            h["rejection_kind"] == "type_i" for h in null["contrasts"].values()))
+        self.assertTrue(all(not h["exact_null"] and h["rmse"] >= abs(h["bias"])
+                            for h in alternate["contrasts"].values()))
+
+    def test_missing_agency_preserves_ownership_contrasts(self):
+        from simulation import contrasts
+
+        x, y, k = draw(np.random.default_rng(15), 240, .45, .6, "mcar")
+        k[1][:] = False
+        result = contrasts(x, y, k)
+        self.assertIsNone(result["H2"])
+        self.assertIsNotNone(result["H1"])
+        self.assertIsNotNone(result["H3"])

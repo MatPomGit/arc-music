@@ -59,7 +59,7 @@ def holm(p):
         prev=max(prev,min(1,(len(ordered)-i)*p[k]));out[k]=prev
     return out
 
-def analyze(frame):
+def analyze(frame, bootstrap_draws=0, bootstrap_seed=2808):
     d=prepare(frame);models={};cells={}
     for a in [0,1]:
         for e in [0,1]:
@@ -72,13 +72,24 @@ def analyze(frame):
         try:models[k]=fit(d,k)
         except (ValueError,np.linalg.LinAlgError) as exc:models[k]={"unavailable":str(exc)}
     h1=models["ownership"].get("authority");h2=models["agency"].get("authority");h3=models["ownership"].get("interaction")
-    from sensitivity import assess
+    from sensitivity import assess, bootstrap
     sensitivity={}
     for key in ITEMS:
-        try:sensitivity[key]=assess(d,key)
+        try:
+            sensitivity[key] = assess(d, key)
+            if bootstrap_draws:
+                sensitivity[key]["heard_only_bootstrap"] = bootstrap(
+                    d, key, bootstrap_draws, bootstrap_seed
+                )
         except (ValueError,np.linalg.LinAlgError) as exc:sensitivity[key]={"unavailable":str(exc)}
     return dict(randomised=len(d),cells=cells,models=models,hypotheses={"H1":h1,"H2":h2,"H3":h3},missingness=sensitivity,
                 secondary_holm=holm({"H2":h2["p"] if h2 else None,"H3":h3["p"] if h3 else None}))
 if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()
-    print(json.dumps(analyze(pd.read_csv(a.csv,dtype={"participant_id":str})),indent=2,allow_nan=False))
+    p = argparse.ArgumentParser()
+    p.add_argument("csv")
+    p.add_argument("--bootstrap-draws", type=int, default=0)
+    p.add_argument("--bootstrap-seed", type=int, default=2808)
+    a = p.parse_args()
+    if a.bootstrap_draws != 0 and a.bootstrap_draws < 199:
+        p.error("--bootstrap-draws must be zero or at least 199")
+    print(json.dumps(analyze(pd.read_csv(a.csv,dtype={"participant_id":str}), a.bootstrap_draws, a.bootstrap_seed),indent=2,allow_nan=False))

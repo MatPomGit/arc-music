@@ -25,3 +25,31 @@ Imputation (8 replicates per mechanism, 5 imputations, 20 sweeps): MAR FCS first
 Fit diagnostics, 30 datasets each, all models proper: mean trace-corrected CFI-like for two vs one factor was .9974 vs .8142 (N250, rho .35), .9990 vs .8157 (N500, rho .35), .9996 vs .9874 (N500, rho .80). This custom diagnostic does not establish validated CFI thresholds.
 
 Decision: NO SAMPLE SIZE SELECTED. Full estimator validation, factor-count recovery and high-replication calibration remain required. CI success records execution, not satisfaction of statistical gates. Never report these results as participant observations.
+
+## Full-pool diagnosis and reference comparison, 2026-11-27
+
+The analytic Jacobian and correlated third start were tested on the same conditional-weight datasets as the historical smoke run. Exact generating moments for loading .40 and factor correlation .80 yielded full rank 56/56. The sampled stress condition still had 0/8 proper fits. Of eight replicates, seven converged numerically with active bounds and latent correlation eigenvalues .00023 to .00394. The eighth did not converge at any start within the budget. The seven converged cases had uniqueness above .70 and Jacobian condition numbers of approximately 3,100 to 53,600. The objective differences between starts were below (5\times10^{-8}) in these seven cases. Rerun with `OPENBLAS_NUM_THREADS=1 python cfa_calibration.py --reps 8`.
+
+The paired check used R 4.5.0, lavaan 0.6-19, Python 3.12, NumPy 2.3.5 and SciPy 1.17.0. In both engines factor variances and latent item-response variances are one. Orient signs by the first item of each domain. Python and lavaan estimate their own polychorics and diagonal weights; their robust inference is separately defined. The threshold discrepancy was under (5\times10^{-15}) in all three proper pairs.
+
+| Synthetic sample | Maximum absolute loading difference | Factor correlation difference | SE difference | Python / reference fit-test p |
+|---|---:|---:|---:|---:|
+| 8 items, N=800, moderate | .00455 | .00116 | .00121 | .351 / .341 |
+| 35 items, N=500, moderate | .00586 | .00584 | .00269 | .124 / .130 |
+| 35 items, N=500, weak and skewed, seed 69 | .00595 | .02096 | .00505 | .247 / .181 |
+| Historical first weak draw, N=500 | unavailable | unavailable | unavailable | unavailable / .792 |
+
+For the historical draw, lavaan converged but its post-check failed (minimum latent covariance eigenvalue −.001322). A nominal fit-test p-value did not rescue the improper solution. Python likewise rejected the fit. These are paired numerical checks and cannot certify coverage or equivalence of WLSMV statistics.
+
+A targeted diagnostic screen used the robust estimator on 72 additional independent datasets, 12 per scenario (base seed 20261126). Use `calibration_grid.py --diagnostic --scenario ID --count 12` with IDs 100 to 105 and aggregate each shard. Below, coverage averages the 56 parameter-wise rates conditional on a proper fit. It is descriptive and the parameters are correlated.
+
+| ID | N | Loading | Factor correlation | Skew | Proper | Mean conditional coverage | Fit-test null rejections among proper |
+|---|---:|---:|---:|---|---:|---:|---:|
+| 100 | 400 | .65 | .35 | no | 12/12 | .954 | 1/12 |
+| 101 | 650 | .65 | .35 | no | 12/12 | .951 | 0/12 |
+| 102 | 500 | .40 | .80 | yes | 1/12 | .911 | 0/1 |
+| 103 | 800 | .40 | .80 | yes | 4/12 | .955 | 0/4 |
+| 104 | 800 | .40 | .35 | yes | 12/12 | .942 | 1/12 |
+| 105 | 800 | .65 | .80 | yes | 12/12 | .960 | 0/12 |
+
+At N=800, 4/12 proper fits imply an estimated Monte Carlo standard error of .136 and a Wilson interval of approximately .138 to .609. Even 12/12 proper fits yield a lower Wilson limit of .758. The comparisons point toward the joint difficulty of weak loadings and closely related factors. This screen cannot resolve the full-pool design or justify a sample size.

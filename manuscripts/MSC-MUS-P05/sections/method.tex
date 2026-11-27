@@ -7,6 +7,30 @@ Item construction follows staged development principles \parencite{boateng2018},
 
 Recruit 6--10 experts spanning psychometrics, music psychology, emotion regulation and human--AI interaction, and conduct two rounds of 6--10 cognitive interviews including novice and unsuccessful creators. Experts rate relevance and clarity separately on four-point scales; report item-level proportions rating 3 or 4, denominators and exact binomial intervals. Values below .78 prompt review, not automatic deletion. Interviews use paraphrasing, retrieval and response-mapping probes; attend to overlap between distraction and avoidance and between reflection and repetition. Maintain a content-coverage matrix; no item survives only because of expert agreement.
 
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  stage/.style={draw, rounded corners=2pt, align=center, minimum width=33mm,
+    minimum height=13mm, font=\small},
+  arrow/.style={-{Latex[length=2mm]}}]
+\node[stage] (content) {P02 evidence, theory\\and candidate items};
+\node[stage, right=4mm of content] (review) {Expert review and\\cognitive interviews};
+\node[stage, right=4mm of review] (efa) {Feasibility pilot,\\then ordinal EFA};
+\node[stage, right=4mm of efa] (cfa) {Frozen model,\\independent CFA};
+\draw[arrow] (content) -- (review);
+\draw[arrow] (review) -- (efa);
+\draw[arrow] (efa) -- (cfa);
+\end{tikzpicture}
+\caption{Prospective development sequence. The record linking each item to qualitative findings also documents contradictory evidence and gaps in domain coverage. P02 evidence is pending.}
+\end{figure}
+
+Expert ratings and participant interpretations address complementary questions.
+An item can receive high relevance ratings while respondents consistently
+recall the initial intention or evaluate the quality of the track. In that case,
+revise the wording and examine the interpretation again in the second interview
+round. Link each revision to an item version and to the qualitative evidence
+that motivated the change.
+
 \subsection{Stage B: pilot and exploratory study}
 A feasibility pilot of 30--50 adults tests comprehension, response distributions, burden and skip patterns. Pilot records are not pooled with factor analysis samples. The provisional EFA target is 400 eligible records (maximum 480 submissions or eight weeks). Freeze the item pool before collection; no outcome-based stopping. Investigate sparsity, missingness and floor effects; low endorsement alone is not sufficient to delete meaningful content. Record episode completion and days since episode; an abandoned session is not equivalent to zero on all functions.
 

@@ -101,6 +101,7 @@ def check_interactions(page, section):
         page.wait_for_timeout(180)
         assert marker.get_attribute("cx") == before
         page.emulate_media(reduced_motion="no-preference")
+        motion_state(page, "active")
         page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=before)
         # A substantial displacement within one second verifies the faster motion.
         page.wait_for_function("() => Math.abs(+document.querySelector('#affect-dot').getAttribute('cx')-170)>40", timeout=1500)
@@ -120,7 +121,8 @@ def check_interactions(page, section):
         preference.select_option("on")
         page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=stationary)
         page.emulate_media(reduced_motion="reduce")
-        page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'")
+        motion_state(page, "system")
+        page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'", polling=50)
         page.wait_for_timeout(180)
         assert marker.get_attribute("cx") == "170.00"
         check_projections(page)
@@ -128,7 +130,9 @@ def check_interactions(page, section):
         preference = page.locator("#motion-preference")
         assert preference.count() == 1
         page.emulate_media(reduced_motion="no-preference")
+        page.wait_for_function("() => !matchMedia('(prefers-reduced-motion: reduce)').matches", polling=50)
         preference.select_option("on")
+        motion_state(page, "active")
         if section == "index":
             marker = page.locator("#wave path").first
             before = marker.get_attribute("d")
@@ -150,8 +154,10 @@ def check_interactions(page, section):
             assert marker.get_attribute("d") == before
             check_projections(page)
         preference.select_option("on")
+        motion_state(page, "active")
         page.emulate_media(reduced_motion="reduce")
-        page.wait_for_function("() => !document.querySelector('.step-active')")
+        motion_state(page, "system")
+        page.wait_for_function("() => !document.querySelector('.step-active')", polling=50)
         assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
         if section == "index":
             stationary = marker.get_attribute("d")
@@ -233,6 +239,9 @@ def check_motion_regressions(browser, base, out=None):
         page.goto(base + "index.html")
         advance(page, 0)
         wave0 = wave_geometry(page)
+        initial = point(page)
+        assert initial == [170,145], ("affect origin", initial)
+        stage0 = page.locator(".step-active").inner_text()
         gen_frame = lambda: page.locator("[data-gen-pulse]").evaluate_all(
             "nodes => nodes.map(e => ['cx','cy','opacity'].map(a => e.getAttribute(a)))")
         gen0 = gen_frame()
@@ -243,8 +252,7 @@ def check_motion_regressions(browser, base, out=None):
         advance(page, 2720)
         assert gen_frame() == gen0, "Generative animation does not close its cycle"
         assert page.locator("#gen-wave").get_attribute("d") == gen_wave0
-        initial = point(page)
-        stage0 = page.locator(".step-active").inner_text()
+        assert point(page) != initial, "Affect must move independently of the generative cycle"
         advance(page, 3184)
         assert page.locator(".step-active").inner_text() == stage0
         advance(page, 3200)
@@ -262,7 +270,7 @@ def check_motion_regressions(browser, base, out=None):
         p_before = point(page)
         check_projections(page)
         advance(page, 6400)
-        assert point(page) == initial == [170,145]
+        assert point(page) == initial == [170,145], ("affect cycle boundary", point(page), initial)
         check_projections(page)
         advance(page, 6416)
         p_after = point(page)
@@ -366,6 +374,45 @@ def check_motion_regressions(browser, base, out=None):
         print("PASS: E3.1 deterministic cycle, persisted preference, system and visibility regressions", flush=True)
 
 
+def check_motion_event_race(browser, base):
+    """A frame observing reduced motion must reconcile even before its event."""
+    with browser.new_context(reduced_motion="no-preference") as ctx:
+        ctx.add_init_script(MOTION_CLOCK + """
+;(() => {
+    const nativeMatchMedia=window.matchMedia.bind(window);
+    const query=nativeMatchMedia('(prefers-reduced-motion: reduce)');
+    query.addEventListener('change', event => {
+        if(window.__holdMotionChange)event.stopImmediatePropagation();
+    });
+    window.matchMedia=value=>value==='(prefers-reduced-motion: reduce)'?query:nativeMatchMedia(value);
+    window.__holdMotionChange=true;
+})();""")
+        page=ctx.new_page()
+        page.goto(base+"index.html")
+        advance(page, 800)
+        motion_state(page, "active")
+        assert point(page) != [170,145]
+        assert page.locator(".step-active").count() == 1
+        page.emulate_media(reduced_motion="reduce")
+        page.wait_for_function(
+            "() => matchMedia('(prefers-reduced-motion: reduce)').matches",
+            polling=50)
+        # Deliver the outstanding frame while the media event is withheld.
+        advance(page, 816)
+        motion_state(page, "system")
+        assert point(page) == [170,145]
+        assert page.locator(".step-active").count() == 0
+        assert page.evaluate("window.__motionTest.pending()") == 0
+        check_projections(page)
+        page.evaluate("window.__holdMotionChange=false")
+        page.emulate_media(reduced_motion="no-preference")
+        motion_state(page, "active")
+        advance(page, 1616)
+        assert point(page) != [170,145]
+        assert page.locator(".step-active").count() == 1
+        check_projections(page)
+
+
 def visit(page, base, path, css, js):
     response = page.goto(base + path, wait_until="load")
     assert response and response.ok, path
@@ -422,6 +469,7 @@ def run(base, out=None):
                             assert not errors and not external and not standalone, (errors, external, standalone)
                         print(f"PASS: {engine.name}, {width}px, {'blocked' if blocked else 'normal/warm'}, all 11 routes", flush=True)
                 check_motion_regressions(browser, base, out if engine.name == "chromium" else None)
+                check_motion_event_race(browser, base)
             finally:
                 browser.close()
 

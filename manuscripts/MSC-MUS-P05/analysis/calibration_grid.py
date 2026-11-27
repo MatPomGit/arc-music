@@ -20,6 +20,13 @@ def scenarios():
             result.append(dict(n=n,loading=.65,rho=.35,skew=True,missing=rate,kind="mcar_complete_case"))
     return [dict(id=i,**s) for i,s in enumerate(result)]
 
+def diagnostic_scenarios():
+    settings = [(400,.65,.35,False), (650,.65,.35,False),
+                (500,.40,.80,True), (800,.40,.80,True),
+                (800,.40,.35,True), (800,.65,.80,True)]
+    return [dict(id=i,n=n,loading=l,rho=r,skew=skew,missing=0.,kind="diagnostic")
+            for i,(n,l,r,skew) in enumerate(settings,100)]
+
 def run(scenario,offset,count,seed=20261126):
     if offset<0 or count<1 or offset+count>2000:
         raise ValueError("replication range must lie within 0..1999")
@@ -58,16 +65,28 @@ def aggregate(shards):
     out={"scenario":ref["scenario"],"requested":total,"proper":proper,
          "proper_interval":wilson(proper,total),"mean_complete_n":float(np.mean([r["complete_n"] for r in rows])),
          "contiguous_from_zero":ids==list(range(total)),"decision":"not_calibrated"}
+    out["failure_reasons"] = {}
+    for r in rows:
+        if r["status"] == "failure":
+            reason = r.get("reason", "unspecified")
+            out["failure_reasons"][reason] = out["failure_reasons"].get(reason, 0) + 1
+    # Keep failed fits in the requested-replicate denominator.
+    proper_rate = proper / total
+    out["proper_mcse"] = float(np.sqrt(proper_rate*(1-proper_rate)/total))
     if good:
         errors=np.asarray([r["error"] for r in good]); covers=np.asarray([r["covered"] for r in good])
         if errors.shape!=(proper,56) or covers.shape!=errors.shape:
             raise ValueError("parameter dimensions disagree")
         coverage=covers.mean(axis=0)
         bias=errors.mean(axis=0)
+        null_rejection = sum(r["reject"] for r in good)/proper
         out.update(max_abs_loading_bias=float(np.max(abs(bias[:35]))),
                    coverage_conditional=coverage.tolist(),coverage_unconditional=(covers.sum(axis=0)/total).tolist(),
                    coverage_intervals=[wilson(int(c),proper) for c in covers.sum(axis=0)],
-                   bias=bias.tolist(),null_rejection=sum(r["reject"] for r in good)/proper)
+                   bias=bias.tolist(),rmse=np.sqrt(np.mean(errors**2,axis=0)).tolist(),
+                   coverage_mcse=np.sqrt(coverage*(1-coverage)/proper).tolist(),
+                   null_rejection=null_rejection,
+                   null_rejection_mcse=float(np.sqrt(null_rejection*(1-null_rejection)/proper)))
     # No automatic statistical acceptance: independent estimator validation,
     # EFA recovery, MI/MNAR and validity power are separate required gates.
     return out
@@ -75,6 +94,7 @@ def aggregate(shards):
 if __name__=="__main__":
     p=argparse.ArgumentParser()
     p.add_argument("--list",action="store_true")
+    p.add_argument("--diagnostic",action="store_true",help="Use the weak-structure diagnostic scenarios")
     p.add_argument("--scenario",type=int)
     p.add_argument("--offset",type=int,default=0)
     p.add_argument("--count",type=int,default=10)
@@ -82,14 +102,15 @@ if __name__=="__main__":
     p.add_argument("--out",type=Path)
     p.add_argument("--aggregate",nargs="+",type=Path)
     args=p.parse_args()
+    grid = {s["id"]: s for s in (diagnostic_scenarios() if args.diagnostic else scenarios())}
     if args.list:
-        result=scenarios()
+        result=list(grid.values())
     elif args.aggregate:
         result=aggregate([json.loads(f.read_text()) for f in args.aggregate])
     else:
-        if args.scenario is None or not 0<=args.scenario<len(scenarios()):
+        if args.scenario not in grid:
             p.error("valid scenario ID required")
-        result=run(scenarios()[args.scenario],args.offset,args.count,args.seed)
+        result=run(grid[args.scenario],args.offset,args.count,args.seed)
     payload=json.dumps(result,indent=2,allow_nan=False)+"\n"
     if args.out:
         with args.out.open("x",encoding="utf-8") as f:
