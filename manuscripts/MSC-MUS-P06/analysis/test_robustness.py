@@ -1,8 +1,11 @@
 import unittest
 import pandas as pd
+import numpy as np
+from simulation import draw
+from inference import PREDICTORS,fit_arrays
 from ledger import ledger
 from test_ledger import row
-from robustness import context_flags,robustness
+from robustness import context_flags,robustness,confounding_grid
 class TestRobustness(unittest.TestCase):
     def test_overlap_includes_nonprimary(self):
         a=row()
@@ -25,4 +28,13 @@ class TestRobustness(unittest.TestCase):
         d=ledger(pd.DataFrame([row(technical_failure=None)]))
         r=robustness(d)
         self.assertEqual(r["models"]["confirmed_no_technical_failure"]["excluded_sessions"],1)
+    def test_confounding_grid_matches_primary_and_monotonicity(self):
+        g,x,y=draw(np.random.default_rng(42),40,6,.3,missing=0)
+        a=pd.DataFrame(x,columns=PREDICTORS)
+        a["participant_id"]=g;a["interference"]=np.clip(np.rint(y),0,10)
+        out=confounding_grid(a)
+        self.assertAlmostEqual(out["observed_coefficient"],fit_arrays(g,x,a.interference)["estimate"][0])
+        self.assertEqual(len(out["grid"]),16)
+        self.assertLess(out["grid"][0]["absolute_coefficient_change"],out["grid"][-1]["absolute_coefficient_change"])
+        self.assertTrue(out["not_confidence_intervals"])
 if __name__=="__main__":unittest.main()

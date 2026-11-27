@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 import numpy as np
-from inference import prepare,analyze
+from inference import prepare,analyze,exposure_flow
 def fixture():
     rng=np.random.default_rng(16); rows=[]
     for i in range(40):
@@ -15,6 +15,21 @@ class TestP07(unittest.TestCase):
         r=analyze(fixture())
         self.assertEqual(r["primary"]["switchers"],40)
         self.assertAlmostEqual(r["primary"]["beta"],.8,delta=.2)
+    def test_non_switchers_remain_in_flow(self):
+        d=fixture()
+        d.loc[d.participant_id.eq("0"),"creation_first_hour"]=False
+        d.loc[d.participant_id.eq("1"),"creation_first_hour"]=True
+        d.loc[d.participant_id.eq("2"),"baseline_time"]=None
+        d.loc[d.participant_id.eq("3"),"valence60"]=np.nan
+        a,_=prepare(d)
+        f=exposure_flow(a,"h1_valid")
+        self.assertEqual(f["valid_baseline_known_exposure"]["both"],37)
+        q=f["complete_for_endpoint"]
+        self.assertEqual(q["both"],36)
+        self.assertEqual(q["noncreation_only"],1)
+        self.assertEqual(q["creation_only"],1)
+        self.assertEqual(q["no_known_window"],2)
+        self.assertEqual(sum(q[k] for k in ("both","noncreation_only","creation_only","no_known_window")),40)
     def test_missing_exposure(self):
         d=fixture();d["creation_first_hour"]=d.creation_first_hour.astype(object);d.loc[0,"creation_first_hour"]=None
         a,b=prepare(d);self.assertEqual(a.iloc[0].status,"exposure_unavailable");self.assertEqual(len(b),399)

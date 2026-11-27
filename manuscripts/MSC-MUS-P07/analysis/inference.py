@@ -127,12 +127,34 @@ def holm(pvalues):
         adjusted[k]=prev
     return adjusted
 
+def exposure_flow(d, flag):
+    """Mutually exclusive participant categories, including zero response."""
+    ids=pd.Index(d.participant_id.unique())
+    def categories(mask):
+        a=d.loc[mask & d.exposure_valid]
+        counts=a.groupby("participant_id").creation_first_hour.agg(
+            n="size", exposed="sum").reindex(ids,fill_value=0)
+        n=counts.n.to_numpy(int); k=counts.exposed.to_numpy(int)
+        cat=np.select([n==0,k==0,k==n],
+                      ["no_known_window","noncreation_only","creation_only"],
+                      default="both")
+        return {"participants":len(ids),"no_known_window":int((cat=="no_known_window").sum()),
+                "noncreation_only":int((cat=="noncreation_only").sum()),
+                "creation_only":int((cat=="creation_only").sum()),"both":int((cat=="both").sum()),
+                "windows":int(n.sum()),"creation_windows":int(k.sum()),
+                "noncreation_windows":int((n-k).sum())}
+    return {"valid_baseline_known_exposure":categories(d.baseline_valid),
+            "complete_for_endpoint":categories(d[flag]),
+            "interpretation":"Observed exposure support only; absence of switching is not proof of structural nonpositivity."}
+
+
 def model_set(d):
     models={}
     for key,(flag,outcome,predictors) in MODELS.items():
         a=d.loc[d[flag]].copy()
         a["creation_first_hour"]=a.creation_first_hour.astype(int)
         models[key]=safe_fit(a,outcome,predictors)
+        models[key]["participant_flow"]=exposure_flow(d,flag)
     return models
 
 def analyze(frame, sensitivity_draws=100, schedule=None, withdrawals=None):
