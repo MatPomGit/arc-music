@@ -6,7 +6,7 @@ import json
 import numpy as np
 import pandas as pd
 from scipy.special import expit
-from calibration import EFFECTS, generate, proportion
+from calibration import EFFECTS, generate, proportion, effect_values, PROFILES
 from inference import MODELS, ITEMS, prepare, design, fit_arrays, holm
 from missingness import sensitivity_endpoint
 
@@ -34,15 +34,15 @@ def summary(rows, truth, attempts):
                 mean_width=float(np.mean([b-a for a,b in valid])) if valid else None)
 
 
-def bootstrap_cell(seed, hypothesis, mechanism, effect, n, reps, draws):
+def bootstrap_cell(seed, hypothesis, mechanism, effect, n, reps, draws, *, profile="standard", allocation="balanced"):
     rng = np.random.default_rng(seed)
-    truth = dict(zip(MODELS, EFFECTS[effect]))[hypothesis]
+    truth = dict(zip(MODELS, effect_values(effect)))[hypothesis]
     outcome, _ = MODELS[hypothesis]
     rows = {m: [] for m in METHODS}
     envelopes = []
     warning = []
     for _ in range(reps):
-        d = generate(rng, n, "standard", mechanism, effect)
+        d = generate(rng, n, profile, mechanism, effect, allocation=allocation)
         d["status"] = "defined"
         report = sensitivity_endpoint(d, outcome, "status", draws,
                                       int(rng.integers(0, 2**32)))
@@ -56,6 +56,7 @@ def bootstrap_cell(seed, hypothesis, mechanism, effect, n, reps, draws):
         if len(shifts) == 25:
             envelopes.append(min(shifts) <= truth <= max(shifts))
     return dict(hypothesis=hypothesis, missingness=mechanism, effect=effect, n=n,
+                profile=profile, allocation=allocation,
                 methods={m: summary(v, truth, reps) for m,v in rows.items()},
                 positivity_warning=proportion(warning),
                 shift_point_envelope_contains_truth=proportion(envelopes),
@@ -155,6 +156,22 @@ def run(seed, n, reps, draws, raw_reps, smoke=False):
                 raw=[raw_cell(s,n,*g,raw_reps) for s,g in zip(seeds[len(bg):],rg)])
 
 
+def stress_run(seed, reps, draws):
+    """Separate screening grid; not a replacement for archived calibration."""
+    if min(reps, draws) < 2:
+        raise ValueError("Invalid replication count")
+    grid = [(h, m, e, n, profile) for h, m, e, n, profile in itertools.product(
+        ("H1", "H3"), ("MAR_nonlinear", "MAR_low_overlap"),
+        ("null", "distance_only"), (434, 588), PROFILES)
+        if h == "H3" or e == "null"]
+    seeds = np.random.SeedSequence(seed).spawn(len(grid))
+    return dict(schema_version=1, synthetic=True, seed=seed, outer_reps=reps,
+                bootstrap_draws=draws, purpose="exploratory stress screening",
+                cells=[bootstrap_cell(s, h, m, e, n, reps, draws,
+                                      profile=p, allocation="stratified_blocks")
+                       for s, (h, m, e, n, p) in zip(seeds, grid)])
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed",type=int,default=20261128)
@@ -163,5 +180,7 @@ if __name__ == "__main__":
     parser.add_argument("--draws",type=int,default=99)
     parser.add_argument("--raw-reps",type=int,default=200)
     parser.add_argument("--smoke",action="store_true")
+    parser.add_argument("--stress",action="store_true")
     a=parser.parse_args()
-    print(json.dumps(run(a.seed,a.n,a.reps,a.draws,a.raw_reps,a.smoke),indent=2,allow_nan=False))
+    result = stress_run(a.seed,a.reps,a.draws) if a.stress else run(a.seed,a.n,a.reps,a.draws,a.raw_reps,a.smoke)
+    print(json.dumps(result,indent=2,allow_nan=False))
