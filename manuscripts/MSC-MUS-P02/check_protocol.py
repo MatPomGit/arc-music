@@ -26,6 +26,12 @@ used = {k.strip() for group in re.findall(r"\\(?:citep|citet|cite)\{([^}]+)\}", 
 assert len(keys) == len(set(keys)) and set(keys) == used, (set(keys)-used, used-set(keys))
 dois = re.findall(r"doi\s*=\s*\{([^}]+)\}", bib, flags=re.I)
 assert len(dois) == len({d.casefold() for d in dois}), "duplicate DOI"
+for key, eid in [('he2026', '1835406'), ('carlson2015', '466')]:
+    entry = re.search(r'@article\{' + key + r',([\s\S]*?)(?=\n@|\Z)', bib)
+    assert entry and re.search(r'\beid\s*=\s*\{' + eid + r'\}', entry.group(1)), key
+    assert not re.search(r'\bpages\s*=', entry.group(1)), key
+byrne = re.search(r'@article\{byrne2022,([\s\S]*?)(?=\n@|\Z)', bib)
+assert byrne and re.search(r'\bnumber\s*=\s*\{3\}', byrne.group(1))
 assert re.findall(r"\\item\[RQ(\d)\.\]", body) == list("12345")
 assert r"\section{Results}" not in body
 assert "No participant data have yet been collected or analysed." in body
