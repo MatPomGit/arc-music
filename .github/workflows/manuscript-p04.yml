@@ -27,7 +27,7 @@ jobs:
         run: |
           export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
           "$RUNNER_TEMP/p04-venv/bin/python" -m unittest -v
-          "$RUNNER_TEMP/p04-venv/bin/python" joint_calibration.py --smoke --reps 2 --m 5 > joint-calibration-smoke.json
+          "$RUNNER_TEMP/p04-venv/bin/python" joint_calibration.py --smoke --reps 2 --m 5 --include-composite-mar > joint-calibration-smoke.json
           "$RUNNER_TEMP/p04-venv/bin/python" power.py > power-results.json
           "$RUNNER_TEMP/p04-venv/bin/python" simulation.py --reps 250 --imputations 10 > simulation-results.json
           "$RUNNER_TEMP/p04-venv/bin/python" calibration.py --reps 120 --imputations 10 > calibration-results.json

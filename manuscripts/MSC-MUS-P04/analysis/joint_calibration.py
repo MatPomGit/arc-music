@@ -35,10 +35,15 @@ def generate(n,delta,noise,mechanism,rng):
         logit+=1.*(~meaningful)
     if mechanism=="outcome_dependent":
         logit+=np.where(meaningful,-.35*(fit-mu/prob)*(1+.5*x[:,1]),0.)
-    elif mechanism not in ("baseline_mar","status_dependent"):
+    elif mechanism not in ("baseline_mar","status_dependent","composite_mar"):
         raise ValueError("Unknown mechanism")
     answered=rng.random(n)>=expit(logit)
     u=rng.random(n)
+    if mechanism=="composite_mar":
+        # Composite response depends only on observed baseline X. No separate
+        # status ascertainment of nonresponders can reveal structural zeros.
+        low=observe(meaningful,fit,answered,np.zeros(n,dtype=bool))
+        return x,low,(low[0].copy(),low[1].copy())
     low=observe(meaningful,fit,answered,u<np.where(meaningful,.45,.25))
     high=observe(meaningful,fit,answered,u<np.where(meaningful,.90,.85))
     return x,low,high
@@ -84,13 +89,16 @@ def summarize(rows,failures,reps,truth):
             "grid_robust_operational":proportion(robust,reps)}
 
 
-def run(reps=20,m=50,seed=20261204,smoke=False):
+def run(reps=20,m=50,seed=20261204,smoke=False,*,include_composite_mar=False):
     if reps<2 or m<2:
         raise ValueError("At least two independent datasets and imputations")
     grid=list(itertools.product((660,1000),(0.,.60),NOISE,
                                 ("baseline_mar","status_dependent","outcome_dependent")))
     if smoke:
         grid=[(660,0.,.9,"baseline_mar"),(1000,.60,1.4,"outcome_dependent")]
+    if include_composite_mar:
+        extra=[(660,0.,.9,"composite_mar")] if smoke else list(itertools.product((660,1000),(0.,.60),NOISE,("composite_mar",)))
+        grid+=extra
     refs={noise:population_reference(noise,seed+100+i,n=200000) for i,noise in enumerate(NOISE)}
     cells=[]
     for i,(n,delta,noise,mechanism) in enumerate(grid):
@@ -108,6 +116,10 @@ def run(reps=20,m=50,seed=20261204,smoke=False):
                     key=str(exc)
                     failures[method][key]=failures[method].get(key,0)+1
         cells.append({"n":n,"latent_interaction":delta,"noise":noise,"mechanism":mechanism,
+                      "mechanism_scope":("pure composite MAR; no separate status capture" if mechanism=="composite_mar" else
+                          "baseline-only rating response; composite observation also depends on status capture" if mechanism=="baseline_mar" else
+                          "status- or outcome-dependent rating response and status capture"),
+                      "mean_capture_is_not_a_causal_effect":True,
                       "observed_target":truth,"reference_correlation_mcse":refs[noise]["correlation_mcse"],
                       "methods":{k:summarize(rows[k],failures[k],reps,truth) for k in methods}})
     return {"status":"SYNTHETIC_DEVELOPMENT","seed":seed,"reps":reps,"m":m,
@@ -120,5 +132,6 @@ if __name__=="__main__":
     p.add_argument("--m",type=int,default=50)
     p.add_argument("--seed",type=int,default=20261204)
     p.add_argument("--smoke",action="store_true")
+    p.add_argument("--include-composite-mar",action="store_true",help="Append pure composite-MAR reference without changing the historical grid order")
     a=p.parse_args()
-    print(json.dumps(run(a.reps,a.m,a.seed,a.smoke),indent=2,allow_nan=False))
+    print(json.dumps(run(a.reps,a.m,a.seed,a.smoke,include_composite_mar=a.include_composite_mar),indent=2,allow_nan=False))
