@@ -8,7 +8,7 @@
       "estimand": "mean matching contrast (historical), directional conjunction (candidate)",
       "method": "Welch intersection-union; independent retention and Gaussian summary model",
       "design": "N420/1000; symmetric .30 and asymmetric .15/.45; 96×20000",
-      "sha": "180c809f4d75fae73a1583766faa59254a5b2c1e",
+      "sha": "f3af537fe1ca58d80cea8226e735461d2a1b16ce",
       "run": "46008739611",
       "artifact": "15202454395",
       "evidence": "manuscripts/MSC-MUS-P01/analysis/cp_joint_power.py",
@@ -25,6 +25,14 @@
       },
       "additional_evidence": [
         "docs/rounded-calibration-audit.md"
+      ],
+      "additional_sources": [
+        {
+          "sha": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "run": "45988878791",
+          "artifact": "15191799855",
+          "scope": "historical mean matching contrast"
+        }
       ]
     },
     {
@@ -192,6 +200,14 @@
       "additional_evidence": [
         "docs/rounded-sensitivity-audit.md",
         "docs/rounded-sensitivity-artifacts.json"
+      ],
+      "additional_sources": [
+        {
+          "sha": "018081465b81983ae2618afba2d95eb9efb71511",
+          "run": "45990267481",
+          "artifact": "15192204427",
+          "scope": "heard-only MAR null N660; cohort gate"
+        }
       ]
     },
     {
@@ -217,6 +233,14 @@
       "additional_evidence": [
         "docs/rounded-sensitivity-audit.md",
         "docs/rounded-sensitivity-artifacts.json"
+      ],
+      "additional_sources": [
+        {
+          "sha": "018081465b81983ae2618afba2d95eb9efb71511",
+          "run": "45990267481",
+          "artifact": "15193008911",
+          "scope": "H1 MAR null N600 bootstrap"
+        }
       ]
     }
   ]

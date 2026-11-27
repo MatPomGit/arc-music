@@ -10,3 +10,5 @@ W badaniach potwierdzających planujemy prerejestrować hipotezy i sposób anali
 
 
 Macierz estymandów, identyfikatory zbiorów i zasady nakładania prób: [research-matrix.md](research-matrix.md). Rejestr bramek zgód i praw: [research-gates.json](research-gates.json). Nie potwierdzono zgód na zbieranie danych; nie uruchamiać rekrutacji. Dostęp do narzędzia nie oznacza prawa do jego reprodukcji.
+
+Zob. [rejestr konstruktów i kohort](program-cohort-register.md) oraz [bramki praw i etyki](rights-gates.md). Każdy eksport wymaga wersji zbioru, zgodności zakresu zgody i rejestru wycofań. Współdzielenie uczestników między protokołami nie jest domyślne; wymaga odrębnej podstawy, uzgodnionego sposobu powiązania i ujawnienia nakładania się prób. Przed każdą analizą należy odnotować rolę potwierdzającą lub eksploracyjną oraz wersję protokołu. Żadna bramka kodu nie zastępuje zatwierdzenia uczelnianego.
