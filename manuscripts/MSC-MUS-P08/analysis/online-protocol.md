@@ -1,4 +1,4 @@
-# P08 online protocol v0.4.0
+# P08 online protocol v0.4.1
 
 Research owner: Mateusz Pomianek. Proposed Polish brief: „Zaaranżuj krótki utwór instrumentalny do spokojnej sceny otwarcia. Sprawdź po dwie wersje każdej zmiany. Po każdej parze zaznacz wersję, którą wolisz.”
 
@@ -17,3 +17,5 @@ Perform 6 to 10 cognitive interviews balanced over novice and trained background
 After authorisation, run a 30 to 50 person feasibility pilot. Review by assigned cell: correct identification of both manipulation roles, proportion of heard versions, complete ratings conditional on hearing, previews available, actual preview exposure and task time. Provisional design gates are at least 80% joint role comprehension overall, at least 85% heard versions overall, no cell below 70% on either metric, and at least 90% successful playback among users who proceed to the listening step. Report binomial intervals and inspect discrepancy by device, keyboard use and training. These gates guide redesign. They do not establish statistical equivalence. Freeze meaningful timing and audibility tolerances before confirmation and check robustness to modest alterations of their boundaries. No effect observed in the feasibility pilot determines the target effect.
 
 Choose the randomised sample after agreeing on the smallest meaningful change on the 0 to 10 scale, estimating outcome dispersion and availability in the feasibility pilot, and rerunning the planning grid with those ranges. Provision for H1 separately from H2 and H3, which form a Holm family. If 90% primary power under approved assumptions exceeds feasible recruitment, defer confirmation. Report structural absence separately from missing ratings. This document does not launch a study.
+
+For each assigned cell distinguish confirmed hearing of an assessable version, confirmed non-hearing and unresolved exposure. Missing item ratings after confirmed hearing are not structural absence. If any hearing is false or unknown, full-cohort numerical sensitivity and confirmatory tests are withheld; heard-only contrasts remain descriptive. Review hearing feasibility before confirmation; do not select a postassignment survivor estimand after seeing results.

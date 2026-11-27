@@ -67,10 +67,17 @@ def _assess(d,outcome):
 
 
 def assess(d, outcome):
-    """Keep the all-assigned hypothetical diagnostic and the heard population apart."""
-    result = _assess(d, outcome)
+    """Estimate full-cohort numeric sensitivity only if every target is defined."""
     heard = d.heard_version.eq(True).fillna(False)
     unheard = d.heard_version.eq(False).fillna(False)
+    if heard.all():
+        result = _assess(d, outcome)
+        result["full_cohort_target_defined"] = True
+    else:
+        result = dict(full_cohort_target_defined=False,
+                      unavailable="Full-cohort outcome undefined or unresolved",
+                      observed=int(d[outcome].notna().sum()),
+                      missing=int(d[outcome].isna().sum()))
     result["exposure_status"] = {
         "defined_observed": int((heard & d[outcome].notna()).sum()),
         "defined_missing": int((heard & d[outcome].isna()).sum()),
@@ -97,6 +104,8 @@ def bootstrap(d, outcome, draws, seed):
         np.flatnonzero((heard.authority == a) & (heard.manual == e))
         for a, e in CELLS
     ]
+    if any(len(group)==0 for group in groups):
+        return {"unavailable":"Empty heard factorial cell","draws":draws}
     point = _assess(heard, outcome)
     if "unavailable" in point:
         return {"unavailable": point["unavailable"], "draws": draws}
