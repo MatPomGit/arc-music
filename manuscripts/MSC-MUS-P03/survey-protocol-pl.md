@@ -37,7 +37,7 @@ Define operation_diversity = regenerated + selected + edited only if all three a
 ## Analysis freeze gates
 - Verify Polish comprehensibility; check rights for any external instrument; do not describe custom indicators as validated scales.
 - Confirm sample-size simulation under bounded ratings, correlated motives and missingness; freeze stopping rules.
-- Implement complete-record OLS-HC3, Holm, ordered-model sensitivity, MAR multiple imputation and delta scenarios; test synthetic data before enrollment.
+- Implement complete-record OLS-HC3, Holm, ordered-model sensitivity, MAR multiple imputation and delta scenarios; test synthetic data before enrollment. Retain nonestimable ordinal thresholds even when the common-slope model fails. Pool a sensitivity scenario only if every prespecified imputation yields valid inference; report fit or pooling failures without replacing them with estimates. These diagnostics do not establish proportional odds, convergence or identification under MNAR.
 - P03, P04 and P06 have separate participant identifiers, data dictionaries and intended cohorts. P03-S02 identifies only the P03 dataset. No automatic join or shared recruitment assumption; any cross-study linkage needs separate approved consent, protected linkage table, predefined estimands and disclosure of overlap. Prevent repeated submissions with a single-use study code where approved, not IP tracking; self-report prior participation and review conflicting codes outside the analysis pipeline.
 - Obtain institutional review and preregistration. No fieldwork or claims of observed benefits yet.
 
