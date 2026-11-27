@@ -1,4 +1,4 @@
-# MSC-MUS-P02. Procedura terenowa 0.3.0
+# MSC-MUS-P02. Procedura terenowa 0.3.1
 
 Status: projekt do uzgodnienia z zespołem i uczelnią. Nie stanowi zgody na rekrutację. Kanoniczne kryteria i metoda: sections/method.tex; pytania: interview-guide-pl.md; zasady ochrony danych: sections/ethics.tex.
 
