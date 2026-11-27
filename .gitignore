@@ -25,3 +25,5 @@ transcripts/
 !/docs/BazaDanychOneDrive.desktop
 *.url
 site-checks/
+
+/build/
