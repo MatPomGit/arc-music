@@ -12,7 +12,7 @@ FIELDS={
  "P03":{"--m":(2,500,50),"--sweeps":(1,1000,15),"--target":(50,100000,500),
         "--cap":(50,100000,660),"--reference-n":(1000,10000000,500000)},
  "P04":{"--m":(2,500,50)},
- "P05":{"--pa-reps":(1,10000,500),"--n":(100,100000,500)},
+ "P05":{"--pa-reps":(10,10000,500),"--n":(100,100000,500)},
  "P06":{"--reference-n":(100,10000000,100000),"--bootstrap":(1,100000,999),
         "--n":(10,100000,160)},
  "P07":{"--reference-n":(100,10000000,100000)},
@@ -105,11 +105,11 @@ def build(study,reps,seed,options,pattern="*",design=None):
     return output
 
 def apply_design(study,tasks,d):
-    allowed={"P01":{"cp-joint"},"P07":{"primary"},"P08":{"factorial","nonhearing"}}
+    allowed={"P01":{"cp-joint"},"P03":{t.name for t in tasks if t.name.startswith("mi-")},"P04":{"joint"},"P05":{t.name for t in tasks if t.name.startswith("structure/")},"P06":{"bounded"},"P07":{"primary"},"P08":{"factorial","nonhearing"}}
     if study not in allowed or any(t.name not in allowed[study] for t in tasks):
         raise ValueError("Individual design requires a supported single simulation task")
-    n=d["n"]
-    if type(n) is not int or not 40<=n<=100000 or (study in ("P01","P08") and n%4):
+    n=d.get("n",100)
+    if type(n) is not int or not 40<=n<=100000 or (study in ("P01","P08") and n%4) or (study=="P04" and (n<100 or n%2)):
         raise ValueError("Invalid N; factorial designs require multiples of four")
     def bounded(k,lo,hi):
         v=d[k]
@@ -121,6 +121,17 @@ def apply_design(study,tasks,d):
         return d[k]
     if study=="P01":
         args=["--design",n,bounded("effect1",-2,2),bounded("effect2",-2,2),category("profile",("equal","heterogeneous"))]
+    elif study=="P03":
+        args=["--effect",bounded("effect",0,.6)]
+    elif study=="P04":
+        args=["--design",n,bounded("effect",-.6,.6),category("noise",(.5,.9,1.4)),
+              category("mechanism",("baseline_mar","status_dependent","outcome_dependent","composite_mar"))]
+    elif study=="P05":
+        args=["--loading",bounded("loading",.3,.9),"--missing",bounded("missing",0,.3)]
+        if d.get("skew"):args.append("--skew")
+    elif study=="P06":
+        args=["--design",n,bounded("effect",-.6,.6),bounded("missing",0,.9),
+              category("mechanism",("mcar","mar","mnar"))]
     elif study=="P07":
         args=["--design",n,bounded("prevalence",.01,.99),bounded("effect",-2,2),
               bounded("missing",0,.95),category("mechanism",("mcar","mar","mnar","confounded"))]
@@ -133,7 +144,7 @@ def apply_design(study,tasks,d):
         if study=="P08":
             if "--nonadherence" in a:a[a.index("--nonadherence")+1]=str(bounded("nonadherence",0,.95))
             else:a.extend(["--nonadherence",str(bounded("nonadherence",0,.95))])
-        out.append(replace(t,args=tuple(a+list(map(str,args)))))
+        out.append(t if t.deps else replace(t,args=tuple(a+list(map(str,args)))))
     return out
 
 def decimal(label,lo,hi):
@@ -145,22 +156,29 @@ def decimal(label,lo,hi):
         print("Nieprawidlowa wartosc.")
 
 def ask_design(study,pattern):
-    if (study,pattern) not in {("P01","cp-joint"),("P07","primary"),("P08","factorial"),("P08","nonhearing")}:
-        return None
+    supported=(study,pattern) in {("P01","cp-joint"),("P04","joint"),("P06","bounded"),("P07","primary"),("P08","factorial"),("P08","nonhearing")} or (study=="P03" and pattern.startswith("mi-")) or (study=="P05" and pattern.startswith("structure/"))
+    if not supported:return None
     if input("Zmienic siatke na jeden wlasny scenariusz? [t/N]: ").strip().lower() not in ("t","tak","y","yes"):
         return None
-    n=integer("Liczebnosc N"+(" (wielokrotnosc 4)" if study!="P07" else ""),40,100000)
-    while study!="P07" and n%4:
-        n=integer("N musi byc wielokrotnoscia 4",40,100000)
+    if study=="P03":return {"effect":decimal("Korelacja czastkowa",0,.6)}
+    if study=="P05":return {"loading":decimal("Ladunek czynnikowy",.3,.9),"missing":decimal("Frakcja MCAR",0,.3),"skew":bool(integer("Skosnosc: 0=nie, 1=tak",0,1))}
+    divisor=4 if study in ("P01","P08") else 2 if study=="P04" else 1
+    minimum=100 if study=="P04" else 40
+    n=integer("Liczebnosc N",minimum,100000)
+    while n%divisor:n=integer(f"N musi byc wielokrotnoscia {divisor}",minimum,100000)
     d={"n":n}
     if study=="P01":
         d.update(effect1=decimal("Efekt prosty 1",-2,2),effect2=decimal("Efekt prosty 2",-2,2),
                  profile=("equal","heterogeneous")[integer("Profil: 1=equal, 2=heterogeneous",1,2)-1])
+    elif study=="P04":
+        choices=("baseline_mar","status_dependent","outcome_dependent","composite_mar")
+        d.update(effect=decimal("Interakcja latentna",-.6,.6),noise=(.5,.9,1.4)[integer("Szum: 1=.5, 2=.9, 3=1.4",1,3)-1],mechanism=choices[integer("Mechanizm: 1=baseline, 2=status, 3=outcome, 4=composite",1,4)-1])
     else:
         choices=("mcar","mar","mnar","confounded") if study=="P07" else ("mcar","mar","mnar")
         d["mechanism"]=choices[integer("Mechanizm: "+", ".join(f"{i+1}={x}" for i,x in enumerate(choices)),1,len(choices))-1]
-        d["missing"]=decimal("Frakcja brakow",0,.95)
-        if study=="P07":
+        d["missing"]=decimal("Frakcja brakow",0,.9 if study=="P06" else .95)
+        if study=="P06":d.update(effect=decimal("Efekt latentny",-.6,.6))
+        elif study=="P07":
             d.update(prevalence=decimal("Czestosc ekspozycji",.01,.99),effect=decimal("Efekt latentny",-2,2))
         else:
             d.update(authority=decimal("Efekt authority",-2,2),interaction=decimal("Interakcja",-2,2),

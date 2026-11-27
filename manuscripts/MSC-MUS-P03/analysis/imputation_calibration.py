@@ -127,13 +127,14 @@ def mixed_mar_attainment(target=500, caps=(640, 660, 680, 700)):
 
 
 def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
-        seed=20261127, reference_n=500000, rounded=True):
+        seed=20261127, reference_n=500000, rounded=True, *, effect_override=None):
     if mechanism not in MECHANISMS or reps < 2 or not 50 <= target <= cap:
         raise ValueError("Invalid design")
     if m < 2 or sweeps < 1 or reference_n < 1000:
         raise ValueError("Invalid imputation or reference settings")
     cells = []
-    for effect in (0., .15):
+    if effect_override is not None and not 0<=effect_override<=.6:raise ValueError('Invalid partial correlation')
+    for effect in ((0., .15) if effect_override is None else (effect_override,)):
         beta = calibration(.6, effect)
         ref_rng = np.random.default_rng(np.random.SeedSequence([seed, 99, int(effect*100)]))
         if rounded:
@@ -179,6 +180,7 @@ if __name__ == "__main__":
     p.add_argument("--seed", type=int, default=20261127)
     p.add_argument("--reference-n", type=int, default=500000)
     p.add_argument("--continuous", action="store_true")
+    p.add_argument("--effect",type=float)
     a = p.parse_args()
     print(json.dumps(run(a.mechanism, a.reps, a.m, a.sweeps, a.target, a.cap,
-                         a.seed, a.reference_n, not a.continuous), indent=2, allow_nan=False))
+                         a.seed, a.reference_n, not a.continuous, effect_override=a.effect), indent=2, allow_nan=False))
