@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 import numpy as np
 import pandas as pd
 import json
@@ -45,6 +46,27 @@ class RobustnessTests(unittest.TestCase):
         self.assertEqual(diagnostic['status'],'insufficient_thresholds')
         self.assertFalse(diagnostic['formal_test'])
         json.dumps(diagnostic,allow_nan=False)
+
+    def test_threshold_invalid_input_rejected(self):
+        x=pd.DataFrame({"target":np.arange(100,dtype=float)})
+        y=pd.Series(np.repeat([0,1],50))
+        with self.assertRaises(ValueError):
+            threshold_diagnostics(y,x.iloc[::-1],"target")
+        with self.assertRaises(ValueError):
+            threshold_diagnostics(y.astype(float)+.5,x,"target")
+        with self.assertRaises(ValueError):
+            threshold_diagnostics(y,x.assign(target=np.nan),"target")
+
+    def test_common_ordinal_failure_preserves_threshold_evidence(self):
+        data,_=prepare(fixture())
+        with patch("robustness.OrderedModel.fit",side_effect=np.linalg.LinAlgError("synthetic singularity")):
+            row=ordinal(data,"H3")
+        self.assertEqual(row["status"],"not_estimable")
+        self.assertIsNone(row["common_odds_ratio"])
+        self.assertIsNone(row["ci95"])
+        self.assertEqual(row["threshold_diagnostics"]["estimated_thresholds"],3)
+        self.assertFalse(row["threshold_diagnostics"]["assumption_verified"])
+        json.dumps(row,allow_nan=False)
 
     def test_ordinal_continuous_rejected(self):
         data,_=prepare(fixture())

@@ -7,7 +7,10 @@ import pandas as pd
 from intake import read_records
 import statsmodels.api as sm
 from statsmodels.miscmodels.ordinal_model import OrderedModel
-from statsmodels.tools.sm_exceptions import PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning
+from statsmodels.tools.sm_exceptions import (
+    PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning,
+    HessianInversionWarning,
+)
 import warnings
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from models import MODELS, prepare, design, fit
@@ -48,6 +51,12 @@ def threshold_diagnostics(y, x, target):
     Threshold fits are dependent; differences are not a formal assumption test.
     Rare splits and failed fits stay visible rather than disappearing.
     """
+    if not y.index.equals(x.index) or target not in x:
+        raise ValueError("Threshold diagnostics require aligned rows and a target predictor")
+    if not np.isfinite(y.to_numpy(float)).all() or not np.all(y == np.rint(y)):
+        raise ValueError("Threshold diagnostics require finite integer outcomes")
+    if not np.isfinite(x.to_numpy(float)).all():
+        raise ValueError("Threshold diagnostics require finite predictors")
     categories = sorted(int(v) for v in y.unique())
     rows = []
     design = sm.add_constant(x, has_constant="add")
@@ -62,15 +71,18 @@ def threshold_diagnostics(y, x, target):
                 with warnings.catch_warnings():
                     warnings.simplefilter("error", PerfectSeparationWarning)
                     warnings.simplefilter("error", ConvergenceWarning)
+                    warnings.simplefilter("error", HessianInversionWarning)
                     result = sm.Logit(binary, design).fit(
                         method="newton", maxiter=100, disp=False, cov_type="HC0")
                 beta = float(result.params[target])
                 lo, hi = result.conf_int().loc[target]
-                if not result.mle_retvals.get("converged", False) or not np.isfinite([beta, lo, hi]).all():
+                if (not result.mle_retvals.get("converged", False)
+                        or not np.isfinite([beta, lo, hi]).all() or not lo <= beta <= hi):
                     raise ValueError("Nonconvergent or nonfinite threshold fit")
                 row.update(status="estimated", beta=beta, ci95=[float(lo), float(hi)])
             except (ValueError, ArithmeticError, np.linalg.LinAlgError,
-                    PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning):
+                    PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning,
+                    HessianInversionWarning):
                 row.update(status="not_estimable", beta=None, ci95=None)
         rows.append(row)
     estimated = sum(row["status"] == "estimated" for row in rows)
@@ -87,18 +99,31 @@ def ordinal(data,h):
     x=x.drop(columns="const")
     # Scale background age for optimizer only; target remains in original units.
     x["age"]=x.age/10
-    model=OrderedModel(y.astype(int),x,distr="logit")
-    result=model.fit(method="bfgs",disp=False,maxiter=500,cov_type="HC0")
-    if not result.mle_retvals.get("converged",False):
-        raise ValueError("Ordinal optimization did not converge")
-    beta=float(result.params[target]); lo,hi=result.conf_int().loc[target]
-    odds=np.exp([beta,lo,hi])
-    if not np.isfinite(odds).all():
-        raise ValueError("Nonfinite ordinal odds ratio")
-    return dict(n=len(y),categories=sorted(int(v) for v in y.unique()),
-                common_odds_ratio=float(odds[0]),ci95=[float(odds[1]),float(odds[2])],
-                assumption="proportional odds; descriptive sensitivity",
-                threshold_diagnostics=threshold_diagnostics(y,x,target))
+    metadata=dict(n=len(y),categories=sorted(int(v) for v in y.unique()),
+                  assumption="proportional odds; descriptive sensitivity",
+                  threshold_diagnostics=threshold_diagnostics(y,x,target))
+    try:
+        model=OrderedModel(y.astype(int),x,distr="logit")
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", ConvergenceWarning)
+            warnings.simplefilter("error", HessianInversionWarning)
+            warnings.simplefilter("error", PerfectSeparationWarning)
+            result=model.fit(method="bfgs",disp=False,maxiter=500,cov_type="HC0")
+        if not result.mle_retvals.get("converged",False):
+            raise ValueError("Ordinal optimization did not converge")
+        beta=float(result.params[target]); lo,hi=result.conf_int().loc[target]
+        with np.errstate(over="ignore", under="ignore", invalid="ignore"):
+            odds=np.exp([beta,lo,hi])
+        if not np.isfinite(odds).all() or not 0 < odds[1] <= odds[0] <= odds[2]:
+            raise ValueError("Invalid ordinal odds ratio or interval")
+    except (ValueError, ArithmeticError, np.linalg.LinAlgError, RuntimeError,
+            PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning,
+            HessianInversionWarning) as exc:
+        # Keep threshold evidence even when the common-slope fit fails.
+        return dict(metadata,status="not_estimable",error=str(exc),
+                    common_odds_ratio=None,ci95=None)
+    return dict(metadata,status="estimated",common_odds_ratio=float(odds[0]),
+                ci95=[float(odds[1]),float(odds[2])])
 
 
 def diagnostics(data,h):
