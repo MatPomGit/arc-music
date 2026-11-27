@@ -48,7 +48,7 @@ def add_manuscript_previews(html, english):
             f'<figure class="pub-preview"><a href="{path}.pdf" '
             f'aria-label="{label}: {identifier.upper()}">'
             f'<img src="{path}.png" alt="{alt} {identifier.upper()}" '
-            f'loading="lazy" decoding="async">'
+            f'loading="eager" decoding="async">'
             f'<span>{label}</span></a><figcaption>{status}</figcaption></figure></div>'
         )
 

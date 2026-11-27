@@ -78,14 +78,19 @@ def check_home_layout(page, section):
                   article:article.toJSON(),viewport:innerWidth};
         }""")
         assert geometry["ok"], ("About illustration/text layout", geometry)
-    if section in ("index","neuropsychology"):
+    if section != "index":
+        assert page.locator(".affect-music, .affect-copy, #music-emotions-title").count() == 0
+    if section == "index":
         assert page.locator("#affect-title").count() == 0
         assert page.locator(".affect-compact").count() == 0
         assert page.locator(".affect-music > .affect-copy + .affect-figure").count() == 1
         lang = page.locator("html").get_attribute("lang")
         copy = page.locator(".affect-copy")
         assert copy.locator("h2").inner_text() == ("Music and emotions" if lang == "en" else "Muzyka i emocje")
-        assert copy.locator("p").count() == 5
+        assert copy.locator("p").count() == 2
+        length = len(" ".join(" ".join(copy.locator("p").all_text_contents()).split()))
+        baseline = 1588 if lang == "en" else 1659
+        assert 0.825 * baseline <= length <= 0.875 * baseline, (lang, length)
         assert copy.locator("a[href^='https://doi.org/']").count() == 2
         assert copy.locator("a[href='https://doi.org/10.1080/17437199.2019.1627897']").count() == 1
         assert copy.locator("a[href='https://doi.org/10.1177/03057356231212362']").count() == 1
@@ -148,7 +153,7 @@ def check_interactions(page, section):
             "from intention to music" if lang == "en" else "od intencji do muzyki")
         assert page.locator(".generative-flow input, .generative-flow button").count() == 0
         assert page.locator("[data-gen-pulse]").count() == 3
-    if section in ("index", "neuropsychology"):
+    if section == "index":
         check_projections(page)
     if section == "neuropsychology":
         assert page.locator("#motion-toggle").count() == 0
@@ -166,6 +171,7 @@ def check_interactions(page, section):
         assert page.locator(".article a[href^='https://doi.org/']").count() >= 9
         if page.viewport_size["width"] >= 1200:
             assert page.locator(".article").bounding_box()["width"] >= 850
+    if section == "index":
         marker = page.locator("#affect-dot")
         before = marker.get_attribute("cx")
         page.wait_for_timeout(180)
@@ -348,7 +354,7 @@ def check_motion_regressions(browser, base, out=None):
         page.set_viewport_size({"width":1440,"height":900})
 
         # System preference remains effective across reloads and language routes.
-        page.goto(base + "neuropsychology.html")
+        page.goto(base + "index.html")
         motion_state(page, "active")
         advance(page, 800)
         assert point(page) != [170,145]
@@ -381,7 +387,7 @@ def check_motion_regressions(browser, base, out=None):
         check_projections(page)
 
         # Evidence from nonzero frames, in both languages and both themes.
-        for path, lang in (("neuropsychology.html","pl"),("en-neuropsychology.html","en")):
+        for path, lang in (("index.html","pl"),("en.html","en")):
             page.goto(base + path)
             motion_state(page, "active")
             advance(page, 800)
