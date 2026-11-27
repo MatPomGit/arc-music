@@ -49,3 +49,28 @@ class ReferenceParameters(unittest.TestCase):
         self.assertEqual(classify(dict(agree,reference_status="IMPROPER",python_status="IMPROPER")), "BOTH_IMPROPER")
         self.assertEqual(classify(dict(agree,agreement={})), "PARAMETER_DISAGREEMENT")
         self.assertEqual(classify(dict(agree,reference_status="ERROR")), "EXECUTION_ERROR")
+
+
+class ReferenceInputArchive(unittest.TestCase):
+    def test_roundtrip_and_tamper(self):
+        from reference_inputs import write_input,write_manifest,replay
+        x=np.random.default_rng(42).integers(0,5,(40,8))
+        with TemporaryDirectory() as temp:
+            path=Path(temp)
+            _,sha=write_input(path,x,2,4,0)
+            row=dict(n=40,factors=2,items_per_factor=4,loading=.65,rho=.35,
+                     skew=False,seed=42,input_sha256=sha)
+            write_manifest(path,[row])
+            metadata,restored=next(replay(path))
+            np.testing.assert_array_equal(x,restored)
+            self.assertEqual(metadata["input_sha256"],sha)
+            f=path/"case-00.csv"
+            f.write_bytes(f.read_bytes()+b"\n")
+            with self.assertRaisesRegex(ValueError,"digest mismatch"):
+                list(replay(path))
+    def test_invalid_input(self):
+        from reference_inputs import encode
+        x=np.zeros((40,8));x[0,0]=.5
+        with self.assertRaises(ValueError):encode(x,2,4)
+        x[0,0]=np.nan
+        with self.assertRaises(ValueError):encode(x,2,4)

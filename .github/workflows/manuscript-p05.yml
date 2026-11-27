@@ -30,7 +30,7 @@ jobs:
           Rscript -e 'sessionInfo()' > p05-reference-environment.txt
           dpkg-query -W r-base-core r-cran-lavaan r-cran-mass r-cran-mnormt r-cran-pbivnorm r-cran-numderiv r-cran-quadprog libblas3 liblapack3 >> p05-reference-environment.txt
           python3 -m pip freeze >> p05-reference-environment.txt
-      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/compare_lavaan.py --full > p05-lavaan-comparison.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/compare_lavaan.py --full --archive-dir p05-reference-inputs > p05-lavaan-comparison.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -39,6 +39,7 @@ jobs:
             p05-lavaan-comparison.json
             p05-reference-head.txt
             p05-reference-environment.txt
+            p05-reference-inputs/
           if-no-files-found: warn
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/model_comparison.py --smoke --reps 1 --pa-reps 10 > p05-model-comparison-smoke.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/factor_count_calibration.py --k 2 --items 3 --n 400 --reps 2 --pa-reps 500 > p05-factor-count-protocol-smoke.json
