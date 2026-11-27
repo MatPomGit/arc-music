@@ -83,5 +83,24 @@ class MissingnessTests(unittest.TestCase):
         self.assertNotIn("estimates", r)
 
 
+    def test_missing_defined_outcome_disables_confirmatory_hc3(self):
+        d = fixture()
+        d.loc[0, "understanding21"] = np.nan
+        result = analyze(d)
+        h = result["hypotheses"]["H1"]
+        self.assertFalse(h["confirmatory_available"])
+        self.assertIn("descriptive_p", h)
+        self.assertNotIn("p", h)
+        self.assertTrue(result["hypotheses"]["H2"]["confirmatory_available"])
+
+    def test_visit_diagnostics(self):
+        d = fixture()
+        d.loc[0, "understanding21"] = np.nan
+        arm = str(int(d.loc[0, "music"]))
+        result = analyze(d)["flow"][arm]["visit_diagnostics_nonexclusive"]["2"]
+        self.assertEqual(result["missing_items_at_valid_visit"]["understanding21"], 1)
+        self.assertEqual(result["incomplete_composite_at_valid_visit"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()
