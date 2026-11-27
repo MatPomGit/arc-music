@@ -72,3 +72,5 @@ H1/H2/H3 bias in raw points: .00080/-.04007/.01280; -.01774/-.06019/-.05399; -.0
 | 8 | 15206736976 | e54a2eb9be6732dd6dcf50ec1136757af24a42a3fb08f6b259b4ee88cccb7fde |
 | 18 | 15207381598 | 9ae1bd3a7214e7f4f73fde46f895cc233f129492247acbdb1a483e392e733b27 |
 | 21 | 15207406827 | 45ab0304a9958a3fa91de4f5efa06d5acb28fa30d321cc299c92b6f570bff23d |
+
+Actual centered-bootstrap IPW candidate: see [candidate-precision-evidence.md](candidate-precision-evidence.md). This is separate from historical HC3 and percentile-bootstrap results; confirmation is not authorized.
