@@ -7,3 +7,7 @@ The table and plot are derived from archived stress-results-n160-v0.5.0.json and
 ## Theory extension (28 November 2026)
 
 Koehler et al. (2024), DOI 10.1037/emo0001279, PMID 37676160: PubMed abstract and APA supplement landing-page metadata checked. Weekly observational conventional music engagement; evidence of temporal selection, not an hourly AI creation effect. Tamir (2016), DOI 10.1177/1088868315586325, PMID 26015392: abstract and bibliographic record checked; theoretical distinction between experiential and instrumental motives, not validation of the P07 goal item. Kuppens and Verduyn (2017), DOI 10.1016/j.copsyc.2017.06.004, PMID 28950968: publication metadata and abstract-level description checked; supports explicit temporal framing, not the chosen time horizons. No full-text verification of these three papers is claimed. Candidate creation pathways are theoretical propositions, not measured mediators. The expanded literature remains targeted rather than systematic.
+
+## Editorial metadata check (28 November 2026)
+
+Confirmed Russell (1980), 39(6), Kuppens et al. (2010), 21(7), and Houben et al. (2015), 141(4), and added missing issue numbers (DOI 10.1037/h0077714, 10.1177/0956797610372634 and 10.1037/a0038822). Rechecked bibliographic records for Koehler et al., Tamir, Kuppens and Verduyn, Randall and Rickard, Stone et al. and the Zenodo ISMIR record for Huang et al. No full-text verification of the entire bibliography is claimed. Historical evidence versions and original archived results remain unchanged.
