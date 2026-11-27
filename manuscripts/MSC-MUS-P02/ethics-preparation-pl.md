@@ -10,11 +10,11 @@ Nagranie audio wymaga odrębnej zgody. Przy odmowie dopuszczalny jest wyłączni
 ## Zakres odrębnych decyzji
 - Udział w rozmowie po zapoznaniu się z zatwierdzoną informacją.
 - Nagranie audio albo zatwierdzony wariant bez nagrania.
-- Dopuszczenie zanonimizowanych w kontekście fragmentów do raportu, zgodnie z zatwierdzonymi zasadami.
+- Dopuszczenie fragmentów do raportu po ocenie ryzyka identyfikacji i odpowiednim usunięciu danych identyfikujących, zgodnie z zatwierdzonymi zasadami.
 - Ewentualny dobrowolny pokaz, bez transferu i retencji. Wyjątki wymagają oddzielnej procedury.
 - W przypadku pilota: zgoda obejmująca ewentualne włączenie materiału do korpusu głównego.
 
-Odmowa opcjonalnej czynności nie jest przesłanką wykluczenia. Nie zbierać zgód za pośrednictwem publicznego repozytorium.
+Odmowa pokazania artefaktu lub zgody na cytowanie nie jest przesłanką wykluczenia. Przy odmowie nagrania udział jest możliwy tylko wtedy, gdy zatwierdzono wariant notatkowy i uczestnik wyraził na niego zgodę. Nie zbierać zgód za pośrednictwem publicznego repozytorium.
 
 ## Bramka przed rozpoczęciem
 | Obszar | Wymagany dowód | Status |
