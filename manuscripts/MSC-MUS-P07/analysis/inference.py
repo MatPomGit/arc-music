@@ -195,6 +195,18 @@ def analyze(frame, sensitivity_draws=100, schedule=None, withdrawals=None):
     from joint_sensitivity import assess_joint
     try: result["joint_missingness"]=assess_joint(d,draws=sensitivity_draws)
     except (ValueError,np.linalg.LinAlgError) as exc: result["joint_missingness_unavailable"]=str(exc)
+    from extended_calibration import outcome_bounds
+    result["secondary_outcome_bounds"]={}
+    for key in ("H2","H3"):
+        flag,outcome,predictors=MODELS[key]
+        known=d.baseline_valid & d.exposure_valid
+        if key=="H3":known=known & d.deviation0.notna()
+        a=d.loc[known]
+        upper=np.full(len(a),10.) if key=="H2" else np.maximum(a.desired_arousal0,10-a.desired_arousal0).to_numpy(float)
+        try:
+            lo,hi=outcome_bounds(a.participant_id.to_numpy(),a[predictors].to_numpy(float),a[outcome].to_numpy(float),a[flag].to_numpy(bool),upper)
+            result["secondary_outcome_bounds"][key]={"lower":lo,"upper":hi,"known_exposure_windows":len(a),"interpretation":"Finite-window outcome bounds, not a confidence interval; excludes missing exposure and invalid baseline."}
+        except (ValueError,np.linalg.LinAlgError) as exc:result["secondary_outcome_bounds"][key]={"unavailable":str(exc)}
     return result
 
 if __name__=="__main__":

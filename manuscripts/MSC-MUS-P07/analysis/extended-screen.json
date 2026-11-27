@@ -1,0 +1,2823 @@
+{
+  "status": "SYNTHETIC_DEVELOPMENT",
+  "seed": 20261206,
+  "reps": 200,
+  "planned_cells": 72,
+  "complete": true,
+  "screening_only": true,
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "cells": [
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.005007133319833543,
+          "coverage": 0.97,
+          "rejection": 0.015,
+          "mean_switchers": 107.66,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0771509644014596,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.005886888008344677,
+          "coverage": 0.96,
+          "rejection": 0.02,
+          "mean_switchers": 107.715,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8981348298168057,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.005,
+      "false_family": 0.03
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0026650367081223047,
+          "coverage": 0.965,
+          "rejection": 0.02,
+          "mean_switchers": 104.47,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.217693958996051,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0029907163285733556,
+          "coverage": 0.955,
+          "rejection": 0.015,
+          "mean_switchers": 103.005,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1445048407036267,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.005,
+      "false_family": 0.03
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1415475452946163,
+          "coverage": 0.84,
+          "rejection": 0.085,
+          "mean_switchers": 88.835,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3515528348415966,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.06157521991721045,
+          "coverage": 0.91,
+          "rejection": 0.05,
+          "mean_switchers": 87.48,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.2162723565727385,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.02,
+      "false_family": 0.115
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.010298397585649632,
+          "coverage": 0.96,
+          "rejection": 0.605,
+          "mean_switchers": 108.215,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.078211828379616,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.004646111419378362,
+          "coverage": 0.965,
+          "rejection": 0.03,
+          "mean_switchers": 108.195,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9087442488731619,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.025,
+      "false_family": 0.03
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.004503047122511408,
+          "coverage": 0.96,
+          "rejection": 0.6,
+          "mean_switchers": 103.76,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.2058352686732725,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.008741884075785775,
+          "coverage": 0.955,
+          "rejection": 0.04,
+          "mean_switchers": 101.915,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.152098218088522,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.04
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.17300568748818113,
+          "coverage": 0.87,
+          "rejection": 0.145,
+          "mean_switchers": 85.13,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.701181328033365,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.07147403924422076,
+          "coverage": 0.93,
+          "rejection": 0.05,
+          "mean_switchers": 86.86,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.2078324948268238,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.05
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0053297465229593935,
+          "coverage": 0.945,
+          "rejection": 0.04,
+          "mean_switchers": 108.37,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.056074034258145,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.00018058069661374242,
+          "coverage": 0.95,
+          "rejection": 0.545,
+          "mean_switchers": 108.415,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8988376767062627,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.04,
+      "false_family": 0.04
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0006183014116950092,
+          "coverage": 0.955,
+          "rejection": 0.03,
+          "mean_switchers": 104.935,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.2182174469357245,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0012529216623786618,
+          "coverage": 0.955,
+          "rejection": 0.565,
+          "mean_switchers": 103.585,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.161189490883251,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.03
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.15507820021416624,
+          "coverage": 0.845,
+          "rejection": 0.115,
+          "mean_switchers": 87.26,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.4222176017385175,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.04558842301970357,
+          "coverage": 0.93,
+          "rejection": 0.65,
+          "mean_switchers": 89.345,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0299200051297372,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.095,
+      "false_family": 0.115
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.002653974666898915,
+          "coverage": 0.955,
+          "rejection": 0.67,
+          "mean_switchers": 107.625,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0835078662531306,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.00400470033676798,
+          "coverage": 0.97,
+          "rejection": 0.66,
+          "mean_switchers": 107.715,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.904958932027099,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.465,
+      "false_family": null
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.013464499342963619,
+          "coverage": 0.96,
+          "rejection": 0.725,
+          "mean_switchers": 103.68,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.1961259385657907,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0065875317837218094,
+          "coverage": 0.97,
+          "rejection": 0.595,
+          "mean_switchers": 102.565,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1184264911426522,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.48,
+      "false_family": null
+    },
+    {
+      "n": 480,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1918970301643386,
+          "coverage": 0.79,
+          "rejection": 0.175,
+          "mean_switchers": 84.66,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.7369589448778275,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.04701739372876967,
+          "coverage": 0.925,
+          "rejection": 0.695,
+          "mean_switchers": 89.2,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0682759941164703,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.16,
+      "false_family": null
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.013469735182364993,
+          "coverage": 0.98,
+          "rejection": 0.005,
+          "mean_switchers": 175.57,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0713906330777707,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0032638412570708103,
+          "coverage": 0.965,
+          "rejection": 0.01,
+          "mean_switchers": 175.125,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9161589758890765,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.015
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0012469157632093908,
+          "coverage": 0.975,
+          "rejection": 0.01,
+          "mean_switchers": 172.22,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.1923757347969484,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.002058369741854462,
+          "coverage": 0.98,
+          "rejection": 0.01,
+          "mean_switchers": 170.015,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1127528289723467,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.02
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.14485042916224342,
+          "coverage": 0.8,
+          "rejection": 0.145,
+          "mean_switchers": 153.855,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3288799617605975,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0627340783485549,
+          "coverage": 0.855,
+          "rejection": 0.065,
+          "mean_switchers": 152.405,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1566257689572335,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.01,
+      "false_family": 0.2
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.011283801297085116,
+          "coverage": 0.935,
+          "rejection": 0.875,
+          "mean_switchers": 175.44,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0898791045129044,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.006600657016609584,
+          "coverage": 0.96,
+          "rejection": 0.03,
+          "mean_switchers": 175.73,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9044823413623952,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.03
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0011427155768237985,
+          "coverage": 0.97,
+          "rejection": 0.885,
+          "mean_switchers": 170.595,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.2180622158422314,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.007429374992938518,
+          "coverage": 0.965,
+          "rejection": 0.035,
+          "mean_switchers": 168.625,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.114854750285049,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.035,
+      "false_family": 0.035
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.186333022817572,
+          "coverage": 0.715,
+          "rejection": 0.32,
+          "mean_switchers": 147.915,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.6604107538854396,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.07074330717487355,
+          "coverage": 0.845,
+          "rejection": 0.12,
+          "mean_switchers": 150.465,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.167451022794616,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.045,
+      "false_family": 0.12
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0021776885816819796,
+          "coverage": 0.96,
+          "rejection": 0.03,
+          "mean_switchers": 176.275,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0719894708779294,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0027428415613885647,
+          "coverage": 0.915,
+          "rejection": 0.83,
+          "mean_switchers": 176.115,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9006363478501043,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.03
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.01363339219391926,
+          "coverage": 0.96,
+          "rejection": 0.04,
+          "mean_switchers": 172.12,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.19071877079584,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.010123679722126844,
+          "coverage": 0.96,
+          "rejection": 0.795,
+          "mean_switchers": 169.86,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1191464440445373,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.035,
+      "false_family": 0.04
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.13480081758275525,
+          "coverage": 0.845,
+          "rejection": 0.155,
+          "mean_switchers": 153.635,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3286751812369006,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.047553659544127456,
+          "coverage": 0.875,
+          "rejection": 0.955,
+          "mean_switchers": 155.185,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.036292671523634,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.15,
+      "false_family": 0.155
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0033638562676160987,
+          "coverage": 0.97,
+          "rejection": 0.93,
+          "mean_switchers": 177.245,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.051884486057643,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0021667767652433488,
+          "coverage": 0.96,
+          "rejection": 0.91,
+          "mean_switchers": 177.295,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9018055890868306,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.865,
+      "false_family": null
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.001949553564301193,
+          "coverage": 0.965,
+          "rejection": 0.93,
+          "mean_switchers": 172.53,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.193124827162761,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.004643575637474708,
+          "coverage": 0.965,
+          "rejection": 0.9,
+          "mean_switchers": 170.815,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0998435818038415,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.85,
+      "false_family": null
+    },
+    {
+      "n": 480,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.19216848845241075,
+          "coverage": 0.645,
+          "rejection": 0.385,
+          "mean_switchers": 150.285,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.6068891081280343,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.044512662107488304,
+          "coverage": 0.905,
+          "rejection": 0.945,
+          "mean_switchers": 155.74,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0173056001791667,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.375,
+      "false_family": null
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.006383941867314402,
+          "coverage": 0.97,
+          "rejection": 0.015,
+          "mean_switchers": 146.15,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0282628422131577,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.003511419045204011,
+          "coverage": 0.97,
+          "rejection": 0.02,
+          "mean_switchers": 145.375,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9211976807782576,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.035
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.011314137562551277,
+          "coverage": 0.935,
+          "rejection": 0.025,
+          "mean_switchers": 138.26,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.2322265800902077,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.004218494551005882,
+          "coverage": 0.975,
+          "rejection": 0.01,
+          "mean_switchers": 136.39,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1404018582526794,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.035
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.14766725885445792,
+          "coverage": 0.84,
+          "rejection": 0.095,
+          "mean_switchers": 117.975,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3200846607205268,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.06905721634185809,
+          "coverage": 0.85,
+          "rejection": 0.1,
+          "mean_switchers": 116.255,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.2083282295608893,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.015,
+      "false_family": 0.18
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.008920016052028985,
+          "coverage": 0.98,
+          "rejection": 0.755,
+          "mean_switchers": 144.935,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0516079908820153,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0014889073309389247,
+          "coverage": 0.96,
+          "rejection": 0.035,
+          "mean_switchers": 144.875,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9097943556560586,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.035,
+      "false_family": 0.035
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.004384101931365514,
+          "coverage": 0.935,
+          "rejection": 0.695,
+          "mean_switchers": 139.28,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.1954497590438136,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.011472568053761045,
+          "coverage": 0.965,
+          "rejection": 0.03,
+          "mean_switchers": 137.045,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.142840992059882,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.03
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1840645883281,
+          "coverage": 0.8,
+          "rejection": 0.17,
+          "mean_switchers": 113.015,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.732791056401556,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.05908626926701062,
+          "coverage": 0.905,
+          "rejection": 0.06,
+          "mean_switchers": 116.32,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1970348972071987,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.06
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.007552710433171688,
+          "coverage": 0.975,
+          "rejection": 0.02,
+          "mean_switchers": 144.2,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.068848879256084,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0011993525657278598,
+          "coverage": 0.975,
+          "rejection": 0.725,
+          "mean_switchers": 143.85,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9227460370703675,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.015,
+      "false_family": 0.02
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.007119790755670744,
+          "coverage": 0.97,
+          "rejection": 0.025,
+          "mean_switchers": 139.13,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.214432121010558,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.003172942622563701,
+          "coverage": 0.975,
+          "rejection": 0.7,
+          "mean_switchers": 137.88,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.123613960008256,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.02,
+      "false_family": 0.025
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.14496548085993893,
+          "coverage": 0.84,
+          "rejection": 0.15,
+          "mean_switchers": 117.54,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3586174674758813,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.03583862637453722,
+          "coverage": 0.93,
+          "rejection": 0.79,
+          "mean_switchers": 118.805,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0565186418414627,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.12,
+      "false_family": 0.15
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.004978241877239993,
+          "coverage": 0.98,
+          "rejection": 0.83,
+          "mean_switchers": 144.715,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0563716472616336,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.00907209621686649,
+          "coverage": 0.95,
+          "rejection": 0.825,
+          "mean_switchers": 144.905,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.895546049808543,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.71,
+      "false_family": null
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.010323053978128884,
+          "coverage": 0.97,
+          "rejection": 0.785,
+          "mean_switchers": 138.04,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.203474756591251,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.001963354946107605,
+          "coverage": 0.975,
+          "rejection": 0.745,
+          "mean_switchers": 135.735,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1387384827367963,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.64,
+      "false_family": null
+    },
+    {
+      "n": 640,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.17775266160930311,
+          "coverage": 0.77,
+          "rejection": 0.325,
+          "mean_switchers": 113.02,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.701612213370024,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.05189693382918424,
+          "coverage": 0.945,
+          "rejection": 0.895,
+          "mean_switchers": 118.5,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.046748586503498,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.3,
+      "false_family": null
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.008400916105218901,
+          "coverage": 0.955,
+          "rejection": 0.015,
+          "mean_switchers": 235.47,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0766546446216534,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.00033202887217987644,
+          "coverage": 0.985,
+          "rejection": 0.005,
+          "mean_switchers": 235.08,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.910070895611542,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.02
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.001530253962773428,
+          "coverage": 0.985,
+          "rejection": 0.015,
+          "mean_switchers": 229.475,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.195559621426589,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.002081245922708379,
+          "coverage": 0.97,
+          "rejection": 0.015,
+          "mean_switchers": 227.205,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.095363599107726,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.03
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.13492038854224003,
+          "coverage": 0.75,
+          "rejection": 0.185,
+          "mean_switchers": 204.425,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.328552640537832,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.062172219977301636,
+          "coverage": 0.81,
+          "rejection": 0.14,
+          "mean_switchers": 203.255,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.170472691151896,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.045,
+      "false_family": 0.28
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0016243605353095858,
+          "coverage": 0.955,
+          "rejection": 0.97,
+          "mean_switchers": 234.43,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.090166834540779,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0016890449143320701,
+          "coverage": 0.975,
+          "rejection": 0.025,
+          "mean_switchers": 235.825,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.898092369869203,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.025,
+      "false_family": 0.025
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0006809427040863253,
+          "coverage": 0.95,
+          "rejection": 0.95,
+          "mean_switchers": 230.255,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.1939776841989804,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0061895093157875395,
+          "coverage": 0.95,
+          "rejection": 0.05,
+          "mean_switchers": 228.205,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0952481352643706,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.05,
+      "false_family": 0.05
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.19696256386857003,
+          "coverage": 0.555,
+          "rejection": 0.39,
+          "mean_switchers": 199.115,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.645188759848634,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.07276684639749527,
+          "coverage": 0.775,
+          "rejection": 0.205,
+          "mean_switchers": 203.965,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1452556898934154,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.125,
+      "false_family": 0.205
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.005601620047485756,
+          "coverage": 0.98,
+          "rejection": 0.02,
+          "mean_switchers": 234.86,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.060717208507233,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0028463312416493695,
+          "coverage": 0.98,
+          "rejection": 0.92,
+          "mean_switchers": 234.95,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8954469154810203,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.02,
+      "false_family": 0.02
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0007214807053907951,
+          "coverage": 0.96,
+          "rejection": 0.04,
+          "mean_switchers": 229.27,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.178644028187408,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0007147469543435919,
+          "coverage": 0.96,
+          "rejection": 0.925,
+          "mean_switchers": 226.8,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1016369797929757,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.035,
+      "false_family": 0.04
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.14109821999982933,
+          "coverage": 0.75,
+          "rejection": 0.25,
+          "mean_switchers": 202.865,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3358317201571976,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.04143165736753624,
+          "coverage": 0.91,
+          "rejection": 0.99,
+          "mean_switchers": 205.305,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0386154030919887,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.25,
+      "false_family": 0.25
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.00011422028936897117,
+          "coverage": 0.945,
+          "rejection": 0.985,
+          "mean_switchers": 235.48,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.068267227577241,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0029979066348512972,
+          "coverage": 0.97,
+          "rejection": 0.97,
+          "mean_switchers": 235.515,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.889972496700048,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.955,
+      "false_family": null
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.005383465485412447,
+          "coverage": 0.95,
+          "rejection": 0.99,
+          "mean_switchers": 230.465,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.1945064440395097,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.002065686003325626,
+          "coverage": 0.97,
+          "rejection": 0.98,
+          "mean_switchers": 228.27,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.087322104515914,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.97,
+      "false_family": null
+    },
+    {
+      "n": 640,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1764964754523163,
+          "coverage": 0.635,
+          "rejection": 0.54,
+          "mean_switchers": 198.195,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.6351498570280443,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.05215111039341457,
+          "coverage": 0.865,
+          "rejection": 0.995,
+          "mean_switchers": 205.08,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.024366876766205,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.54,
+      "false_family": null
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.007084533590144647,
+          "coverage": 0.96,
+          "rejection": 0.02,
+          "mean_switchers": 225.105,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.057899883535879,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0012015032733970327,
+          "coverage": 0.98,
+          "rejection": 0.0,
+          "mean_switchers": 224.79,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8995650226618783,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.02
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.012153011620012215,
+          "coverage": 0.97,
+          "rejection": 0.005,
+          "mean_switchers": 215.59,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.210304885233333,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0035967773150282663,
+          "coverage": 0.94,
+          "rejection": 0.02,
+          "mean_switchers": 212.56,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.135445506512727,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.025
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.134368459640913,
+          "coverage": 0.815,
+          "rejection": 0.11,
+          "mean_switchers": 183.005,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.387714811683044,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.05715086289297588,
+          "coverage": 0.865,
+          "rejection": 0.105,
+          "mean_switchers": 181.635,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.2020929124185162,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.025,
+      "false_family": 0.19
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.009860900362028692,
+          "coverage": 0.945,
+          "rejection": 0.925,
+          "mean_switchers": 223.505,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.074453253151575,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0007471470337801537,
+          "coverage": 0.965,
+          "rejection": 0.035,
+          "mean_switchers": 223.615,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9060881543992958,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.035,
+      "false_family": 0.035
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0012236622129130424,
+          "coverage": 0.95,
+          "rejection": 0.925,
+          "mean_switchers": 216.0,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.2441047965953764,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0035040008043603294,
+          "coverage": 0.97,
+          "rejection": 0.03,
+          "mean_switchers": 213.405,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1280040360846515,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.03
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1800819630030211,
+          "coverage": 0.69,
+          "rejection": 0.345,
+          "mean_switchers": 176.725,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.7436190336432356,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.055147954692343175,
+          "coverage": 0.885,
+          "rejection": 0.105,
+          "mean_switchers": 181.54,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.199069512686683,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.045,
+      "false_family": 0.105
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.007646655093002874,
+          "coverage": 0.98,
+          "rejection": 0.02,
+          "mean_switchers": 225.645,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0624180240334824,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.003538656451717444,
+          "coverage": 0.95,
+          "rejection": 0.91,
+          "mean_switchers": 226.18,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8746614634179668,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.015,
+      "false_family": 0.02
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.007591987756493096,
+          "coverage": 0.95,
+          "rejection": 0.045,
+          "mean_switchers": 214.65,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.225669616778148,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.002233706292334436,
+          "coverage": 0.93,
+          "rejection": 0.905,
+          "mean_switchers": 212.735,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.137148845126,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.045,
+      "false_family": 0.045
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1453173358588281,
+          "coverage": 0.78,
+          "rejection": 0.205,
+          "mean_switchers": 184.19,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.370743710485725,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.04846687824469111,
+          "coverage": 0.89,
+          "rejection": 0.965,
+          "mean_switchers": 187.245,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0475130013122604,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.2,
+      "false_family": 0.205
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.005531595855304464,
+          "coverage": 0.945,
+          "rejection": 0.975,
+          "mean_switchers": 225.285,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.057010545014888,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0022096766808744743,
+          "coverage": 0.98,
+          "rejection": 0.95,
+          "mean_switchers": 225.44,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9044287588199555,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.93,
+      "false_family": null
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.00022882013259262313,
+          "coverage": 0.975,
+          "rejection": 0.955,
+          "mean_switchers": 215.85,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.2294677837710695,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.003317961562852406,
+          "coverage": 0.955,
+          "rejection": 0.885,
+          "mean_switchers": 212.765,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1262760945667667,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.85,
+      "false_family": null
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.05,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1841561429710223,
+          "coverage": 0.675,
+          "rejection": 0.445,
+          "mean_switchers": 177.295,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.726328229408633,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.05341486134634372,
+          "coverage": 0.88,
+          "rejection": 0.975,
+          "mean_switchers": 186.88,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0389373678230487,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.435,
+      "false_family": null
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.004953459056962614,
+          "coverage": 0.965,
+          "rejection": 0.03,
+          "mean_switchers": 367.565,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0792005030713456,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.001007900698548977,
+          "coverage": 0.975,
+          "rejection": 0.01,
+          "mean_switchers": 367.325,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.9026096991071404,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.0,
+      "false_family": 0.04
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.012290704311665991,
+          "coverage": 0.955,
+          "rejection": 0.01,
+          "mean_switchers": 358.275,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.202765799152403,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.001966812272711469,
+          "coverage": 0.935,
+          "rejection": 0.03,
+          "mean_switchers": 355.55,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1045247780805614,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.005,
+      "false_family": 0.035
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.1351328292789468,
+          "coverage": 0.65,
+          "rejection": 0.26,
+          "mean_switchers": 319.095,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3196139474756503,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.06710032181543438,
+          "coverage": 0.705,
+          "rejection": 0.24,
+          "mean_switchers": 317.115,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1614894370481523,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.095,
+      "false_family": 0.405
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.009560475074476358,
+          "coverage": 0.955,
+          "rejection": 1.0,
+          "mean_switchers": 367.49,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0771200148454785,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0010669977762286917,
+          "coverage": 0.97,
+          "rejection": 0.03,
+          "mean_switchers": 367.88,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8966790513098661,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.03,
+      "false_family": 0.03
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.0019491521404196078,
+          "coverage": 0.96,
+          "rejection": 1.0,
+          "mean_switchers": 357.98,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.195005072688183,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.00045902118333929654,
+          "coverage": 0.955,
+          "rejection": 0.045,
+          "mean_switchers": 353.65,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.096245853078465,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.045,
+      "false_family": 0.045
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.18107224328391452,
+          "coverage": 0.44,
+          "rejection": 0.63,
+          "mean_switchers": 310.325,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.6258873304323505,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.07048304790521119,
+          "coverage": 0.67,
+          "rejection": 0.28,
+          "mean_switchers": 316.66,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.1642781399880757,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.25,
+      "false_family": 0.28
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0005690890359299147,
+          "coverage": 0.965,
+          "rejection": 0.035,
+          "mean_switchers": 368.45,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.0523603275160327,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0013930674274553801,
+          "coverage": 0.96,
+          "rejection": 1.0,
+          "mean_switchers": 367.83,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8961473555772812,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.035,
+      "false_family": 0.035
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.007314752988809589,
+          "coverage": 0.96,
+          "rejection": 0.04,
+          "mean_switchers": 358.915,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.1879505082418813,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0021473222163444104,
+          "coverage": 0.945,
+          "rejection": 0.995,
+          "mean_switchers": 354.4,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0990998119396265,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.04,
+      "false_family": 0.04
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.13835052272531304,
+          "coverage": 0.635,
+          "rejection": 0.365,
+          "mean_switchers": 318.095,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.3417147622303327,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.050638339330436086,
+          "coverage": 0.795,
+          "rejection": 1.0,
+          "mean_switchers": 321.89,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.0304304566407962,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.365,
+      "false_family": 0.365
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mcar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.003087402264304306,
+          "coverage": 0.97,
+          "rejection": 1.0,
+          "mean_switchers": 368.125,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.042416337367841,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": 0.00023702898117072588,
+          "coverage": 0.975,
+          "rejection": 1.0,
+          "mean_switchers": 368.075,
+          "bounds_valid": 200,
+          "mean_bound_width": 1.8918751498376833,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 1.0,
+      "false_family": null
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "mar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -1.17541857434178e-05,
+          "coverage": 0.935,
+          "rejection": 1.0,
+          "mean_switchers": 357.295,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.180589178434584,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.0014181337635172197,
+          "coverage": 0.965,
+          "rejection": 1.0,
+          "mean_switchers": 353.595,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.112142444264961,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 1.0,
+      "false_family": null
+    },
+    {
+      "n": 1000,
+      "prevalence": 0.1,
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "mechanism": "joint_mnar",
+      "models": {
+        "H2": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.18769366456107195,
+          "coverage": 0.4,
+          "rejection": 0.7,
+          "mean_switchers": 310.88,
+          "bounds_valid": 200,
+          "mean_bound_width": 3.631486713504848,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        },
+        "H3": {
+          "valid": 200,
+          "failed": 0,
+          "bias": -0.04522186997465241,
+          "coverage": 0.815,
+          "rejection": 0.995,
+          "mean_switchers": 322.315,
+          "bounds_valid": 200,
+          "mean_bound_width": 2.028184615953049,
+          "bound_positive": 0.0,
+          "bound_negative": 0.0,
+          "bound_contains_zero": 1.0
+        }
+      },
+      "joint_rejection": 0.7,
+      "false_family": null
+    }
+  ]
+}
