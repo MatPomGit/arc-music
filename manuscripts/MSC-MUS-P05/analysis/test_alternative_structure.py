@@ -34,3 +34,17 @@ class AlternativeStructureTests(unittest.TestCase):
         self.assertEqual(result["efa_correct_count"],2)
         self.assertEqual(result["fit_rejection_diagnostics"]["one_factor"]["rejections"],2)
         self.assertFalse(result["model_selection_authorized"])
+
+    def test_strict_structure_shards(self):
+        from alternative_model_calibration import aggregate
+        def efa(x,*args):
+            return dict(selected=7,correct_count=True,joint_recovery=True)
+        def cfa(x):
+            return [dict(model=m,status="PROPER",p_scaled=.5) for m in MODELS]
+        with patch("alternative_model_calibration.assess",side_effect=efa),patch("alternative_model_calibration.reference",side_effect=cfa):
+            a=cell(100,"higher_order",.65,False,0.,1,10,42,0)
+            b=cell(100,"higher_order",.65,False,0.,1,10,42,1)
+            whole=cell(100,"higher_order",.65,False,0.,2,10,42)
+        self.assertEqual(aggregate([b,a],2),whole)
+        for parts in ([a],[a,a],[a,dict(b,seed=43)],[a,dict(b,offset=0)]):
+            with self.assertRaises(ValueError):aggregate(parts,2)

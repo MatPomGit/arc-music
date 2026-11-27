@@ -23,4 +23,11 @@ def run(reps=20000,seed=20261203):
         ok,success,s,rad,psi,pr=decision(m,v,count); error=s[ok]-e; pe=psi[ok]-np.mean(e); p=success.mean()
         out.append(dict(n=n,e=e,profile=profile,requested=reps,valid=int(ok.sum()),failed=int((~ok).sum()),joint=float(p),mcse=float(np.sqrt(p*(1-p)/reps)),psi_positive=float((ok&(psi-pr>0)).mean()),bias=error.mean(0).tolist(),rmse=np.sqrt((error**2).mean(0)).tolist(),coverage=(np.abs(error)<=rad[ok]).mean(0).tolist(),psi_coverage=float((np.abs(pe)<=pr[ok]).mean())))
     return out
-if __name__=='__main__': print(json.dumps(run(),indent=2,allow_nan=False))
+if __name__=="__main__":
+    import argparse
+    parser=argparse.ArgumentParser(description="Synthetic CP conjunction calibration")
+    parser.add_argument("--reps",type=int,default=20000)
+    parser.add_argument("--seed",type=int,default=20261203)
+    args=parser.parse_args()
+    if args.reps<1:parser.error("Positive replication count required")
+    print(json.dumps(run(args.reps,args.seed),indent=2,allow_nan=False))

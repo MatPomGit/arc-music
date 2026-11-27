@@ -10,7 +10,7 @@ Punktem wyjścia badań są wypowiedzi członków społeczności użytkowników 
 
 W pierwszej kolejności planujemy przeprowadzić wywiady indywidualne oraz badanie ankietowe wśród twórców korzystających z generatywnej sztucznej inteligencji. Przedmiotem analiz będą motywy twórczości, regulacja emocji, aleksytymia, ruminacja, poczucie sprawstwa i autorstwa. Chcemy ustalić, w jakich okolicznościach twórcy dostrzegają korzyści psychologiczne, a w jakich doświadczają trudności. Planowane badania stanowią podstawę do sformułowania i późniejszej weryfikacji hipotez o mechanizmach tych zależności.
 
-[Model AIM-ER](docs/aim-er.md) · [Plan badań](docs/first-study.md)
+[Model AIM-ER](docs/aim-er.md) · [Plan badań](docs/first-study.md) · [Symulacje Monte Carlo](docs/monte-carlo.md)
 
 ## Otwarta nauka
 
