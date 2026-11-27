@@ -25,6 +25,7 @@ class EmpiricalTests(unittest.TestCase):
         out=run(rows,ledger,m=3)
         self.assertEqual(out["n_assigned"],80)
         self.assertIn("mar",out["H1"])
+        self.assertIn("mar",out["H1_status_informed_sensitivity"])
         self.assertEqual(out["secondary"]["n_randomised"],80)
         self.assertEqual(out["exploratory"]["status"],"EXPLORATORY")
         self.assertFalse(out["confirmatory_authorized"])

@@ -9,6 +9,7 @@ from paq_scoring import validate_total, score, describe_scores
 from inference import composite, design, analyze
 from secondary import secondary
 from exploratory import spline_sensitivity
+from joint_calibration import estimate as status_estimate
 
 TOKEN = re.compile(r"p04-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\Z")
 ITEMS = tuple(f"paq_s_item_{i}" for i in range(1,7))
@@ -133,6 +134,7 @@ def run(rows,ledger,m=50,seed=20261126):
             "paq_s_total":describe_scores(d),"component_flow":component_flow(a,s,f,y),
             "component_interpretation":"conditional fit is descriptive, not a causal contrast",
             "H1":safe(lambda:analyze(x,y,m,seed)),
+            "H1_status_informed_sensitivity":safe(lambda:status_estimate(x,y,s,m,seed,"status_informed")),
             "secondary":safe(lambda:secondary(a,d,c,q,m,seed)),
             "exploratory":safe(lambda:spline_sensitivity(a,d,c,y,m,seed))}
 
