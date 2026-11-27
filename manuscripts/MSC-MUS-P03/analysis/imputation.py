@@ -25,7 +25,7 @@ def matrix(frame, columns):
     return np.column_stack(parts)
 
 
-def draw_imputations(data, m=50, sweeps=15, seed=1729, donors=5):
+def draw_imputations(data, m=50, sweeps=15, seed=1729, donors=5, *, trace=None):
     """Use only observed donor values; categorical source is matched on three scores."""
     if m < 2 or sweeps < 1 or donors < 1:
         raise ValueError("Require m>=2, sweeps>=1, donors>=1")
@@ -37,13 +37,13 @@ def draw_imputations(data, m=50, sweeps=15, seed=1729, donors=5):
         raise ValueError("Insufficient observed donors for a required H1 variable")
     rng = np.random.default_rng(seed)
     masks = {k: base[k].isna().to_numpy() for k in columns}
-    for _ in range(m):
+    for chain in range(m):
         work = base.copy()
         for key in columns:
             mask = masks[key]
             if mask.any():
                 work.loc[mask,key] = rng.choice(base.loc[~mask,key].to_numpy(), size=mask.sum())
-        for _ in range(sweeps):
+        for sweep in range(sweeps):
             for key in rng.permutation(columns):
                 mask = masks[key]
                 if not mask.any():
@@ -62,6 +62,8 @@ def draw_imputations(data, m=50, sweeps=15, seed=1729, donors=5):
                     distance = ((scores[obs]-scores[i])**2).sum(axis=1)
                     nearest = np.lexsort((rng.random(len(obs)),distance))[:min(donors,len(obs))]
                     work.at[i,key] = values[rng.choice(nearest)]
+            if trace is not None:
+                trace(chain, sweep, work, masks)
         yield work, masks[outcome]
 
 

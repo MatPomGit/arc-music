@@ -85,6 +85,11 @@ def check_study_content(page):
         assert panel.locator(".pub-body h4").count() == 2
         assert panel.locator(".pub-body p").count() == 2
         assert panel.locator(".pub-target").is_visible()
+        for selector in (".pub-instruments", ".pub-sample"):
+            field = panel.locator(selector)
+            assert field.count() == 1 and field.is_visible()
+            assert field.locator("strong").count() == 1
+            assert len(field.inner_text().strip()) > 35
         assert all(len(s.strip()) >= 80 for s in panel.locator(".pub-body p").all_text_contents())
     palettes = article.locator(".pub").evaluate_all("""nodes => nodes.map(e => ({
       bg:getComputedStyle(e).backgroundColor, edge:getComputedStyle(e).borderTopColor,
@@ -96,7 +101,10 @@ def check_study_content(page):
     assert all(a["bg"] != b["bg"] and a["edge"] != b["edge"] for a,b in zip(palettes,palettes[1:]))
     assert all(.9*p["root"] <= p["description"] < p["question"] for p in palettes)
     assert "PAQ-S" in article.locator("#msc-mus-p04").inner_text()
-    assert "480" in article.locator("#msc-mus-p03").inner_text()
+    assert "500" in article.locator("#msc-mus-p03 .pub-sample").inner_text()
+    for i, targets in ((1, ("N=420",)), (8, ("N=500",)), (9, ("N=440", "600"))):
+        sample = article.locator(f"#msc-mus-p{i:02d} .pub-sample").inner_text()
+        assert all(target in sample for target in targets), sample
     assert all(len(s.strip()) >= 180 for s in article.locator("#msc-mus-p01 .pub-body p, #msc-mus-p02 .pub-body p, #msc-mus-p03 .pub-body p, #msc-mus-p04 .pub-body p").all_text_contents())
     assert article.locator(".pub-list").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length") == 1
     assert article.locator(".section-card:last-child p").count() >= 1

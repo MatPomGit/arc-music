@@ -44,3 +44,32 @@ and the development estimator rejected the fit. These paired checks
 identify a common failure mode and quantify agreement on selected
 datasets. The moment-matched residual statistic and WLSMV statistic use
 different corrections. Their $p$-values are reported separately.
+
+
+\paragraph{Targeted diagnostic screen and design implications.}
+The six-cell robust-estimator screen used 12 independent datasets per cell (72 total). Table~\ref{tab:diagnostic-screen} reports proper solutions using the assigned denominator, rather than conditioning the success rate on convergence.
+
+\begin{table}[ht]
+\centering\small
+\caption{Synthetic seven-factor diagnostic screen (35 items).}
+\label{tab:diagnostic-screen}
+\begin{tabular}{rrrlrr}
+\toprule
+$N$ & Loading & Correlation & Skew & Proper & Coverage$^{a}$ \\
+\midrule
+400 & .65 & .35 & no & 12/12 & .954 \\
+650 & .65 & .35 & no & 12/12 & .951 \\
+500 & .40 & .80 & yes & 1/12 & .911 \\
+800 & .40 & .80 & yes & 4/12 & .955 \\
+800 & .40 & .35 & yes & 12/12 & .942 \\
+800 & .65 & .80 & yes & 12/12 & .960 \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{.95\linewidth}\footnotesize
+$^{a}$Mean of parameter-wise coverage rates conditional on a proper fit; parameters are correlated. These rates are descriptive, not coverage guarantees.
+\end{minipage}
+\end{table}
+
+At $N=800$ with weak loadings and highly correlated domains, 4/12 proper fits correspond to an estimated Monte Carlo standard error of .136 and Wilson 95\% interval of .138--.609. Even 12/12 successes imply a lower Wilson limit of .758. A seemingly acceptable conditional coverage rate cannot compensate for a high failure probability. The contrast at $N=800$ suggests that joint weak measurement and high domain overlap, rather than sample size alone, drive the observed instability. This motivates evaluation of domain content and a separately frozen model if overlapping domains require revision. The screen does not justify choosing $N=800$, merging domains, or claiming that any proposed structure has empirical validity. The full candidate-size grid and independent EFA/CFA remain necessary.
