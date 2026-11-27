@@ -34,7 +34,6 @@ Scope: all 34 keys inventoried, not all independently verified. Status indicates
 | wang2026 | publisher abstract | N=30 independent musicians, grounded theory; identity alignment and control. PDF viewer did not yield body. |
 | raffa2025 | publisher abstract | Milan musicians/producers, interviews and focus groups about SUNO; full text not inspected. |
 | levitt2018 | publisher-indexed text / metadata | Psychology-specific JARS-Qual, situated interpretation; 73(1),26–46. Full-text audit outstanding. |
-
 | baker2018 | targeted publisher body | Individual interviews (N=15), interpretative phenomenological analysis after structured therapeutic songwriting in neurorehabilitation; precedent for meaning-making, not evidence of AI benefit. |
 | baker2019 | PubMed abstract | Pilot RCT N=47, 12 sessions; no significant primary self-concept group difference (p=.38); clinical intervention, not an AI study. |
 | zhang2026 | publisher accepted abstract, checked 27 November 2026 | N=380, randomised workflow assignment, ownership and expressive outcomes; no detectable differential change in negative affect. Workflow bundle does not isolate agency; no non-AI comparator; measured mediators not randomised. Formatted full text unavailable. |
