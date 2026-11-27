@@ -49,6 +49,63 @@ def check_render(page):
     assert result["skip"] == "absolute" and result["skipWidth"] <= 2, result
     assert result["nav"] == "flex" and result["token"] and not result["overflow"], result
     assert page.locator("h1").count() == 1 and page.locator("h1").is_visible()
+    check_home_layout(page, page.locator("body").get_attribute("data-section"))
+
+
+def check_home_layout(page, section):
+    """Keep requested content removal and responsive illustration order."""
+    if section == "index":
+        assert page.locator(".about-layout").count() == 1
+        assert page.locator(".about-layout > .generative-flow + .article").count() == 1
+        assert page.locator(".about-layout > .article h2").is_visible()
+        geometry = page.evaluate("""() => {
+          const layout=document.querySelector('.about-layout');
+          const figure=layout.querySelector('.generative-flow').getBoundingClientRect();
+          const article=layout.querySelector('.article').getBoundingClientRect();
+          const style=getComputedStyle(layout);
+          const tracks=style.gridTemplateColumns.trim().split(/\\s+/).map(parseFloat);
+          const root=parseFloat(getComputedStyle(document.documentElement).fontSize);
+          const gap=parseFloat(style.columnGap);
+          const width=layout.getBoundingClientRect().width;
+          const threshold=48*root+gap;
+          const sideBySide=tracks.length===2 && tracks.every(t=>t>=24*root-1) &&
+            figure.right<=article.left+1 &&
+            Math.min(figure.bottom,article.bottom)>Math.max(figure.top,article.top);
+          const stacked=tracks.length===1 && figure.bottom<=article.top+1;
+          const ok=width>threshold+1 ? sideBySide :
+            width<threshold-1 ? stacked : (sideBySide || stacked);
+          return {ok,width,threshold,tracks,root,gap,figure:figure.toJSON(),
+                  article:article.toJSON(),viewport:innerWidth};
+        }""")
+        assert geometry["ok"], ("About illustration/text layout", geometry)
+    if section in ("index","neuropsychology"):
+        assert page.locator("#affect-title").count() == 0
+        assert page.locator(".affect-compact").count() == 0
+        assert page.locator(".affect-music > .affect-copy + .affect-figure").count() == 1
+        lang = page.locator("html").get_attribute("lang")
+        copy = page.locator(".affect-copy")
+        assert copy.locator("h2").inner_text() == ("Music and emotions" if lang == "en" else "Muzyka i emocje")
+        assert copy.locator("p").count() == 2
+        content = copy.inner_text().casefold()
+        for phrase in (("release emotional tension", "express difficult feelings") if lang == "en" else ("rozładować napięcie emocjonalne", "wyrazić trudne uczucia")):
+            assert phrase in content
+        for forbidden in ("valence", "arousal", "walencj", "pobudzen", "wykres", "chart", "russell"):
+            assert forbidden not in content, forbidden
+        assert page.locator(".affect-figure").get_attribute("aria-label")
+        assert page.evaluate("""() => {
+          const card=document.querySelector('.affect-music');
+          const figure=card.querySelector('.affect-figure').getBoundingClientRect();
+          const copy=card.querySelector('.affect-copy').getBoundingClientRect();
+          const style=getComputedStyle(card);
+          const columns=style.gridTemplateColumns.split(' ').length;
+          const root=parseFloat(getComputedStyle(document.documentElement).fontSize);
+          const inner=card.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);
+          const threshold=44*root+parseFloat(style.columnGap);
+          const sideBySide=columns===2 && copy.right<=figure.left+1 &&
+            Math.min(copy.bottom,figure.bottom)>Math.max(copy.top,figure.top);
+          const stacked=columns===1 && copy.bottom<=figure.top+1;
+          return inner>threshold+1 ? sideBySide : inner<threshold-1 ? stacked : (sideBySide || stacked);
+        }"""), "Music text left, figure right, or stacked on narrow screens"
 
 
 def theme_state(page, theme):

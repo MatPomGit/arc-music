@@ -7,7 +7,7 @@ import json
 import shutil
 import threading
 from playwright.sync_api import sync_playwright
-from check_public_render import navigate, run as check_browser_render
+from check_public_render import navigate, run as check_browser_render, check_home_layout
 from check_site_regressions import check_contrast, check_focus, check_text_layout, check_study_content, check_zoom_reflow
 
 ROOT=Path(__file__).resolve().parent
@@ -61,6 +61,7 @@ def accessibility(browser, base, out):
                     page.locator("details").evaluate_all("(nodes) => nodes.forEach(n => n.open = true)")
                     check_text_layout(page)
                     check_zoom_reflow(page)
+                    check_home_layout(page, page.locator("body").get_attribute("data-section"))
                     page.screenshot(path=out/f"{name}-{theme}-text200.png",full_page=True,animations="disabled")
         ctx.close()
     print("PASS: E3.1 focused contrast, focus, content and enlarged text checks",flush=True)
@@ -94,6 +95,7 @@ def main():
                         assert page.locator("nav a[aria-current=page]").count()==1
                         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"),(name,width)
                         assert page.locator("h1").count()==1 and page.locator("h1").is_visible()
+                        check_home_layout(page, page.locator("body").get_attribute("data-section"))
                         assert page.evaluate("""() => {const s=getComputedStyle(document.documentElement);const l=h=>{const a=h.trim().slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return a[0]*.2126+a[1]*.7152+a[2]*.0722};const ratio=(a,b)=>{const x=l(s.getPropertyValue(a)),y=l(s.getPropertyValue(b));return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};return ["--ink","--muted","--accent"].every(a=>["--bg","--paper"].every(b=>ratio(a,b)>=4.5))}"""), (name, theme, "text token contrast")
                         assert not page.locator("header").inner_text().lower().count("arc-music")
                         assert page.locator("input[type=range]").count()==0
