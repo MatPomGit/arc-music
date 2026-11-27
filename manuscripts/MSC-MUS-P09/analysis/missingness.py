@@ -48,7 +48,7 @@ def response_probability(x, observed):
     return prob
 
 
-def arm_estimates(d, outcome):
+def arm_estimates(d, outcome, *, include_shifts=True):
     if d.empty:
         raise ValueError("Empty assigned arm")
     x = covariates(d)
@@ -66,6 +66,8 @@ def arm_estimates(d, outcome):
                 max_weight=float(w.max()), effective_n=ess,
                 positivity_warning=bool(prob.min() < .05 or ess < .5*obs.sum()))
     shifts = None
+    if not include_shifts:
+        return ipw, diag, shifts
     if obs.all():
         shifts = {delta: float(y.mean()) for delta in range(-2, 3)}
     elif obs.sum() > x.shape[1] and np.linalg.matrix_rank(x[obs]) == x.shape[1]:

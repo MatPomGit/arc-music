@@ -66,8 +66,11 @@ jobs:
         run: |
           python3 -m venv "$RUNNER_TEMP/p09-candidate"
           "$RUNNER_TEMP/p09-candidate/bin/pip" install -r requirements.txt
-          "$RUNNER_TEMP/p09-candidate/bin/python" -m unittest -v test_assignment_candidate
+          "$RUNNER_TEMP/p09-candidate/bin/python" -m unittest -v test_assignment_candidate test_candidate_shards
           "$RUNNER_TEMP/p09-candidate/bin/python" calibrate_assignment_candidate.py --smoke --n 600 --reps 2 --draws 199 > candidate-screen.json
+          mkdir -p candidate-shards
+          "$RUNNER_TEMP/p09-candidate/bin/python" candidate_shards.py shard 6 0 2 --draws 999 > candidate-shards/shard-0.json
+          "$RUNNER_TEMP/p09-candidate/bin/python" candidate_shards.py aggregate candidate-shards --expected 2 > candidate-shard-screen.json
           git rev-parse HEAD > candidate-head.txt
       - uses: actions/upload-artifact@v4
         with:
@@ -75,4 +78,6 @@ jobs:
           path: |
             manuscripts/MSC-MUS-P09/analysis/candidate-screen.json
             manuscripts/MSC-MUS-P09/analysis/candidate-head.txt
+            manuscripts/MSC-MUS-P09/analysis/candidate-shard-screen.json
+            manuscripts/MSC-MUS-P09/analysis/candidate-shards/shard-0.json
           if-no-files-found: error

@@ -15,7 +15,7 @@ MIN_DRAWS = 199
 
 
 def point(d, outcome):
-    arm0, arm1 = (arm_estimates(d[d.music == a], outcome) for a in (0, 1))
+    arm0, arm1 = (arm_estimates(d[d.music == a], outcome, include_shifts=False) for a in (0, 1))
     return float(arm1[0] - arm0[0]), [arm0[1], arm1[1]]
 
 
