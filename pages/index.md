@@ -2,9 +2,9 @@
 
 [PL](index.md) · [EN](en.md)
 
-Punktem wyjścia projektu są wypowiedzi osób, które opisują tworzenie muzyki za pomocą generatywnej sztucznej inteligencji jako sposób wyrażania trudnych emocji i nadawania sensu własnym doświadczeniom.
+Punktem wyjścia projektu są wypowiedzi osób, które opisują tworzenie muzyki za pomocą generatywnej sztucznej inteligencji jako sposób wyrażania trudnych emocji i nadawania sensu własnym doświadczeniom
 
 Przedmiotem badań są psychologiczne funkcje tej formy twórczości, ze szczególnym uwzględnieniem regulacji emocji, poczucia sprawstwa i znaczenia przypisywanego własnym utworom. Interesuje nas zarówno przebieg procesu twórczego, jak i jego miejsce w życiu uczestników.
 
-Jest to projekt Koła Naukowego Psychologii Cyfrowej, działającego w Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+Projekt Koła Naukowego Psychologii Cyfrowej Uniwersytetu VIZJA
 
