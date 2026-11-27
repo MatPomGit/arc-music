@@ -35,7 +35,10 @@ def run(reps=100,bootstrap=499,reference_n=100000,n=160,seed=2609):
         reference=fit_arrays(*complete_data(rng,reference_n,6,beta))
         target=0. if beta==0 else reference["estimate"][0]
         for kind in ["mcar","mar","mnar"]:
-            methods={}; envelope=[]; valid_draws=[]; failed=0
+            labels=[*(f"ipw/{cap}" for cap in (10,20)),
+                    *(f"shift/{s:+d}/{a:+d}" for s in (-2,-1,0,1,2) for a in (-1,0,1))]
+            methods={label:{"point":[],"width":[],"covered":[]} for label in labels}
+            envelope=[]; valid_draws=[]; failed=0
             for _ in range(reps):
                 frame=dataset(rng,n,6,beta,.30,kind)
                 try:
@@ -49,7 +52,7 @@ def run(reps=100,bootstrap=499,reference_n=100000,n=160,seed=2609):
                 for label,point,interval in [
                     *(("ipw/"+k,v,out["ipw_ci"][k]) for k,v in out["point"]["ipw"].items()),
                     *(("shift/"+k,v,out["shift_ci"][k]) for k,v in shift.items())]:
-                    m=methods.setdefault(label,{"point":[],"width":[],"covered":[]})
+                    m=methods[label]
                     m["point"].append(point)
                     if interval is not None:
                         m["width"].append(interval[1]-interval[0])
@@ -60,7 +63,7 @@ def run(reps=100,bootstrap=499,reference_n=100000,n=160,seed=2609):
                 rate=k/v if v else None
                 op=k/reps
                 summary[label]={"point_valid":len(points),"interval_valid":v,
-                    "interval_unavailable":reps-v,"bias":float(points.mean()-target),
+                    "interval_unavailable":reps-v,"bias":float(points.mean()-target) if len(points) else None,
                     "bias_mcse":float(points.std(ddof=1)/np.sqrt(len(points))) if len(points)>1 else None,
                     "coverage_conditional":rate,
                     "coverage_conditional_mcse":float(np.sqrt(rate*(1-rate)/v)) if v else None,
@@ -70,6 +73,8 @@ def run(reps=100,bootstrap=499,reference_n=100000,n=160,seed=2609):
                 reference_se=reference["se"][0],requested=reps,point_failures=failed,methods=summary,
                 mean_valid_bootstrap=float(np.mean(valid_draws)) if valid_draws else None,
                 shift_envelope_fraction=float(np.mean(envelope)) if envelope else None,
+                shift_envelope_available=len(envelope),
+                shift_envelope_operational=sum(envelope)/reps,
                 shift_envelope_is_ci=False))
     return dict(status="SYNTHETIC_BOOTSTRAP_V2",seed=seed,reps=reps,bootstrap=bootstrap,
                 reference_n=reference_n,cells=cells,

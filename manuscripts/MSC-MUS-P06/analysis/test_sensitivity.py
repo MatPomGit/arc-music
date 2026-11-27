@@ -35,6 +35,38 @@ class TestExtensions(unittest.TestCase):
         self.assertFalse(r["ci_reliable"])
         self.assertTrue(all(v is None for v in r["ipw_ci"].values()))
         self.assertTrue(all(v is None for v in r["shift_ci"].values()))
+    def test_complete_outcomes_and_invalid_joint_draw(self):
+        from unittest.mock import patch
+        d=self.fixture()
+        d["interference"]=d["interference"].fillna(5)
+        r=sensitivity(d)
+        self.assertEqual(r["observation_rate"],1.)
+        self.assertEqual(r["min_probability"],1.)
+        np.testing.assert_allclose(list(r["ipw"].values()),r["complete_case"],atol=1e-10)
+        np.testing.assert_allclose(list(r["pattern_mean_shifts"].values()),r["complete_case"],atol=1e-10)
+        invalid=dict(r,ipw={"10":float("nan"),"20":0.})
+        with patch("sensitivity.sensitivity",side_effect=[r,invalid,r]):
+            boot=cluster_bootstrap(d,reps=2)
+        self.assertEqual((boot["valid"],boot["failed"]),(1,1))
+        self.assertFalse(boot["ci_reliable"])
+    def test_all_outer_failures_keep_all_methods(self):
+        from unittest.mock import patch
+        from bootstrap_calibration import run
+        import json
+        with patch("bootstrap_calibration.cluster_bootstrap",side_effect=ValueError("test failure")):
+            out=run(reps=1,bootstrap=1,reference_n=100,n=40,seed=91)
+        self.assertEqual(len(out["cells"]),6)
+        for cell in out["cells"]:
+            self.assertEqual(cell["point_failures"],1)
+            self.assertEqual(len(cell["methods"]),17)
+            self.assertEqual(cell["shift_envelope_available"],0)
+            for m in cell["methods"].values():
+                self.assertEqual(m["point_valid"],0)
+                self.assertEqual(m["interval_unavailable"],1)
+                self.assertEqual(m["coverage_operational"],0.)
+                self.assertIsNone(m["bias"])
+                self.assertIsNone(m["coverage_conditional"])
+        json.dumps(out,allow_nan=False)
     def test_interval_gate(self):
         for count in (0,1,3,449):
             self.assertIsNone(interval_gate(list(range(count)),499))

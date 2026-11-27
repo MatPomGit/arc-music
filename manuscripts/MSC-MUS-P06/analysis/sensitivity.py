@@ -27,7 +27,8 @@ def observation_probability(x, observed):
     x=np.asarray(x,float); observed=np.asarray(observed,int)
     if not np.isfinite(x).all() or not np.isin(observed,[0,1]).all():
         raise ValueError("Invalid observation model input")
-    if len(np.unique(observed))!=2: raise ValueError("Need observed and missing cases")
+    if observed.all(): return np.ones(len(observed),dtype=float)
+    if not observed.any(): raise ValueError("No observed outcomes")
     mean=x.mean(axis=0); scale=x.std(axis=0)
     z=np.column_stack([np.ones(len(x)),(x-mean)/np.where(scale>0,scale,1)])
     # Weak fixed ridge on slopes guards separation; intercept not penalized.
@@ -49,6 +50,7 @@ def sensitivity(frame):
     g=frame.participant_id.to_numpy()
     x=frame[PREDICTORS].to_numpy(float)
     y=frame.interference.to_numpy(float)
+    if np.isinf(y).any(): raise ValueError("Infinite outcome")
     observed=np.isfinite(y)
     if not np.isfinite(x).all() or not np.isin(y[observed],np.arange(11)).all():
         raise ValueError("Invalid scores or predictors")
@@ -99,12 +101,18 @@ def cluster_bootstrap(frame,reps=499,seed=2606):
     rng=np.random.default_rng(seed)
     groups=[v for _,v in frame.groupby("participant_id",sort=False)]
     original=sensitivity(frame); values=[]; failures=0
+    def valid(result):
+        return all(set(result[key])==set(original[key]) and np.isfinite(list(result[key].values())).all()
+                   for key in ("ipw","pattern_mean_shifts"))
+    if not valid(original): raise ValueError("Invalid original sensitivity estimates")
     for _ in range(reps):
         sample=pd.concat([groups[j].assign(participant_id=i)
                           for i,j in enumerate(rng.integers(len(groups),size=len(groups)))],
                          ignore_index=True)
         try:
-            values.append(sensitivity(sample))
+            result=sensitivity(sample)
+            if not valid(result): raise ValueError("Nonfinite or incomplete joint bootstrap estimates")
+            values.append(result)
         except (ValueError,ArithmeticError,np.linalg.LinAlgError):
             failures+=1
     def ci(series):
