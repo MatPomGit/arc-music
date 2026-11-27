@@ -130,6 +130,13 @@ def analyze(frame):
         else:
             try:sens[h]=sensitivity(d,o,b)
             except (ValueError,np.linalg.LinAlgError) as exc:sens[h]={"unavailable":str(exc)}
+            if len(a)!=len(d):
+                models[h]["interpretation"]="Complete-outcome HC3; full-cohort interpretation requires unverified missingness assumptions"
+                if "p" in models[h]:
+                    models[h]["descriptive_p"]=models[h].pop("p")
+                models[h]["confirmatory_available"]=False
+            else:
+                models[h]["confirmatory_available"]="p" in models[h]
     return dict(randomised=len(d),flow=flow,hypotheses=models,secondary_holm=holm({h:models[h].get("p") for h in ("H2","H3")}),missingness=sens)
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()
