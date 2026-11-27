@@ -84,4 +84,10 @@ assert 'Jeżeli nie można potwierdzić wyłączenia przechwytywania, nie pokazy
 assert 'Nie kopiować, nie analizować ani nie publikować' in field
 assert '| Incydenty |' in ethics_draft and '| Capture incident |' in records
 
+assert '| Corpus manifest |' in records
+assert 'Exclude material whose permission is unresolved from analysis' in body
+assert 'revisit dependent codes, memos, themes and proposed transfers' in body
+assert 'the transfer remains deferred' in body
+assert 'reassessment after corpus or theme change' in records
+
 print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
