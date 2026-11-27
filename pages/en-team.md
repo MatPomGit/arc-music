@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-Her psychological interests centre on creativity, music and art therapy. She takes an interest in artistic activity as a meaningful part of human experience, emotional expression and personal development. Her perspective combines sensitivity to individual experiences with reflection on the psychological significance of art in everyday life.
+Human creativity is central to her psychological interests, with particular attention to music and art therapy. She is interested in the significance of artistic activity for emotional expression, understanding personal experiences and psychological functioning in everyday life.
 
 ## Paulina Ficner
 
-Her interests span psychology, particularly business psychology, as well as design and visual communication. She combines a psychological perspective with an appreciation of aesthetics, perception of the environment and human experience of technology. This interdisciplinary outlook encompasses individual, social and organisational dimensions of human functioning.
+Her interests encompass business psychology, design and visual communication. She connects these areas with psychological processes, aesthetic experience and the relationship between people and their surroundings, considering individual, social and organisational contexts of human functioning.
 
 ## Mateusz Pomianek
 
-His research interests lie at the intersection of psychology, neuroscience and computer science, with a particular emphasis on neuroinformatics. Central to this area is an understanding of the complex relationships between brain function, psychological processes and human behaviour. His interdisciplinary perspective encompasses both theoretical questions and the context of contemporary technology.
+His research interests encompass psychology, neuroscience and computer science, with a particular emphasis on neuroinformatics. He is interested in relationships between brain function, psychological processes and human behaviour, and in the relevance of technology to understanding these relationships.
 
 ## Cezary Biele
 
-His academic profile encompasses cognitive psychology, digital psychology and human functioning in technologically mediated environments. This perspective places particular emphasis on cognitive processes, their relationship to human experience and the psychological dimensions of digital transformation. He heads the Centre for Digital Psychology at VIZJA University.
+His research interests focus on cognitive and digital psychology. They encompass cognitive processes and relationships between human experience, behaviour and technological environments. He heads the Centre for Digital Psychology at VIZJA University.

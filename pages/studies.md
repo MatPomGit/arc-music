@@ -4,17 +4,17 @@
 
 ## Doświadczenia twórców
 
-W wywiadach indywidualnych będziemy poznawać motywy podejmowania twórczości, okoliczności powstawania utworów oraz znaczenie, jakie uczestnicy przypisują muzyce w kontekście osobistych doświadczeń.
+Badamy przechodzenie od osobistego doświadczenia do utworu oraz znaczenie procesu i jego rezultatu. Uwzględniamy próby przerwane, nieudane i emocjonalnie neutralne.
 
 ## Regulacja emocji
 
-Ankieta P03 dotyczy związku motywu ekspresji z retrospektywną łatwością rozumienia emocji. Odrębne badania obejmują aleksytymię (P04), ruminację i interferencję (P06) oraz afekt w codziennym życiu (P07). AIM-ER stanowi podstawę teoretyczną tych odrębnych pytań.
+Badamy odrębnie motywy ekspresji, jasność emocjonalną, aleksytymię, ruminację, unikanie i zmienność afektu. Chwilowa ulga nie jest równoznaczna z poprawą funkcjonowania.
 
 ## Sprawstwo i autorstwo
 
-Program obejmuje badania osobistego wkładu w tworzenie utworu, poczucia kontroli nad jego ostateczną postacią oraz zmian emocjonalnych w życiu codziennym.
+Rozróżniamy poczucie wpływu na decyzje twórcze, psychologiczne poczucie własności utworu i rozumienie osobistych doświadczeń.
 
-<p class="study-status">Projekt jest na etapie opracowywania protokołów badawczych.</p>
+<p class="study-status">Protokoły w opracowaniu. Nie zebrano danych uczestników.</p>
 
 <section class="research-publications" aria-labelledby="publication-title">
 <h2 id="publication-title">Badania programu</h2>

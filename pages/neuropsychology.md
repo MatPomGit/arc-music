@@ -17,48 +17,48 @@ Muzyka łączy percepcję, pamięć, emocje i działanie. Jej psychologiczne zna
 <section class="neuro-card" id="neuro-perception">
 <span class="neuro-number" aria-hidden="true">01</span>
 <h3>Percepcja i przewidywanie</h3>
-<p>Układ słuchowy analizuje cechy akustyczne i organizuje dźwięki w rozpoznawalne struktury. Melodia, rytm i harmonia angażują pamięć oraz oczekiwania dotyczące dalszego przebiegu utworu. Napięcie muzyczne i jego rozwiązanie mogą kształtować reakcję emocjonalną. Osobiste doświadczenia i skojarzenia różnicują odbiór tego samego utworu.</p>
+<p>Odbiór muzyki angażuje rozpoznawanie struktur dźwiękowych i przewidywanie ich dalszego przebiegu. Oczekiwanie, zaskoczenie i rozwiązanie napięcia muzycznego mogą współtworzyć reakcję emocjonalną. Napięcie wynikające ze struktury muzyki nie jest jednak tożsame ze stresem psychicznym.</p>
 <p class="neuro-sources"><a href="https://doi.org/10.1017/S0140525X08005293">Juslin i Västfjäll, 2008</a> · <a href="https://doi.org/10.1038/nrn3666">Koelsch, 2014</a></p>
 </section>
 <section class="neuro-card" id="neuro-reward">
 <span class="neuro-number" aria-hidden="true">02</span>
 <h3>Nagroda i motywacja</h3>
-<p>Wartość nagradzająca muzyki wiąże się z interakcjami kory słuchowej i układu nagrody, w tym jądra półleżącego. Podczas słuchania intensywnie przyjemnej muzyki obserwowano uwalnianie dopaminy. Nie oznacza to identycznej reakcji neurochemicznej przy każdej formie aktywności muzycznej.</p>
+<p>Wartość nagradzająca muzyki wiąże się z aktywnością rozproszonych sieci, obejmujących między innymi jądro półleżące. Podczas intensywnie przyjemnego słuchania obserwowano uwalnianie dopaminy. Nie dowodzi to identycznego efektu podczas tworzenia muzyki z AI ani poprawy zdrowia psychicznego.</p>
 <p class="neuro-sources"><a href="https://doi.org/10.1126/science.1231059">Salimpoor i in., 2013</a> · <a href="https://doi.org/10.1038/nn.2726">Salimpoor i in., 2011</a></p>
 </section>
 <section class="neuro-card" id="neuro-memory">
 <span class="neuro-number" aria-hidden="true">03</span>
-<h3>Pamięć i osobiste znaczenie</h3>
-<p>Muzyka związana z własną biografią może przywoływać wspomnienia, obrazy i emocje. Przyśrodkowa kora przedczołowa uczestniczy w przetwarzaniu muzyki powiązanej z osobistym doświadczeniem. Utwór oparty na własnej historii może stać się wskazówką pamięciową, ułatwiając refleksję albo przywołując trudne przeżycia.</p>
+<h3>Pamięć autobiograficzna i tożsamość</h3>
+<p>Muzyka może przywoływać wspomnienia osobiste wraz z towarzyszącymi im emocjami. Badania neuroobrazowe wskazują na udział przyśrodkowej kory przedczołowej w tym procesie. Hipotezą AIM-ER jest to, że osobisty utwór może służyć refleksji nad własną historią i jej związkiem z tożsamością. Powrót do wspomnień może być również obciążający.</p>
 <p class="neuro-sources"><a href="https://doi.org/10.1093/cercor/bhp008">Janata, 2009</a></p>
 </section>
 <section class="neuro-card" id="neuro-expression">
 <span class="neuro-number" aria-hidden="true">04</span>
-<h3>Ekspresja i nadawanie znaczenia</h3>
-<p>Przekładanie przeżyć na słowa, rytm i melodię może pomagać rozpoznawać oraz porządkować uczucia. Eksperymenty dotyczące nazywania emocji wskazują na zmiany reaktywności ciała migdałowatego, ale nie dowodzą identycznego efektu podczas pisania piosenek. Twórczość może sprzyjać dystansowaniu i poczuciu kontroli nad formą ekspresji.</p>
+<h3>Ekspresja i rozumienie emocji</h3>
+<p>Nadawanie doświadczeniom formy słownej lub muzycznej może ułatwiać ich rozróżnianie i refleksję. Badania nad nazywaniem emocji wskazują na zmiany reakcji neuronalnych w określonych zadaniach laboratoryjnych. Czy twórczość wspomagana przez AI angażuje podobne mechanizmy, pozostaje pytaniem empirycznym.</p>
 <p class="neuro-sources"><a href="https://doi.org/10.1111/j.1467-9280.2007.01916.x">Lieberman i in., 2007</a> · <a href="https://doi.org/10.1080/1047840X.2014.940781">Gross, 2015</a></p>
 </section>
 <section class="neuro-card" id="neuro-stress">
 <span class="neuro-number" aria-hidden="true">05</span>
 <h3>Stres i regulacja napięcia</h3>
-<p>Muzyka może odwracać uwagę od stresora, zmieniać interpretację sytuacji i wspierać modulację reakcji emocjonalnych. W badaniach nad interwencjami muzycznymi stwierdzano średnio korzystne zmiany w subiektywnym stresie oraz wskaźnikach fizjologicznych. Chwilową ulgę należy odróżniać od adaptacyjnego przetwarzania doświadczeń i unikania problemów.</p>
+<p>Subiektywna ulga może wiązać się ze zmianą uwagi, interpretacji sytuacji lub poziomu pobudzenia. Metaanalizy interwencji muzycznych wskazują na korzystne średnie efekty, lecz nie izolują swoistego wpływu generatywnej AI. Ekspresja nie gwarantuje trwałej ulgi; istotne jest także późniejsze funkcjonowanie.</p>
 <p class="neuro-sources"><a href="https://doi.org/10.1080/17437199.2019.1627897">de Witte i in., 2020</a> · <a href="https://doi.org/10.1080/1047840X.2014.940781">Gross, 2015</a> · <a href="https://doi.org/10.1177/03057356231212362">Peters i in., 2024</a></p>
 </section>
 <section class="neuro-card" id="neuro-agency">
 <span class="neuro-number" aria-hidden="true">06</span>
 <h3>Sprawstwo i twórcza autonomia</h3>
-<p>Generatywna AI obniża techniczny próg tworzenia utworów. Wybór tekstu, stylu i kolejnych wersji może sprzyjać poczuciu wpływu na rezultat. Sprawstwo, autorstwo i identyfikacja z dziełem pozostają odrębnymi doświadczeniami. Ich rola w regulacji emocji stanowi hipotezę AIM-ER, a nie potwierdzony mechanizm generatorów.</p>
+<p>Generator pozwala delegować część operacji kompozytorskich, zachowując możliwość wyboru i edycji. AIM-ER rozróżnia kontrolę dostępną w narzędziu, poczucie wpływu na rezultat i psychologiczne poczucie własności. Związki tych doświadczeń z regulacją emocji wymagają sprawdzenia.</p>
 </section>
 <section class="neuro-card" id="neuro-limits">
 <span class="neuro-number" aria-hidden="true">07</span>
 <h3>Różnice indywidualne i granice</h3>
-<p>Muzyka może łagodzić napięcie lub nasilać smutek i ruminacje. Istotny jest kontekst, cel słuchania, historia danej osoby oraz dopasowanie utworu do aktualnych potrzeb. Badania nad muzyką generowaną przez AI są ograniczone i nie uzasadniają wniosków o skuteczności klinicznej. Twórczość muzyczna nie zastępuje psychoterapii.</p>
+<p>Znaczenie muzyki zależy od celu, kontekstu i indywidualnego doświadczenia. Powtarzanie emocjonalnie znaczącego utworu może sprzyjać refleksji, ale także podtrzymywać ruminację. Dowody dotyczące interwencji muzycznych AI pozostają bardzo niepewne. Twórczość wspomagana przez AI nie jest potwierdzoną metodą terapeutyczną.</p>
 <p class="neuro-sources"><a href="https://doi.org/10.1177/03057356231212362">Peters i in., 2024</a> · <a href="https://doi.org/10.3389/fnhum.2026.1967909">Jin, 2026</a></p>
 </section>
 <section class="neuro-card" id="neuro-measurement">
 <span class="neuro-number" aria-hidden="true">08</span>
 <h3>Pomiar procesów psychologicznych</h3>
-<p>Wywiady, kwestionariusze i pomiary w życiu codziennym pozwalają badać zmienność emocji, motywacji, regulacji, autorstwa i sprawstwa. W przyszłości można uzupełnić je o pomiary rytmu serca lub aktywności elektrodermalnej. Wskaźniki fizjologiczne nie identyfikują jednoznacznie konkretnej emocji.</p>
+<p>Wywiady i kwestionariusze pozwalają poznawać znaczenia i deklarowane doświadczenia, a pomiary powtarzane badać ich zmienność w czasie. Eksperymenty mogą oceniać wpływ konkretnych warunków twórczych. W przyszłości pomiary fizjologiczne mogłyby uzupełnić samoopis, lecz nie identyfikują jednoznacznie poszczególnych emocji.</p>
 </section>
 </div>
 

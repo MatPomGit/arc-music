@@ -4,17 +4,17 @@
 
 ## Creators' experiences
 
-Individual interviews will examine motives for creating music, the circumstances in which tracks are produced and the meanings participants attribute to music in relation to their personal experiences
+We examine how creators move from personal experience to music and what meaning they attribute to the process and its outcome. We also consider abandoned, unsuccessful and emotionally neutral attempts.
 
 ## Emotion regulation
 
-P03 examines the association between expression motive and recalled ease of understanding emotions. Separate studies address alexithymia (P04), brooding and interference (P06), and everyday affect (P07). AIM-ER provides the theoretical basis for these distinct questions
+We distinguish expressive motives, emotional clarity, alexithymia, rumination, avoidance and affective variation. Immediate relief is not equivalent to improved functioning.
 
 ## Agency and authorship
 
-The programme examines personal contribution to music creation, perceived control over the finished work and changes in affect in everyday life
+We distinguish influence over creative decisions, psychological ownership of the work and understanding personal experiences.
 
-<p class="study-status">Study protocols are currently being developed.</p>
+<p class="study-status">Protocols in development. No participant data have been collected.</p>
 
 <section class="research-publications" aria-labelledby="publication-title">
 <h2 id="publication-title">Research projects</h2>
