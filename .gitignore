@@ -19,8 +19,11 @@ transcripts/
 *.out
 *.fls
 *.fdb_latexmk
+*.bcf
+*.run.xml
+
 *.synctex.gz
-*.pdf
+#*.pdf
 *.desktop
 !/docs/BazaDanychOneDrive.desktop
 *.url
