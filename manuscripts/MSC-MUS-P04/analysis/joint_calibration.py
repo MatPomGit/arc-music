@@ -140,5 +140,5 @@ if __name__=="__main__":
     p.add_argument("--include-composite-mar",action="store_true",help="Append pure composite-MAR reference without changing the historical grid order")
     p.add_argument('--design',nargs=4)
     a=p.parse_args()
-    design=None if a.design is None else (int(a.design[0]),float(a.design[1]),float(a.design[2]),a.design[3])
-    print(json.dumps(run(a.reps,a.m,a.seed,a.smoke,include_composite_mar=a.include_composite_mar,design=design),indent=2,allow_nan=False))
+    custom_design=None if a.design is None else (int(a.design[0]),float(a.design[1]),float(a.design[2]),a.design[3])
+    print(json.dumps(run(a.reps,a.m,a.seed,a.smoke,include_composite_mar=a.include_composite_mar,design=custom_design),indent=2,allow_nan=False))

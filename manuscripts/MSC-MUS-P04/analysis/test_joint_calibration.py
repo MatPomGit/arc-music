@@ -1,5 +1,8 @@
 import unittest
 import json
+import subprocess
+import sys
+from pathlib import Path
 import numpy as np
 from joint_calibration import generate,estimate,run
 
@@ -42,3 +45,15 @@ class JointCalibrationTests(unittest.TestCase):
         self.assertEqual(b["cells"][2]["mechanism"],"composite_mar")
         self.assertEqual(b["cells"][2]["methods"]["baseline_pmm"],b["cells"][2]["methods"]["status_informed"])
         json.dumps(b,allow_nan=False)
+
+    def test_cli_default_and_custom(self):
+        script=Path(__file__).with_name("joint_calibration.py")
+        for extra,count in [(["--smoke","--include-composite-mar"],3),
+                            (["--design","400",".3",".9","composite_mar"],1)]:
+            result=subprocess.run([sys.executable,str(script),"--reps","2","--m","2",*extra],
+                                  check=True,capture_output=True,text=True)
+            data=json.loads(result.stdout)
+            self.assertEqual(len(data["cells"]),count)
+            if count==1:
+                self.assertEqual(data["cells"][0]["n"],400)
+                self.assertEqual(data["cells"][0]["latent_interaction"],.3)
