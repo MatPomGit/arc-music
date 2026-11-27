@@ -74,6 +74,14 @@ def endpoint(z, y0, y1, mask, shifts=(0., 0.)):
     covariate distribution, including fixed-delta missing-outcome shifts.
     This is outcome-regression MAR, not double robust or MNAR identified.
     """
+    if any(a.ndim != 1 for a in (z, y0, y1, mask)) or not (len(z) == len(y0) == len(y1) == len(mask)):
+        raise ValueError('endpoint inputs must be aligned one-dimensional arrays')
+    if not np.isin(z, (0, 1)).all():
+        raise ValueError('assignment must contain only arm codes 0 and 1')
+    if mask.dtype != np.bool_:
+        raise ValueError('endpoint mask must be boolean')
+    if not np.isfinite(y1[mask]).all():
+        raise ValueError('observed endpoint ratings must be finite')
     if not np.isfinite(y0).all():
         raise ValueError('first-session missingness requires separate model')
     means, variances = [], []
