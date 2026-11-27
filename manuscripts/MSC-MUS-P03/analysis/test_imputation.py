@@ -58,6 +58,41 @@ class ImputationTests(unittest.TestCase):
         self.assertAlmostEqual(a["se"]**2,.04)
         self.assertGreater(a["df"],0)
 
+    def test_pool_rejects_invalid_or_inconsistent_inference(self):
+        valid = {"beta":.1,"se_hc3":.1,"n":100}
+        cases = [
+            [], [valid], [valid, dict(valid, n=99)],
+            [valid, dict(valid, n=100.5)], [valid, dict(valid, n=np.nan)],
+            [valid, dict(valid, se_hc3=-.1)], [valid, dict(valid, se_hc3=0)],
+            [valid, dict(valid, beta=np.inf)], [valid, {"beta":.1}],
+            [dict(valid, n=12), dict(valid, n=12)],
+        ]
+        for estimates in cases:
+            with self.subTest(estimates=estimates):
+                with self.assertRaises(ValueError):
+                    pool(estimates)
+
+    def test_pool_identical_and_high_between_variance(self):
+        valid = {"beta":.1,"se_hc3":.1,"n":100}
+        result = pool([valid, valid])
+        self.assertAlmostEqual(result["between_variance"], 0)
+        self.assertAlmostEqual(result["se"], .1)
+        self.assertAlmostEqual(result["df"], 88*89/91)
+        # Numerical cancellation in 1-fraction must not create zero df.
+        result = pool([{"beta":-1.,"se_hc3":.1,"n":100},
+                       {"beta":1.,"se_hc3":.1,"n":100}])
+        self.assertGreater(result["df"],0)
+        self.assertTrue(np.isfinite(result["df"]))
+        # The extreme case may be unrepresentable, but never silently yield NaN.
+        try:
+            extreme = pool([{"beta":-1.,"se_hc3":1e-10,"n":100},
+                            {"beta":1.,"se_hc3":1e-10,"n":100}])
+        except ValueError:
+            pass
+        else:
+            self.assertGreater(extreme["df"],0)
+            self.assertTrue(np.isfinite(extreme["ci95"]).all())
+
     def test_all_missing_core_fails(self):
         raw = fixture(100)
         raw["clarity_post"] = np.nan

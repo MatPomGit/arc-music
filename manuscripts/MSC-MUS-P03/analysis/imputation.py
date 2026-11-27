@@ -70,26 +70,45 @@ def draw_imputations(data, m=50, sweeps=15, seed=1729, donors=5, *, trace=None):
 
 def pool(estimates):
     """Rubin pooling with Barnard–Rubin small-sample degrees of freedom."""
-    q = np.array([a["beta"] for a in estimates])
-    u = np.array([a["se_hc3"]**2 for a in estimates])
-    m = len(q)
-    b = float(q.var(ddof=1))
-    w = float(u.mean())
-    total = w+(1+1/m)*b
-    if not np.isfinite(total) or total <= 0:
-        raise ValueError("Nonpositive or nonfinite pooled variance")
-    dfcom = min(a["n"] for a in estimates)-12
+    m = len(estimates)
+    if m < 2:
+        raise ValueError("Rubin pooling requires at least two imputations")
+    try:
+        q = np.asarray([a["beta"] for a in estimates], dtype=float)
+        se = np.asarray([a["se_hc3"] for a in estimates], dtype=float)
+        sizes = np.asarray([a["n"] for a in estimates], dtype=float)
+    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("Malformed complete-data inference") from exc
+    if (q.shape != (m,) or se.shape != (m,) or sizes.shape != (m,)
+            or not np.isfinite(q).all() or not np.isfinite(se).all()
+            or not np.isfinite(sizes).all() or (se <= 0).any()
+            or (sizes != np.floor(sizes)).any() or (sizes != sizes[0]).any()):
+        raise ValueError("Invalid inference or inconsistent imputed sample sizes")
+    # H1 includes the intercept and an extra dummy for the three-level source.
+    dfcom = int(sizes[0]) - (len(MODELS["H1"][2]) + 2)
     if dfcom <= 0:
         raise ValueError("Nonpositive complete-data degrees of freedom")
+    with np.errstate(over="ignore", invalid="ignore"):
+        b = float(q.var(ddof=1))
+        w = float(np.mean(se**2))
+        total = w+(1+1/m)*b
+    if not np.isfinite([b,w,total]).all() or w <= 0 or total <= 0:
+        raise ValueError("Nonpositive or nonfinite pooled variance")
     fraction = (1+1/m)*b/total
-    dfobs = (dfcom+1)/(dfcom+3)*dfcom*(1-fraction)
-    df = dfobs if fraction == 0 else 1/(fraction**2/(m-1)+1/dfobs)
+    # w/total is algebraically 1-fraction but avoids cancellation near 1.
+    dfobs = (dfcom+1)/(dfcom+3)*dfcom*(w/total)
+    if not np.isfinite(dfobs) or dfobs <= 0:
+        raise ValueError("Invalid observed-data degrees of freedom")
+    df = dfobs if fraction == 0 else dfobs/(1+dfobs*fraction**2/(m-1))
     beta = float(q.mean())
     se = float(np.sqrt(total))
     critical = t.ppf(.975,df)
-    return dict(m=m,n=min(a["n"] for a in estimates),beta=beta,se=se,df=float(df),
-                ci95=[float(beta-critical*se),float(beta+critical*se)],
-                p=float(2*t.sf(abs(beta/se),df)),between_variance=b,within_variance=w,
+    lo, hi = float(beta-critical*se), float(beta+critical*se)
+    p = float(2*t.sf(abs(beta/se),df))
+    if not np.isfinite([beta,se,df,lo,hi,p]).all() or df <= 0 or not 0 <= p <= 1:
+        raise ValueError("Nonfinite pooled inference")
+    return dict(m=m,n=int(sizes[0]),beta=beta,se=se,df=float(df),
+                ci95=[lo,hi],p=p,between_variance=b,within_variance=w,
                 fraction_missing_information_approx=float(fraction))
 
 
