@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-Project initiator and lead. She coordinates the team, liaises with the community of music creators and leads recruitment for qualitative and survey research
+Project initiator and lead. Her contribution encompasses the development of the research concept, team coordination and the perspective of the music creation community.
 
 ## Paulina Ficner
 
-Researcher. She draws on her experience in graphic design, visual communication and user experience design to develop research materials and communicate findings
+Researcher. She contributes experience in design, visual communication and human interaction with technology.
 
 ## Mateusz Pomianek
 
-Researcher responsible for research methodology, psychometrics, data analysis and the project's technical infrastructure
+Researcher. He combines psychological and computational perspectives, focusing on research methodology, the modelling of psychological phenomena and data analysis.
 
 ## Cezary Biele
 
-Provides scientific supervision and advises the team. He heads the Centre for Digital Psychology at VIZJA University and is the academic supervisor of the Digital Psychology Student Research Group
+Academic supervisor of the project. Head of the Centre for Digital Psychology at VIZJA University and academic supervisor of the Digital Psychology Student Research Group. He supports the scientific and methodological development of the research.

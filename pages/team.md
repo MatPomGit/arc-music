@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-Pomysłodawczyni i liderka projektu. Koordynuje pracę zespołu, utrzymuje kontakt ze społecznością twórców muzyki oraz prowadzi rekrutację do badań ankietowych i jakościowych.
+Pomysłodawczyni i liderka projektu. Jej wkład obejmuje rozwój koncepcji badawczej, koordynację współpracy zespołu oraz perspektywę społeczności twórców muzyki.
 
 ## Paulina Ficner
 
-Współbadaczka. W opracowywaniu materiałów badawczych i prezentacji wyników wykorzystuje doświadczenie w projektowaniu graficznym, komunikacji wizualnej i projektowaniu doświadczeń użytkowników.
+Współbadaczka. Wnosi do projektu doświadczenie w zakresie projektowania, komunikacji wizualnej i interakcji człowieka z technologią.
 
 ## Mateusz Pomianek
 
-Współbadacz odpowiedzialny za metodologię badań, psychometrię, analizę danych oraz zaplecze informatyczne projektu.
+Współbadacz. Łączy perspektywę psychologiczną i informatyczną, koncentrując się na metodologii badań, modelowaniu zjawisk psychologicznych oraz analizie danych.
 
 ## Cezary Biele
 
-Sprawuje nadzór merytoryczny nad projektem i wspiera zespół swoim doświadczeniem naukowym. Jest kierownikiem Centrum Psychologii Cyfrowej Uniwersytetu VIZJA oraz opiekunem naukowym Koła Naukowego Psychologii Cyfrowej.
+Opiekun naukowy projektu. Kierownik Centrum Psychologii Cyfrowej Uniwersytetu VIZJA oraz opiekun naukowy Koła Naukowego Psychologii Cyfrowej. Wspiera rozwój merytoryczny i metodologiczny badań.
