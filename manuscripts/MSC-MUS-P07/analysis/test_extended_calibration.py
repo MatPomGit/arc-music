@@ -30,3 +30,14 @@ class ExtendedCalibrationTests(unittest.TestCase):
             for m in c["models"].values():
                 self.assertEqual(m["valid"]+m["failed"],2)
                 self.assertEqual(m["bounds_valid"],2)
+
+    def test_selected_cell_matches_smoke_seed(self):
+        smoke=run(reps=2,seed=5,smoke=True)
+        self.assertEqual(smoke["full_grid_indices"],[0,71])
+        selected=run(reps=2,seed=5,cell_index=71)
+        self.assertEqual(selected["cells"][0],smoke["cells"][-1])
+        self.assertTrue(selected["screening_only"])
+        with self.assertRaises(ValueError):
+            run(reps=2,cell_index=72)
+        with self.assertRaises(ValueError):
+            run(reps=2,smoke=True,cell_index=0)
