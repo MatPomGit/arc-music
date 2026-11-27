@@ -139,5 +139,11 @@ def analyze(frame):
                 models[h]["confirmatory_available"]="p" in models[h]
     return dict(randomised=len(d),flow=flow,hypotheses=models,secondary_holm=holm({h:models[h].get("p") for h in ("H2","H3")}),missingness=sens)
 if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()
-    print(json.dumps(analyze(pd.read_csv(a.csv,dtype={"participant_id":str})),indent=2,allow_nan=False))
+    from allocation import reconcile
+    p=argparse.ArgumentParser()
+    p.add_argument("csv")
+    p.add_argument("--ledger", required=True, help="Restricted authoritative allocation database")
+    a=p.parse_args()
+    frame=pd.read_csv(a.csv,dtype={"participant_id":str})
+    reconcile(a.ledger,frame)
+    print(json.dumps(analyze(frame),indent=2,allow_nan=False))
