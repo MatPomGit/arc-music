@@ -33,6 +33,20 @@ class TargetedTests(unittest.TestCase):
             with self.assertRaises(ValueError): aggregate(bad,count=2,draws=3)
         bad=deepcopy(parts);bad[0]["rows"][1]["index"]=0
         with self.assertRaises(ValueError): aggregate(bad,count=2,draws=3)
+        for invalid in (
+            dict(successful=4, failed=-1),
+            dict(successful=3.0, failed=0),
+            dict(contrast=float("nan")),
+            dict(ci=[.4,-.2]),
+            dict(ci=None),
+            dict(successful=2, failed=1),
+            dict(ci=[-11,.4]),
+        ):
+            with self.subTest(invalid=invalid):
+                bad=deepcopy(parts)
+                bad[0]["rows"][0]["estimates"]["ipw"].update(invalid)
+                with self.assertRaises(ValueError):
+                    aggregate(bad,count=2,draws=3)
 
 
 if __name__=="__main__": unittest.main()
