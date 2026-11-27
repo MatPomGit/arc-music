@@ -58,12 +58,14 @@ assert r'\subsection{From extracts to an interpretive account}' in body
 assert 'hypothetical illustration, not a result of P02' in body
 records=(root/'analysis-records.md').read_text(encoding='utf-8')
 assert '| Pilot review |' in records and '| Construct transfer |' in records
-assert 'wersja 0.3.1' in guide and 'Procedura terenowa 0.3.2' in field
+assert 'wersja 0.3.2' in guide and 'Procedura terenowa 0.3.2' in field
 assert 'no directional statistical hypotheses' in body
 assert 'ownership of an output is not applicable' in body
-assert 'what, if anything, made it feel like yours or not yours?' in body
+assert 'to what extent did it feel like yours?' in body
 assert 'znaczenie, jeśli jakiekolwiek, miała sama próba' in guide
-assert 'odczuwany jako własny lub obcy' in guide
+assert 'w jakim stopniu był odczuwany jako własny' in guide
+assert 'whether or not it produced an output' in body
+assert 'Pan/i' not in guide
 
 # Ethics preparation is explicitly prospective.
 ethics_draft=(root/'ethics-preparation-pl.md').read_text(encoding='utf-8')
