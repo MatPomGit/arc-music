@@ -90,4 +90,8 @@ assert 'revisit dependent codes, memos, themes and proposed transfers' in body
 assert 'the transfer remains deferred' in body
 assert 'reassessment after corpus or theme change' in records
 
+assert r'\subsection{Implications for subsequent research}' in body
+assert 'Neither example constitutes a result or a prediction confirmed by P02.' in body
+assert 'would not establish dimensionality, reliability or construct validity' in body
+
 print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
