@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 import numpy as np
 from models import prepare, fit
 from imputation import draw_imputations, sensitivity, pool, shift_outcome
@@ -51,12 +52,75 @@ class ImputationTests(unittest.TestCase):
         np.testing.assert_array_equal(shifted.clarity_post.iloc[3:],data.clarity_post.iloc[3:])
         self.assertEqual(len(sensitivity(raw,m=2,sweeps=1)["differential_scenarios"]),12)
 
+    def test_shift_rejects_malformed_mask_and_nonfinite_shift(self):
+        data,_ = prepare(fixture(100))
+        mask = np.zeros(len(data),dtype=bool)
+        for malformed in (mask[:-1], np.zeros(len(data),dtype=int), mask[:,None]):
+            with self.assertRaises(ValueError):
+                shift_outcome(data,malformed,0)
+        with self.assertRaises(ValueError):
+            shift_outcome(data,mask,np.nan)
+        with self.assertRaises(ValueError):
+            shift_outcome(data,mask,0,np.inf)
+
+    def test_failed_sensitivity_scenario_is_reported_without_partial_pooling(self):
+        raw = fixture(100)
+        raw.loc[:4,"clarity_post"] = np.nan
+        original = shift_outcome
+        def shifted(completed, missing, delta, slope):
+            if (delta,slope)==(0,-2):
+                raise ValueError("synthetic scenario failure")
+            return original(completed,missing,delta,slope)
+        with patch("imputation.shift_outcome",side_effect=shifted):
+            result = sensitivity(raw,m=2,sweeps=1,seed=9)
+        self.assertEqual(result["status"],"scenario_failure")
+        all_scenarios = result["scenarios"]+result["differential_scenarios"]
+        self.assertEqual(len(all_scenarios),17)
+        failed = [s for s in all_scenarios if s["status"]!="ok"]
+        self.assertEqual(failed,[dict(delta=0,slope=-2,attempted=2,fitted=0,status="fit_failure")])
+        self.assertTrue(all("beta" in s for s in all_scenarios if s["status"]=="ok"))
+
     def test_rubin_pool(self):
         a = pool([{"beta":.1,"se_hc3":.1,"n":100},
                   {"beta":.3,"se_hc3":.1,"n":100}])
         self.assertAlmostEqual(a["beta"],.2)
         self.assertAlmostEqual(a["se"]**2,.04)
         self.assertGreater(a["df"],0)
+
+    def test_pool_rejects_invalid_or_inconsistent_inference(self):
+        valid = {"beta":.1,"se_hc3":.1,"n":100}
+        cases = [
+            [], [valid], [valid, dict(valid, n=99)],
+            [valid, dict(valid, n=100.5)], [valid, dict(valid, n=np.nan)],
+            [valid, dict(valid, se_hc3=-.1)], [valid, dict(valid, se_hc3=0)],
+            [valid, dict(valid, beta=np.inf)], [valid, {"beta":.1}],
+            [dict(valid, n=12), dict(valid, n=12)],
+        ]
+        for estimates in cases:
+            with self.subTest(estimates=estimates):
+                with self.assertRaises(ValueError):
+                    pool(estimates)
+
+    def test_pool_identical_and_high_between_variance(self):
+        valid = {"beta":.1,"se_hc3":.1,"n":100}
+        result = pool([valid, valid])
+        self.assertAlmostEqual(result["between_variance"], 0)
+        self.assertAlmostEqual(result["se"], .1)
+        self.assertAlmostEqual(result["df"], 88*89/91)
+        # Numerical cancellation in 1-fraction must not create zero df.
+        result = pool([{"beta":-1.,"se_hc3":.1,"n":100},
+                       {"beta":1.,"se_hc3":.1,"n":100}])
+        self.assertGreater(result["df"],0)
+        self.assertTrue(np.isfinite(result["df"]))
+        # The extreme case may be unrepresentable, but never silently yield NaN.
+        try:
+            extreme = pool([{"beta":-1.,"se_hc3":1e-10,"n":100},
+                            {"beta":1.,"se_hc3":1e-10,"n":100}])
+        except ValueError:
+            pass
+        else:
+            self.assertGreater(extreme["df"],0)
+            self.assertTrue(np.isfinite(extreme["ci95"]).all())
 
     def test_all_missing_core_fails(self):
         raw = fixture(100)

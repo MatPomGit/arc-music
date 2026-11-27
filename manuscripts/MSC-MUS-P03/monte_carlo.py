@@ -11,7 +11,7 @@ def plan(profile):
     ref={"smoke":10000,"pilot":100000,"full":500000}[profile]
     return [job("mi-"+mechanism,"imputation_calibration.py","--mechanism",mechanism,
                 "--reps",reps,"--m",m,"--sweeps",sweeps,"--target",500,"--cap",660,
-                "--seed",20261211,"--reference-n",ref)
+                "--seed",20261211,"--reference-n",ref,"--oracle-benchmark")
             for mechanism in ("complete","outcome_mar","predictor_mar","mixed_mar","outcome_mnar")]
 
 if __name__=="__main__":main("P03")

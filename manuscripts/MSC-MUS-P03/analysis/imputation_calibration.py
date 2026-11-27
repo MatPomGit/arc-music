@@ -1,6 +1,7 @@
 """Prospective calibration of the production P03 H1 imputation and stopping rule.
 
-Synthetic records only. The rounded full-data projection is estimated independently.
+Synthetic records only. The full-data projection is known for this generator;
+an independent reference sample checks that projection and quantifies its precision.
 Compare complete records, zero-shift PMM and two differential MNAR sensitivity
 scenarios using the same imputations. This screen is not validation of all 17 shifts.
 """
@@ -10,12 +11,13 @@ from itertools import product
 
 import numpy as np
 import pandas as pd
+import statsmodels.api as sm
 
 from imputation import draw_imputations, pool, shift_outcome
-from models import MODELS, fit, prepare
+from models import MODELS, fit, prepare, design
 from power import calibration, wilson
 from scipy.special import expit
-from scipy.stats import binom
+from scipy.stats import binom, norm
 from stress import generate
 
 MECHANISMS = ("complete", "outcome_mar", "predictor_mar", "mixed_mar", "outcome_mnar")
@@ -36,11 +38,10 @@ def raw_records(x, y):
         resonance=np.nan, regenerated=np.nan, selected=np.nan, edited=np.nan))
 
 
-def mask_and_stop(rng, raw, mechanism, target):
-    """Keep all submissions before reaching the complete-record target or cap."""
-    if mechanism not in MECHANISMS or not 1 <= target <= len(raw):
-        raise ValueError("Invalid mechanism or target")
-    raw = raw.copy()
+def missing_probabilities(raw, mechanism):
+    """Known generator probabilities, available only in the synthetic benchmark."""
+    if mechanism not in MECHANISMS:
+        raise ValueError("Invalid missingness mechanism")
     pre = raw.clarity_pre.to_numpy() - 5
     x = raw.motive_expression.to_numpy() - 5
     y = raw.clarity_post.to_numpy() - 5
@@ -56,6 +57,15 @@ def mask_and_stop(rng, raw, mechanism, target):
         predictor = expit(-2.2 + .16*pre)
     elif mechanism == "outcome_mnar":
         outcome = expit(-1.9 - .25*y + .15*x*y)
+    return outcome, predictor
+
+
+def mask_and_stop(rng, raw, mechanism, target):
+    """Keep all submissions before reaching the complete-record target or cap."""
+    if not 1 <= target <= len(raw):
+        raise ValueError("Invalid target")
+    raw = raw.copy()
+    outcome, predictor = missing_probabilities(raw, mechanism)
     raw.loc[rng.random(len(raw)) < outcome, "clarity_post"] = np.nan
     raw.loc[rng.random(len(raw)) < predictor, "motive_expression"] = np.nan
     data, _ = prepare(raw)
@@ -76,37 +86,116 @@ def estimates(data, m, sweeps, seed):
     try:
         for completed, missing in draw_imputations(data, m, sweeps, seed):
             for key, (delta, slope) in SHIFTS.items():
-                samples[key].append(fit(shift_outcome(completed, missing, delta, slope), "H1"))
+                try:
+                    samples[key].append(fit(shift_outcome(completed, missing, delta, slope), "H1"))
+                except (ValueError, np.linalg.LinAlgError):
+                    # A failed sensitivity fit invalidates only its own pooled estimate.
+                    samples[key].append(None)
     except (ValueError, np.linalg.LinAlgError):
         pass
     for key, results in samples.items():
         try:
-            output[key] = pool(results) if len(results) == m else None
+            output[key] = pool(results) if len(results) == m and all(
+                result is not None for result in results) else None
         except (ValueError, np.linalg.LinAlgError):
             output[key] = None
     return output
 
 
+def oracle_estimates(full_raw, masked, mechanism):
+    """Paired full-data and known-propensity benchmarks on the recruited prefix.
+
+    Neither estimator imputes missing values. The full-data oracle uses hidden
+    synthetic outcomes; IPW uses the generator's known observation probabilities
+    on complete rows. Neither is an empirical MNAR correction.
+    """
+    prefix = full_raw.iloc[:len(masked)].reset_index(drop=True)
+    if not prefix.study_id.equals(masked.study_id.reset_index(drop=True)):
+        raise ValueError("Oracle and observed prefixes differ")
+    full, _ = prepare(prefix)
+    if len(full) != len(masked) or full[CORE].isna().any().any():
+        raise ValueError("Oracle requires fully observed eligible synthetic core")
+    estimates = dict(oracle_full=None, oracle_ipw=None)
+    try:
+        estimates["oracle_full"] = fit(full, "H1")
+    except (ValueError, ArithmeticError, np.linalg.LinAlgError):
+        pass
+    try:
+        y, x, target = design(masked, "H1")
+        # On complete rows the generator probabilities are evaluable without
+        # retrieving hidden outcomes or predictors of incomplete rows.
+        outcome, predictor = missing_probabilities(masked.loc[y.index], mechanism)
+        probability = (1-outcome)*(1-predictor)
+        if not np.isfinite(probability).all() or (probability <= 0).any():
+            raise ValueError("Invalid oracle observation probabilities")
+        result = sm.WLS(y, x, weights=1/probability).fit(cov_type="HC3", use_t=True)
+        lo, hi = result.conf_int().loc[target]
+        candidate = dict(beta=float(result.params[target]),
+                         ci95=[float(lo),float(hi)],p=float(result.pvalues[target]))
+        if valid_inference(candidate):
+            estimates["oracle_ipw"] = candidate
+    except (ValueError, ArithmeticError, np.linalg.LinAlgError):
+        pass
+    return estimates
+
+
+def paired_difference(values, oracle):
+    """Estimate paired MI-minus-oracle error, with Monte Carlo precision."""
+    if len(values) != len(oracle):
+        raise ValueError("Unequal paired replication counts")
+    diff = np.asarray([float(a["beta"])-float(b["beta"]) for a,b in zip(values,oracle)
+                       if valid_inference(a) and valid_inference(b)], dtype=float)
+    k = len(diff)
+    return dict(attempted=len(values), paired=k,
+                mean_difference=float(diff.mean()) if k else None,
+                rmse_difference=float(np.sqrt(np.mean(diff**2))) if k else None,
+                mcse=float(diff.std(ddof=1)/np.sqrt(k)) if k>1 else None)
+
+
+def valid_inference(result):
+    """Reject malformed or nonfinite inference before computing simulation metrics."""
+    if not isinstance(result, dict):
+        return False
+    try:
+        beta, p = float(result["beta"]), float(result["p"])
+        ci = np.asarray(result["ci95"], dtype=float)
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return False
+    return bool(ci.shape == (2,) and np.isfinite([beta, p, *ci]).all()
+                and 0 <= p <= 1 and ci[0] <= beta <= ci[1])
+
+
+def binomial_metrics(events, total, name):
+    """Keep uncertainty visible at boundary rates, including zero failures."""
+    if not 0 <= events <= total:
+        raise ValueError("Invalid binomial counts")
+    rate = events/total if total else None
+    return {name: rate, name+"_events":int(events), name+"_denominator":int(total),
+            name+"_ci95":wilson(events,total) if total else None,
+            name+"_mcse":float(np.sqrt(rate*(1-rate)/total)) if total else None}
+
+
 def summary(values, truth):
+    if not np.isfinite(truth):
+        raise ValueError("Nonfinite projection reference")
     n = len(values)
-    good = [v for v in values if v is not None]
+    good = [v for v in values if valid_inference(v)]
     k = len(good)
-    out = dict(attempted=n, fitted=k, failures=n-k)
-    if not k:
-        return out | dict(bias=None, rmse=None, coverage=None, rejection=None,
-                          operational_coverage=0., operational_rejection=0.,
-                          coverage_mcse=None, rejection_mcse=None)
-    b = np.array([v["beta"] for v in good])
-    covered = sum(v["ci95"][0] <= truth <= v["ci95"][1] for v in good)
-    rejected = sum(v["p"] < .05 for v in good)
-    c, r = covered/k, rejected/k
-    out.update(bias=float(b.mean()-truth), rmse=float(np.sqrt(((b-truth)**2).mean())),
-               bias_mcse=float(b.std(ddof=1)/np.sqrt(k)) if k > 1 else None,
-               coverage=c, rejection=r, coverage_ci95=wilson(covered,k),
-               rejection_ci95=wilson(rejected,k),
-               coverage_mcse=float(np.sqrt(c*(1-c)/k)),
-               rejection_mcse=float(np.sqrt(r*(1-r)/k)),
-               operational_coverage=covered/n, operational_rejection=rejected/n)
+    invalid = sum(v is not None and not valid_inference(v) for v in values)
+    b = np.asarray([float(v["beta"]) for v in good])
+    covered = sum(float(v["ci95"][0]) <= truth <= float(v["ci95"][1]) for v in good)
+    rejected = sum(float(v["p"]) < .05 for v in good)
+    out = dict(attempted=n, fitted=k, failures=n-k, invalid_results=invalid,
+               bias=float(b.mean()-truth) if k else None,
+               rmse=float(np.sqrt(((b-truth)**2).mean())) if k else None,
+               bias_mcse=float(b.std(ddof=1)/np.sqrt(k)) if k>1 else None)
+    # Conditional rates describe successful fits; operational rates count all
+    # attempted datasets, with failures contributing no coverage or rejection.
+    out.update(binomial_metrics(covered,k,"coverage"),
+               **binomial_metrics(rejected,k,"rejection"),
+               **binomial_metrics(covered,n,"operational_coverage"),
+               **binomial_metrics(rejected,n,"operational_rejection"),
+               **binomial_metrics(n-k,n,"failure_rate"))
     return out
 
 
@@ -126,8 +215,62 @@ def mixed_mar_attainment(target=500, caps=(640, 660, 680, 700)):
                 assumptions="rounded uniform baseline, conditional independent masks, iid eligible submissions")
 
 
+def projection_benchmark(beta, rng, n, rounded):
+    """Analytic target and independent numerical check for stress.generate.
+
+    Conditional on generated covariates, Y = mu + U(-2,2). Rounding
+    to the nearest integer has mean-zero error because this uniform
+    interval spans four complete unit periods. Without clipping or
+    out-of-range filtering, the projection coefficient is therefore beta
+    for both the continuous and rounded outcomes.
+    """
+    if not np.isfinite(beta):
+        raise ValueError("Nonfinite generator coefficient")
+    # Conservative support bound for mu and the uniform noise.
+    radius = 5*(.25 + abs(beta) + .12) + 2
+    if radius > (5.5 if rounded else 5.):
+        raise ValueError("Generator may exceed rating bounds; projection not applicable")
+    x, y = generate(rng,n,.6,beta,rounded)
+    if np.any((y<0)|(y>10)):
+        raise ValueError("Reference outcomes outside rating bounds")
+    z = np.delete(x,1,axis=1)
+    if np.linalg.matrix_rank(x) < x.shape[1]:
+        raise ValueError("Rank-deficient projection reference")
+    rx = x[:,1] - z @ np.linalg.lstsq(z,x[:,1],rcond=None)[0]
+    denom = float(rx @ rx)
+    coef = np.linalg.lstsq(x,y,rcond=None)[0]
+    residual = y-x@coef
+    # HC0 large-sample sandwich standard error of the independent reference.
+    se = float(np.sqrt(np.sum((rx*residual)**2))/denom)
+    point = float(coef[1])
+    if not np.isfinite([point,se]).all() or se <= 0:
+        raise ValueError("Invalid numerical projection reference")
+    half = float(norm.ppf(.975)*se)
+    return dict(analytic=float(beta),sample_estimate=point,sample_se=se,
+                sample_ci95=[point-half,point+half],
+                sample_error=point-float(beta),n=n,
+                method="uniform-noise rounding identity; independent OLS HC0 check")
+
+
+def precision_plan(reps, target_mcse=.005):
+    """Design precision for binomial Monte Carlo rates, not an acceptance test."""
+    if reps<1 or not np.isfinite(target_mcse) or not 0<target_mcse<.5:
+        raise ValueError("Invalid Monte Carlo precision design")
+    nominal=.95*.05
+    return dict(reps_per_cell=int(reps),target_mcse=float(target_mcse),
+                nominal_95_coverage_mcse=float(np.sqrt(nominal/reps)),
+                nominal_05_rejection_mcse=float(np.sqrt(nominal/reps)),
+                worst_case_mcse=float(np.sqrt(.25/reps)),
+                minimum_reps_nominal=int(np.ceil(nominal/target_mcse**2)),
+                minimum_reps_worst_case=int(np.ceil(.25/target_mcse**2)),
+                nominal_precision_reached=bool(np.sqrt(nominal/reps)<=target_mcse),
+                worst_case_precision_reached=bool(np.sqrt(.25/reps)<=target_mcse),
+                interpretation="design precision only; evaluate achieved rates and Wilson intervals separately")
+
+
 def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
-        seed=20261127, reference_n=500000, rounded=True, *, effect_override=None):
+        seed=20261127, reference_n=500000, rounded=True, *, effect_override=None,
+        oracle_benchmark=False):
     if mechanism not in MECHANISMS or reps < 2 or not 50 <= target <= cap:
         raise ValueError("Invalid design")
     if m < 2 or sweeps < 1 or reference_n < 1000:
@@ -137,35 +280,46 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
     for effect in ((0., .15) if effect_override is None else (effect_override,)):
         beta = calibration(.6, effect)
         ref_rng = np.random.default_rng(np.random.SeedSequence([seed, 99, int(effect*100)]))
-        if rounded:
-            x, y = generate(ref_rng, reference_n, .6, beta, True)
-            truth = float(np.linalg.lstsq(x, y, rcond=None)[0][1])
-        else:
-            truth = float(beta)
+        reference = projection_benchmark(beta,ref_rng,reference_n,rounded)
+        truth = reference["analytic"]
         rng = np.random.default_rng(np.random.SeedSequence(
             [seed, MECHANISMS.index(mechanism), int(effect*100), int(rounded)]))
-        values = {key: [] for key in ("complete_case", *SHIFTS)}
+        keys = ("complete_case", *SHIFTS)
+        if oracle_benchmark:
+            keys += ("oracle_full","oracle_ipw")
+        values = {key: [] for key in keys}
         flow = []
         for _ in range(reps):
             x, y = generate(rng, cap, .6, beta, rounded)
-            data, complete = mask_and_stop(rng, raw_records(x, y), mechanism, target)
+            raw = raw_records(x, y)
+            data, complete = mask_and_stop(rng, raw, mechanism, target)
             flow.append([len(data), complete, data.clarity_post.isna().sum(),
                          data.motive_expression.isna().sum()])
             result = estimates(data, m, sweeps, int(rng.integers(0, 2**32)))
+            if oracle_benchmark:
+                result.update(oracle_estimates(raw,data,mechanism))
             for key, value in result.items():
                 values[key].append(value)
         f = np.array(flow)
         cells.append(dict(partial_r_input=effect, projection_reference=truth,
-                          reference_kind="estimated_rounded_projection" if rounded else "exact_continuous",
+                          reference_kind="exact_rounded_projection" if rounded else "exact_continuous",
+                          reference_check=reference,
                           mean_submitted=float(f[:,0].mean()), mean_complete=float(f[:,1].mean()),
-                          attainment=float((f[:,1]==target).mean()),
+                          **binomial_metrics(int((f[:,1]==target).sum()),reps,"attainment"),
                           mean_missing_outcome=float(f[:,2].mean()),
                           mean_missing_predictor=float(f[:,3].mean()),
                           methods={key: summary(v, truth) for key,v in values.items()}))
+        if oracle_benchmark:
+            cells[-1]["paired_against_full"] = {
+                key: paired_difference(values[key],values["oracle_full"])
+                for key in ("complete_case","mi_zero","oracle_ipw")}
     return dict(synthetic=True, mechanism=mechanism, target_complete=target, cap=cap,
                 reps=reps, m=m, sweeps=sweeps, seed=seed, rounded=rounded,
                 reference_n=reference_n, screening_only=True, cells=cells,
-                exact_rounded_mixed_mar_retention=mixed_mar_attainment(target, (cap, max(cap, 660)))
+                oracle_benchmark=bool(oracle_benchmark),
+                monte_carlo_precision=precision_plan(reps),
+                confirmatory_authorized=False,
+                exact_rounded_mixed_mar_retention=mixed_mar_attainment(target, tuple(sorted({cap, max(cap, 660)})))
                 if rounded and mechanism == "mixed_mar" else None)
 
 
@@ -181,6 +335,9 @@ if __name__ == "__main__":
     p.add_argument("--reference-n", type=int, default=500000)
     p.add_argument("--continuous", action="store_true")
     p.add_argument("--effect",type=float)
+    p.add_argument("--oracle-benchmark",action="store_true",
+                   help="Synthetic full-data and known-propensity paired benchmarks")
     a = p.parse_args()
     print(json.dumps(run(a.mechanism, a.reps, a.m, a.sweeps, a.target, a.cap,
-                         a.seed, a.reference_n, not a.continuous, effect_override=a.effect), indent=2, allow_nan=False))
+                         a.seed, a.reference_n, not a.continuous, effect_override=a.effect,
+                         oracle_benchmark=a.oracle_benchmark), indent=2, allow_nan=False))
