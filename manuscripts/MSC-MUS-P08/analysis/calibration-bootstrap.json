@@ -1,0 +1,37 @@
+{
+  "status": "SYNTHETIC",
+  "n": 240,
+  "reps": 100,
+  "draws": 199,
+  "seed": 2809,
+  "scenarios": {
+    "mar": {
+      "valid": 100,
+      "failure": 0,
+      "ipw20": {
+        "coverage": 0.93,
+        "mcse": 0.02551470164434614,
+        "mean_width": 0.8501665040058579
+      },
+      "shift_zero": {
+        "coverage": 0.94,
+        "mcse": 0.023748684174075843,
+        "mean_width": 0.8460999379453665
+      }
+    },
+    "mnar": {
+      "valid": 100,
+      "failure": 0,
+      "ipw20": {
+        "coverage": 0.76,
+        "mcse": 0.04270831300812525,
+        "mean_width": 0.8170462641689278
+      },
+      "shift_zero": {
+        "coverage": 0.77,
+        "mcse": 0.042083250825001625,
+        "mean_width": 0.8106517794181332
+      }
+    }
+  }
+}
