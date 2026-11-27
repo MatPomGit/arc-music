@@ -1,0 +1,30 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+\begin{scope}[xscale=0.006,yscale=4]
+\draw[->] (380,0)--(1245,0) node[below right] {$N$};
+\draw[->] (380,0)--(380,1.05);
+\foreach \v in {0,.2,.4,.6,.8,1}{\draw[gray!25] (380,\v)--(1220,\v);\node[left] at (380,\v) {\v};}
+\foreach \n in {420,800,1000,1200}{\node[below] at (\n,0) {\n};}
+\draw[dashed] (380,.8)--(1220,.8);
+\draw[thick,blue!70!black] plot coordinates {(420,.40685)(800,.75240)(1000,.85760)(1200,.91910)};
+\draw[thick,orange!85!black,densely dotted] plot coordinates {(420,.37655)(800,.70515)(1000,.81770)(1200,.88940)};
+\foreach \n/\v in {420/.40685,800/.75240,1000/.85760,1200/.91910}{\fill[blue!70!black] (\n,\v) circle[radius=1.5pt];}
+\foreach \n/\v in {420/.37655,800/.70515,1000/.81770,1200/.88940}{\draw[orange!85!black,fill=white] (\n,\v) circle[radius=1.5pt];}
+\node[above,align=center,font=\small\bfseries] at (800,1.05) {A. Joint power};
+\node[above right,blue!70!black,font=\scriptsize] at (420,.45) {Equal};
+\node[below right,orange!85!black,font=\scriptsize] at (420,.32) {Heterogeneous};
+\end{scope}
+\begin{scope}[xshift=8.1cm,x=1cm,y=4cm]
+\draw[->] (0,0)--(4.7,0);
+\draw[->] (0,0)--(0,1.05);
+\foreach \v in {0,.2,.4,.6,.8,1}{\draw[gray!25] (0,\v)--(4.5,\v);\node[left] at (0,\v) {\v};}
+\fill[blue!70!black] (.65,0) rectangle (1.25,.23660);
+\fill[gray!55] (1.28,0) rectangle (1.88,.80730);
+\fill[blue!70!black] (2.65,0) rectangle (3.25,.04970);
+\fill[gray!55] (3.28,0) rectangle (3.88,.80910);
+\node[below,align=center,font=\scriptsize] at (1.25,0) {(.15,.45)};
+\node[below,align=center,font=\scriptsize] at (3.25,0) {(0,.60)};
+\node[above,font=\small\bfseries] at (2.3,1.05) {B. Rejection at $N=420$};
+\node[blue!70!black,font=\scriptsize] at (1.05,.95) {Joint};
+\node[font=\scriptsize] at (3.3,.95) {Mean contrast};
+\end{scope}
+\end{tikzpicture}
