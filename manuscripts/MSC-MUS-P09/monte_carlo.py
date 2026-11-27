@@ -21,8 +21,15 @@ def plan(profile):
         tasks.append(job(name+"/aggregate","candidate_shards.py","aggregate","@OUT@/"+name,
                          "--expected",reps,deps=shards))
     for i in ((19,) if profile=="smoke" else (6,8,18,19,21,24,28,32,36)):
-        tasks.append(job(f"paired/cell-{i:02}","compare_candidates.py","--cell",i,
-                         "--reps",reps,"--draws",draws,"--seed",20261224))
+        name=f"paired/cell-{i:02}"
+        shards=[]
+        for start in range(0,reps,batch):
+            key=f"{name}/shard-{start:05}"
+            shards.append(key)
+            tasks.append(job(key,"compare_candidates.py","--cell",i,"--offset",start,
+                             "--reps",min(batch,reps-start),"--draws",draws,"--seed",20261224))
+        tasks.append(job(name+"/aggregate","compare_candidates.py","--aggregate","@OUT@/"+name,
+                         "--expected",reps,deps=shards))
     return tasks
 
 if __name__=="__main__":main("P09")

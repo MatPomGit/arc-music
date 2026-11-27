@@ -1,5 +1,6 @@
 """Paired synthetic IPW/AIPW screening using the same datasets and bootstrap seeds."""
 import argparse,json
+from pathlib import Path
 import numpy as np
 from calibration import generate,effect_values
 from candidate_shards import GRID,VERSION
@@ -9,11 +10,13 @@ from calibrate_assignment_candidate import proportion
 from inference import MODELS
 from candidate_shards import aggregate
 
-def run(cell,reps,draws,seed):
-    if not 0<=cell<len(GRID) or reps<2 or draws<199:raise ValueError("Invalid screen")
+SCHEMA="p09-paired-shard-v1"
+
+def shard(cell,offset,reps,draws,seed):
+    if not 0<=cell<len(GRID) or offset<0 or reps<1 or draws<199:raise ValueError("Invalid screen")
     n,mechanism,effect,profile=GRID[cell]
     records={m:[] for m in ("ipw","aipw")}
-    for i in range(reps):
+    for i in range(offset,offset+reps):
         rng=np.random.default_rng(np.random.SeedSequence([seed,cell,i]))
         d=generate(rng,n,profile,mechanism,effect,allocation="stratified_blocks")
         d["target_status1"]=d["target_status2"]="defined"
@@ -21,6 +24,29 @@ def run(cell,reps,draws,seed):
         for method,fn in (("ipw",candidate_family),("aipw",augmented_family)):
             report=fn(d,reps=draws,seed=bootstrap_seed)
             records[method].append(dict(index=i,hypotheses=report["hypotheses"],holm=report["candidate_secondary_holm"]))
+    return {"schema":SCHEMA,"seed":seed,"cell":cell,"draws":draws,"offset":offset,
+            "requested":reps,"records":records}
+
+def summarize(parts,reps):
+    if not parts or reps<1:raise ValueError("Empty aggregate")
+    key=lambda p:(p.get("schema"),p["seed"],p["cell"],p["draws"])
+    meta=key(parts[0])
+    if meta[0]!=SCHEMA or not 0<=meta[2]<len(GRID) or any(key(p)!=meta for p in parts):
+        raise ValueError("Mixed paired shard metadata")
+    _,seed,cell,draws=meta
+    effect=GRID[cell][2]
+    records={m:[] for m in ("ipw","aipw")}
+    for p in parts:
+        if set(p["records"])!=set(records):raise ValueError("Missing paired method")
+        for m in records:
+            rows=p["records"][m]
+            if [r["index"] for r in rows]!=list(range(p["offset"],p["offset"]+p["requested"])):
+                raise ValueError("Invalid paired shard indices")
+            records[m].extend(rows)
+    for m in records:
+        records[m].sort(key=lambda row:row["index"])
+        if [r["index"] for r in records[m]]!=list(range(reps)):
+            raise ValueError("Missing or duplicate paired indices")
     summaries={m:aggregate([dict(schema=VERSION,seed=seed,cell=cell,draws=draws,records=rows)],reps)
                for m,rows in records.items()}
     paired={}
@@ -34,11 +60,23 @@ def run(cell,reps,draws,seed):
     return {"synthetic":True,"paired":True,"seed":seed,"cell":cell,"methods":summaries,
             "paired_comparison":paired,"records":records,"confirmatory_authorized":False}
 
+def run(cell,reps,draws,seed):
+    return summarize([shard(cell,0,reps,draws,seed)],reps)
+
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--cell",type=int,default=19)
     p.add_argument("--reps",type=int,default=2)
     p.add_argument("--draws",type=int,default=199)
     p.add_argument("--seed",type=int,default=20261209)
+    p.add_argument("--offset",type=int)
+    p.add_argument("--aggregate",type=Path)
+    p.add_argument("--expected",type=int)
     a=p.parse_args()
-    print(json.dumps(run(a.cell,a.reps,a.draws,a.seed),indent=2,allow_nan=False))
+    if a.aggregate:
+        if a.expected is None or a.offset is not None:p.error("Aggregation requires --expected without --offset")
+        result=summarize([json.loads(f.read_text()) for f in sorted(a.aggregate.glob("shard-*.json"))],a.expected)
+    elif a.expected is not None:p.error("--expected requires --aggregate")
+    elif a.offset is not None:result=shard(a.cell,a.offset,a.reps,a.draws,a.seed)
+    else:result=run(a.cell,a.reps,a.draws,a.seed)
+    print(json.dumps(result,indent=2,allow_nan=False))
