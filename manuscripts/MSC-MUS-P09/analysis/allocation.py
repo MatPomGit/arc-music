@@ -103,6 +103,34 @@ def assert_active(path, participant_id):
         raise ValueError("No active allocation")
 
 
+def record_checkpoint(path, participant_id, stage):
+    """Persist only a minimal synthetic/offline stage marker while consent is active.
+
+    The check and write share the withdrawal transaction lock. No network
+    effects or personal content are accepted by this prototype.
+    """
+    validate_id(participant_id)
+    if stage not in ("task_started", "task_finished", "t1_submitted", "t2_submitted"):
+        raise ValueError("Invalid checkpoint")
+    with closing(connect(path)) as db:
+        db.execute("BEGIN IMMEDIATE")
+        try:
+            active = db.execute("SELECT withdrawn FROM assignments WHERE participant_id=?",
+                                (participant_id,)).fetchone()
+            if active != (0,):
+                raise ValueError("No active allocation")
+            db.execute("""CREATE TABLE IF NOT EXISTS checkpoints (
+                participant_id TEXT NOT NULL REFERENCES assignments(participant_id),
+                stage TEXT NOT NULL, recorded_at TEXT NOT NULL,
+                PRIMARY KEY(participant_id,stage))""")
+            db.execute("INSERT OR IGNORE INTO checkpoints VALUES(?,?,?)",
+                       (participant_id, stage, datetime.now(timezone.utc).isoformat()))
+            db.commit()
+        except BaseException:
+            db.rollback()
+            raise
+
+
 def ledger(path):
     """Restricted analyst/server use only: consumed assignments, never future slots."""
     with closing(connect(path)) as db:
