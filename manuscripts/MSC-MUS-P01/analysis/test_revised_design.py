@@ -23,6 +23,17 @@ class RevisedDesignTests(unittest.TestCase):
         x,y,g,c,m,_,_=design(np.random.default_rng(42),'h6',80,8,0.,'mar')
         def f(y): return cr2(x.reshape(80,8,-1),y.reshape(80,8),m.reshape(80,8),c)
         np.testing.assert_array_equal(f(np.where(m,y,np.nan)),f(np.where(m,y,1e9)))
+    def test_endpoint_rejects_invalid_inputs(self):
+        z,y0,y1,m=endpoint_design(np.random.default_rng(42),80,.85,-.35,'none')
+        invalid=z.copy()
+        invalid[0]=2
+        with self.assertRaises(ValueError): endpoint(invalid,y0,y1,m)
+        with self.assertRaises(ValueError): endpoint(z,y0,y1,m.astype(int))
+        with self.assertRaises(ValueError): endpoint(z,y0,y1[:-1],m)
+        bad=y1.copy()
+        bad[0]=np.nan
+        with self.assertRaises(ValueError): endpoint(z,y0,bad,m)
+
     def test_endpoint_complete_oracle(self):
         z,y0,y1,m=endpoint_design(np.random.default_rng(42),80,.85,-.35,'none')
         a,r=endpoint(z,y0,y1,m)
