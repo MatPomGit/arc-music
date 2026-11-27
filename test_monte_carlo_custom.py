@@ -17,6 +17,45 @@ class Custom(unittest.TestCase):
         self.assertEqual(len(tasks),3)
         self.assertEqual([planned_reps("P09","custom",t) for t in tasks],[20,3,0])
         self.assertEqual(tasks[-1].args[-1],"23")
+    def test_individual_design(self):
+        for study,task,d in [
+            ("P01","cp-joint",dict(n=400,effect1=.2,effect2=.3,profile="equal")),
+            ("P07","primary",dict(n=160,prevalence=.2,effect=.4,missing=.3,mechanism="mar")),
+            ("P08","factorial",dict(n=400,authority=.3,interaction=.2,missing=.1,mechanism="mcar",nonadherence=.1))]:
+            jobs=build(study,23,123,{},task,d)
+            self.assertEqual(len(jobs),1)
+            self.assertIn("--design",jobs[0].args)
+            self.assertEqual(planned_reps(study,"custom",jobs[0]),23)
+        with self.assertRaises(ValueError):
+            build("P01",23,123,{},"cp-joint",dict(n=401,effect1=.2,effect2=.3,profile="equal"))
+    def test_more_designs(self):
+        for study,task,d in [
+            ("P03","mi-complete",dict(effect=.2)),
+            ("P04","joint",dict(n=400,effect=.3,noise=.9,mechanism="composite_mar")),
+            ("P06","bounded",dict(n=160,effect=.2,missing=.2,mechanism="mar"))]:
+            jobs=build(study,23,123,{},task,d)
+            self.assertEqual(len(jobs),1)
+            self.assertEqual(planned_reps(study,"custom",jobs[0]),23)
+        tasks=build("P05",23,123,{},"structure/one_factor",dict(loading=.5,missing=.1,skew=True))
+        self.assertTrue(all("--loading" in t.args for t in tasks if not t.deps))
+        self.assertNotIn("--loading",tasks[-1].args)
+    def test_p09_design(self):
+        d=dict(n=500,mechanism="MAR",effect="alternative",profile="standard")
+        for family in ("ipw/cell-06","paired/cell-19"):
+            jobs=build("P09",23,123,{},family,d)
+            self.assertEqual(len(jobs),3)
+            self.assertEqual(sum(planned_reps("P09","custom",j) for j in jobs),23)
+            self.assertTrue(all(j.args[-5:]==("--design","500","MAR","alternative","standard") for j in jobs[:-1]))
+            self.assertNotIn("--design",jobs[-1].args)
+        with self.assertRaises(ValueError):
+            build("P09",23,123,{},"ipw/cell-06",dict(d,n=501))
+    def test_p09_numeric_effects(self):
+        d=dict(n=500,mechanism="MAR",effects=[.2,-.1,0.],profile="standard")
+        for family in ("ipw/cell-06","paired/cell-19"):
+            jobs=build("P09",23,123,{},family,d)
+            self.assertEqual(jobs[0].args[-2],"0.2,-0.1,0.0")
+        with self.assertRaises(ValueError):
+            build("P09",23,123,{},"ipw/cell-06",dict(d,effects=[100,0,0]))
     def test_invalid(self):
         for study,options in [("P03",{"--cap":100}),("P08",{"--reference-n":101}),("P01",{"--n":100})]:
             with self.assertRaises(ValueError):build(study,5,0,options)

@@ -68,6 +68,8 @@ def run(seed=2608,reps=200,n=160,m=6):
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     p.add_argument('--reps',type=int,default=200)
+    p.add_argument('--seed',type=int,default=2608)
+    p.add_argument('--n',type=int,default=160)
     a=p.parse_args()
     if a.reps<1: p.error('Positive replication count required')
-    print(json.dumps(run(reps=a.reps),indent=2,allow_nan=False))
+    print(json.dumps(run(seed=a.seed,reps=a.reps,n=a.n),indent=2,allow_nan=False))

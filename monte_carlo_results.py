@@ -21,6 +21,8 @@ def planned_reps(study,profile,task):
     if "--reps" not in args:
         return 0
     reps=int(args[args.index("--reps")+1])
+    if "--design" in args or (study=="P03" and "--effect" in args):
+        return reps
     if study=="P03":
         return reps*2
     cells=SMOKE.get(study,{}).get(task.name) if profile=="smoke" else None

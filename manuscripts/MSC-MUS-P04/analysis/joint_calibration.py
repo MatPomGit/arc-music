@@ -89,7 +89,7 @@ def summarize(rows,failures,reps,truth):
             "grid_robust_operational":proportion(robust,reps)}
 
 
-def run(reps=20,m=50,seed=20261204,smoke=False,*,include_composite_mar=False):
+def run(reps=20,m=50,seed=20261204,smoke=False,*,include_composite_mar=False, design=None):
     if reps<2 or m<2:
         raise ValueError("At least two independent datasets and imputations")
     grid=list(itertools.product((660,1000),(0.,.60),NOISE,
@@ -99,6 +99,11 @@ def run(reps=20,m=50,seed=20261204,smoke=False,*,include_composite_mar=False):
     if include_composite_mar:
         extra=[(660,0.,.9,"composite_mar")] if smoke else list(itertools.product((660,1000),(0.,.60),NOISE,("composite_mar",)))
         grid+=extra
+    if design is not None:
+        n,delta,noise,mechanism=design
+        if n<100 or n%2 or not -.6<=delta<=.6 or noise not in NOISE or mechanism not in ('baseline_mar','status_dependent','outcome_dependent','composite_mar'):
+            raise ValueError('Invalid custom design')
+        grid=[design]
     refs={noise:population_reference(noise,seed+100+i,n=200000) for i,noise in enumerate(NOISE)}
     cells=[]
     for i,(n,delta,noise,mechanism) in enumerate(grid):
@@ -133,5 +138,7 @@ if __name__=="__main__":
     p.add_argument("--seed",type=int,default=20261204)
     p.add_argument("--smoke",action="store_true")
     p.add_argument("--include-composite-mar",action="store_true",help="Append pure composite-MAR reference without changing the historical grid order")
+    p.add_argument('--design',nargs=4)
     a=p.parse_args()
-    print(json.dumps(run(a.reps,a.m,a.seed,a.smoke,include_composite_mar=a.include_composite_mar),indent=2,allow_nan=False))
+    custom_design=None if a.design is None else (int(a.design[0]),float(a.design[1]),float(a.design[2]),a.design[3])
+    print(json.dumps(run(a.reps,a.m,a.seed,a.smoke,include_composite_mar=a.include_composite_mar,design=custom_design),indent=2,allow_nan=False))

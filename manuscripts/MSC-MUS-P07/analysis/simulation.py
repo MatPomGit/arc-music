@@ -49,10 +49,10 @@ def scenarios(smoke=False):
     stress=list(product([160],[.10,.25],[0.,.2,.6],[.15,.45],["mcar","mnar"]))
     return core+stress+[(160,.25,0.,.30,"confounded"),(160,.25,.4,.30,"confounded")]
 
-def run(reps=200,reference_n=10000,seed=2707,smoke=False):
+def run(reps=200,reference_n=10000,seed=2707,smoke=False,*,grid=None):
     if reps<1 or reference_n<100:raise ValueError("Invalid calibration size")
     rng=np.random.default_rng(seed); references={};cells=[]
-    for n,prev,beta,missing,mechanism in scenarios(smoke):
+    for n,prev,beta,missing,mechanism in (scenarios(smoke) if grid is None else grid):
         key=(prev,beta,mechanism=="confounded")
         if key not in references:
             g,x,y,_,_=draw(rng,reference_n,prev,beta,0,"confounded" if key[2] else "mar")
@@ -82,5 +82,6 @@ def run(reps=200,reference_n=10000,seed=2707,smoke=False):
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--reps",type=int,default=200)
     p.add_argument("--reference-n",type=int,default=10000);p.add_argument("--seed",type=int,default=2707)
-    p.add_argument("--smoke",action="store_true");a=p.parse_args()
-    print(json.dumps(run(a.reps,a.reference_n,a.seed,a.smoke),indent=2,allow_nan=False))
+    p.add_argument("--smoke",action="store_true");p.add_argument("--design",nargs=5);a=p.parse_args()
+    grid=None if a.design is None else [(int(a.design[0]),float(a.design[1]),float(a.design[2]),float(a.design[3]),a.design[4])]
+    print(json.dumps(run(a.reps,a.reference_n,a.seed,a.smoke,grid=grid),indent=2,allow_nan=False))

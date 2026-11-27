@@ -110,5 +110,8 @@ if __name__=="__main__":
     p.add_argument("--reference-n",type=int,default=40000);p.add_argument("--seed",type=int,default=2808)
     p.add_argument("--smoke",action="store_true")
     p.add_argument("--nonadherence",type=float,default=0.)
+    p.add_argument('--design',nargs=4)
+    p.add_argument('--loss',type=float,default=.20)
     a=p.parse_args()
-    print(json.dumps(run(a.reps,a.reference_n,a.seed,a.smoke,a.nonadherence),indent=2,allow_nan=False))
+    grid=None if a.design is None else [(int(a.design[0]),float(a.design[1]),float(a.design[2]),a.design[3])]
+    print(json.dumps(run(a.reps,a.reference_n,a.seed,a.smoke,a.nonadherence,grid=grid,loss=a.loss),indent=2,allow_nan=False))

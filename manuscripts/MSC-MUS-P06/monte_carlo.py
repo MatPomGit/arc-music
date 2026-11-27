@@ -10,7 +10,7 @@ def plan(profile):
     draws={"smoke":49,"pilot":499,"full":999}[profile]
     return [job("cluster","cluster_calibration.py","--reps",reps,"--reference-n",ref,"--seed",20261215),
             job("bounded","bounded_simulation.py","--reps",reps,"--reference-n",ref,"--seed",20261216),
-            job("missing","missing_calibration.py","--reps",reps),
+            job("missing","missing_calibration.py","--reps",reps,"--seed",2608,"--n",160),
             job("bootstrap","bootstrap_calibration.py","--reps",reps,"--bootstrap",draws,
                 "--reference-n",ref,"--n",160,"--seed",20261217)]
 
