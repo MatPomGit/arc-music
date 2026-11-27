@@ -3,9 +3,23 @@ import argparse
 import itertools
 import json
 import numpy as np
-from calibration import generate, effect_values, proportion
+from calibration import generate, effect_values, proportion as base_proportion
 from assignment_candidate import candidate_family
 from inference import MODELS
+
+
+def proportion(values):
+    result = base_proportion(values)
+    n = result["denominator"]
+    if n:
+        p = result["rate"]
+        z = 1.959963984540054
+        centre = (p+z*z/(2*n))/(1+z*z/n)
+        radius = z*np.sqrt(p*(1-p)/n+z*z/(4*n*n))/(1+z*z/n)
+        result["mc_interval"] = [max(0., float(centre-radius)), min(1., float(centre+radius))]
+    else:
+        result["mc_interval"] = None
+    return result
 
 
 def cell(seed, n, mechanism, effect, reps, draws, profile):
@@ -30,6 +44,7 @@ def cell(seed, n, mechanism, effect, reps, draws, profile):
         result[h] = {
             "truth": truth[h], "requested": reps, "point_fits": len(errors),
             "candidate_available": len(valid), "unavailable": reps-len(valid),
+            "availability_rate": proportion([x["candidate_available"] for x in rows]),
             "unavailable_reasons": {reason: sum(x.get("unavailable")==reason for x in rows)
                                     for reason in sorted({x["unavailable"] for x in rows if "unavailable" in x})},
             "bias": float(errors.mean()) if len(errors) else None,
@@ -39,6 +54,7 @@ def cell(seed, n, mechanism, effect, reps, draws, profile):
             "operational_coverage": proportion(covered+[False]*(reps-len(valid))),
             "conditional_rejection": proportion(rejected),
             "operational_rejection": proportion(rejected+[False]*(reps-len(valid))),
+            "bootstrap_attempted": sum(x["attempted"] for x in rows),
             "bootstrap_successful": sum(x["successful"] for x in rows),
             "bootstrap_failed": sum(x["failed"] for x in rows),
         }
