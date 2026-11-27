@@ -85,6 +85,11 @@ def check_study_content(page):
         assert panel.locator(".pub-body h4").count() == 2
         assert panel.locator(".pub-body p").count() == 2
         assert panel.locator(".pub-target").is_visible()
+        for selector in (".pub-instruments", ".pub-sample"):
+            field = panel.locator(selector)
+            assert field.count() == 1 and field.is_visible()
+            assert field.locator("strong").count() == 1
+            assert len(field.inner_text().strip()) > 35
         assert all(len(s.strip()) >= 80 for s in panel.locator(".pub-body p").all_text_contents())
     palettes = article.locator(".pub").evaluate_all("""nodes => nodes.map(e => ({
       bg:getComputedStyle(e).backgroundColor, edge:getComputedStyle(e).borderTopColor,
