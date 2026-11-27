@@ -17,3 +17,7 @@ The empirical entry point also reports status-informed PMM as a supplementary se
 ### Clarification of the missingness mechanism
 
 The historical `baseline_mar` label describes the rating-response indicator conditional on observed baseline covariates, not necessarily MAR of the final composite: known nonproduction additionally reveals a structural zero and status capture depends on actual production. The separate `--include-composite-mar` flag appends a genuine composite-MAR reference, with no status recorded for nonresponders. Both capture regimes are deliberately identical there, and baseline/status-informed PMM coincide. This isolates measurement-error effects under a correctly specified response mechanism rather than calling status-enriched availability MAR. The 36 historical cell order, seeds and generated records are preserved; 12 additional cells are prospective. The initial CI screen adds one reference cell. No new empirical mechanism is assumed.
+
+## Stimulus freeze gate
+
+Run `python stimulus_manifest.py` to check the prospective register and `python -m unittest -v test_stimulus_manifest` for synthetic regression cases. A header-only register deliberately returns a nonzero exit; passing metadata checks never substitutes for independent content review, matching actual file hashes, rights or institutional approval. See pilot-protocol.md.
