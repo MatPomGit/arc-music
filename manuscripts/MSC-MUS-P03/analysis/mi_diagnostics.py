@@ -45,9 +45,13 @@ def ess(x):
 
 
 def diagnose(x):
-    x=np.asarray(x,float)
+    invalid = dict(status="insufficient_or_invalid",rhat=None,bulk_ess=None,tail_ess=None)
+    try:
+        x=np.asarray(x,float)
+    except (TypeError, ValueError, OverflowError):
+        return invalid
     if x.ndim!=2 or x.shape[0]<4 or x.shape[1]<20 or not np.isfinite(x).all():
-        return dict(status="insufficient_or_invalid",rhat=None,bulk_ess=None,tail_ess=None)
+        return invalid
     n=x.shape[1]//2
     x=np.concatenate([x[:,:n],x[:,-n:]])
     if np.ptp(x)==0:
@@ -102,22 +106,36 @@ def scalar_summaries(work,masks):
 def screen(data,chains=8,sweeps=120,burn=40,seed=20261204,m=50):
     if chains<4 or sweeps-burn<20 or burn<0 or m<2:
         raise ValueError("Invalid trace design")
-    traces=defaultdict(lambda:[[] for _ in range(chains)])
+    retained = sweeps-burn
+    traces=defaultdict(lambda:np.full((chains,retained),np.nan))
+    seen=np.zeros((chains,retained),dtype=bool)
     def trace(chain,sweep,work,masks):
+        if not (0 <= chain < chains and 0 <= sweep < sweeps):
+            raise ValueError("Trace callback outside configured chain or sweep")
         if sweep>=burn:
+            index=(chain,sweep-burn)
+            if seen[index]:
+                raise ValueError("Duplicate retained trace callback")
+            seen[index]=True
             for k,v in scalar_summaries(work,masks).items():
-                traces[k][chain].append(v)
+                traces[k][index]=v
     try:
-        # Draw from the same implementation; retain only scalar diagnostics.
+        # Preserve configured iteration coordinates; missing values cannot be compressed away.
         for _ in draw_imputations(data,chains,sweeps,seed,trace=trace):
             pass
+        if not seen.all():
+            raise ValueError("Missing retained trace callbacks")
         results={k:diagnose(v) for k,v in traces.items()}
         terminal=[fit(work,"H1") for work,_ in draw_imputations(data,m,sweeps,seed+1)]
         pooled=pool(terminal)
     except (ValueError,ArithmeticError,np.linalg.LinAlgError) as exc:
         return dict(status="execution_failure",reason=str(exc),confirmatory_authorized=False)
-    mcse=float(np.sqrt(pooled["between_variance"]/m))
-    relative=mcse/pooled["se"]
+    variance, se, beta = pooled["between_variance"], pooled["se"], pooled["beta"]
+    if not np.isfinite([variance,se,beta]).all() or variance<0 or se<=0:
+        return dict(status="execution_failure",reason="Invalid terminal pooled inference",
+                    confirmatory_authorized=False)
+    mcse=float(np.sqrt(variance/m))
+    relative=mcse/se
     return dict(status="screen_pass" if results and all(x["status"]=="screen_pass" for x in results.values())
                 and relative<=.10 else "screen_flag",diagnostics=results,
                 chains=chains,sweeps=sweeps,burn=burn,m=m,seed=seed,
