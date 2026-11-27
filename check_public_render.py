@@ -413,10 +413,17 @@ def check_motion_event_race(browser, base):
         check_projections(page)
 
 
-def visit(page, base, path, css, js):
+def navigate(page, base, path):
     response = page.goto(base + path, wait_until="load")
-    assert response and response.ok, path
+    # Firefox can expose HTTP 304 for a revalidated top-level document.
+    # The browser must still render the cached representation of the exact route.
+    assert response is not None and (response.ok or response.status == 304), (
+        path, response.status if response is not None else "no response")
     check_identity(page, base, path)
+
+
+def visit(page, base, path, css, js):
+    navigate(page, base, path)
     check_assets(page, css, js)
     check_render(page)
 

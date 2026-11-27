@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import embed_site_assets
-from check_public_render import check_identity, check_assets, identity
+from check_public_render import check_identity, check_assets, identity, visit
 
 
 class EmbeddingTests(unittest.TestCase):
@@ -71,6 +71,32 @@ class RoutingTests(unittest.TestCase):
         for kwargs in ({"lang": "en"}, {"section": "index"}, {"active": "index.html"}):
             with self.subTest(kwargs=kwargs), self.assertRaises(AssertionError):
                 check_identity(self.page(base + "team.html", **kwargs), base, "team.html")
+
+    def test_navigation_http_status_and_cached_document(self):
+        base = "https://example.test/project/"
+        for status in (200, 304, 302, 404, 500, None):
+            with self.subTest(status=status):
+                page = self.page(base + "team.html")
+                page.goto.return_value = (None if status is None else
+                                          Mock(status=status, ok=200 <= status < 300))
+                with patch("check_public_render.check_assets") as assets, \
+                     patch("check_public_render.check_render") as render:
+                    if status in (200, 304):
+                        visit(page, base, "team.html", "css", "js")
+                        assets.assert_called_once_with(page, "css", "js")
+                        render.assert_called_once_with(page)
+                    else:
+                        with self.assertRaises(AssertionError):
+                            visit(page, base, "team.html", "css", "js")
+                        assets.assert_not_called()
+                        render.assert_not_called()
+
+    def test_cached_wrong_document_is_rejected(self):
+        base = "https://example.test/project/"
+        page = self.page(base + "team.html", lang="en")
+        page.goto.return_value = Mock(status=304, ok=False)
+        with self.assertRaises(AssertionError):
+            visit(page, base, "team.html", "css", "js")
 
     def test_asset_duplicates_and_mismatch(self):
         page = Mock()

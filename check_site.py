@@ -7,7 +7,7 @@ import json
 import shutil
 import threading
 from playwright.sync_api import sync_playwright
-from check_public_render import run as check_browser_render
+from check_public_render import navigate, run as check_browser_render
 from check_site_regressions import check_contrast, check_focus, check_text_layout, check_study_content, check_zoom_reflow
 
 ROOT=Path(__file__).resolve().parent
@@ -25,7 +25,7 @@ def accessibility(browser, base, out):
             page.goto(base + "index.html")
             page.locator("#theme").select_option(theme)
             for name in PAGES:
-                assert page.goto(base + name + ".html").ok
+                navigate(page, base, name + ".html")
                 page.wait_for_function("document.documentElement.dataset.theme === " + repr(theme))
                 page.add_script_tag(path=axe_path)
                 result = page.evaluate("""async () => await axe.run(document, {
@@ -87,7 +87,7 @@ def main():
                 for theme in ("light","dark"):
                     page.locator("#theme").select_option(theme)
                     for name in PAGES:
-                        assert page.goto(base+name+".html").ok
+                        navigate(page, base, name + ".html")
                         page.wait_for_function("document.documentElement.dataset.theme === "+repr(theme))
                         assert page.locator("html").get_attribute("lang")==("en" if name.startswith("en") else "pl")
                         assert page.locator("main").count()==1
