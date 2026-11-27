@@ -53,3 +53,17 @@ A targeted diagnostic screen used the robust estimator on 72 additional independ
 | 105 | 800 | .65 | .80 | yes | 12/12 | .960 | 0/12 |
 
 At N=800, 4/12 proper fits imply an estimated Monte Carlo standard error of .136 and a Wilson interval of approximately .138 to .609. Even 12/12 proper fits yield a lower Wilson limit of .758. The comparisons point toward the joint difficulty of weak loadings and closely related factors. This screen cannot resolve the full-pool design or justify a sample size.
+
+
+## Correction of archived ordered-gate aggregation (27 November 2026)
+
+The historical development artifact [15192334440](https://github.com/MatPomGit/arc-music/actions/runs/45990267517/artifacts/15192334440) contains 320 completed fits (16 cells, 20 replications each). The original ZIP SHA-256 is `d4d7052bfaee1d7705844b728e0320d59d122a1938ee59190dbbd64cb8267095`; the original JSON SHA-256 is `06c803939403f1b0c4a58ff00742b32cf8dce4b726736304ce8f5a8869cc1a55`. The archived values of 1.00 in all cells for any ordered gate rejection were affected by a suffix-classification defect. Reaggregation from recorded final statuses, ignoring the erroneous derived Boolean, gives the following counts (denominator 20 throughout, zero estimation failures).
+
+| Group sizes | Invariant | Threshold DIF | Loading DIF | Intercept DIF |
+|---|---:|---:|---:|---:|
+| 250 + 250 | 3 (0.15) | 17 (0.85) | 14 (0.70) | 17 (0.85) |
+| 350 + 150 | 6 (0.30) | 20 (1.00) | 7 (0.35) | 17 (0.85) |
+| 400 + 400 | 2 (0.10) | 20 (1.00) | 16 (0.80) | 19 (0.95) |
+| 560 + 240 | 2 (0.10) | 20 (1.00) | 9 (0.45) | 18 (0.90) |
+
+Thirteen of 16 historical numerical rates change; three coincide with the corrected rates. No target-specific Wald statistic or p-value is changed. The 20-replication null results are imprecise and do not establish control of the joint type-I error. Any-gate rejection is not target-specific detection, and nonrejection is not proof of invariance. The original archive is not overwritten. Reproduce the comparison with `python3 reaggregate_invariance.py path/to/original.zip` from this directory. The production calibration now separates rejection, nonrejection and estimation failure and reports conditional and unconditional denominators and Wilson intervals. This correction does not change the ordered decision rule or authorize a group comparison or sample size.
