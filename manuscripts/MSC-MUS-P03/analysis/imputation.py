@@ -131,4 +131,6 @@ if __name__ == "__main__":
     a=p.parse_args()
     result=sensitivity(read_records(a.csv),a.m,a.sweeps,a.seed)
     result["data_kind"]=a.data_kind
+    result["confirmatory_authorized"]=False
+    result["calibration_status"]="development_sensitivity_only"
     a.out.write_text(json.dumps(result,indent=2,allow_nan=False)+"\n",encoding="utf-8")
