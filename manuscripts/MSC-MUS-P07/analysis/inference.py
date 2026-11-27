@@ -192,6 +192,9 @@ def analyze(frame, sensitivity_draws=100, schedule=None, withdrawals=None):
     from sensitivity import assess
     try: result["missingness"]=assess(d,draws=sensitivity_draws)
     except (ValueError,np.linalg.LinAlgError) as exc: result["missingness_unavailable"]=str(exc)
+    from joint_sensitivity import assess_joint
+    try: result["joint_missingness"]=assess_joint(d,draws=sensitivity_draws)
+    except (ValueError,np.linalg.LinAlgError) as exc: result["joint_missingness_unavailable"]=str(exc)
     return result
 
 if __name__=="__main__":

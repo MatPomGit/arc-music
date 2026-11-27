@@ -7,3 +7,5 @@ Po godzinie: Czy w ciągu pierwszych 60 minut od poprzedniego pomiaru podejmowa�
 Po trzech godzinach: aktualna walencja i pobudzenie, informacja o twórczości po pierwszej godzinie. Nie wymagamy tworzenia muzyki ani dokończenia utworu. Odpowiedź nie dotyczy emocjonalnej treści utworu.
 
 Każde pytanie można pominąć. Materiał wymaga wywiadów poznawczych, pilotażu i zatwierdzenia etycznego; nie jest skalą kliniczną. Nie zbieramy tekstów utworów ani promptów.
+
+Instrukcja czasu: stan oceniamy w chwili udzielania odpowiedzi, nie w chwili powiadomienia i nie jako średnią z poprzedniej godziny. Pytanie o aktywność dotyczy dokładnie pierwszych 60 minut od faktycznego pomiaru początkowego, również przy odpowiedzi późniejszej. Pożądane pobudzenie odnosi się do celu zadeklarowanego przed oknem; zmiana celu nie jest tożsama z niepowodzeniem regulacji. Sprawdzić te rozróżnienia w wywiadach poznawczych.

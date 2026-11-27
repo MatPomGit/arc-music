@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=0.061cm,y=1cm,font=\scriptsize]
+\draw[-{Stealth}] (-25,0)--(205,0) node[right] {min};
+\fill[blue!15] (0,.12) rectangle (60,.42);
+\node at (30,.27) {Exposure: active creation?};
+\fill[gray!20] (60,-.18) rectangle (75,.12);
+\fill[gray!20] (180,-.18) rectangle (195,.12);
+\foreach \x/\lab in {0/0,60/60,75/75,180/180,195/195}{\draw (\x,-.08)--(\x,.08);\node[below=2pt] at (\x,-.18) {\lab};}
+\draw[thick] (0,0)--(0,.82) node[above,align=center] {Actual baseline\\$V_0,A_0,I_0$, desired arousal};
+\draw[thick] (60,0)--(60,.82) node[above,align=center] {First follow-up\\H1, H3};
+\draw[thick] (180,0)--(180,.82) node[above,align=center] {Later follow-up\\H2};
+\draw[dashed,-{Stealth}] (-15,-.65)--(0,-.65) node[midway,below,align=center] {Prompt\\0--15 min};
+\node[below,align=center] at (119,-.48) {Later activity may occur; not a primary adjustment covariate};
+\end{tikzpicture}
