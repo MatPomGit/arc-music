@@ -31,8 +31,12 @@ jobs:
           "$RUNNER_TEMP/p09/bin/python" calibration_extended.py --reps 30 --draws 99 --raw-reps 200 > calibration-extended.json
           "$RUNNER_TEMP/p09/bin/python" calibration_extended.py --stress --reps 20 --draws 49 > calibration-stress.json
       - run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-bibtex-extra biber lmodern
+          # Only the official signed Ubuntu repository is needed for TeX.
+          # Unrelated preinstalled vendor sources must not block this build.
+          test -s /etc/apt/sources.list.d/ubuntu.sources
+          apt_options=(-o Dir::Etc::sourcelist=/etc/apt/sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=-)
+          sudo apt-get "${apt_options[@]}" -o Acquire::Retries=3 update -qq
+          sudo apt-get "${apt_options[@]}" -o Acquire::Retries=3 install -y --no-install-recommends latexmk texlive-latex-extra texlive-bibtex-extra biber lmodern
       - working-directory: manuscripts/MSC-MUS-P09
         run: |
           latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
@@ -66,8 +70,11 @@ jobs:
         run: |
           python3 -m venv "$RUNNER_TEMP/p09-candidate"
           "$RUNNER_TEMP/p09-candidate/bin/pip" install -r requirements.txt
-          "$RUNNER_TEMP/p09-candidate/bin/python" -m unittest -v test_assignment_candidate
+          "$RUNNER_TEMP/p09-candidate/bin/python" -m unittest -v test_assignment_candidate test_candidate_shards
           "$RUNNER_TEMP/p09-candidate/bin/python" calibrate_assignment_candidate.py --smoke --n 600 --reps 2 --draws 199 > candidate-screen.json
+          mkdir -p candidate-shards
+          "$RUNNER_TEMP/p09-candidate/bin/python" candidate_shards.py shard 6 0 2 --draws 999 > candidate-shards/shard-0.json
+          "$RUNNER_TEMP/p09-candidate/bin/python" candidate_shards.py aggregate candidate-shards --expected 2 > candidate-shard-screen.json
           git rev-parse HEAD > candidate-head.txt
       - uses: actions/upload-artifact@v4
         with:
@@ -75,4 +82,43 @@ jobs:
           path: |
             manuscripts/MSC-MUS-P09/analysis/candidate-screen.json
             manuscripts/MSC-MUS-P09/analysis/candidate-head.txt
+            manuscripts/MSC-MUS-P09/analysis/candidate-shard-screen.json
+            manuscripts/MSC-MUS-P09/analysis/candidate-shards/shard-0.json
           if-no-files-found: error
+
+  candidate-precision-screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        cell: [6, 8, 18, 21]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      CELL: ${{ matrix.cell }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P09/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p09-screen"
+          "$RUNNER_TEMP/p09-screen/bin/pip" install -r requirements.txt
+          mkdir -p precision-shards
+          for offset in 0 10; do
+            "$RUNNER_TEMP/p09-screen/bin/python" candidate_shards.py shard "$CELL" "$offset" 10 --seed 20261207 --draws 999 > "precision-shards/shard-$offset.json"
+          done
+          "$RUNNER_TEMP/p09-screen/bin/python" candidate_shards.py aggregate precision-shards --expected 20 > candidate-precision.json
+          git rev-parse HEAD > candidate-precision-head.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p09-candidate-precision-cell-${{ matrix.cell }}
+          path: |
+            manuscripts/MSC-MUS-P09/analysis/precision-shards/
+            manuscripts/MSC-MUS-P09/analysis/candidate-precision.json
+            manuscripts/MSC-MUS-P09/analysis/candidate-precision-head.txt
+          if-no-files-found: warn

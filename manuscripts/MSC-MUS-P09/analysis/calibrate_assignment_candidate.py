@@ -27,12 +27,15 @@ def cell(seed, n, mechanism, effect, reps, draws, profile):
     truth = dict(zip(MODELS, effect_values(effect)))
     records = {h: [] for h in MODELS}
     fwer = []
+    secondary_decisions = {h: [] for h in ("H2", "H3")}
     for _ in range(reps):
         d = generate(rng, n, profile, mechanism, effect, allocation="stratified_blocks")
         d["target_status1"] = d["target_status2"] = "defined"
         report = candidate_family(d, reps=draws, seed=int(rng.integers(0, 2**32)))
         for h, row in report["hypotheses"].items():
             records[h].append(row)
+        for h,p in report["candidate_secondary_holm"].items():
+            secondary_decisions[h].append(p is not None and p <= .05)
         fwer.append(any(p is not None and p <= .05 for h, p in
                         report["candidate_secondary_holm"].items() if truth[h] == 0))
     result = {}
@@ -54,12 +57,13 @@ def cell(seed, n, mechanism, effect, reps, draws, profile):
             "operational_coverage": proportion(covered+[False]*(reps-len(valid))),
             "conditional_rejection": proportion(rejected),
             "operational_rejection": proportion(rejected+[False]*(reps-len(valid))),
+            "holm_operational_rejection": proportion(secondary_decisions[h]) if h in secondary_decisions else None,
             "bootstrap_attempted": sum(x["attempted"] for x in rows),
             "bootstrap_successful": sum(x["successful"] for x in rows),
             "bootstrap_failed": sum(x["failed"] for x in rows),
         }
     return {"mechanism": mechanism, "effect": effect, "profile": profile, "n": n,
-            "hypotheses": result, "secondary_true_null_fwer": proportion(fwer)}
+            "hypotheses": result, "secondary_true_null_fwer": proportion(fwer) if any(truth[h]==0 for h in ("H2","H3")) else None}
 
 
 def run(seed, n, reps, draws, smoke=False):

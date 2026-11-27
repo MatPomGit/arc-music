@@ -1,6 +1,5 @@
 """Paired ordinal CFA comparison on identical synthetic complete datasets."""
 import argparse
-import hashlib
 import platform
 import scipy
 import csv
@@ -13,6 +12,7 @@ import numpy as np
 
 from recovery import simulate
 from robust_cfa import robust_fit
+from reference_inputs import encode, digest, write_input, write_manifest, replay
 
 
 # Prospective development tolerances, not empirical measurement criteria.
@@ -76,7 +76,7 @@ def read_reference(path, factors, items):
     )
 
 
-def compare(n, factors, items, loading, rho, skew, seed, x=None):
+def compare(n, factors, items, loading, rho, skew, seed, x=None, *, archive_dir=None, index=0):
     if x is None:
         x = simulate(n, factors, items, loading, rho, skew, 0, np.random.default_rng(seed))
     domains = np.repeat(np.arange(factors), items)
@@ -86,9 +86,13 @@ def compare(n, factors, items, loading, rho, skew, seed, x=None):
     with tempfile.TemporaryDirectory() as directory:
         csv_in = Path(directory) / "synthetic.csv"
         csv_out = Path(directory) / "reference.csv"
-        header = ",".join(f"item{i + 1}" for i in range(x.shape[1]))
-        np.savetxt(csv_in, x, fmt="%d", delimiter=",", header=header, comments="")
-        result["input_sha256"] = hashlib.sha256(csv_in.read_bytes()).hexdigest()
+        data = encode(x,factors,items)
+        csv_in.write_bytes(data)
+        result["input_sha256"] = digest(data)
+        if archive_dir is not None:
+            _, archived_digest = write_input(archive_dir,x,factors,items,index)
+            if archived_digest != result["input_sha256"]:
+                raise ValueError("Archived input mismatch")
         reference = Path(__file__).with_name("lavaan_reference.R")
         try:
             completed = subprocess.run(
@@ -127,26 +131,46 @@ def compare(n, factors, items, loading, rho, skew, seed, x=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full", action="store_true", help="Also compare the full 35-item model")
+    parser.add_argument("--archive-dir", type=Path, help="Archive exact synthetic CSV inputs")
+    parser.add_argument("--replay-dir", type=Path, help="Replay an exact archived synthetic input bundle")
     args = parser.parse_args()
-    scenarios = [(800, 2, 4, .65, .35, False, 67)]
-    if args.full:
-        scenarios.extend([(500, 7, 5, .65, .35, False, 68),
-                          (500, 7, 5, .40, .80, True, 69)])
-    output = [compare(*scenario) for scenario in scenarios]
-    if args.full:
-        # First weak-model draw from the historic 0/8 conditional-weight run.
-        historic_seed = 20261127
-        rng = np.random.default_rng(historic_seed)
-        for skew, missing in [(False, 0.), (True, .02)]:
-            for _ in range(8):
-                simulate(500, 7, 5, .65, .35, skew, missing, rng)
-        weak = simulate(500, 7, 5, .40, .80, True, 0., rng)
-        historic = compare(500, 7, 5, .40, .80, True, historic_seed, weak)
-        historic["draw"] = "first weak-model draw in cfa_calibration.py --reps 8"
-        output.append(historic)
+    if args.archive_dir and args.archive_dir.exists() and any(args.archive_dir.iterdir()):
+        parser.error("Archive directory must be empty")
+    if args.replay_dir and args.full:
+        parser.error("--full is not used with --replay-dir")
+    if args.replay_dir:
+        output=[]
+        for i,(meta,x) in enumerate(replay(args.replay_dir)):
+            row=compare(*(meta[k] for k in ("n","factors","items_per_factor","loading","rho","skew","seed")),x,
+                        archive_dir=args.archive_dir,index=i)
+            if row["input_sha256"]!=meta["input_sha256"]:raise ValueError("Replay input mismatch")
+            if "draw" in meta:row["draw"]=meta["draw"]
+            output.append(row)
+    else:
+        scenarios = [(800, 2, 4, .65, .35, False, 67)]
+        if args.full:
+            scenarios.extend([(500, 7, 5, .65, .35, False, 68),
+                              (500, 7, 5, .40, .80, True, 69)])
+        output = [compare(*scenario,archive_dir=args.archive_dir,index=i) for i,scenario in enumerate(scenarios)]
+        if args.full:
+            # First weak draw under the historical generator and sequence, not a byte-identical
+            # historical dataset unless its archived digest is independently established.
+            historic_seed = 20261127
+            rng = np.random.default_rng(historic_seed)
+            for skew, missing in [(False, 0.), (True, .02)]:
+                for _ in range(8):
+                    simulate(500, 7, 5, .65, .35, skew, missing, rng)
+            weak = simulate(500, 7, 5, .40, .80, True, 0., rng)
+            historic = compare(500, 7, 5, .40, .80, True, historic_seed, weak,
+                               archive_dir=args.archive_dir,index=len(output))
+            historic["draw"] = "regenerated first weak-model draw from cfa_calibration.py --reps 8"
+            output.append(historic)
+    if args.archive_dir:
+        write_manifest(args.archive_dir,output)
     status = screen(output)
-    payload = {"schema_version": 2, "versions": {"python": platform.python_version(),
+    payload = {"schema_version": 3, "versions": {"python": platform.python_version(),
                "numpy": np.__version__, "scipy": scipy.__version__},
+               "input_mode":"archived_replay" if args.replay_dir else "generated",
                "tolerances": TOLERANCES, "screen": status, "scenarios": output}
     print(json.dumps(payload, indent=2, allow_nan=False))
     if not status["core_agreement"] or not status["all_cases_executed"]:

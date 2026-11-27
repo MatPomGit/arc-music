@@ -1,5 +1,6 @@
 """Validate cross-study consent and data contracts without exposing any raw data."""
 import json
+import re
 from pathlib import Path
 from check_study_registry import validate
 
@@ -14,6 +15,20 @@ def check(root):
             errors.append("Missing research contract: "+row["study"])
         if row["fieldwork"]!="BLOCKED":
             errors.append("Unapproved fieldwork: "+row["study"])
+    mapfile=root/"manuscripts/MSC-MUS-P01/analysis/proposition-map.md"
+    content=mapfile.read_text(encoding="utf-8")
+    rows=[line.split("|")[1:-1] for line in content.splitlines()
+          if re.match(r"^\| (CP|H\d+) \|",line)]
+    if [r[0].strip() for r in rows]!=["CP",*[f"H{i}" for i in range(1,11)]]:
+        errors.append("Incomplete AIM-ER proposition map")
+    for row in rows:
+        if len(row)!=6 or any(not v.strip() for v in row):
+            errors.append("Incomplete AIM-ER proposition row: "+row[0])
+        elif not row[4].strip().startswith(("PARTIAL","UNTESTED","EXACT")):
+            errors.append("Unknown AIM-ER mapping status: "+row[0])
+    for link in re.findall(r"\]\((\.\./\.\./[^)]+)\)",content):
+        if not (mapfile.parent/link).resolve().is_file():
+            errors.append("Broken AIM-ER mapping link: "+link)
     try:
         validate(root)
     except (AssertionError,ValueError,AttributeError,KeyError,OSError) as exc:
