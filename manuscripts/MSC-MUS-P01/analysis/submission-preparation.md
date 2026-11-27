@@ -32,6 +32,10 @@ Dear Editorial Office,
 
 Could you clarify whether a theoretical manuscript whose LaTeX sources and revision history have been publicly accessible in a GitHub repository is eligible for submission to Musicae Scientiae under its policy on preprint servers? We would disclose the repository and dates accurately, and would appreciate guidance on anonymisation and any required prior-dissemination statement before submitting.
 
+## Main article and supplementary material
+
+The main article is the shortened submission source. `supplement.tex` is a distinct companion document (S1–S6), not a parallel version of the article. It retains detailed theoretical comparisons, identification derivations, measurement tables, prospective protocols and synthetic calibration; both documents use the same `references.bib`. Build both from the manuscript directory (`latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex supplement.tex`), check both logs, and count the article separately (`texcount -inc -sum main.tex`). Supplement eligibility and the journal's counting convention require editorial confirmation. No submission is authorised by this restructuring.
+
 ## Operational checklist
 
 - [ ] Obtain editorial response before submission; confirm the selected journal and its current fees and manuscript requirements. Do not assume a public repository is exempt from prior-dissemination rules.
