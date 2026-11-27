@@ -41,7 +41,7 @@ See `calibration-protocol.md`. New `calibration_checks.py` compares paired H6 mo
 
 ## Revised primary statistical designs
 
-See `revised-statistical-design.md`. H6 uses marginal CR2/Satterthwaite and conservative 96% intervals, independently evaluated after pilot. H10 uses arm-specific endpoint-change standardization with active final-session recovery, not random slope covariance fitting. Run `OPENBLAS_NUM_THREADS=1 python revised_design.py --reps 2000` for exact-SHA output. H10 first-rating missingness and MNAR remain explicit sensitivity/identification issues. No change to H1–H10 hypotheses.
+See `revised-statistical-design.md`. H6 uses marginal CR2/Satterthwaite and conservative 96% intervals, independently evaluated after pilot. H10 uses arm-specific endpoint-change standardization with active final-session recovery, not random slope covariance fitting. Run `OPENBLAS_NUM_THREADS=1 python revised_design.py --reps 2000` for exact-SHA output. Each H6/H10 scenario records its seed, sample size, session count, alpha, missingness mechanism, true effect, requested and valid replication counts, and fit-failure reasons. Rejection, coverage and bias are conditional on valid fits; zero valid fits yield null estimates and one valid fit yields no bias MCSE. Failed fits are not silently replaced or counted as non-rejections. The script prints the diagnostic JSON before returning a nonzero exit status if any fit failed. H10 first-rating missingness and MNAR remain explicit sensitivity/identification issues. No change to H1–H10 hypotheses.
 
 
 ## Central prediction joint power
