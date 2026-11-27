@@ -59,6 +59,8 @@ def python_reference(x1,x2):
 def summarize(rows,scenario,method):
     n=len(rows)
     if n<1:raise ValueError("No replicates")
+    if any(r[method]["status"] not in ("PROPER","UNAVAILABLE","ERROR") for r in rows):
+        raise ValueError("Invalid method status")
     proper=[r[method]["decision"] for r in rows if r[method]["status"]=="PROPER"]
     false=sum(bool(set(d["rejected_tests"])&set(TRUE_NULLS[scenario])) for d in proper)
     target=TARGET.get(scenario)
@@ -78,19 +80,67 @@ def cell(sid,scenario,reps,seed,offset=0):
         rng=np.random.default_rng(np.random.SeedSequence([seed,sid,tid,i]))
         x1,x2=group(n1,rng,scenario,False),group(n2,rng,scenario,True)
         rows.append({"replicate":i,"python":python_reference(x1,x2),"wlsmv":reference(x1,x2)})
+    return summarize_cell(sid,scenario,seed,offset,rows)
+
+def summarize_cell(sid,scenario,seed,offset,rows):
+    n1,n2=SIZES[sid]
+    if not rows or [r["replicate"] for r in rows]!=list(range(offset,offset+len(rows))):
+        raise ValueError("Missing or duplicate replicate indices")
     both=[r for r in rows if r["python"]["status"]==r["wlsmv"]["status"]=="PROPER"]
-    same=sum(r["python"]["decision"]["rejected_tests"]==r["wlsmv"]["decision"]["rejected_tests"] for r in both)
-    return {"sizes":[n1,n2],"scenario":scenario,"true_nulls":list(TRUE_NULLS[scenario]),"requested":reps,
+    same=sum(set(r["python"]["decision"]["rejected_tests"])==set(r["wlsmv"]["decision"]["rejected_tests"]) for r in both)
+    per_test={}
+    for name in NAMES:
+        outcomes=[(name in r["python"]["decision"]["rejected_tests"],
+                   name in r["wlsmv"]["decision"]["rejected_tests"]) for r in both]
+        per_test[name]={"both_reject":sum(a and b for a,b in outcomes),
+                        "python_only":sum(a and not b for a,b in outcomes),
+                        "wlsmv_only":sum(b and not a for a,b in outcomes),
+                        "neither":sum(not a and not b for a,b in outcomes)}
+    return {"schema":"p05-paired-invariance-v2","sizes":[n1,n2],"scenario":scenario,
+            "true_nulls":list(TRUE_NULLS[scenario]),"requested":len(rows),
             "offset":offset,"seed":seed,"python":summarize(rows,scenario,"python"),
             "wlsmv":summarize(rows,scenario,"wlsmv"),"paired_available":len(both),
-            "paired_identical_rejection_sets":rate(same,len(both)),"records":rows}
+            "paired_identical_rejection_sets":rate(same,len(both)),
+            "paired_test_decisions":per_test,"records":rows}
+
+def aggregate(parts,expected):
+    if not parts or expected<1:raise ValueError("Empty calibration or denominator")
+    key=lambda p:(p.get("schema"),tuple(p["sizes"]),p["scenario"],p["seed"])
+    meta=key(parts[0])
+    if meta[0]!="p05-paired-invariance-v2" or any(key(p)!=meta for p in parts):
+        raise ValueError("Mixed shard metadata")
+    if meta[1] not in SIZES or meta[2] not in SCENARIOS:
+        raise ValueError("Unknown cell")
+    for p in parts:
+        if p["requested"]!=len(p["records"]) or [r["replicate"] for r in p["records"]]!=list(range(p["offset"],p["offset"]+p["requested"])):
+            raise ValueError("Corrupt shard accounting")
+    rows=sorted((r for p in parts for r in p["records"]),key=lambda r:r["replicate"])
+    if len(rows)!=expected:raise ValueError("Incomplete aggregate")
+    out=summarize_cell(SIZES.index(meta[1]),meta[2],meta[3],0,rows)
+    out["precision_screen_only"]=expected<2000
+    return out
+
 
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--reps",type=int,default=1);p.add_argument("--seed",type=int,default=20261209)
     p.add_argument("--offset",type=int,default=0);p.add_argument("--smoke",action="store_true")
+    p.add_argument("--size-index",type=int,choices=range(len(SIZES)))
+    p.add_argument("--scenario",choices=SCENARIOS)
+    p.add_argument("--aggregate",type=Path,help="Folder of single-cell shard JSON files")
+    p.add_argument("--expected",type=int,help="Required complete independent outer denominator")
     a=p.parse_args()
+    if a.aggregate:
+        if a.expected is None or a.smoke or a.scenario is not None or a.size_index is not None:
+            p.error("Aggregation requires --expected only, with one cell per folder")
+        parts=[json.loads(path.read_text(encoding="utf-8")) for path in sorted(a.aggregate.glob("shard-*.json"))]
+        if any(len(part["cells"])!=1 for part in parts):p.error("Each shard must contain exactly one cell")
+        print(json.dumps(aggregate([part["cells"][0] for part in parts],a.expected),indent=2,allow_nan=False))
+        raise SystemExit(0)
+    if (a.size_index is None)!=(a.scenario is None) or (a.smoke and a.scenario is not None):
+        p.error("Specify both cell arguments, or --smoke")
     grid=[(0,"invariant"),(1,"loading_dif"),(2,"threshold_dif"),(3,"intercept_dif")] if a.smoke else [(i,s) for i in range(4) for s in SCENARIOS]
+    if a.scenario is not None:grid=[(a.size_index,a.scenario)]
     cells=[cell(i,s,a.reps,a.seed,a.offset) for i,s in grid]
     print(json.dumps({"synthetic":True,"reference":"WLSMV theta Wu.Estabrook.2016",
         "confirmatory_authorized":False,"latent_mean_comparison_authorized":False,"cells":cells},indent=2,allow_nan=False))

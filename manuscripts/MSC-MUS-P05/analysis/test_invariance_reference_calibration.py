@@ -30,3 +30,19 @@ class InvarianceReferenceTests(unittest.TestCase):
         self.assertEqual([r["replicate"] for r in result["records"]],[4,5])
         self.assertEqual(result["paired_available"],2)
         self.assertFalse(np.array_equal(seen[0][0],seen[1][0]))
+
+    def test_order_independent_pairing_and_strict_aggregation(self):
+        from invariance_reference_calibration import summarize_cell,aggregate
+        def row(i):
+            def fit(names):
+                return {"status":"PROPER","decision":{"rejected_tests":names,"any_rejected":True}}
+            return {"replicate":i,"python":fit(["threshold_shape","threshold_loading"]),
+                    "wlsmv":fit(["threshold_loading","threshold_shape"])}
+        a=summarize_cell(0,"threshold_dif",42,0,[row(0)])
+        b=summarize_cell(0,"threshold_dif",42,1,[row(1)])
+        result=aggregate([b,a],2)
+        self.assertEqual(result["paired_identical_rejection_sets"]["count"],2)
+        self.assertEqual(result["paired_test_decisions"]["threshold_shape"]["both_reject"],2)
+        self.assertTrue(result["precision_screen_only"])
+        for bad in ([a],[a,a],[a,dict(b,seed=43)],[a,dict(b,offset=0)]):
+            with self.assertRaises(ValueError):aggregate(bad,2)
