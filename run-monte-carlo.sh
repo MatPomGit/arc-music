@@ -3,6 +3,7 @@
 set -uo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$root" || exit 1
+python_bin="${PYTHON_BIN:-python3}"
 study="${1:-all}"
 if [[ $# -gt 0 ]]; then shift; fi
 case "$study" in
@@ -23,16 +24,16 @@ status=0
 for id in "${studies[@]}"; do
   launcher="manuscripts/MSC-MUS-$id/monte_carlo.py"
   if [[ "$id" == P02 ]]; then
-    if "$setup"; then echo "P02: NOT_APPLICABLE"; else python3 "$launcher" "$@" || status=1; fi
+    if "$setup"; then echo "P02: NOT_APPLICABLE"; else "$python_bin" "$launcher" "$@" || status=1; fi
     continue
   fi
   venv=".venv/monte-carlo/$id"
   if "$setup"; then
-    python3 -m venv "$venv" &&
+    "$python_bin" -m venv "$venv" &&
       "$venv/bin/python" -m pip install -r "manuscripts/MSC-MUS-$id/analysis/requirements.txt" || status=1
     continue
   fi
-  if "$list"; then python3 "$launcher" "$@" || status=1; continue; fi
+  if "$list"; then "$python_bin" "$launcher" "$@" || status=1; continue; fi
   if [[ ! -x "$venv/bin/python" ]]; then
     echo "$id: prepare with bash run-monte-carlo.sh $id --setup" >&2
     status=1; continue

@@ -25,7 +25,7 @@ python manuscripts/MSC-MUS-P09/monte_carlo.py --profile smoke --jobs 4
 python manuscripts/MSC-MUS-P09/monte_carlo.py --profile full --jobs 8
 ```
 
-Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. Bez skryptu wspólne uruchomienie runnera wymaga zgodnego środowiska; wersje NumPy/SciPy mogą się różnić.
+Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Jeśli systemowy Python jest niezgodny z przypiętymi pakietami, wybierz Python 3.12/3.13, np. `PYTHON_BIN=python3.12 bash run-monte-carlo.sh all --setup`. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. Bez skryptu wspólne uruchomienie runnera wymaga zgodnego środowiska; wersje NumPy/SciPy mogą się różnić.
 
 `--task 'ipw/cell-06/*'` wybiera konfigurację z zależnościami; `--list` wypisuje programy, ziarna, parametry i zależności bez obliczeń. Domyślnie jeden proces i jeden wątek BLAS; zwiększ --jobs ostrożnie względem pamięci, --threads domyślnie 1. GPU nie jest wykorzystywane przez obecne modele NumPy/SciPy/R.
 
