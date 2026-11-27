@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-Her interests encompass the psychology of creativity, music and art therapy, with a particular focus on the significance of artistic expression in human life.
+Her psychological interests centre on creativity, music and art therapy. She takes an interest in artistic activity as a meaningful part of human experience, emotional expression and personal development. Her perspective combines sensitivity to individual experiences with reflection on the psychological significance of art in everyday life.
 
 ## Paulina Ficner
 
-Her interests in business psychology intersect with her experience in design and visual communication. She is interested in the relationship between psychological processes and the human environment.
+Her interests span psychology, particularly business psychology, as well as design and visual communication. She combines a psychological perspective with an appreciation of aesthetics, perception of the environment and human experience of technology. This interdisciplinary outlook encompasses individual, social and organisational dimensions of human functioning.
 
 ## Mateusz Pomianek
 
-He specialises in neuroinformatics and interdisciplinary topics at the intersection of psychology, neuroscience and computer science.
+His research interests lie at the intersection of psychology, neuroscience and computer science, with a particular emphasis on neuroinformatics. Central to this area is an understanding of the complex relationships between brain function, psychological processes and human behaviour. His interdisciplinary perspective encompasses both theoretical questions and the context of contemporary technology.
 
 ## Cezary Biele
 
-His research interests encompass cognitive psychology and digital psychology. Head of the Centre for Digital Psychology at VIZJA University.
+His academic profile encompasses cognitive psychology, digital psychology and human functioning in technologically mediated environments. This perspective places particular emphasis on cognitive processes, their relationship to human experience and the psychological dimensions of digital transformation. He heads the Centre for Digital Psychology at VIZJA University.

@@ -4,16 +4,16 @@
 
 ## Ewa Sterniczuk
 
-Jej zainteresowania obejmują psychologię twórczości, muzykę i arteterapię, ze szczególnym uwzględnieniem znaczenia ekspresji artystycznej w życiu człowieka.
+W obszarze jej zainteresowań psychologicznych szczególne miejsce zajmują twórczość, muzyka i arteterapia. Bliska jest jej perspektywa ujmująca aktywność artystyczną jako istotny element ludzkiego doświadczenia, ekspresji emocjonalnej i rozwoju osobistego. Jej profil zainteresowań łączy wrażliwość na indywidualne przeżycia człowieka z refleksją nad psychologicznym znaczeniem sztuki w codziennym życiu.
 
 ## Paulina Ficner
 
-Łączy zainteresowania psychologią biznesu z doświadczeniem w projektowaniu i komunikacji wizualnej. Interesuje się relacjami między procesami psychologicznymi a otoczeniem człowieka.
+Jej zainteresowania obejmują psychologię, w szczególności psychologię biznesu, oraz szeroko rozumiane projektowanie i komunikację wizualną. Łączy perspektywę psychologiczną z wrażliwością na estetykę, sposób postrzegania otoczenia i znaczenie ludzkich doświadczeń w kontakcie z technologią. Interdyscyplinarny charakter jej zainteresowań pozwala spojrzeć na człowieka w kontekście indywidualnym, społecznym i organizacyjnym.
 
 ## Mateusz Pomianek
 
-Specjalizuje się w neuroinformatyce oraz interdyscyplinarnych zagadnieniach z pogranicza psychologii, neuronauki i informatyki.
+Jego zainteresowania naukowe sytuują się na pograniczu psychologii, neuronauki i informatyki, ze szczególnym uwzględnieniem neuroinformatyki. Istotne miejsce w tym obszarze zajmuje zrozumienie złożonych zależności między funkcjonowaniem mózgu, procesami psychicznymi i zachowaniem człowieka. Perspektywa interdyscyplinarna pozwala ujmować te zagadnienia zarówno w wymiarze teoretycznym, jak i w kontekście współczesnych technologii.
 
 ## Cezary Biele
 
-Jego zainteresowania naukowe obejmują psychologię poznawczą i psychologię cyfrową. Kierownik Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
+Jego profil naukowy obejmuje psychologię poznawczą i psychologię cyfrową oraz problematykę funkcjonowania człowieka w środowisku nowych technologii. Szczególne znaczenie mają w tej perspektywie procesy poznawcze, ich związek z doświadczeniem człowieka oraz psychologiczne aspekty przemian cyfrowych. Jest kierownikiem Centrum Psychologii Cyfrowej Uniwersytetu VIZJA.
