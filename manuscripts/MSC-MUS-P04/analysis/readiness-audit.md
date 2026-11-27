@@ -7,7 +7,7 @@ Status: PROSPECTIVE. The current scientific question is overall PAQ-S moderation
 |PAQ-S total scoring|Implemented|paq_scoring.py; six items only; electronic administration rights not established|
 |Ordinal omega model|Implemented, model-dependent|reliability.py; empirical fit and uncertainty not available|
 |Measurement error and missingness calibration|Verified synthetic evidence|paqs-calibration-evidence.md; no joint empirical calibration; no justified final N|
-|Pilot and materials|Open|pilot-protocol.md; [stimulus-manifest.csv](stimulus-manifest.csv) is a header-only register; actual assets, rights, interface, recruitment and approvals absent|
+|Pilot and materials|Open|pilot-protocol.md; [stimulus-manifest.csv](stimulus-manifest.csv) is a header-only register; metadata gate in stimulus_manifest.py and proposed independent rating procedure; actual assets, verified hashes, rights, independent assessment, interface, recruitment and approvals absent|
 |Full-text claim audit|Partial|[measurement-evidence.md](measurement-evidence.md) and bibliography; verified core PAQ-S metadata and nonlinear reliability rationale, not all source full texts|
 |Independent scientific review|Open|independent-review-handoff.md; author-side audit is not independent|
 |Preregistration and ethics|Open|No approval or registration asserted|
