@@ -49,6 +49,13 @@ class Custom(unittest.TestCase):
             self.assertNotIn("--design",jobs[-1].args)
         with self.assertRaises(ValueError):
             build("P09",23,123,{},"ipw/cell-06",dict(d,n=501))
+    def test_p09_numeric_effects(self):
+        d=dict(n=500,mechanism="MAR",effects=[.2,-.1,0.],profile="standard")
+        for family in ("ipw/cell-06","paired/cell-19"):
+            jobs=build("P09",23,123,{},family,d)
+            self.assertEqual(jobs[0].args[-2],"0.2,-0.1,0.0")
+        with self.assertRaises(ValueError):
+            build("P09",23,123,{},"ipw/cell-06",dict(d,effects=[100,0,0]))
     def test_invalid(self):
         for study,options in [("P03",{"--cap":100}),("P08",{"--reference-n":101}),("P01",{"--n":100})]:
             with self.assertRaises(ValueError):build(study,5,0,options)

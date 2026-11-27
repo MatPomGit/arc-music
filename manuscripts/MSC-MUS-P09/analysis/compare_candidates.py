@@ -31,7 +31,7 @@ def shard(cell,offset,reps,draws,seed,design=None):
 
 def summarize(parts,reps):
     if not parts or reps<1:raise ValueError("Empty aggregate")
-    key=lambda p:(p.get("schema"),p["seed"],p["cell"],p["draws"],tuple(p["design"]) if "design" in p else None)
+    key=lambda p:(p.get("schema"),p["seed"],p["cell"],p["draws"],resolve_design(p["cell"],p["design"]) if "design" in p else None)
     meta=key(parts[0])
     if meta[0]!=SCHEMA or not 0<=meta[2]<len(GRID) or any(key(p)!=meta for p in parts):
         raise ValueError("Mixed paired shard metadata")

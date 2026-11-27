@@ -6,7 +6,7 @@ import itertools
 import json
 from pathlib import Path
 import numpy as np
-from calibration import generate,effect_values,PROFILES,MECHANISMS,STRESS_MECHANISMS,EFFECTS,STRESS_EFFECTS
+from calibration import generate,effect_values,PROFILES,MECHANISMS,STRESS_MECHANISMS,EFFECTS,STRESS_EFFECTS,validate_effect_profile
 from inference import MODELS
 from assignment_candidate import candidate_family
 from calibrate_assignment_candidate import proportion
@@ -21,12 +21,15 @@ def resolve_design(cell,design=None):
     if not 0<=cell<len(GRID):raise ValueError("Invalid cell")
     if design is None:return GRID[cell]
     n,mechanism,effect,profile=design
-    if type(n) is not int or n<40 or n>100000 or n%2 or mechanism not in MECHANISMS+STRESS_MECHANISMS or effect not in EFFECTS|STRESS_EFFECTS or profile not in PROFILES:
+    if type(n) is not int or n<40 or n>100000 or n%2 or mechanism not in MECHANISMS+STRESS_MECHANISMS or profile not in PROFILES:
         raise ValueError("Invalid custom design")
-    return n,mechanism,effect,profile
+    validate_effect_profile(effect,profile)
+    return n,mechanism,effect if isinstance(effect,str) else tuple(effect),profile
 
 def parse_design(values):
-    return None if values is None else (int(values[0]),*values[1:])
+    if values is None:return None
+    n,mechanism,effect,profile=values
+    return int(n),mechanism,tuple(map(float,effect.split(","))) if "," in effect else effect,profile
 
 def replicate(seed,cell,index,draws,design=None):
     n,mechanism,effect,profile=resolve_design(cell,design)
@@ -49,7 +52,7 @@ def shard(seed,cell,start,count,draws,design=None):
 
 def aggregate(parts,expected):
     if not parts or expected<1:raise ValueError("No shards or invalid denominator")
-    key=lambda p:(p["schema"],p["seed"],p["cell"],p["draws"],tuple(p["design"]) if "design" in p else None)
+    key=lambda p:(p["schema"],p["seed"],p["cell"],p["draws"],resolve_design(p["cell"],p["design"]) if "design" in p else None)
     meta=key(parts[0])
     if meta[0]!=VERSION or not 0<=meta[2]<len(GRID) or any(key(p)!=meta for p in parts):
         raise ValueError("Mixed shard metadata")

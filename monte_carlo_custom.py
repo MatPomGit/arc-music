@@ -133,9 +133,21 @@ def apply_design(study,tasks,d):
         args=["--design",n,bounded("effect",-.6,.6),bounded("missing",0,.9),
               category("mechanism",("mcar","mar","mnar"))]
     elif study=="P09":
-        args=["--design",n,category("mechanism",("complete","MCAR","MAR","MNAR","MAR_nonlinear","MAR_low_overlap")),
-              category("effect",("null","alternative","all_positive","distance_only")),
-              category("profile",("standard","weak_baseline","ceiling","heteroskedastic"))]
+        profile=category("profile",("standard","weak_baseline","ceiling","heteroskedastic"))
+        if "effects" in d:
+            values=d["effects"]
+            if len(values)!=3 or any(not isinstance(v,(int,float)) or not math.isfinite(v) for v in values):
+                raise ValueError("Invalid H1-H3 effects")
+            base,centre,slope={"standard":(.5,.5,.65),"weak_baseline":(.5,.5,.15),
+                               "ceiling":(.8,.76,.65),"heteroskedastic":(.5,.5,.65)}[profile]
+            for v,lo,hi in zip(values,(centre-slope*base,centre-slope*base,.225),
+                               (centre+slope*(1-base),centre+slope*(1-base),.775)):
+                if not 0<lo+v/10 or not hi+v/10<1:
+                    raise ValueError("Effect incompatible with bounded response profile")
+            effect=",".join(map(str,values))
+        else:
+            effect=category("effect",("null","alternative","all_positive","distance_only"))
+        args=["--design",n,category("mechanism",("complete","MCAR","MAR","MNAR","MAR_nonlinear","MAR_low_overlap")),effect,profile]
     elif study=="P07":
         args=["--design",n,bounded("prevalence",.01,.99),bounded("effect",-2,2),
               bounded("missing",0,.95),category("mechanism",("mcar","mar","mnar","confounded"))]
@@ -176,9 +188,9 @@ def ask_design(study,pattern):
                  profile=("equal","heterogeneous")[integer("Profil: 1=equal, 2=heterogeneous",1,2)-1])
     elif study=="P09":
         for key,choices in (("mechanism",("complete","MCAR","MAR","MNAR","MAR_nonlinear","MAR_low_overlap")),
-                            ("effect",("null","alternative","all_positive","distance_only")),
                             ("profile",("standard","weak_baseline","ceiling","heteroskedastic"))):
             d[key]=choices[integer(key+": "+", ".join(f"{i+1}={x}" for i,x in enumerate(choices)),1,len(choices))-1]
+        d["effects"]=[decimal("Efekt "+h+" (punkty skali)",-1.5,1.0) for h in ("H1","H2","H3")]
     elif study=="P04":
         choices=("baseline_mar","status_dependent","outcome_dependent","composite_mar")
         d.update(effect=decimal("Interakcja latentna",-.6,.6),noise=(.5,.9,1.4)[integer("Szum: 1=.5, 2=.9, 3=1.4",1,3)-1],mechanism=choices[integer("Mechanizm: 1=baseline, 2=status, 3=outcome, 4=composite",1,4)-1])
@@ -223,6 +235,7 @@ def interactive(study):
                 break
             except ValueError as exc:
                 print(exc)
+                design=ask_design(study,pattern)
         config={"study":study,"reps":reps,"seed":seed,"options":options,"pattern":pattern,
                 "jobs":jobs,"threads":threads,"design":design}
         run_id="custom-"+hashlib.sha256(json_text(config).encode()).hexdigest()[:16]

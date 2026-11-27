@@ -22,7 +22,22 @@ STRESS_MECHANISMS = ("MAR_nonlinear", "MAR_low_overlap")
 
 
 def effect_values(name):
-    return (EFFECTS | STRESS_EFFECTS)[name]
+    if isinstance(name,str):
+        return (EFFECTS | STRESS_EFFECTS)[name]
+    values=tuple(name)
+    if len(values)!=3 or any(not isinstance(v,(int,float)) or not np.isfinite(v) for v in values):
+        raise ValueError("Invalid H1-H3 effects")
+    return values
+
+def validate_effect_profile(effect,profile):
+    values=effect_values(effect)
+    base,centre,slope,_,_=PROFILES[profile]
+    # Check the entire possible baseline range, not just the sampled values.
+    for value,lo,hi in zip(values,(centre-slope*base,centre-slope*base,.225),
+                          (centre+slope*(1-base),centre+slope*(1-base),.775)):
+        if not (0<lo+value/10 and hi+value/10<1):
+            raise ValueError("Effect incompatible with bounded response profile")
+    return values
 
 
 def rating(rng, probability, concentration, items):
@@ -73,7 +88,7 @@ def generate(rng, n, profile, mechanism, alternative, *, allocation="balanced"):
     if mechanism not in MECHANISMS + STRESS_MECHANISMS:
         raise ValueError("Unknown missingness mechanism")
     base_p, centre, slope, c0, c1 = PROFILES[profile]
-    effects = effect_values(alternative)
+    effects = validate_effect_profile(alternative,profile)
     if allocation == "balanced":
         z = np.repeat([0, 1], n // 2)
         rng.shuffle(z)
