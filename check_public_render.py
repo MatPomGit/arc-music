@@ -101,6 +101,7 @@ def check_interactions(page, section):
         page.wait_for_timeout(180)
         assert marker.get_attribute("cx") == before
         page.emulate_media(reduced_motion="no-preference")
+        motion_state(page, "active")
         page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=before)
         # A substantial displacement within one second verifies the faster motion.
         page.wait_for_function("() => Math.abs(+document.querySelector('#affect-dot').getAttribute('cx')-170)>40", timeout=1500)
@@ -120,7 +121,8 @@ def check_interactions(page, section):
         preference.select_option("on")
         page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=stationary)
         page.emulate_media(reduced_motion="reduce")
-        page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'")
+        motion_state(page, "system")
+        page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'", polling=50)
         page.wait_for_timeout(180)
         assert marker.get_attribute("cx") == "170.00"
         check_projections(page)
@@ -129,6 +131,7 @@ def check_interactions(page, section):
         assert preference.count() == 1
         page.emulate_media(reduced_motion="no-preference")
         preference.select_option("on")
+        motion_state(page, "active")
         if section == "index":
             marker = page.locator("#wave path").first
             before = marker.get_attribute("d")
@@ -151,7 +154,9 @@ def check_interactions(page, section):
             check_projections(page)
         preference.select_option("on")
         page.emulate_media(reduced_motion="reduce")
-        page.wait_for_function("() => !document.querySelector('.step-active')")
+        motion_state(page, "system")
+        # Poll independently of the animation clock when motion is disabled.
+        page.wait_for_function("() => !document.querySelector('.step-active')", polling=50)
         assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
         if section == "index":
             stationary = marker.get_attribute("d")
