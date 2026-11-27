@@ -216,3 +216,31 @@ def check_zoom_reflow(page):
       return bad;
     }""")
     assert not issues, issues
+
+
+def check_manuscript_previews(page):
+    """Require all nine local PDFs and their actual rendered first-page images."""
+    assert page.locator(".pub-preview").count() == 9
+    for i in range(1, 10):
+        identifier = f"msc-mus-p{i:02d}"
+        panel = page.locator(f"#{identifier}")
+        preview = panel.locator(".pub-header > .pub-preview")
+        assert preview.count() == 1
+        link = preview.locator("a")
+        image = preview.locator("img")
+        assert link.get_attribute("href") == f"manuscript-previews/{identifier}.pdf"
+        assert image.get_attribute("src") == f"manuscript-previews/{identifier}.png"
+        assert identifier.upper() in image.get_attribute("alt")
+        image.scroll_into_view_if_needed()
+        image.evaluate("async image => await image.decode()")
+        assert image.evaluate("image => image.naturalWidth > 100 && image.naturalHeight > 100")
+        response = page.context.request.get(link.evaluate("a => a.href"))
+        assert response.ok and response.body().startswith(b"%PDF-")
+        assert panel.locator(".pub-header").evaluate("""header => {
+          const text=header.querySelector('.pub-heading').getBoundingClientRect();
+          const preview=header.querySelector('.pub-preview').getBoundingClientRect();
+          const sideBySide=preview.left>=text.right-1 && Math.abs(preview.top-text.top)<2;
+          const stacked=preview.top>=text.bottom-1;
+          return sideBySide || stacked;
+        }""")
+    page.evaluate("window.scrollTo(0, 0)")

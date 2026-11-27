@@ -215,6 +215,8 @@ def check_interactions(page, section):
             assert marker.get_attribute("d") == stationary
             check_projections(page)
     if section == "studies":
+        from check_site_regressions import check_manuscript_previews
+        check_manuscript_previews(page)
         assert page.locator(".pub").count() == 9
         assert all(page.locator(".pub h3").nth(i).is_visible() for i in range(9))
         assert page.locator(".pub details").count() == 0

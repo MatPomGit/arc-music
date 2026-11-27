@@ -172,3 +172,29 @@ class EstimateRegistryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ManuscriptPreviewTests(unittest.TestCase):
+    def fixture(self):
+        return "".join(
+            f'<article class="pub" id="msc-mus-p{i:02d}" aria-labelledby="msc-mus-p{i:02d}-title">'
+            f'<div class="pub-meta">Meta</div><h3 id="msc-mus-p{i:02d}-title">Title</h3>'
+            '<p class="pub-question">Question</p><div class="pub-body">Body</div></article>'
+            for i in range(1, 10)
+        )
+
+    def test_preview_mapping_and_language(self):
+        for english, label in ((False, "Otwórz manuskrypt PDF"), (True, "Open manuscript PDF")):
+            result = embed_site_assets.add_manuscript_previews(self.fixture(), english)
+            self.assertEqual(result.count('class="pub-preview"'), 9)
+            self.assertEqual(result.count('class="pub-body"'), 9)
+            self.assertEqual(result.count(label), 18)
+            for i in range(1, 10):
+                base = f"manuscript-previews/msc-mus-p{i:02d}"
+                self.assertEqual(result.count(f'href="{base}.pdf"'), 1)
+                self.assertEqual(result.count(f'src="{base}.png"'), 1)
+
+    def test_missing_or_duplicate_panel_rejected(self):
+        for malformed in (self.fixture().replace('id="msc-mus-p09"', 'id="wrong"'), self.fixture() * 2):
+            with self.assertRaises(ValueError):
+                embed_site_assets.add_manuscript_previews(malformed, False)
