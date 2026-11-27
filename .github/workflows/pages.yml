@@ -9,6 +9,7 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_study_registry.py'
       - 'check_public_render.py'
       - 'test_render_regressions.py'
       - 'embed_site_assets.py'
@@ -24,6 +25,7 @@ on:
       - 'requirements-site.txt'
       - 'validate.py'
       - 'check_site.py'
+      - 'check_study_registry.py'
       - 'check_public_render.py'
       - 'test_render_regressions.py'
       - 'embed_site_assets.py'
@@ -51,6 +53,7 @@ jobs:
       - name: Validate sources
         run: |
           python validate.py
+          python check_study_registry.py
           python -m unittest -v test_verify_public test_render_regressions
       - name: Build website
         run: |
