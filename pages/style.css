@@ -226,3 +226,6 @@ body[data-section=neuropsychology] .article>p{max-width:90ch}
 .research-publications .pub-preview figcaption{font-size:.78rem;color:var(--ink);margin-top:.25rem}
 
 .research-publications .pub-authors{font-size:.92rem;line-height:1.55;color:var(--ink);margin:0 0 .85rem;max-width:70ch}
+
+.research-publications .pub-affiliation{font-size:.875rem;line-height:1.5;color:var(--ink);margin:0 0 .85rem}
+.research-publications .pub-heading .pub-authors{margin-bottom:.2rem}

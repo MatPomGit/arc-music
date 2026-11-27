@@ -228,6 +228,9 @@ def check_manuscript_previews(page):
         assert authors.count() == 1
         label = "Authors" if page.locator("html").get_attribute("lang") == "en" else "Autorzy"
         assert authors.inner_text() == label + ": Ewa Sterniczuk, Paulina Ficner, Cezary Biele, Mateusz Pomianek"
+        affiliation = panel.locator(".pub-heading .pub-affiliation")
+        assert affiliation.count() == 1
+        assert affiliation.inner_text() == ("VIZJA University" if label == "Authors" else "Uniwersytet VIZJA")
         preview = panel.locator(".pub-header > .pub-preview")
         assert preview.count() == 1
         link = preview.locator("a")

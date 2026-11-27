@@ -40,7 +40,9 @@ def add_manuscript_previews(html, english):
         path = f"{PREVIEW_DIR}/{identifier}"
         authors_label = "Authors" if english else "Autorzy"
         authors = f'<p class="pub-authors">{authors_label}: {", ".join(AUTHORS)}</p>'
-        header = header.replace("</h3>", "</h3>" + authors, 1)
+        affiliation = "VIZJA University" if english else "Uniwersytet VIZJA"
+        header = header.replace("</h3>", "</h3>" + authors +
+                                f'<p class="pub-affiliation">{affiliation}</p>', 1)
         return (
             f'{opening}<div class="pub-header"><div class="pub-heading">{header}</div>'
             f'<figure class="pub-preview"><a href="{path}.pdf" '
