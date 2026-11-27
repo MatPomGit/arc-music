@@ -154,6 +154,7 @@ if __name__=="__main__":
     p.add_argument("csv")
     p.add_argument("--ledger", required=True, help="Restricted authoritative allocation database")
     a=p.parse_args()
-    frame=pd.read_csv(a.csv,dtype={"participant_id":str})
+    from export_schema import read_export
+    frame=read_export(a.csv)
     reconcile(a.ledger,frame)
     print(json.dumps(analyze(frame),indent=2,allow_nan=False))

@@ -29,3 +29,15 @@ def validate_fields(frame):
         if (frame[f"t{j}_at"].isna() & frame[fields].notna().any(axis=1)).any():
             raise ValueError("Outcome payload without authoritative submission")
     return True
+
+
+def read_export(path):
+    """Preserve opaque identifiers/digests; parse Boolean tokens independently."""
+    d=pd.read_csv(path,dtype={k:"string" for k in ("participant_id","bank_digest","schema_version","same_event1","same_event2")},keep_default_na=False,na_values=["","NA"])
+    for k in ("same_event1","same_event2"):
+        if k not in d:raise ValueError("Missing event flag")
+        if not d[k].dropna().isin(("True","False","true","false")).all():
+            raise ValueError("Invalid event flag")
+        d[k]=d[k].map({"True":True,"true":True,"False":False,"false":False}).astype("boolean")
+    validate_fields(d)
+    return d

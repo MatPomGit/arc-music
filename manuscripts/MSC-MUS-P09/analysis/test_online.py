@@ -6,7 +6,7 @@ import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from unittest.mock import patch
-from export_schema import FIELDS,VERSION
+from export_schema import FIELDS,VERSION,read_export
 from test_inference import fixture
 from inference import analyze,prepare
 import pandas as pd
@@ -136,6 +136,13 @@ class AllocationTests(unittest.TestCase):
             self.assertEqual({row["field"] for row in csv.DictReader(file)},set(FIELDS))
         self.assertEqual(reconcile(self.path,d),3)
         self.assertEqual(analyze(d)["randomised"],3)
+        export=self.path.with_suffix(".csv")
+        d.to_csv(export,index=False)
+        restored=read_export(export)
+        self.assertEqual(reconcile(self.path,restored),3)
+        self.assertEqual(analyze(restored)["randomised"],3)
+        bad=d.copy();bad.loc[0,"same_event1"]="1";bad.to_csv(export,index=False)
+        with self.assertRaisesRegex(ValueError,"Invalid event flag"):read_export(export)
         self.assertEqual(int(prepare(d).valid1.sum()),2)
         self.assertEqual(int(prepare(d).valid2.sum()),1)
         for field,value in (("bank_digest","bad"),("bank_digest","b"*64),("schema_version","old"),("task_end_reason","task_stopped"),("t1_at","2026-11-01T10:00:02Z")):

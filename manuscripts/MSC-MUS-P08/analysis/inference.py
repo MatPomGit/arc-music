@@ -107,7 +107,7 @@ if __name__=="__main__":
     a = p.parse_args()
     if a.bootstrap_draws != 0 and a.bootstrap_draws < 199:
         p.error("--bootstrap-draws must be zero or at least 199")
-    frame=pd.read_csv(a.csv,dtype={"participant_id":str,"system_schedule":str})
+    frame=pd.read_csv(a.csv,dtype={"participant_id":str,"system_schedule":str,"bank_digest":str,"schema_version":str})
     if a.data_kind=="empirical":
         if not a.ledger:p.error("Empirical mode requires authoritative ledger")
         from assignment_ledger import reconcile

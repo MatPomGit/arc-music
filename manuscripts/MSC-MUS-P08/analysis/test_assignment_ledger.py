@@ -33,6 +33,10 @@ class LedgerTests(unittest.TestCase):
         data=pd.concat([data,f],axis=1)
         data.loc[0,"ownership1"]=None
         self.assertEqual(reconcile(self.path,data),80)
+        export=self.path.with_suffix(".csv")
+        data.drop(columns="withdrawn").to_csv(export,index=False)
+        restored=pd.read_csv(export,dtype={"participant_id":str,"system_schedule":str,"bank_digest":str,"schema_version":str})
+        self.assertEqual(reconcile(self.path,restored),80)
         self.assertEqual(analyze(data)["randomised"],80)
         for k,v in [("authority",2),("manual",2),("training",2),("bank_digest","b"*64),
                     ("system_schedule","9999"),("schema_version","bad"),("randomised_at","2020-01-01T00:00:00Z")]:
