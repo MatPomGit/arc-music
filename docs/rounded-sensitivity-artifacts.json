@@ -1,0 +1,79 @@
+{
+  "run": 45990267481,
+  "source": "018081465b81983ae2618afba2d95eb9efb71511",
+  "verification": "Downloaded locally; SHA-256 and embedded exact-head verified for all 12 archives",
+  "artifacts": [
+    {
+      "name": "sensitivity-P09-600-MNAR-null",
+      "id": 15193781894,
+      "digest": "sha256:a1df781c8afa9fef606fec0664927a6a602f75af3afa9c0900b7969e0e49d9f6",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P09-600-MNAR-alternative",
+      "id": 15193019265,
+      "digest": "sha256:3b94715d8a5adeb1059bab625cb1563a6d26941b9e597aa5c0c5015d80a5b5e3",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P09-600-MAR-null",
+      "id": 15193008911,
+      "digest": "sha256:b8c7b9e7a2180faa88890f42bbe63fc4d3df6110b13a8db84052d71b288043d2",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P09-600-MAR-alternative",
+      "id": 15192954489,
+      "digest": "sha256:4b5f41cd4b0aa55e262c2d1fa0c838c23342a2f85da7736b58fe8a3ed9a71a67",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P09-440-MNAR-null",
+      "id": 15192684261,
+      "digest": "sha256:6f9591773d0266791da9406a0bc1d1708c2daaabc58f1f58014743b0a9a7d6e0",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P09-440-MAR-null",
+      "id": 15192678703,
+      "digest": "sha256:634d3de714ab2a0d1931f1134c21fdafe400a4c622bd6c1dc250d0089c1c8303",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P03-660-mixed_mar-alternative",
+      "id": 15192634168,
+      "digest": "sha256:2063020ff7d0df09ed0be8acf3906722eb7c120119c3bebe0ce5d1f36f021207",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P08-660-mnar-null",
+      "id": 15192503873,
+      "digest": "sha256:503f752065ab8f89fd7c9f8f0d17f63b4bbd510a50039441a3e0452541421496",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P08-640-mar-null",
+      "id": 15192488761,
+      "digest": "sha256:868688e3e91295c770ce4f7c27c39ef60dcdb6c7b2e6a30d6c426923a51e78a2",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P08-640-mnar-null",
+      "id": 15192484815,
+      "digest": "sha256:d3756311060e1a39180d40251a78d61c11328c943a6e0cdde74c3fb9446b2559",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P03-660-outcome_mnar-alternative",
+      "id": 15192384712,
+      "digest": "sha256:8b8658192315e4a05297038d7585a25782a607c7d7fc5cb335bdb08cf63968de",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    },
+    {
+      "name": "sensitivity-P08-660-mar-null",
+      "id": 15192204427,
+      "digest": "sha256:7f4aead7d5a40f39d4f2c41acbf3a513567a7f3073b6914cc8227370ab18456d",
+      "head": "018081465b81983ae2618afba2d95eb9efb71511"
+    }
+  ]
+}

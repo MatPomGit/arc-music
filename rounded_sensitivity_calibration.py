@@ -13,7 +13,7 @@ os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("OMP_NUM_THREADS", "1")
 
 import numpy as np
-from scipy.stats import norm, rankdata
+from scipy.stats import binom, norm, rankdata
 
 ROOT = Path(__file__).resolve().parent
 SEED = 20261202
@@ -50,12 +50,26 @@ def coverage(intervals, attempted, truth=0.):
                 mean_width=float(np.diff(intervals, axis=1).mean()))
 
 
+def hearing_retention(n, target=500, measurement_loss=.20, hearing_loss=(.05,.10)):
+    """Exact independent-loss calculation for two equal execution groups."""
+    if type(n) is not int or n<4 or n%4 or not 1<=target<=n:
+        raise ValueError("Invalid balanced factorial design")
+    if len(hearing_loss)!=2 or not 0<=measurement_loss<=1 or any(not 0<=h<=1 for h in hearing_loss):
+        raise ValueError("Invalid probabilities")
+    p0,p1 = [(1-h)*(1-measurement_loss) for h in hearing_loss]
+    k = np.arange(n//2+1)
+    chance = float(binom.pmf(k,n//2,p0) @ binom.sf(target-1-k,n//2,p1))
+    return dict(n=n,target=target,expected_observed=n/2*(p0+p1),
+                attainment=min(1.,max(0.,chance)),p_by_execution=[p0,p1],
+                assumptions="balanced assignment, independent hearing and measurement loss within execution group")
+
+
 def p08(n, mechanism, reps, draws, seed):
     import pandas as pd
     from inference import BASE
     from sensitivity import assess, bootstrap
     from simulation import draw
-    if n not in (640,660) or mechanism not in ("mar","mnar"):
+    if n not in (640,660,720) or mechanism not in ("mcar","mar","mnar"):
         raise ValueError("Invalid P08 design")
     intervals = {"ipw20": [], "shift_zero": []}
     heard_counts, gate_counts = [], []
@@ -88,6 +102,8 @@ def p08(n, mechanism, reps, draws, seed):
                 mean_heard=float(np.mean(heard_counts,axis=0)[0]),
                 mean_observed_heard=float(np.mean(heard_counts,axis=0)[1]),
                 full_cohort_gate_blocked=int(sum(gate_counts)),
+                observed_target_attainment=float((np.array(heard_counts)[:,1]>=500).mean()),
+                independent_loss_planning=hearing_retention(n),
                 methods={k:coverage(v,reps) for k,v in intervals.items()})
 
 
@@ -125,7 +141,7 @@ def split_rhat(chains):
     return dict(rank=rank,folded=folded,maximum=result)
 
 
-def p03(mechanism, reps, seed):
+def p03(mechanism, reps, seed, *, sweeps=30):
     from imputation import draw_imputations
     from imputation_calibration import mask_and_stop,raw_records
     from power import calibration
@@ -133,7 +149,10 @@ def p03(mechanism, reps, seed):
     if mechanism not in ("mixed_mar","outcome_mnar"):
         raise ValueError("Invalid P03 mechanism")
     keys = ("clarity_post","motive_expression")
-    chains,sweeps = 4,30
+    chains = 4
+    if sweeps < 30:
+        raise ValueError("Require at least 30 sweeps")
+    discard = sweeps//3
     rng = np.random.default_rng(seed)
     results = []
     for _ in range(reps):
@@ -152,10 +171,14 @@ def p03(mechanism, reps, seed):
         for key,trace in traces.items():
             if not np.isfinite(trace).all():
                 raise AssertionError("Incomplete trace")
-            rows[key] = {label:split_rhat(trace[:,10:,i]) for i,label in enumerate(("mean","sd"))}
-        results.append(dict(submitted=len(data),complete=n,diagnostics=rows))
+            rows[key] = {label:split_rhat(trace[:,discard:,i]) for i,label in enumerate(("mean","sd"))}
+        early = {key: {label:split_rhat(trace[:,10:30,i])
+                           for i,label in enumerate(("mean","sd"))}
+                 for key,trace in traces.items()}
+        results.append(dict(submitted=len(data),complete=n,diagnostics=rows,
+                            first_30_sweeps=early))
     return dict(mechanism=mechanism,target=500,cap=660,reps=reps,chains=chains,
-                sweeps=sweeps,discarded=10,rows=results,
+                sweeps=sweeps,discarded=discard,rows=results,
                 note="Summary-statistic diagnostics; not proof of convergence or MI validity.")
 
 
@@ -168,12 +191,13 @@ def main():
     p.add_argument("--reps",type=int,default=40)
     p.add_argument("--draws",type=int,default=199)
     p.add_argument("--seed",type=int,default=SEED)
+    p.add_argument("--sweeps",type=int,default=30)
     a=p.parse_args()
     if a.reps<2 or a.draws<199:
         p.error("Require >=2 outer replications and >=199 bootstrap draws")
     load_path(a.study)
     if a.study=="P03":
-        results=p03(a.mechanism,a.reps,a.seed)
+        results=p03(a.mechanism,a.reps,a.seed,sweeps=a.sweeps)
     elif a.study=="P08":
         results=p08(a.n,a.mechanism,a.reps,a.draws,a.seed)
     else:

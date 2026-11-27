@@ -1,10 +1,21 @@
 import unittest
 
 import numpy as np
-from rounded_sensitivity_calibration import coverage, split_rhat, wilson
+from rounded_sensitivity_calibration import coverage, split_rhat, wilson, hearing_retention
 
 
 class DiagnosticTests(unittest.TestCase):
+    def test_hearing_retention(self):
+        r=hearing_retention(720)
+        self.assertAlmostEqual(r["expected_observed"],532.8)
+        self.assertAlmostEqual(r["attainment"],.9973566511613955,places=10)
+        self.assertAlmostEqual(hearing_retention(660)["attainment"],.16208532385605012,places=10)
+        self.assertGreater(r["attainment"],hearing_retention(700)["attainment"])
+        with self.assertRaises(ValueError):
+            hearing_retention(721)
+        with self.assertRaises(ValueError):
+            hearing_retention(720,measurement_loss=-.1)
+
     def test_accounting(self):
         r=coverage([[-1,1],[.1,2]],3)
         self.assertEqual(r["coverage"],.5)

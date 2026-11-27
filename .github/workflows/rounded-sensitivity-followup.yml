@@ -1,0 +1,54 @@
+name: Rounded sensitivity follow-up
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/rounded-sensitivity-followup.yml'
+      - 'rounded_sensitivity_followup.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - {study: P03, n: 660, mechanism: mixed_mar, effect: alternative, reps: 12, draws: 199}
+          - {study: P03, n: 660, mechanism: outcome_mnar, effect: alternative, reps: 12, draws: 199}
+          - {study: P08, n: 720, mechanism: mcar, effect: 'null', reps: 80, draws: 399}
+          - {study: P08, n: 720, mechanism: mar, effect: 'null', reps: 80, draws: 399}
+          - {study: P08, n: 720, mechanism: mnar, effect: 'null', reps: 80, draws: 399}
+          - {study: P09, n: 440, mechanism: MAR, effect: 'null', reps: 200, draws: 499}
+          - {study: P09, n: 600, mechanism: MAR, effect: 'null', reps: 200, draws: 499}
+          - {study: P09, n: 600, mechanism: MNAR, effect: 'null', reps: 200, draws: 499}
+          - {study: P09, n: 600, mechanism: MAR, effect: alternative, reps: 200, draws: 499}
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      STUDY: ${{ matrix.study }}
+      N: ${{ matrix.n }}
+      MECHANISM: ${{ matrix.mechanism }}
+      EFFECT: ${{ matrix.effect }}
+      REPS: ${{ matrix.reps }}
+      DRAWS: ${{ matrix.draws }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - run: |
+          python3 -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.3.3 statsmodels==0.14.6
+          python3 -m unittest -v test_rounded_sensitivity_calibration
+          python3 rounded_sensitivity_followup.py --study "$STUDY" --n "$N" --mechanism "$MECHANISM" --effect "$EFFECT" --reps "$REPS" --draws "$DRAWS" > followup.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: followup-${{ matrix.study }}-${{ matrix.n }}-${{ matrix.mechanism }}-${{ matrix.effect }}
+          path: |
+            followup.json
+            exact-head.txt
+          if-no-files-found: error
