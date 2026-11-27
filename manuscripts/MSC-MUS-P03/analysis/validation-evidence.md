@@ -39,3 +39,23 @@ Observed GitHub check-run statuses, keyed by exact tested commit; links are evid
 The tests job executes `python3 validate.py` and Python unittest discovery on the exact PR head. Calibration jobs use 30 replications per cell, 10 imputations and five sweeps; the protocol smoke uses 10 replications per cell, 50 imputations and 15 sweeps. Trace smoke uses four chains and only 20 retained sweeps per chain, so its ESS cannot reach the prespecified 400 threshold. Successful execution is not evidence that the diagnostic screen passed. The numerical artifact contents and rendered PDF have not been independently inspected in this update.
 
 The revised code rejects malformed pooled inference and incomplete traces, retains failed sensitivity scenarios without partial pooling, and preserves threshold diagnostics after failure of the common ordinal fit. The manuscript and survey protocol now describe these safeguards. Higher-precision repeated-sampling calibration, independent reference comparisons, measurement review, prospective approvals and independent review remain open. No fieldwork or confirmatory inference is authorized.
+
+## Numerical artifact review (d6bbfea)
+
+Exact-head files in the six MI artifact archives and both additional P03 trace-screen archives match `d6bbfea508a6c2c3b213489c4d7b265ca7d278ac`. The [test log](https://github.com/MatPomGit/arc-music/actions/runs/46079975685/job/140776456869) reports 49 tests in 3.362 s, all passing; the [manuscript build](https://github.com/MatPomGit/arc-music/actions/runs/46079975671/job/140776456634) succeeded.
+
+The five calibration artifacts in [run 46079975685](https://github.com/MatPomGit/arc-music/actions/runs/46079975685) cover 300 synthetic datasets (30 per mechanism and effect), cap 640, target 500, m=10, five sweeps. No fit failures or invalid results were reported across the four estimators/scenarios per dataset. This is a repeat of the low-precision screen, not an independent replication or a cap-660 production calibration.
+
+| Mechanism | CC coverage, r=.15 | MI zero coverage, r=.15 | MI zero bias, r=.15 | MI zero rejection, r=0 |
+|---|---:|---:|---:|---:|
+| Complete | .9333 | .9333 | -.00249 | .1000 |
+| Outcome MAR | .9333 | .9333 | -.00160 | .1667 |
+| Predictor MAR | 1.0000 | .9667 | -.00397 | .0333 |
+| Mixed MAR | .9000 | .8667 | -.00437 | .0333 |
+| Outcome MNAR | .7667 | .7667 | -.03383 | .3667 |
+
+At r=.15 the MI zero coverage MCSE is .06206 for mixed MAR and .07722 for outcome MNAR. Under outcome MNAR at r=0, MI bias is -.04258 and coverage .6333. These are synthetic estimates against an estimated rounded projection, not empirical effects. No conclusion that MI corrects MNAR is justified.
+
+The production trace smoke (artifact 15236501660) returned screen_flag: 17/17 scalar diagnostics failed the screen, 13/17 had Rhat >1.01, maximum bulk ESS 80, terminal MCSE/SE .25308 (m=5). With only 80 retained draws this design cannot demonstrate ESS >=400. Separate [trace screens](https://github.com/MatPomGit/arc-music/actions/runs/46079975651) at cap 660 (eight synthetic datasets per mechanism, four chains, 30 sweeps) yielded 17/32 and 8/16 Rhat values >1.01 in mixed MAR and outcome MNAR, respectively; maxima 1.10204 and 1.07849. These are not full-configuration tests.
+
+Decision: retain PROSPECTIVE_NO_GO. E3-P03-001 remains open. Next scientific work requires independent reference comparisons, trace diagnostics with sufficient retained draws, prespecified precision and repeated-sampling calibration using the proposed production configuration. The short-screen MCSE is not an estimate for m=50. Recruitment and instrument approvals remain outstanding. No claim of convergence or participant benefit is made.
