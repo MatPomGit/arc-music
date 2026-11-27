@@ -1,0 +1,6761 @@
+{
+  "status": "SYNTHETIC_DEVELOPMENT",
+  "seed": 20261205,
+  "reps": 2000,
+  "screening_only": false,
+  "planned_cells": 72,
+  "complete": true,
+  "cells": [
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.007875779519298574,
+          "bias_mcse": 0.005725079228624472,
+          "coverage_conditional": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "coverage_operational": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "holm_rejection_conditional": {
+            "count": 35,
+            "denominator": 2000,
+            "rate": 0.0175,
+            "mcse": 0.002932042803234632
+          },
+          "holm_rejection_operational": {
+            "count": 35,
+            "denominator": 2000,
+            "rate": 0.0175,
+            "mcse": 0.002932042803234632
+          },
+          "mean_switchers": 36.075
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.003360992767377205,
+          "bias_mcse": 0.0030713631793305484,
+          "coverage_conditional": {
+            "count": 1921,
+            "denominator": 2000,
+            "rate": 0.9605,
+            "mcse": 0.004355441998236229
+          },
+          "coverage_operational": {
+            "count": 1921,
+            "denominator": 2000,
+            "rate": 0.9605,
+            "mcse": 0.004355441998236229
+          },
+          "holm_rejection_conditional": {
+            "count": 41,
+            "denominator": 2000,
+            "rate": 0.0205,
+            "mcse": 0.00316857617866448
+          },
+          "holm_rejection_operational": {
+            "count": 41,
+            "denominator": 2000,
+            "rate": 0.0205,
+            "mcse": 0.00316857617866448
+          },
+          "mean_switchers": 36.0935
+        }
+      },
+      "any_holm_rejection": {
+        "count": 75,
+        "denominator": 2000,
+        "rate": 0.0375,
+        "mcse": 0.004248161366991607
+      },
+      "joint_holm_rejection": {
+        "count": 1,
+        "denominator": 2000,
+        "rate": 0.0005,
+        "mcse": 0.0004998749843710925
+      },
+      "false_family_rejection": {
+        "count": 75,
+        "denominator": 2000,
+        "rate": 0.0375,
+        "mcse": 0.004248161366991607
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.004996295841345321,
+          "bias_mcse": 0.005879289550347101,
+          "coverage_conditional": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "coverage_operational": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "holm_rejection_conditional": {
+            "count": 45,
+            "denominator": 2000,
+            "rate": 0.0225,
+            "mcse": 0.0033161536454151216
+          },
+          "holm_rejection_operational": {
+            "count": 45,
+            "denominator": 2000,
+            "rate": 0.0225,
+            "mcse": 0.0033161536454151216
+          },
+          "mean_switchers": 34.949
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0028432485092385108,
+          "bias_mcse": 0.0031441471513036505,
+          "coverage_conditional": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "coverage_operational": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "holm_rejection_conditional": {
+            "count": 43,
+            "denominator": 2000,
+            "rate": 0.0215,
+            "mcse": 0.003243281517229116
+          },
+          "holm_rejection_operational": {
+            "count": 43,
+            "denominator": 2000,
+            "rate": 0.0215,
+            "mcse": 0.003243281517229116
+          },
+          "mean_switchers": 34.459
+        }
+      },
+      "any_holm_rejection": {
+        "count": 85,
+        "denominator": 2000,
+        "rate": 0.0425,
+        "mcse": 0.0045107510461119445
+      },
+      "joint_holm_rejection": {
+        "count": 3,
+        "denominator": 2000,
+        "rate": 0.0015,
+        "mcse": 0.0008653756409791069
+      },
+      "false_family_rejection": {
+        "count": 85,
+        "denominator": 2000,
+        "rate": 0.0425,
+        "mcse": 0.0045107510461119445
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13989165758112668,
+          "bias_mcse": 0.00560167585173636,
+          "coverage_conditional": {
+            "count": 1854,
+            "denominator": 2000,
+            "rate": 0.927,
+            "mcse": 0.005816829033072915
+          },
+          "coverage_operational": {
+            "count": 1854,
+            "denominator": 2000,
+            "rate": 0.927,
+            "mcse": 0.005816829033072915
+          },
+          "holm_rejection_conditional": {
+            "count": 74,
+            "denominator": 2000,
+            "rate": 0.037,
+            "mcse": 0.0042208411483968455
+          },
+          "holm_rejection_operational": {
+            "count": 74,
+            "denominator": 2000,
+            "rate": 0.037,
+            "mcse": 0.0042208411483968455
+          },
+          "mean_switchers": 34.067
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06636330314866232,
+          "bias_mcse": 0.0030710220492391,
+          "coverage_conditional": {
+            "count": 1882,
+            "denominator": 2000,
+            "rate": 0.941,
+            "mcse": 0.005268728499363013
+          },
+          "coverage_operational": {
+            "count": 1882,
+            "denominator": 2000,
+            "rate": 0.941,
+            "mcse": 0.005268728499363013
+          },
+          "holm_rejection_conditional": {
+            "count": 61,
+            "denominator": 2000,
+            "rate": 0.0305,
+            "mcse": 0.0038451105315712316
+          },
+          "holm_rejection_operational": {
+            "count": 61,
+            "denominator": 2000,
+            "rate": 0.0305,
+            "mcse": 0.0038451105315712316
+          },
+          "mean_switchers": 33.8665
+        }
+      },
+      "any_holm_rejection": {
+        "count": 130,
+        "denominator": 2000,
+        "rate": 0.065,
+        "mcse": 0.005512485827646181
+      },
+      "joint_holm_rejection": {
+        "count": 5,
+        "denominator": 2000,
+        "rate": 0.0025,
+        "mcse": 0.001116635571706365
+      },
+      "false_family_rejection": {
+        "count": 130,
+        "denominator": 2000,
+        "rate": 0.065,
+        "mcse": 0.005512485827646181
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0024014392860002773,
+          "bias_mcse": 0.005644702557849641,
+          "coverage_conditional": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "coverage_operational": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "holm_rejection_conditional": {
+            "count": 409,
+            "denominator": 2000,
+            "rate": 0.2045,
+            "mcse": 0.009018862178789517
+          },
+          "holm_rejection_operational": {
+            "count": 409,
+            "denominator": 2000,
+            "rate": 0.2045,
+            "mcse": 0.009018862178789517
+          },
+          "mean_switchers": 36.06
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0021488901083734652,
+          "bias_mcse": 0.003119824578760198,
+          "coverage_conditional": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "coverage_operational": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "holm_rejection_conditional": {
+            "count": 48,
+            "denominator": 2000,
+            "rate": 0.024,
+            "mcse": 0.00342227994179319
+          },
+          "holm_rejection_operational": {
+            "count": 48,
+            "denominator": 2000,
+            "rate": 0.024,
+            "mcse": 0.00342227994179319
+          },
+          "mean_switchers": 36.2155
+        }
+      },
+      "any_holm_rejection": {
+        "count": 433,
+        "denominator": 2000,
+        "rate": 0.2165,
+        "mcse": 0.00920944488012171
+      },
+      "joint_holm_rejection": {
+        "count": 24,
+        "denominator": 2000,
+        "rate": 0.012,
+        "mcse": 0.002434748446965312
+      },
+      "false_family_rejection": {
+        "count": 48,
+        "denominator": 2000,
+        "rate": 0.024,
+        "mcse": 0.00342227994179319
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.009927263497620234,
+          "bias_mcse": 0.006044508375074839,
+          "coverage_conditional": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "coverage_operational": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "holm_rejection_conditional": {
+            "count": 415,
+            "denominator": 2000,
+            "rate": 0.2075,
+            "mcse": 0.009067627859589299
+          },
+          "holm_rejection_operational": {
+            "count": 415,
+            "denominator": 2000,
+            "rate": 0.2075,
+            "mcse": 0.009067627859589299
+          },
+          "mean_switchers": 34.8125
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.006002495700917789,
+          "bias_mcse": 0.003237672570391674,
+          "coverage_conditional": {
+            "count": 1918,
+            "denominator": 2000,
+            "rate": 0.959,
+            "mcse": 0.00443390347211123
+          },
+          "coverage_operational": {
+            "count": 1918,
+            "denominator": 2000,
+            "rate": 0.959,
+            "mcse": 0.00443390347211123
+          },
+          "holm_rejection_conditional": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "holm_rejection_operational": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "mean_switchers": 34.3605
+        }
+      },
+      "any_holm_rejection": {
+        "count": 437,
+        "denominator": 2000,
+        "rate": 0.2185,
+        "mcse": 0.009240068993248914
+      },
+      "joint_holm_rejection": {
+        "count": 17,
+        "denominator": 2000,
+        "rate": 0.0085,
+        "mcse": 0.0020527725154044713
+      },
+      "false_family_rejection": {
+        "count": 39,
+        "denominator": 2000,
+        "rate": 0.0195,
+        "mcse": 0.0030919047527373806
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.19107603538313503,
+          "bias_mcse": 0.005732478037404484,
+          "coverage_conditional": {
+            "count": 1817,
+            "denominator": 2000,
+            "rate": 0.9085,
+            "mcse": 0.006447005118657811
+          },
+          "coverage_operational": {
+            "count": 1817,
+            "denominator": 2000,
+            "rate": 0.9085,
+            "mcse": 0.006447005118657811
+          },
+          "holm_rejection_conditional": {
+            "count": 127,
+            "denominator": 2000,
+            "rate": 0.0635,
+            "mcse": 0.005452877680637995
+          },
+          "holm_rejection_operational": {
+            "count": 127,
+            "denominator": 2000,
+            "rate": 0.0635,
+            "mcse": 0.005452877680637995
+          },
+          "mean_switchers": 32.9305
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06055750276773843,
+          "bias_mcse": 0.0031519095513262044,
+          "coverage_conditional": {
+            "count": 1886,
+            "denominator": 2000,
+            "rate": 0.943,
+            "mcse": 0.005184158562389852
+          },
+          "coverage_operational": {
+            "count": 1886,
+            "denominator": 2000,
+            "rate": 0.943,
+            "mcse": 0.005184158562389852
+          },
+          "holm_rejection_conditional": {
+            "count": 55,
+            "denominator": 2000,
+            "rate": 0.0275,
+            "mcse": 0.0036567574434189644
+          },
+          "holm_rejection_operational": {
+            "count": 55,
+            "denominator": 2000,
+            "rate": 0.0275,
+            "mcse": 0.0036567574434189644
+          },
+          "mean_switchers": 33.813
+        }
+      },
+      "any_holm_rejection": {
+        "count": 175,
+        "denominator": 2000,
+        "rate": 0.0875,
+        "mcse": 0.006318375978050055
+      },
+      "joint_holm_rejection": {
+        "count": 7,
+        "denominator": 2000,
+        "rate": 0.0035,
+        "mcse": 0.0013205585939290994
+      },
+      "false_family_rejection": {
+        "count": 55,
+        "denominator": 2000,
+        "rate": 0.0275,
+        "mcse": 0.0036567574434189644
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.006368717171785684,
+          "bias_mcse": 0.005806685628949556,
+          "coverage_conditional": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "coverage_operational": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "holm_rejection_conditional": {
+            "count": 37,
+            "denominator": 2000,
+            "rate": 0.0185,
+            "mcse": 0.003013117156700018
+          },
+          "holm_rejection_operational": {
+            "count": 37,
+            "denominator": 2000,
+            "rate": 0.0185,
+            "mcse": 0.003013117156700018
+          },
+          "mean_switchers": 36.317
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.005999366414442388,
+          "bias_mcse": 0.0030271655487236347,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 394,
+            "denominator": 2000,
+            "rate": 0.197,
+            "mcse": 0.008893565089434044
+          },
+          "holm_rejection_operational": {
+            "count": 394,
+            "denominator": 2000,
+            "rate": 0.197,
+            "mcse": 0.008893565089434044
+          },
+          "mean_switchers": 36.3175
+        }
+      },
+      "any_holm_rejection": {
+        "count": 419,
+        "denominator": 2000,
+        "rate": 0.2095,
+        "mcse": 0.009099718402236412
+      },
+      "joint_holm_rejection": {
+        "count": 12,
+        "denominator": 2000,
+        "rate": 0.006,
+        "mcse": 0.0017268468374467957
+      },
+      "false_family_rejection": {
+        "count": 37,
+        "denominator": 2000,
+        "rate": 0.0185,
+        "mcse": 0.003013117156700018
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.005830747111864926,
+          "bias_mcse": 0.00597309401461041,
+          "coverage_conditional": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "coverage_operational": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "holm_rejection_conditional": {
+            "count": 46,
+            "denominator": 2000,
+            "rate": 0.023,
+            "mcse": 0.003351939736928455
+          },
+          "holm_rejection_operational": {
+            "count": 46,
+            "denominator": 2000,
+            "rate": 0.023,
+            "mcse": 0.003351939736928455
+          },
+          "mean_switchers": 34.6815
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.000437326062476825,
+          "bias_mcse": 0.0032008574904208646,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 334,
+            "denominator": 2000,
+            "rate": 0.167,
+            "mcse": 0.008339994004794009
+          },
+          "holm_rejection_operational": {
+            "count": 334,
+            "denominator": 2000,
+            "rate": 0.167,
+            "mcse": 0.008339994004794009
+          },
+          "mean_switchers": 34.3
+        }
+      },
+      "any_holm_rejection": {
+        "count": 365,
+        "denominator": 2000,
+        "rate": 0.1825,
+        "mcse": 0.008636948245763661
+      },
+      "joint_holm_rejection": {
+        "count": 15,
+        "denominator": 2000,
+        "rate": 0.0075,
+        "mcse": 0.0019292161620720473
+      },
+      "false_family_rejection": {
+        "count": 46,
+        "denominator": 2000,
+        "rate": 0.023,
+        "mcse": 0.003351939736928455
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13640955853882272,
+          "bias_mcse": 0.005514226824808442,
+          "coverage_conditional": {
+            "count": 1883,
+            "denominator": 2000,
+            "rate": 0.9415,
+            "mcse": 0.0052477495176503994
+          },
+          "coverage_operational": {
+            "count": 1883,
+            "denominator": 2000,
+            "rate": 0.9415,
+            "mcse": 0.0052477495176503994
+          },
+          "holm_rejection_conditional": {
+            "count": 79,
+            "denominator": 2000,
+            "rate": 0.0395,
+            "mcse": 0.00435544199823623
+          },
+          "holm_rejection_operational": {
+            "count": 79,
+            "denominator": 2000,
+            "rate": 0.0395,
+            "mcse": 0.00435544199823623
+          },
+          "mean_switchers": 34.1575
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04339052948054912,
+          "bias_mcse": 0.0029598330945835153,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 540,
+            "denominator": 2000,
+            "rate": 0.27,
+            "mcse": 0.009927235264664578
+          },
+          "holm_rejection_operational": {
+            "count": 540,
+            "denominator": 2000,
+            "rate": 0.27,
+            "mcse": 0.009927235264664578
+          },
+          "mean_switchers": 34.6955
+        }
+      },
+      "any_holm_rejection": {
+        "count": 579,
+        "denominator": 2000,
+        "rate": 0.2895,
+        "mcse": 0.010141246225193431
+      },
+      "joint_holm_rejection": {
+        "count": 40,
+        "denominator": 2000,
+        "rate": 0.02,
+        "mcse": 0.0031304951684997056
+      },
+      "false_family_rejection": {
+        "count": 79,
+        "denominator": 2000,
+        "rate": 0.0395,
+        "mcse": 0.00435544199823623
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.001228770522249746,
+          "bias_mcse": 0.005826668536560498,
+          "coverage_conditional": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "coverage_operational": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "holm_rejection_conditional": {
+            "count": 462,
+            "denominator": 2000,
+            "rate": 0.231,
+            "mcse": 0.009424409795843983
+          },
+          "holm_rejection_operational": {
+            "count": 462,
+            "denominator": 2000,
+            "rate": 0.231,
+            "mcse": 0.009424409795843983
+          },
+          "mean_switchers": 36.293
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0050427421921467345,
+          "bias_mcse": 0.0029934982517955647,
+          "coverage_conditional": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "coverage_operational": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "holm_rejection_conditional": {
+            "count": 405,
+            "denominator": 2000,
+            "rate": 0.2025,
+            "mcse": 0.008985926496472138
+          },
+          "holm_rejection_operational": {
+            "count": 405,
+            "denominator": 2000,
+            "rate": 0.2025,
+            "mcse": 0.008985926496472138
+          },
+          "mean_switchers": 36.4015
+        }
+      },
+      "any_holm_rejection": {
+        "count": 723,
+        "denominator": 2000,
+        "rate": 0.3615,
+        "mcse": 0.010742852274884916
+      },
+      "joint_holm_rejection": {
+        "count": 144,
+        "denominator": 2000,
+        "rate": 0.072,
+        "mcse": 0.005779965397820302
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0025275664960609993,
+          "bias_mcse": 0.005906738119485238,
+          "coverage_conditional": {
+            "count": 1932,
+            "denominator": 2000,
+            "rate": 0.966,
+            "mcse": 0.004052406692324946
+          },
+          "coverage_operational": {
+            "count": 1932,
+            "denominator": 2000,
+            "rate": 0.966,
+            "mcse": 0.004052406692324946
+          },
+          "holm_rejection_conditional": {
+            "count": 420,
+            "denominator": 2000,
+            "rate": 0.21,
+            "mcse": 0.00910768905925098
+          },
+          "holm_rejection_operational": {
+            "count": 420,
+            "denominator": 2000,
+            "rate": 0.21,
+            "mcse": 0.00910768905925098
+          },
+          "mean_switchers": 34.679
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0007810491710420719,
+          "bias_mcse": 0.003247663696715768,
+          "coverage_conditional": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "coverage_operational": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "holm_rejection_conditional": {
+            "count": 376,
+            "denominator": 2000,
+            "rate": 0.188,
+            "mcse": 0.008736589723685096
+          },
+          "holm_rejection_operational": {
+            "count": 376,
+            "denominator": 2000,
+            "rate": 0.188,
+            "mcse": 0.008736589723685096
+          },
+          "mean_switchers": 34.219
+        }
+      },
+      "any_holm_rejection": {
+        "count": 665,
+        "denominator": 2000,
+        "rate": 0.3325,
+        "mcse": 0.010534318914861084
+      },
+      "joint_holm_rejection": {
+        "count": 131,
+        "denominator": 2000,
+        "rate": 0.0655,
+        "mcse": 0.005532167296819575
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.18485765004617913,
+          "bias_mcse": 0.005871104253191838,
+          "coverage_conditional": {
+            "count": 1808,
+            "denominator": 2000,
+            "rate": 0.904,
+            "mcse": 0.006587260432076448
+          },
+          "coverage_operational": {
+            "count": 1808,
+            "denominator": 2000,
+            "rate": 0.904,
+            "mcse": 0.006587260432076448
+          },
+          "holm_rejection_conditional": {
+            "count": 154,
+            "denominator": 2000,
+            "rate": 0.077,
+            "mcse": 0.0059611659933271445
+          },
+          "holm_rejection_operational": {
+            "count": 154,
+            "denominator": 2000,
+            "rate": 0.077,
+            "mcse": 0.0059611659933271445
+          },
+          "mean_switchers": 33.083
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04574377329486529,
+          "bias_mcse": 0.003009812499181862,
+          "coverage_conditional": {
+            "count": 1903,
+            "denominator": 2000,
+            "rate": 0.9515,
+            "mcse": 0.004803527349771207
+          },
+          "coverage_operational": {
+            "count": 1903,
+            "denominator": 2000,
+            "rate": 0.9515,
+            "mcse": 0.004803527349771207
+          },
+          "holm_rejection_conditional": {
+            "count": 577,
+            "denominator": 2000,
+            "rate": 0.2885,
+            "mcse": 0.010130837823201
+          },
+          "holm_rejection_operational": {
+            "count": 577,
+            "denominator": 2000,
+            "rate": 0.2885,
+            "mcse": 0.010130837823201
+          },
+          "mean_switchers": 34.6455
+        }
+      },
+      "any_holm_rejection": {
+        "count": 650,
+        "denominator": 2000,
+        "rate": 0.325,
+        "mcse": 0.010473180032826705
+      },
+      "joint_holm_rejection": {
+        "count": 81,
+        "denominator": 2000,
+        "rate": 0.0405,
+        "mcse": 0.004407933189148856
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.003040798784728342,
+          "bias_mcse": 0.004172321831634973,
+          "coverage_conditional": {
+            "count": 1925,
+            "denominator": 2000,
+            "rate": 0.9625,
+            "mcse": 0.004248161366991606
+          },
+          "coverage_operational": {
+            "count": 1925,
+            "denominator": 2000,
+            "rate": 0.9625,
+            "mcse": 0.004248161366991606
+          },
+          "holm_rejection_conditional": {
+            "count": 44,
+            "denominator": 2000,
+            "rate": 0.022,
+            "mcse": 0.003279939023823461
+          },
+          "holm_rejection_operational": {
+            "count": 44,
+            "denominator": 2000,
+            "rate": 0.022,
+            "mcse": 0.003279939023823461
+          },
+          "mean_switchers": 58.9175
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.002052018651514809,
+          "bias_mcse": 0.0023397957481298666,
+          "coverage_conditional": {
+            "count": 1912,
+            "denominator": 2000,
+            "rate": 0.956,
+            "mcse": 0.004586065852122058
+          },
+          "coverage_operational": {
+            "count": 1912,
+            "denominator": 2000,
+            "rate": 0.956,
+            "mcse": 0.004586065852122058
+          },
+          "holm_rejection_conditional": {
+            "count": 49,
+            "denominator": 2000,
+            "rate": 0.0245,
+            "mcse": 0.003456859123539749
+          },
+          "holm_rejection_operational": {
+            "count": 49,
+            "denominator": 2000,
+            "rate": 0.0245,
+            "mcse": 0.003456859123539749
+          },
+          "mean_switchers": 58.948
+        }
+      },
+      "any_holm_rejection": {
+        "count": 87,
+        "denominator": 2000,
+        "rate": 0.0435,
+        "mcse": 0.004561126505590478
+      },
+      "joint_holm_rejection": {
+        "count": 6,
+        "denominator": 2000,
+        "rate": 0.003,
+        "mcse": 0.0012229063741758812
+      },
+      "false_family_rejection": {
+        "count": 87,
+        "denominator": 2000,
+        "rate": 0.0435,
+        "mcse": 0.004561126505590478
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0005486731060006717,
+          "bias_mcse": 0.00435654776579998,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 43,
+            "denominator": 2000,
+            "rate": 0.0215,
+            "mcse": 0.003243281517229116
+          },
+          "holm_rejection_operational": {
+            "count": 43,
+            "denominator": 2000,
+            "rate": 0.0215,
+            "mcse": 0.003243281517229116
+          },
+          "mean_switchers": 57.581
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0009744756009552962,
+          "bias_mcse": 0.0024010419480917184,
+          "coverage_conditional": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "coverage_operational": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "holm_rejection_conditional": {
+            "count": 43,
+            "denominator": 2000,
+            "rate": 0.0215,
+            "mcse": 0.003243281517229116
+          },
+          "holm_rejection_operational": {
+            "count": 43,
+            "denominator": 2000,
+            "rate": 0.0215,
+            "mcse": 0.003243281517229116
+          },
+          "mean_switchers": 57.023
+        }
+      },
+      "any_holm_rejection": {
+        "count": 84,
+        "denominator": 2000,
+        "rate": 0.042,
+        "mcse": 0.004485309353879618
+      },
+      "joint_holm_rejection": {
+        "count": 2,
+        "denominator": 2000,
+        "rate": 0.001,
+        "mcse": 0.0007067531393633848
+      },
+      "false_family_rejection": {
+        "count": 84,
+        "denominator": 2000,
+        "rate": 0.042,
+        "mcse": 0.004485309353879618
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.14334729173989444,
+          "bias_mcse": 0.004185076686540778,
+          "coverage_conditional": {
+            "count": 1804,
+            "denominator": 2000,
+            "rate": 0.902,
+            "mcse": 0.006648157639526908
+          },
+          "coverage_operational": {
+            "count": 1804,
+            "denominator": 2000,
+            "rate": 0.902,
+            "mcse": 0.006648157639526908
+          },
+          "holm_rejection_conditional": {
+            "count": 118,
+            "denominator": 2000,
+            "rate": 0.059,
+            "mcse": 0.0052687284993630104
+          },
+          "holm_rejection_operational": {
+            "count": 118,
+            "denominator": 2000,
+            "rate": 0.059,
+            "mcse": 0.0052687284993630104
+          },
+          "mean_switchers": 56.57
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06165788410283191,
+          "bias_mcse": 0.0023034946438906943,
+          "coverage_conditional": {
+            "count": 1856,
+            "denominator": 2000,
+            "rate": 0.928,
+            "mcse": 0.0057799653978203
+          },
+          "coverage_operational": {
+            "count": 1856,
+            "denominator": 2000,
+            "rate": 0.928,
+            "mcse": 0.0057799653978203
+          },
+          "holm_rejection_conditional": {
+            "count": 89,
+            "denominator": 2000,
+            "rate": 0.0445,
+            "mcse": 0.004610843198374892
+          },
+          "holm_rejection_operational": {
+            "count": 89,
+            "denominator": 2000,
+            "rate": 0.0445,
+            "mcse": 0.004610843198374892
+          },
+          "mean_switchers": 56.275
+        }
+      },
+      "any_holm_rejection": {
+        "count": 197,
+        "denominator": 2000,
+        "rate": 0.0985,
+        "mcse": 0.006663248081829162
+      },
+      "joint_holm_rejection": {
+        "count": 10,
+        "denominator": 2000,
+        "rate": 0.005,
+        "mcse": 0.0015771810295587506
+      },
+      "false_family_rejection": {
+        "count": 197,
+        "denominator": 2000,
+        "rate": 0.0985,
+        "mcse": 0.006663248081829162
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0006804422378081887,
+          "bias_mcse": 0.004143566917949917,
+          "coverage_conditional": {
+            "count": 1933,
+            "denominator": 2000,
+            "rate": 0.9665,
+            "mcse": 0.004023540107914917
+          },
+          "coverage_operational": {
+            "count": 1933,
+            "denominator": 2000,
+            "rate": 0.9665,
+            "mcse": 0.004023540107914917
+          },
+          "holm_rejection_conditional": {
+            "count": 784,
+            "denominator": 2000,
+            "rate": 0.392,
+            "mcse": 0.010916409666186039
+          },
+          "holm_rejection_operational": {
+            "count": 784,
+            "denominator": 2000,
+            "rate": 0.392,
+            "mcse": 0.010916409666186039
+          },
+          "mean_switchers": 58.8285
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0006052588149259892,
+          "bias_mcse": 0.0023130059800780325,
+          "coverage_conditional": {
+            "count": 1917,
+            "denominator": 2000,
+            "rate": 0.9585,
+            "mcse": 0.004459694496263168
+          },
+          "coverage_operational": {
+            "count": 1917,
+            "denominator": 2000,
+            "rate": 0.9585,
+            "mcse": 0.004459694496263168
+          },
+          "holm_rejection_conditional": {
+            "count": 55,
+            "denominator": 2000,
+            "rate": 0.0275,
+            "mcse": 0.0036567574434189644
+          },
+          "holm_rejection_operational": {
+            "count": 55,
+            "denominator": 2000,
+            "rate": 0.0275,
+            "mcse": 0.0036567574434189644
+          },
+          "mean_switchers": 58.8685
+        }
+      },
+      "any_holm_rejection": {
+        "count": 802,
+        "denominator": 2000,
+        "rate": 0.401,
+        "mcse": 0.010958991741944146
+      },
+      "joint_holm_rejection": {
+        "count": 37,
+        "denominator": 2000,
+        "rate": 0.0185,
+        "mcse": 0.003013117156700018
+      },
+      "false_family_rejection": {
+        "count": 55,
+        "denominator": 2000,
+        "rate": 0.0275,
+        "mcse": 0.0036567574434189644
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0013703278411606589,
+          "bias_mcse": 0.004134347189305059,
+          "coverage_conditional": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "coverage_operational": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "holm_rejection_conditional": {
+            "count": 724,
+            "denominator": 2000,
+            "rate": 0.362,
+            "mcse": 0.010746069048726608
+          },
+          "holm_rejection_operational": {
+            "count": 724,
+            "denominator": 2000,
+            "rate": 0.362,
+            "mcse": 0.010746069048726608
+          },
+          "mean_switchers": 57.33
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0036385688874407815,
+          "bias_mcse": 0.0023410452160525425,
+          "coverage_conditional": {
+            "count": 1930,
+            "denominator": 2000,
+            "rate": 0.965,
+            "mcse": 0.00410944035119139
+          },
+          "coverage_operational": {
+            "count": 1930,
+            "denominator": 2000,
+            "rate": 0.965,
+            "mcse": 0.00410944035119139
+          },
+          "holm_rejection_conditional": {
+            "count": 41,
+            "denominator": 2000,
+            "rate": 0.0205,
+            "mcse": 0.00316857617866448
+          },
+          "holm_rejection_operational": {
+            "count": 41,
+            "denominator": 2000,
+            "rate": 0.0205,
+            "mcse": 0.00316857617866448
+          },
+          "mean_switchers": 56.71
+        }
+      },
+      "any_holm_rejection": {
+        "count": 740,
+        "denominator": 2000,
+        "rate": 0.37,
+        "mcse": 0.010795832529267949
+      },
+      "joint_holm_rejection": {
+        "count": 25,
+        "denominator": 2000,
+        "rate": 0.0125,
+        "mcse": 0.002484325864293974
+      },
+      "false_family_rejection": {
+        "count": 41,
+        "denominator": 2000,
+        "rate": 0.0205,
+        "mcse": 0.00316857617866448
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.17720113798198606,
+          "bias_mcse": 0.004251736823417196,
+          "coverage_conditional": {
+            "count": 1732,
+            "denominator": 2000,
+            "rate": 0.866,
+            "mcse": 0.007617217339685143
+          },
+          "coverage_operational": {
+            "count": 1732,
+            "denominator": 2000,
+            "rate": 0.866,
+            "mcse": 0.007617217339685143
+          },
+          "holm_rejection_conditional": {
+            "count": 231,
+            "denominator": 2000,
+            "rate": 0.1155,
+            "mcse": 0.007147018609182433
+          },
+          "holm_rejection_operational": {
+            "count": 231,
+            "denominator": 2000,
+            "rate": 0.1155,
+            "mcse": 0.007147018609182433
+          },
+          "mean_switchers": 55.316
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06505739458088632,
+          "bias_mcse": 0.0023602703749592076,
+          "coverage_conditional": {
+            "count": 1831,
+            "denominator": 2000,
+            "rate": 0.9155,
+            "mcse": 0.006219314672855845
+          },
+          "coverage_operational": {
+            "count": 1831,
+            "denominator": 2000,
+            "rate": 0.9155,
+            "mcse": 0.006219314672855845
+          },
+          "holm_rejection_conditional": {
+            "count": 103,
+            "denominator": 2000,
+            "rate": 0.0515,
+            "mcse": 0.004942051699446294
+          },
+          "holm_rejection_operational": {
+            "count": 103,
+            "denominator": 2000,
+            "rate": 0.0515,
+            "mcse": 0.004942051699446294
+          },
+          "mean_switchers": 56.477
+        }
+      },
+      "any_holm_rejection": {
+        "count": 306,
+        "denominator": 2000,
+        "rate": 0.153,
+        "mcse": 0.008049565205649308
+      },
+      "joint_holm_rejection": {
+        "count": 28,
+        "denominator": 2000,
+        "rate": 0.014,
+        "mcse": 0.002627165773224065
+      },
+      "false_family_rejection": {
+        "count": 103,
+        "denominator": 2000,
+        "rate": 0.0515,
+        "mcse": 0.004942051699446294
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.003801069332064652,
+          "bias_mcse": 0.004222061670781803,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 48,
+            "denominator": 2000,
+            "rate": 0.024,
+            "mcse": 0.00342227994179319
+          },
+          "holm_rejection_operational": {
+            "count": 48,
+            "denominator": 2000,
+            "rate": 0.024,
+            "mcse": 0.00342227994179319
+          },
+          "mean_switchers": 58.9765
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.002686544034546588,
+          "bias_mcse": 0.0022368063526539976,
+          "coverage_conditional": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "coverage_operational": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "holm_rejection_conditional": {
+            "count": 705,
+            "denominator": 2000,
+            "rate": 0.3525,
+            "mcse": 0.010682784047241618
+          },
+          "holm_rejection_operational": {
+            "count": 705,
+            "denominator": 2000,
+            "rate": 0.3525,
+            "mcse": 0.010682784047241618
+          },
+          "mean_switchers": 58.8245
+        }
+      },
+      "any_holm_rejection": {
+        "count": 724,
+        "denominator": 2000,
+        "rate": 0.362,
+        "mcse": 0.010746069048726608
+      },
+      "joint_holm_rejection": {
+        "count": 29,
+        "denominator": 2000,
+        "rate": 0.0145,
+        "mcse": 0.0026729898989708138
+      },
+      "false_family_rejection": {
+        "count": 48,
+        "denominator": 2000,
+        "rate": 0.024,
+        "mcse": 0.00342227994179319
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.001205784976454815,
+          "bias_mcse": 0.004378194567349638,
+          "coverage_conditional": {
+            "count": 1934,
+            "denominator": 2000,
+            "rate": 0.967,
+            "mcse": 0.003994433626936366
+          },
+          "coverage_operational": {
+            "count": 1934,
+            "denominator": 2000,
+            "rate": 0.967,
+            "mcse": 0.003994433626936366
+          },
+          "holm_rejection_conditional": {
+            "count": 45,
+            "denominator": 2000,
+            "rate": 0.0225,
+            "mcse": 0.0033161536454151216
+          },
+          "holm_rejection_operational": {
+            "count": 45,
+            "denominator": 2000,
+            "rate": 0.0225,
+            "mcse": 0.0033161536454151216
+          },
+          "mean_switchers": 57.1515
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 4.8090537933303535e-05,
+          "bias_mcse": 0.0023101319932289114,
+          "coverage_conditional": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "coverage_operational": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "holm_rejection_conditional": {
+            "count": 615,
+            "denominator": 2000,
+            "rate": 0.3075,
+            "mcse": 0.01031852096959637
+          },
+          "holm_rejection_operational": {
+            "count": 615,
+            "denominator": 2000,
+            "rate": 0.3075,
+            "mcse": 0.01031852096959637
+          },
+          "mean_switchers": 56.595
+        }
+      },
+      "any_holm_rejection": {
+        "count": 633,
+        "denominator": 2000,
+        "rate": 0.3165,
+        "mcse": 0.010400186296408348
+      },
+      "joint_holm_rejection": {
+        "count": 27,
+        "denominator": 2000,
+        "rate": 0.0135,
+        "mcse": 0.0025804796065847916
+      },
+      "false_family_rejection": {
+        "count": 45,
+        "denominator": 2000,
+        "rate": 0.0225,
+        "mcse": 0.0033161536454151216
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.1446350397548552,
+          "bias_mcse": 0.004146208712125442,
+          "coverage_conditional": {
+            "count": 1806,
+            "denominator": 2000,
+            "rate": 0.903,
+            "mcse": 0.006617816860566631
+          },
+          "coverage_operational": {
+            "count": 1806,
+            "denominator": 2000,
+            "rate": 0.903,
+            "mcse": 0.006617816860566631
+          },
+          "holm_rejection_conditional": {
+            "count": 157,
+            "denominator": 2000,
+            "rate": 0.0785,
+            "mcse": 0.006014056451347958
+          },
+          "holm_rejection_operational": {
+            "count": 157,
+            "denominator": 2000,
+            "rate": 0.0785,
+            "mcse": 0.006014056451347958
+          },
+          "mean_switchers": 56.7995
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.046087156951449854,
+          "bias_mcse": 0.0021977219382977556,
+          "coverage_conditional": {
+            "count": 1866,
+            "denominator": 2000,
+            "rate": 0.933,
+            "mcse": 0.0055906618570612885
+          },
+          "coverage_operational": {
+            "count": 1866,
+            "denominator": 2000,
+            "rate": 0.933,
+            "mcse": 0.0055906618570612885
+          },
+          "holm_rejection_conditional": {
+            "count": 1063,
+            "denominator": 2000,
+            "rate": 0.5315,
+            "mcse": 0.011158130443761625
+          },
+          "holm_rejection_operational": {
+            "count": 1063,
+            "denominator": 2000,
+            "rate": 0.5315,
+            "mcse": 0.011158130443761625
+          },
+          "mean_switchers": 57.343
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1111,
+        "denominator": 2000,
+        "rate": 0.5555,
+        "mcse": 0.011111249929688378
+      },
+      "joint_holm_rejection": {
+        "count": 109,
+        "denominator": 2000,
+        "rate": 0.0545,
+        "mcse": 0.005075911248239078
+      },
+      "false_family_rejection": {
+        "count": 157,
+        "denominator": 2000,
+        "rate": 0.0785,
+        "mcse": 0.006014056451347958
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.004634380265153291,
+          "bias_mcse": 0.00417544020681433,
+          "coverage_conditional": {
+            "count": 1921,
+            "denominator": 2000,
+            "rate": 0.9605,
+            "mcse": 0.004355441998236229
+          },
+          "coverage_operational": {
+            "count": 1921,
+            "denominator": 2000,
+            "rate": 0.9605,
+            "mcse": 0.004355441998236229
+          },
+          "holm_rejection_conditional": {
+            "count": 881,
+            "denominator": 2000,
+            "rate": 0.4405,
+            "mcse": 0.01110089523416918
+          },
+          "holm_rejection_operational": {
+            "count": 881,
+            "denominator": 2000,
+            "rate": 0.4405,
+            "mcse": 0.01110089523416918
+          },
+          "mean_switchers": 58.89
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.00024246804462278626,
+          "bias_mcse": 0.002245713799272287,
+          "coverage_conditional": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "coverage_operational": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "holm_rejection_conditional": {
+            "count": 765,
+            "denominator": 2000,
+            "rate": 0.3825,
+            "mcse": 0.010867238609692896
+          },
+          "holm_rejection_operational": {
+            "count": 765,
+            "denominator": 2000,
+            "rate": 0.3825,
+            "mcse": 0.010867238609692896
+          },
+          "mean_switchers": 58.9
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1192,
+        "denominator": 2000,
+        "rate": 0.596,
+        "mcse": 0.010972328832112169
+      },
+      "joint_holm_rejection": {
+        "count": 454,
+        "denominator": 2000,
+        "rate": 0.227,
+        "mcse": 0.009366723012879158
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.001865245414463673,
+          "bias_mcse": 0.004398088787587243,
+          "coverage_conditional": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "coverage_operational": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "holm_rejection_conditional": {
+            "count": 844,
+            "denominator": 2000,
+            "rate": 0.422,
+            "mcse": 0.011043459602859967
+          },
+          "holm_rejection_operational": {
+            "count": 844,
+            "denominator": 2000,
+            "rate": 0.422,
+            "mcse": 0.011043459602859967
+          },
+          "mean_switchers": 57.6225
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.004968518600985402,
+          "bias_mcse": 0.0024140549563451286,
+          "coverage_conditional": {
+            "count": 1898,
+            "denominator": 2000,
+            "rate": 0.949,
+            "mcse": 0.004919298730510276
+          },
+          "coverage_operational": {
+            "count": 1898,
+            "denominator": 2000,
+            "rate": 0.949,
+            "mcse": 0.004919298730510276
+          },
+          "holm_rejection_conditional": {
+            "count": 739,
+            "denominator": 2000,
+            "rate": 0.3695,
+            "mcse": 0.010792815897623754
+          },
+          "holm_rejection_operational": {
+            "count": 739,
+            "denominator": 2000,
+            "rate": 0.3695,
+            "mcse": 0.010792815897623754
+          },
+          "mean_switchers": 57.02
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1173,
+        "denominator": 2000,
+        "rate": 0.5865,
+        "mcse": 0.011011760758389187
+      },
+      "joint_holm_rejection": {
+        "count": 410,
+        "denominator": 2000,
+        "rate": 0.205,
+        "mcse": 0.009027042705116665
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.1780311419808936,
+          "bias_mcse": 0.004092418860166316,
+          "coverage_conditional": {
+            "count": 1768,
+            "denominator": 2000,
+            "rate": 0.884,
+            "mcse": 0.0071604469134265636
+          },
+          "coverage_operational": {
+            "count": 1768,
+            "denominator": 2000,
+            "rate": 0.884,
+            "mcse": 0.0071604469134265636
+          },
+          "holm_rejection_conditional": {
+            "count": 295,
+            "denominator": 2000,
+            "rate": 0.1475,
+            "mcse": 0.007929178709046731
+          },
+          "holm_rejection_operational": {
+            "count": 295,
+            "denominator": 2000,
+            "rate": 0.1475,
+            "mcse": 0.007929178709046731
+          },
+          "mean_switchers": 55.5855
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04922141774785369,
+          "bias_mcse": 0.002302192729491719,
+          "coverage_conditional": {
+            "count": 1847,
+            "denominator": 2000,
+            "rate": 0.9235,
+            "mcse": 0.005943389184631948
+          },
+          "coverage_operational": {
+            "count": 1847,
+            "denominator": 2000,
+            "rate": 0.9235,
+            "mcse": 0.005943389184631948
+          },
+          "holm_rejection_conditional": {
+            "count": 1090,
+            "denominator": 2000,
+            "rate": 0.545,
+            "mcse": 0.011134967444945675
+          },
+          "holm_rejection_operational": {
+            "count": 1090,
+            "denominator": 2000,
+            "rate": 0.545,
+            "mcse": 0.011134967444945675
+          },
+          "mean_switchers": 57.506
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1178,
+        "denominator": 2000,
+        "rate": 0.589,
+        "mcse": 0.011001795308039502
+      },
+      "joint_holm_rejection": {
+        "count": 207,
+        "denominator": 2000,
+        "rate": 0.1035,
+        "mcse": 0.006811304941052044
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0033248833749212167,
+          "bias_mcse": 0.002980086328478726,
+          "coverage_conditional": {
+            "count": 1917,
+            "denominator": 2000,
+            "rate": 0.9585,
+            "mcse": 0.004459694496263168
+          },
+          "coverage_operational": {
+            "count": 1917,
+            "denominator": 2000,
+            "rate": 0.9585,
+            "mcse": 0.004459694496263168
+          },
+          "holm_rejection_conditional": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "holm_rejection_operational": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "mean_switchers": 97.7065
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.000663632188714262,
+          "bias_mcse": 0.0016307443092628575,
+          "coverage_conditional": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "coverage_operational": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "holm_rejection_conditional": {
+            "count": 34,
+            "denominator": 2000,
+            "rate": 0.017,
+            "mcse": 0.002890588175441116
+          },
+          "holm_rejection_operational": {
+            "count": 34,
+            "denominator": 2000,
+            "rate": 0.017,
+            "mcse": 0.002890588175441116
+          },
+          "mean_switchers": 97.7635
+        }
+      },
+      "any_holm_rejection": {
+        "count": 70,
+        "denominator": 2000,
+        "rate": 0.035,
+        "mcse": 0.004109440351191388
+      },
+      "joint_holm_rejection": {
+        "count": 3,
+        "denominator": 2000,
+        "rate": 0.0015,
+        "mcse": 0.0008653756409791069
+      },
+      "false_family_rejection": {
+        "count": 70,
+        "denominator": 2000,
+        "rate": 0.035,
+        "mcse": 0.004109440351191388
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0061419801565791715,
+          "bias_mcse": 0.0030560973582952062,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "holm_rejection_operational": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "mean_switchers": 97.0755
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00030833425806375136,
+          "bias_mcse": 0.0016792551917672706,
+          "coverage_conditional": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "coverage_operational": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "holm_rejection_conditional": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "holm_rejection_operational": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "mean_switchers": 96.6745
+        }
+      },
+      "any_holm_rejection": {
+        "count": 77,
+        "denominator": 2000,
+        "rate": 0.0385,
+        "mcse": 0.004302194207610809
+      },
+      "joint_holm_rejection": {
+        "count": 1,
+        "denominator": 2000,
+        "rate": 0.0005,
+        "mcse": 0.0004998749843710925
+      },
+      "false_family_rejection": {
+        "count": 77,
+        "denominator": 2000,
+        "rate": 0.0385,
+        "mcse": 0.004302194207610809
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13577013142817526,
+          "bias_mcse": 0.0028671779975704796,
+          "coverage_conditional": {
+            "count": 1713,
+            "denominator": 2000,
+            "rate": 0.8565,
+            "mcse": 0.007839252196478946
+          },
+          "coverage_operational": {
+            "count": 1713,
+            "denominator": 2000,
+            "rate": 0.8565,
+            "mcse": 0.007839252196478946
+          },
+          "holm_rejection_conditional": {
+            "count": 171,
+            "denominator": 2000,
+            "rate": 0.0855,
+            "mcse": 0.006252589463574272
+          },
+          "holm_rejection_operational": {
+            "count": 171,
+            "denominator": 2000,
+            "rate": 0.0855,
+            "mcse": 0.006252589463574272
+          },
+          "mean_switchers": 96.499
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06081573076035511,
+          "bias_mcse": 0.0016227740822717493,
+          "coverage_conditional": {
+            "count": 1779,
+            "denominator": 2000,
+            "rate": 0.8895,
+            "mcse": 0.007010340576605391
+          },
+          "coverage_operational": {
+            "count": 1779,
+            "denominator": 2000,
+            "rate": 0.8895,
+            "mcse": 0.007010340576605391
+          },
+          "holm_rejection_conditional": {
+            "count": 131,
+            "denominator": 2000,
+            "rate": 0.0655,
+            "mcse": 0.005532167296819575
+          },
+          "holm_rejection_operational": {
+            "count": 131,
+            "denominator": 2000,
+            "rate": 0.0655,
+            "mcse": 0.005532167296819575
+          },
+          "mean_switchers": 96.1325
+        }
+      },
+      "any_holm_rejection": {
+        "count": 282,
+        "denominator": 2000,
+        "rate": 0.141,
+        "mcse": 0.007781998457979801
+      },
+      "joint_holm_rejection": {
+        "count": 20,
+        "denominator": 2000,
+        "rate": 0.01,
+        "mcse": 0.0022248595461286987
+      },
+      "false_family_rejection": {
+        "count": 282,
+        "denominator": 2000,
+        "rate": 0.141,
+        "mcse": 0.007781998457979801
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0024460918793935784,
+          "bias_mcse": 0.0029989985056128525,
+          "coverage_conditional": {
+            "count": 1917,
+            "denominator": 2000,
+            "rate": 0.9585,
+            "mcse": 0.004459694496263168
+          },
+          "coverage_operational": {
+            "count": 1917,
+            "denominator": 2000,
+            "rate": 0.9585,
+            "mcse": 0.004459694496263168
+          },
+          "holm_rejection_conditional": {
+            "count": 1429,
+            "denominator": 2000,
+            "rate": 0.7145,
+            "mcse": 0.010099251209866997
+          },
+          "holm_rejection_operational": {
+            "count": 1429,
+            "denominator": 2000,
+            "rate": 0.7145,
+            "mcse": 0.010099251209866997
+          },
+          "mean_switchers": 97.7535
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0021021291493845493,
+          "bias_mcse": 0.0016514403779543016,
+          "coverage_conditional": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "coverage_operational": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "holm_rejection_conditional": {
+            "count": 70,
+            "denominator": 2000,
+            "rate": 0.035,
+            "mcse": 0.004109440351191388
+          },
+          "holm_rejection_operational": {
+            "count": 70,
+            "denominator": 2000,
+            "rate": 0.035,
+            "mcse": 0.004109440351191388
+          },
+          "mean_switchers": 97.7365
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1435,
+        "denominator": 2000,
+        "rate": 0.7175,
+        "mcse": 0.010067118505312231
+      },
+      "joint_holm_rejection": {
+        "count": 64,
+        "denominator": 2000,
+        "rate": 0.032,
+        "mcse": 0.0039354796403996304
+      },
+      "false_family_rejection": {
+        "count": 70,
+        "denominator": 2000,
+        "rate": 0.035,
+        "mcse": 0.004109440351191388
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0035125610454332145,
+          "bias_mcse": 0.0029726381334197536,
+          "coverage_conditional": {
+            "count": 1935,
+            "denominator": 2000,
+            "rate": 0.9675,
+            "mcse": 0.00396508196636589
+          },
+          "coverage_operational": {
+            "count": 1935,
+            "denominator": 2000,
+            "rate": 0.9675,
+            "mcse": 0.00396508196636589
+          },
+          "holm_rejection_conditional": {
+            "count": 1449,
+            "denominator": 2000,
+            "rate": 0.7245,
+            "mcse": 0.009989988738732391
+          },
+          "holm_rejection_operational": {
+            "count": 1449,
+            "denominator": 2000,
+            "rate": 0.7245,
+            "mcse": 0.009989988738732391
+          },
+          "mean_switchers": 97.0815
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0012548996153521265,
+          "bias_mcse": 0.0016468213399376877,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 61,
+            "denominator": 2000,
+            "rate": 0.0305,
+            "mcse": 0.0038451105315712316
+          },
+          "holm_rejection_operational": {
+            "count": 61,
+            "denominator": 2000,
+            "rate": 0.0305,
+            "mcse": 0.0038451105315712316
+          },
+          "mean_switchers": 96.659
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1454,
+        "denominator": 2000,
+        "rate": 0.727,
+        "mcse": 0.009961701661864804
+      },
+      "joint_holm_rejection": {
+        "count": 56,
+        "denominator": 2000,
+        "rate": 0.028,
+        "mcse": 0.0036889022757454555
+      },
+      "false_family_rejection": {
+        "count": 61,
+        "denominator": 2000,
+        "rate": 0.0305,
+        "mcse": 0.0038451105315712316
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.16971331208504875,
+          "bias_mcse": 0.0028894372382116647,
+          "coverage_conditional": {
+            "count": 1595,
+            "denominator": 2000,
+            "rate": 0.7975,
+            "mcse": 0.008985926496472138
+          },
+          "coverage_operational": {
+            "count": 1595,
+            "denominator": 2000,
+            "rate": 0.7975,
+            "mcse": 0.008985926496472138
+          },
+          "holm_rejection_conditional": {
+            "count": 529,
+            "denominator": 2000,
+            "rate": 0.2645,
+            "mcse": 0.009862549112678731
+          },
+          "holm_rejection_operational": {
+            "count": 529,
+            "denominator": 2000,
+            "rate": 0.2645,
+            "mcse": 0.009862549112678731
+          },
+          "mean_switchers": 95.591
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06245219767185529,
+          "bias_mcse": 0.001569414042547684,
+          "coverage_conditional": {
+            "count": 1777,
+            "denominator": 2000,
+            "rate": 0.8885,
+            "mcse": 0.00703803061942757
+          },
+          "coverage_operational": {
+            "count": 1777,
+            "denominator": 2000,
+            "rate": 0.8885,
+            "mcse": 0.00703803061942757
+          },
+          "holm_rejection_conditional": {
+            "count": 151,
+            "denominator": 2000,
+            "rate": 0.0755,
+            "mcse": 0.005907611615534657
+          },
+          "holm_rejection_operational": {
+            "count": 151,
+            "denominator": 2000,
+            "rate": 0.0755,
+            "mcse": 0.005907611615534657
+          },
+          "mean_switchers": 96.468
+        }
+      },
+      "any_holm_rejection": {
+        "count": 612,
+        "denominator": 2000,
+        "rate": 0.306,
+        "mcse": 0.010304465051617187
+      },
+      "joint_holm_rejection": {
+        "count": 68,
+        "denominator": 2000,
+        "rate": 0.034,
+        "mcse": 0.0040524066923249445
+      },
+      "false_family_rejection": {
+        "count": 151,
+        "denominator": 2000,
+        "rate": 0.0755,
+        "mcse": 0.005907611615534657
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0013711513638144785,
+          "bias_mcse": 0.0030389639640842373,
+          "coverage_conditional": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "coverage_operational": {
+            "count": 1909,
+            "denominator": 2000,
+            "rate": 0.9545,
+            "mcse": 0.004659922209651143
+          },
+          "holm_rejection_conditional": {
+            "count": 71,
+            "denominator": 2000,
+            "rate": 0.0355,
+            "mcse": 0.004137617067830226
+          },
+          "holm_rejection_operational": {
+            "count": 71,
+            "denominator": 2000,
+            "rate": 0.0355,
+            "mcse": 0.004137617067830226
+          },
+          "mean_switchers": 97.7065
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0010327794212749936,
+          "bias_mcse": 0.0016265853422615633,
+          "coverage_conditional": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "coverage_operational": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "holm_rejection_conditional": {
+            "count": 1289,
+            "denominator": 2000,
+            "rate": 0.6445,
+            "mcse": 0.010703264688869467
+          },
+          "holm_rejection_operational": {
+            "count": 1289,
+            "denominator": 2000,
+            "rate": 0.6445,
+            "mcse": 0.010703264688869467
+          },
+          "mean_switchers": 97.7425
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1301,
+        "denominator": 2000,
+        "rate": 0.6505,
+        "mcse": 0.010661842007833357
+      },
+      "joint_holm_rejection": {
+        "count": 59,
+        "denominator": 2000,
+        "rate": 0.0295,
+        "mcse": 0.003783500363420096
+      },
+      "false_family_rejection": {
+        "count": 71,
+        "denominator": 2000,
+        "rate": 0.0355,
+        "mcse": 0.004137617067830226
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.00013081057525749385,
+          "bias_mcse": 0.003040884743402531,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 63,
+            "denominator": 2000,
+            "rate": 0.0315,
+            "mcse": 0.0039056209493497957
+          },
+          "holm_rejection_operational": {
+            "count": 63,
+            "denominator": 2000,
+            "rate": 0.0315,
+            "mcse": 0.0039056209493497957
+          },
+          "mean_switchers": 96.97
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.002216162456555943,
+          "bias_mcse": 0.0015708064689939686,
+          "coverage_conditional": {
+            "count": 1932,
+            "denominator": 2000,
+            "rate": 0.966,
+            "mcse": 0.004052406692324946
+          },
+          "coverage_operational": {
+            "count": 1932,
+            "denominator": 2000,
+            "rate": 0.966,
+            "mcse": 0.004052406692324946
+          },
+          "holm_rejection_conditional": {
+            "count": 1295,
+            "denominator": 2000,
+            "rate": 0.6475,
+            "mcse": 0.01068278404724162
+          },
+          "holm_rejection_operational": {
+            "count": 1295,
+            "denominator": 2000,
+            "rate": 0.6475,
+            "mcse": 0.01068278404724162
+          },
+          "mean_switchers": 96.614
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1302,
+        "denominator": 2000,
+        "rate": 0.651,
+        "mcse": 0.010658306619721539
+      },
+      "joint_holm_rejection": {
+        "count": 56,
+        "denominator": 2000,
+        "rate": 0.028,
+        "mcse": 0.0036889022757454555
+      },
+      "false_family_rejection": {
+        "count": 63,
+        "denominator": 2000,
+        "rate": 0.0315,
+        "mcse": 0.0039056209493497957
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13691416814674112,
+          "bias_mcse": 0.0029711438469322356,
+          "coverage_conditional": {
+            "count": 1696,
+            "denominator": 2000,
+            "rate": 0.848,
+            "mcse": 0.008027951170753346
+          },
+          "coverage_operational": {
+            "count": 1696,
+            "denominator": 2000,
+            "rate": 0.848,
+            "mcse": 0.008027951170753346
+          },
+          "holm_rejection_conditional": {
+            "count": 286,
+            "denominator": 2000,
+            "rate": 0.143,
+            "mcse": 0.007827866886962246
+          },
+          "holm_rejection_operational": {
+            "count": 286,
+            "denominator": 2000,
+            "rate": 0.143,
+            "mcse": 0.007827866886962246
+          },
+          "mean_switchers": 96.7695
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04851174058993752,
+          "bias_mcse": 0.001540470418918498,
+          "coverage_conditional": {
+            "count": 1847,
+            "denominator": 2000,
+            "rate": 0.9235,
+            "mcse": 0.005943389184631948
+          },
+          "coverage_operational": {
+            "count": 1847,
+            "denominator": 2000,
+            "rate": 0.9235,
+            "mcse": 0.005943389184631948
+          },
+          "holm_rejection_conditional": {
+            "count": 1742,
+            "denominator": 2000,
+            "rate": 0.871,
+            "mcse": 0.007495298526409739
+          },
+          "holm_rejection_operational": {
+            "count": 1742,
+            "denominator": 2000,
+            "rate": 0.871,
+            "mcse": 0.007495298526409739
+          },
+          "mean_switchers": 97.1235
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1754,
+        "denominator": 2000,
+        "rate": 0.877,
+        "mcse": 0.007344079247938437
+      },
+      "joint_holm_rejection": {
+        "count": 274,
+        "denominator": 2000,
+        "rate": 0.137,
+        "mcse": 0.007688660481514319
+      },
+      "false_family_rejection": {
+        "count": 286,
+        "denominator": 2000,
+        "rate": 0.143,
+        "mcse": 0.007827866886962246
+      }
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00013139976325451762,
+          "bias_mcse": 0.002906466594350875,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 1579,
+            "denominator": 2000,
+            "rate": 0.7895,
+            "mcse": 0.009115639034099584
+          },
+          "holm_rejection_operational": {
+            "count": 1579,
+            "denominator": 2000,
+            "rate": 0.7895,
+            "mcse": 0.009115639034099584
+          },
+          "mean_switchers": 97.648
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0002568198040529223,
+          "bias_mcse": 0.0016300544563887746,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 1423,
+            "denominator": 2000,
+            "rate": 0.7115,
+            "mcse": 0.010130837823201
+          },
+          "holm_rejection_operational": {
+            "count": 1423,
+            "denominator": 2000,
+            "rate": 0.7115,
+            "mcse": 0.010130837823201
+          },
+          "mean_switchers": 97.7505
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1807,
+        "denominator": 2000,
+        "rate": 0.9035,
+        "mcse": 0.006602565789145914
+      },
+      "joint_holm_rejection": {
+        "count": 1195,
+        "denominator": 2000,
+        "rate": 0.5975,
+        "mcse": 0.010965713611069733
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0025271247399686818,
+          "bias_mcse": 0.0031783129146815223,
+          "coverage_conditional": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "coverage_operational": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "holm_rejection_conditional": {
+            "count": 1497,
+            "denominator": 2000,
+            "rate": 0.7485,
+            "mcse": 0.009701745976884777
+          },
+          "holm_rejection_operational": {
+            "count": 1497,
+            "denominator": 2000,
+            "rate": 0.7485,
+            "mcse": 0.009701745976884777
+          },
+          "mean_switchers": 97.1355
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0017791567744450494,
+          "bias_mcse": 0.001580323927830765,
+          "coverage_conditional": {
+            "count": 1935,
+            "denominator": 2000,
+            "rate": 0.9675,
+            "mcse": 0.00396508196636589
+          },
+          "coverage_operational": {
+            "count": 1935,
+            "denominator": 2000,
+            "rate": 0.9675,
+            "mcse": 0.00396508196636589
+          },
+          "holm_rejection_conditional": {
+            "count": 1393,
+            "denominator": 2000,
+            "rate": 0.6965,
+            "mcse": 0.010280752647544827
+          },
+          "holm_rejection_operational": {
+            "count": 1393,
+            "denominator": 2000,
+            "rate": 0.6965,
+            "mcse": 0.010280752647544827
+          },
+          "mean_switchers": 96.5865
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1742,
+        "denominator": 2000,
+        "rate": 0.871,
+        "mcse": 0.007495298526409739
+      },
+      "joint_holm_rejection": {
+        "count": 1148,
+        "denominator": 2000,
+        "rate": 0.574,
+        "mcse": 0.01105721483918984
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 160,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.17816535003376935,
+          "bias_mcse": 0.0029195056599871966,
+          "coverage_conditional": {
+            "count": 1556,
+            "denominator": 2000,
+            "rate": 0.778,
+            "mcse": 0.009292900515985306
+          },
+          "coverage_operational": {
+            "count": 1556,
+            "denominator": 2000,
+            "rate": 0.778,
+            "mcse": 0.009292900515985306
+          },
+          "holm_rejection_conditional": {
+            "count": 658,
+            "denominator": 2000,
+            "rate": 0.329,
+            "mcse": 0.010506164856882839
+          },
+          "holm_rejection_operational": {
+            "count": 658,
+            "denominator": 2000,
+            "rate": 0.329,
+            "mcse": 0.010506164856882839
+          },
+          "mean_switchers": 95.5885
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.047442750714496086,
+          "bias_mcse": 0.0016039760254322013,
+          "coverage_conditional": {
+            "count": 1812,
+            "denominator": 2000,
+            "rate": 0.906,
+            "mcse": 0.0065254884874620675
+          },
+          "coverage_operational": {
+            "count": 1812,
+            "denominator": 2000,
+            "rate": 0.906,
+            "mcse": 0.0065254884874620675
+          },
+          "holm_rejection_conditional": {
+            "count": 1744,
+            "denominator": 2000,
+            "rate": 0.872,
+            "mcse": 0.007470475219154402
+          },
+          "holm_rejection_operational": {
+            "count": 1744,
+            "denominator": 2000,
+            "rate": 0.872,
+            "mcse": 0.007470475219154402
+          },
+          "mean_switchers": 97.061
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1776,
+        "denominator": 2000,
+        "rate": 0.888,
+        "mcse": 0.007051808278732484
+      },
+      "joint_holm_rejection": {
+        "count": 626,
+        "denominator": 2000,
+        "rate": 0.313,
+        "mcse": 0.01036896812609625
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.003380455612688835,
+          "bias_mcse": 0.003994723684368456,
+          "coverage_conditional": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "coverage_operational": {
+            "count": 1919,
+            "denominator": 2000,
+            "rate": 0.9595,
+            "mcse": 0.004407933189148855
+          },
+          "holm_rejection_conditional": {
+            "count": 38,
+            "denominator": 2000,
+            "rate": 0.019,
+            "mcse": 0.003052785613173647
+          },
+          "holm_rejection_operational": {
+            "count": 38,
+            "denominator": 2000,
+            "rate": 0.019,
+            "mcse": 0.003052785613173647
+          },
+          "mean_switchers": 72.2045
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.005337462296091839,
+          "bias_mcse": 0.0021614098550860315,
+          "coverage_conditional": {
+            "count": 1925,
+            "denominator": 2000,
+            "rate": 0.9625,
+            "mcse": 0.004248161366991606
+          },
+          "coverage_operational": {
+            "count": 1925,
+            "denominator": 2000,
+            "rate": 0.9625,
+            "mcse": 0.004248161366991606
+          },
+          "holm_rejection_conditional": {
+            "count": 33,
+            "denominator": 2000,
+            "rate": 0.0165,
+            "mcse": 0.0028484864401994267
+          },
+          "holm_rejection_operational": {
+            "count": 33,
+            "denominator": 2000,
+            "rate": 0.0165,
+            "mcse": 0.0028484864401994267
+          },
+          "mean_switchers": 72.1915
+        }
+      },
+      "any_holm_rejection": {
+        "count": 69,
+        "denominator": 2000,
+        "rate": 0.0345,
+        "mcse": 0.004081038470781672
+      },
+      "joint_holm_rejection": {
+        "count": 2,
+        "denominator": 2000,
+        "rate": 0.001,
+        "mcse": 0.0007067531393633848
+      },
+      "false_family_rejection": {
+        "count": 69,
+        "denominator": 2000,
+        "rate": 0.0345,
+        "mcse": 0.004081038470781672
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.004300293488058787,
+          "bias_mcse": 0.0040648110491569005,
+          "coverage_conditional": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "coverage_operational": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "holm_rejection_conditional": {
+            "count": 31,
+            "denominator": 2000,
+            "rate": 0.0155,
+            "mcse": 0.0027622228367747597
+          },
+          "holm_rejection_operational": {
+            "count": 31,
+            "denominator": 2000,
+            "rate": 0.0155,
+            "mcse": 0.0027622228367747597
+          },
+          "mean_switchers": 69.423
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0063082998040059676,
+          "bias_mcse": 0.0023066125094196492,
+          "coverage_conditional": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "coverage_operational": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "holm_rejection_conditional": {
+            "count": 32,
+            "denominator": 2000,
+            "rate": 0.016,
+            "mcse": 0.0028057084666800293
+          },
+          "holm_rejection_operational": {
+            "count": 32,
+            "denominator": 2000,
+            "rate": 0.016,
+            "mcse": 0.0028057084666800293
+          },
+          "mean_switchers": 68.474
+        }
+      },
+      "any_holm_rejection": {
+        "count": 60,
+        "denominator": 2000,
+        "rate": 0.03,
+        "mcse": 0.00381444622455213
+      },
+      "joint_holm_rejection": {
+        "count": 3,
+        "denominator": 2000,
+        "rate": 0.0015,
+        "mcse": 0.0008653756409791069
+      },
+      "false_family_rejection": {
+        "count": 60,
+        "denominator": 2000,
+        "rate": 0.03,
+        "mcse": 0.00381444622455213
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13722996249998776,
+          "bias_mcse": 0.004048071624658347,
+          "coverage_conditional": {
+            "count": 1813,
+            "denominator": 2000,
+            "rate": 0.9065,
+            "mcse": 0.006509905913298595
+          },
+          "coverage_operational": {
+            "count": 1813,
+            "denominator": 2000,
+            "rate": 0.9065,
+            "mcse": 0.006509905913298595
+          },
+          "holm_rejection_conditional": {
+            "count": 113,
+            "denominator": 2000,
+            "rate": 0.0565,
+            "mcse": 0.005162739098579358
+          },
+          "holm_rejection_operational": {
+            "count": 113,
+            "denominator": 2000,
+            "rate": 0.0565,
+            "mcse": 0.005162739098579358
+          },
+          "mean_switchers": 68.358
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06772152817881306,
+          "bias_mcse": 0.0021608315736489957,
+          "coverage_conditional": {
+            "count": 1824,
+            "denominator": 2000,
+            "rate": 0.912,
+            "mcse": 0.0063346665263453285
+          },
+          "coverage_operational": {
+            "count": 1824,
+            "denominator": 2000,
+            "rate": 0.912,
+            "mcse": 0.0063346665263453285
+          },
+          "holm_rejection_conditional": {
+            "count": 87,
+            "denominator": 2000,
+            "rate": 0.0435,
+            "mcse": 0.004561126505590478
+          },
+          "holm_rejection_operational": {
+            "count": 87,
+            "denominator": 2000,
+            "rate": 0.0435,
+            "mcse": 0.004561126505590478
+          },
+          "mean_switchers": 68.01
+        }
+      },
+      "any_holm_rejection": {
+        "count": 184,
+        "denominator": 2000,
+        "rate": 0.092,
+        "mcse": 0.006462816723379984
+      },
+      "joint_holm_rejection": {
+        "count": 16,
+        "denominator": 2000,
+        "rate": 0.008,
+        "mcse": 0.0019919839356781974
+      },
+      "false_family_rejection": {
+        "count": 184,
+        "denominator": 2000,
+        "rate": 0.092,
+        "mcse": 0.006462816723379984
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.005684287700715098,
+          "bias_mcse": 0.00404878548298961,
+          "coverage_conditional": {
+            "count": 1928,
+            "denominator": 2000,
+            "rate": 0.964,
+            "mcse": 0.0041655731898503495
+          },
+          "coverage_operational": {
+            "count": 1928,
+            "denominator": 2000,
+            "rate": 0.964,
+            "mcse": 0.0041655731898503495
+          },
+          "holm_rejection_conditional": {
+            "count": 878,
+            "denominator": 2000,
+            "rate": 0.439,
+            "mcse": 0.011096823869918815
+          },
+          "holm_rejection_operational": {
+            "count": 878,
+            "denominator": 2000,
+            "rate": 0.439,
+            "mcse": 0.011096823869918815
+          },
+          "mean_switchers": 72.069
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.004176744445612357,
+          "bias_mcse": 0.002160941384957578,
+          "coverage_conditional": {
+            "count": 1931,
+            "denominator": 2000,
+            "rate": 0.9655,
+            "mcse": 0.00408103847078167
+          },
+          "coverage_operational": {
+            "count": 1931,
+            "denominator": 2000,
+            "rate": 0.9655,
+            "mcse": 0.00408103847078167
+          },
+          "holm_rejection_conditional": {
+            "count": 48,
+            "denominator": 2000,
+            "rate": 0.024,
+            "mcse": 0.00342227994179319
+          },
+          "holm_rejection_operational": {
+            "count": 48,
+            "denominator": 2000,
+            "rate": 0.024,
+            "mcse": 0.00342227994179319
+          },
+          "mean_switchers": 72.029
+        }
+      },
+      "any_holm_rejection": {
+        "count": 890,
+        "denominator": 2000,
+        "rate": 0.445,
+        "mcse": 0.011112492969626572
+      },
+      "joint_holm_rejection": {
+        "count": 36,
+        "denominator": 2000,
+        "rate": 0.018,
+        "mcse": 0.0029728773940409987
+      },
+      "false_family_rejection": {
+        "count": 48,
+        "denominator": 2000,
+        "rate": 0.024,
+        "mcse": 0.00342227994179319
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0028141602397722875,
+          "bias_mcse": 0.004179713166929841,
+          "coverage_conditional": {
+            "count": 1908,
+            "denominator": 2000,
+            "rate": 0.954,
+            "mcse": 0.0046842288586276416
+          },
+          "coverage_operational": {
+            "count": 1908,
+            "denominator": 2000,
+            "rate": 0.954,
+            "mcse": 0.0046842288586276416
+          },
+          "holm_rejection_conditional": {
+            "count": 832,
+            "denominator": 2000,
+            "rate": 0.416,
+            "mcse": 0.011021433663548495
+          },
+          "holm_rejection_operational": {
+            "count": 832,
+            "denominator": 2000,
+            "rate": 0.416,
+            "mcse": 0.011021433663548495
+          },
+          "mean_switchers": 69.2605
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0021644431222908925,
+          "bias_mcse": 0.0022280216804211952,
+          "coverage_conditional": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "coverage_operational": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "holm_rejection_conditional": {
+            "count": 57,
+            "denominator": 2000,
+            "rate": 0.0285,
+            "mcse": 0.0037207358143249033
+          },
+          "holm_rejection_operational": {
+            "count": 57,
+            "denominator": 2000,
+            "rate": 0.0285,
+            "mcse": 0.0037207358143249033
+          },
+          "mean_switchers": 68.403
+        }
+      },
+      "any_holm_rejection": {
+        "count": 844,
+        "denominator": 2000,
+        "rate": 0.422,
+        "mcse": 0.011043459602859967
+      },
+      "joint_holm_rejection": {
+        "count": 45,
+        "denominator": 2000,
+        "rate": 0.0225,
+        "mcse": 0.0033161536454151216
+      },
+      "false_family_rejection": {
+        "count": 57,
+        "denominator": 2000,
+        "rate": 0.0285,
+        "mcse": 0.0037207358143249033
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.19647324839299818,
+          "bias_mcse": 0.004119964676241473,
+          "coverage_conditional": {
+            "count": 1669,
+            "denominator": 2000,
+            "rate": 0.8345,
+            "mcse": 0.008309926293295265
+          },
+          "coverage_operational": {
+            "count": 1669,
+            "denominator": 2000,
+            "rate": 0.8345,
+            "mcse": 0.008309926293295265
+          },
+          "holm_rejection_conditional": {
+            "count": 236,
+            "denominator": 2000,
+            "rate": 0.118,
+            "mcse": 0.007213736895673421
+          },
+          "holm_rejection_operational": {
+            "count": 236,
+            "denominator": 2000,
+            "rate": 0.118,
+            "mcse": 0.007213736895673421
+          },
+          "mean_switchers": 66.003
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06405155057948804,
+          "bias_mcse": 0.002218570940381482,
+          "coverage_conditional": {
+            "count": 1834,
+            "denominator": 2000,
+            "rate": 0.917,
+            "mcse": 0.006168914004912047
+          },
+          "coverage_operational": {
+            "count": 1834,
+            "denominator": 2000,
+            "rate": 0.917,
+            "mcse": 0.006168914004912047
+          },
+          "holm_rejection_conditional": {
+            "count": 112,
+            "denominator": 2000,
+            "rate": 0.056,
+            "mcse": 0.005141206084179081
+          },
+          "holm_rejection_operational": {
+            "count": 112,
+            "denominator": 2000,
+            "rate": 0.056,
+            "mcse": 0.005141206084179081
+          },
+          "mean_switchers": 67.6655
+        }
+      },
+      "any_holm_rejection": {
+        "count": 317,
+        "denominator": 2000,
+        "rate": 0.1585,
+        "mcse": 0.008166325673153136
+      },
+      "joint_holm_rejection": {
+        "count": 31,
+        "denominator": 2000,
+        "rate": 0.0155,
+        "mcse": 0.0027622228367747597
+      },
+      "false_family_rejection": {
+        "count": 112,
+        "denominator": 2000,
+        "rate": 0.056,
+        "mcse": 0.005141206084179081
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0031303829520674185,
+          "bias_mcse": 0.0039137947927097945,
+          "coverage_conditional": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "coverage_operational": {
+            "count": 1936,
+            "denominator": 2000,
+            "rate": 0.968,
+            "mcse": 0.003935479640399632
+          },
+          "holm_rejection_conditional": {
+            "count": 41,
+            "denominator": 2000,
+            "rate": 0.0205,
+            "mcse": 0.00316857617866448
+          },
+          "holm_rejection_operational": {
+            "count": 41,
+            "denominator": 2000,
+            "rate": 0.0205,
+            "mcse": 0.00316857617866448
+          },
+          "mean_switchers": 72.169
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0015026051524561121,
+          "bias_mcse": 0.002151068194813259,
+          "coverage_conditional": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "coverage_operational": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "holm_rejection_conditional": {
+            "count": 751,
+            "denominator": 2000,
+            "rate": 0.3755,
+            "mcse": 0.010828198141888613
+          },
+          "holm_rejection_operational": {
+            "count": 751,
+            "denominator": 2000,
+            "rate": 0.3755,
+            "mcse": 0.010828198141888613
+          },
+          "mean_switchers": 72.096
+        }
+      },
+      "any_holm_rejection": {
+        "count": 770,
+        "denominator": 2000,
+        "rate": 0.385,
+        "mcse": 0.010880602005403929
+      },
+      "joint_holm_rejection": {
+        "count": 22,
+        "denominator": 2000,
+        "rate": 0.011,
+        "mcse": 0.002332273568859365
+      },
+      "false_family_rejection": {
+        "count": 41,
+        "denominator": 2000,
+        "rate": 0.0205,
+        "mcse": 0.00316857617866448
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0031598792462455227,
+          "bias_mcse": 0.004148989738957246,
+          "coverage_conditional": {
+            "count": 1927,
+            "denominator": 2000,
+            "rate": 0.9635,
+            "mcse": 0.004193313129257102
+          },
+          "coverage_operational": {
+            "count": 1927,
+            "denominator": 2000,
+            "rate": 0.9635,
+            "mcse": 0.004193313129257102
+          },
+          "holm_rejection_conditional": {
+            "count": 40,
+            "denominator": 2000,
+            "rate": 0.02,
+            "mcse": 0.0031304951684997056
+          },
+          "holm_rejection_operational": {
+            "count": 40,
+            "denominator": 2000,
+            "rate": 0.02,
+            "mcse": 0.0031304951684997056
+          },
+          "mean_switchers": 69.1135
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00010080026048424772,
+          "bias_mcse": 0.0022333682106575,
+          "coverage_conditional": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "coverage_operational": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "holm_rejection_conditional": {
+            "count": 706,
+            "denominator": 2000,
+            "rate": 0.353,
+            "mcse": 0.010686229456641851
+          },
+          "holm_rejection_operational": {
+            "count": 706,
+            "denominator": 2000,
+            "rate": 0.353,
+            "mcse": 0.010686229456641851
+          },
+          "mean_switchers": 68.339
+        }
+      },
+      "any_holm_rejection": {
+        "count": 721,
+        "denominator": 2000,
+        "rate": 0.3605,
+        "mcse": 0.010736380907922371
+      },
+      "joint_holm_rejection": {
+        "count": 25,
+        "denominator": 2000,
+        "rate": 0.0125,
+        "mcse": 0.002484325864293974
+      },
+      "false_family_rejection": {
+        "count": 40,
+        "denominator": 2000,
+        "rate": 0.02,
+        "mcse": 0.0031304951684997056
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.14172201227259712,
+          "bias_mcse": 0.0038976334185982305,
+          "coverage_conditional": {
+            "count": 1826,
+            "denominator": 2000,
+            "rate": 0.913,
+            "mcse": 0.006302023484564302
+          },
+          "coverage_operational": {
+            "count": 1826,
+            "denominator": 2000,
+            "rate": 0.913,
+            "mcse": 0.006302023484564302
+          },
+          "holm_rejection_conditional": {
+            "count": 141,
+            "denominator": 2000,
+            "rate": 0.0705,
+            "mcse": 0.0057240610583745525
+          },
+          "holm_rejection_operational": {
+            "count": 141,
+            "denominator": 2000,
+            "rate": 0.0705,
+            "mcse": 0.0057240610583745525
+          },
+          "mean_switchers": 68.1885
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04928876683567837,
+          "bias_mcse": 0.002124059571147088,
+          "coverage_conditional": {
+            "count": 1859,
+            "denominator": 2000,
+            "rate": 0.9295,
+            "mcse": 0.005724061058374553
+          },
+          "coverage_operational": {
+            "count": 1859,
+            "denominator": 2000,
+            "rate": 0.9295,
+            "mcse": 0.005724061058374553
+          },
+          "holm_rejection_conditional": {
+            "count": 1166,
+            "denominator": 2000,
+            "rate": 0.583,
+            "mcse": 0.011025221086218635
+          },
+          "holm_rejection_operational": {
+            "count": 1166,
+            "denominator": 2000,
+            "rate": 0.583,
+            "mcse": 0.011025221086218635
+          },
+          "mean_switchers": 69.275
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1197,
+        "denominator": 2000,
+        "rate": 0.5985,
+        "mcse": 0.010961244226820238
+      },
+      "joint_holm_rejection": {
+        "count": 110,
+        "denominator": 2000,
+        "rate": 0.055,
+        "mcse": 0.005097793640389928
+      },
+      "false_family_rejection": {
+        "count": 141,
+        "denominator": 2000,
+        "rate": 0.0705,
+        "mcse": 0.0057240610583745525
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.002692194571660363,
+          "bias_mcse": 0.004134063154065575,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 956,
+            "denominator": 2000,
+            "rate": 0.478,
+            "mcse": 0.0111695120752878
+          },
+          "holm_rejection_operational": {
+            "count": 956,
+            "denominator": 2000,
+            "rate": 0.478,
+            "mcse": 0.0111695120752878
+          },
+          "mean_switchers": 72.3345
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0019276115412732104,
+          "bias_mcse": 0.002148934650014918,
+          "coverage_conditional": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "coverage_operational": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "holm_rejection_conditional": {
+            "count": 903,
+            "denominator": 2000,
+            "rate": 0.4515,
+            "mcse": 0.011127617669564317
+          },
+          "holm_rejection_operational": {
+            "count": 903,
+            "denominator": 2000,
+            "rate": 0.4515,
+            "mcse": 0.011127617669564317
+          },
+          "mean_switchers": 72.152
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1308,
+        "denominator": 2000,
+        "rate": 0.654,
+        "mcse": 0.010636822833910509
+      },
+      "joint_holm_rejection": {
+        "count": 551,
+        "denominator": 2000,
+        "rate": 0.2755,
+        "mcse": 0.009989988738732391
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0002924498342514819,
+          "bias_mcse": 0.004106361969970738,
+          "coverage_conditional": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "coverage_operational": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "holm_rejection_conditional": {
+            "count": 868,
+            "denominator": 2000,
+            "rate": 0.434,
+            "mcse": 0.011082508741255295
+          },
+          "holm_rejection_operational": {
+            "count": 868,
+            "denominator": 2000,
+            "rate": 0.434,
+            "mcse": 0.011082508741255295
+          },
+          "mean_switchers": 69.36
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.002122128626417371,
+          "bias_mcse": 0.0022146630410575592,
+          "coverage_conditional": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "coverage_operational": {
+            "count": 1922,
+            "denominator": 2000,
+            "rate": 0.961,
+            "mcse": 0.004328914413568374
+          },
+          "holm_rejection_conditional": {
+            "count": 769,
+            "denominator": 2000,
+            "rate": 0.3845,
+            "mcse": 0.010877953621890469
+          },
+          "holm_rejection_operational": {
+            "count": 769,
+            "denominator": 2000,
+            "rate": 0.3845,
+            "mcse": 0.010877953621890469
+          },
+          "mean_switchers": 68.532
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1189,
+        "denominator": 2000,
+        "rate": 0.5945,
+        "mcse": 0.010978837597851605
+      },
+      "joint_holm_rejection": {
+        "count": 448,
+        "denominator": 2000,
+        "rate": 0.224,
+        "mcse": 0.009322660564452618
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.05,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.18589688341846305,
+          "bias_mcse": 0.004075257825451655,
+          "coverage_conditional": {
+            "count": 1709,
+            "denominator": 2000,
+            "rate": 0.8545,
+            "mcse": 0.007884470495854492
+          },
+          "coverage_operational": {
+            "count": 1709,
+            "denominator": 2000,
+            "rate": 0.8545,
+            "mcse": 0.007884470495854492
+          },
+          "holm_rejection_conditional": {
+            "count": 326,
+            "denominator": 2000,
+            "rate": 0.163,
+            "mcse": 0.008259267522002178
+          },
+          "holm_rejection_operational": {
+            "count": 326,
+            "denominator": 2000,
+            "rate": 0.163,
+            "mcse": 0.008259267522002178
+          },
+          "mean_switchers": 66.2725
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04950428772882721,
+          "bias_mcse": 0.0021740322001760947,
+          "coverage_conditional": {
+            "count": 1846,
+            "denominator": 2000,
+            "rate": 0.923,
+            "mcse": 0.005961165993327143
+          },
+          "coverage_operational": {
+            "count": 1846,
+            "denominator": 2000,
+            "rate": 0.923,
+            "mcse": 0.005961165993327143
+          },
+          "holm_rejection_conditional": {
+            "count": 1167,
+            "denominator": 2000,
+            "rate": 0.5835,
+            "mcse": 0.01102333320733797
+          },
+          "holm_rejection_operational": {
+            "count": 1167,
+            "denominator": 2000,
+            "rate": 0.5835,
+            "mcse": 0.01102333320733797
+          },
+          "mean_switchers": 69.4755
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1242,
+        "denominator": 2000,
+        "rate": 0.621,
+        "mcse": 0.010848018252197035
+      },
+      "joint_holm_rejection": {
+        "count": 251,
+        "denominator": 2000,
+        "rate": 0.1255,
+        "mcse": 0.007407757757918384
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.00428634024545679,
+          "bias_mcse": 0.0028419479567606534,
+          "coverage_conditional": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "coverage_operational": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "holm_rejection_conditional": {
+            "count": 36,
+            "denominator": 2000,
+            "rate": 0.018,
+            "mcse": 0.0029728773940409987
+          },
+          "holm_rejection_operational": {
+            "count": 36,
+            "denominator": 2000,
+            "rate": 0.018,
+            "mcse": 0.0029728773940409987
+          },
+          "mean_switchers": 117.849
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0011880648370500482,
+          "bias_mcse": 0.0016062316728690641,
+          "coverage_conditional": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "coverage_operational": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "holm_rejection_conditional": {
+            "count": 30,
+            "denominator": 2000,
+            "rate": 0.015,
+            "mcse": 0.0027179955849853765
+          },
+          "holm_rejection_operational": {
+            "count": 30,
+            "denominator": 2000,
+            "rate": 0.015,
+            "mcse": 0.0027179955849853765
+          },
+          "mean_switchers": 117.742
+        }
+      },
+      "any_holm_rejection": {
+        "count": 65,
+        "denominator": 2000,
+        "rate": 0.0325,
+        "mcse": 0.003965081966365891
+      },
+      "joint_holm_rejection": {
+        "count": 1,
+        "denominator": 2000,
+        "rate": 0.0005,
+        "mcse": 0.0004998749843710925
+      },
+      "false_family_rejection": {
+        "count": 65,
+        "denominator": 2000,
+        "rate": 0.0325,
+        "mcse": 0.003965081966365891
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0027214273111608183,
+          "bias_mcse": 0.0031324453689811783,
+          "coverage_conditional": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "coverage_operational": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "holm_rejection_conditional": {
+            "count": 40,
+            "denominator": 2000,
+            "rate": 0.02,
+            "mcse": 0.0031304951684997056
+          },
+          "holm_rejection_operational": {
+            "count": 40,
+            "denominator": 2000,
+            "rate": 0.02,
+            "mcse": 0.0031304951684997056
+          },
+          "mean_switchers": 114.771
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.000981730319807192,
+          "bias_mcse": 0.0016605118888693635,
+          "coverage_conditional": {
+            "count": 1915,
+            "denominator": 2000,
+            "rate": 0.9575,
+            "mcse": 0.004510751046111944
+          },
+          "coverage_operational": {
+            "count": 1915,
+            "denominator": 2000,
+            "rate": 0.9575,
+            "mcse": 0.004510751046111944
+          },
+          "holm_rejection_conditional": {
+            "count": 45,
+            "denominator": 2000,
+            "rate": 0.0225,
+            "mcse": 0.0033161536454151216
+          },
+          "holm_rejection_operational": {
+            "count": 45,
+            "denominator": 2000,
+            "rate": 0.0225,
+            "mcse": 0.0033161536454151216
+          },
+          "mean_switchers": 113.7265
+        }
+      },
+      "any_holm_rejection": {
+        "count": 83,
+        "denominator": 2000,
+        "rate": 0.0415,
+        "mcse": 0.004459694496263169
+      },
+      "joint_holm_rejection": {
+        "count": 2,
+        "denominator": 2000,
+        "rate": 0.001,
+        "mcse": 0.0007067531393633848
+      },
+      "false_family_rejection": {
+        "count": 83,
+        "denominator": 2000,
+        "rate": 0.0415,
+        "mcse": 0.004459694496263169
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.1312388263240642,
+          "bias_mcse": 0.0029086698077473356,
+          "coverage_conditional": {
+            "count": 1711,
+            "denominator": 2000,
+            "rate": 0.8555,
+            "mcse": 0.00786192565469809
+          },
+          "coverage_operational": {
+            "count": 1711,
+            "denominator": 2000,
+            "rate": 0.8555,
+            "mcse": 0.00786192565469809
+          },
+          "holm_rejection_conditional": {
+            "count": 177,
+            "denominator": 2000,
+            "rate": 0.0885,
+            "mcse": 0.0063508956061330436
+          },
+          "holm_rejection_operational": {
+            "count": 177,
+            "denominator": 2000,
+            "rate": 0.0885,
+            "mcse": 0.0063508956061330436
+          },
+          "mean_switchers": 113.3655
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06388259291858579,
+          "bias_mcse": 0.0016275699383932192,
+          "coverage_conditional": {
+            "count": 1760,
+            "denominator": 2000,
+            "rate": 0.88,
+            "mcse": 0.0072663608498339805
+          },
+          "coverage_operational": {
+            "count": 1760,
+            "denominator": 2000,
+            "rate": 0.88,
+            "mcse": 0.0072663608498339805
+          },
+          "holm_rejection_conditional": {
+            "count": 154,
+            "denominator": 2000,
+            "rate": 0.077,
+            "mcse": 0.0059611659933271445
+          },
+          "holm_rejection_operational": {
+            "count": 154,
+            "denominator": 2000,
+            "rate": 0.077,
+            "mcse": 0.0059611659933271445
+          },
+          "mean_switchers": 112.61
+        }
+      },
+      "any_holm_rejection": {
+        "count": 307,
+        "denominator": 2000,
+        "rate": 0.1535,
+        "mcse": 0.00806032722660811
+      },
+      "joint_holm_rejection": {
+        "count": 24,
+        "denominator": 2000,
+        "rate": 0.012,
+        "mcse": 0.002434748446965312
+      },
+      "false_family_rejection": {
+        "count": 307,
+        "denominator": 2000,
+        "rate": 0.1535,
+        "mcse": 0.00806032722660811
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.002605104687144123,
+          "bias_mcse": 0.002960803301513399,
+          "coverage_conditional": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "coverage_operational": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "holm_rejection_conditional": {
+            "count": 1462,
+            "denominator": 2000,
+            "rate": 0.731,
+            "mcse": 0.009915618992276781
+          },
+          "holm_rejection_operational": {
+            "count": 1462,
+            "denominator": 2000,
+            "rate": 0.731,
+            "mcse": 0.009915618992276781
+          },
+          "mean_switchers": 117.6895
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0011274224467509972,
+          "bias_mcse": 0.0016091912198160489,
+          "coverage_conditional": {
+            "count": 1928,
+            "denominator": 2000,
+            "rate": 0.964,
+            "mcse": 0.0041655731898503495
+          },
+          "coverage_operational": {
+            "count": 1928,
+            "denominator": 2000,
+            "rate": 0.964,
+            "mcse": 0.0041655731898503495
+          },
+          "holm_rejection_conditional": {
+            "count": 62,
+            "denominator": 2000,
+            "rate": 0.031,
+            "mcse": 0.003875499967746097
+          },
+          "holm_rejection_operational": {
+            "count": 62,
+            "denominator": 2000,
+            "rate": 0.031,
+            "mcse": 0.003875499967746097
+          },
+          "mean_switchers": 117.623
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1471,
+        "denominator": 2000,
+        "rate": 0.7355,
+        "mcse": 0.00986254911267873
+      },
+      "joint_holm_rejection": {
+        "count": 53,
+        "denominator": 2000,
+        "rate": 0.0265,
+        "mcse": 0.0035915003828483716
+      },
+      "false_family_rejection": {
+        "count": 62,
+        "denominator": 2000,
+        "rate": 0.031,
+        "mcse": 0.003875499967746097
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0012407178881174324,
+          "bias_mcse": 0.003056617065824241,
+          "coverage_conditional": {
+            "count": 1925,
+            "denominator": 2000,
+            "rate": 0.9625,
+            "mcse": 0.004248161366991606
+          },
+          "coverage_operational": {
+            "count": 1925,
+            "denominator": 2000,
+            "rate": 0.9625,
+            "mcse": 0.004248161366991606
+          },
+          "holm_rejection_conditional": {
+            "count": 1406,
+            "denominator": 2000,
+            "rate": 0.703,
+            "mcse": 0.010217411609600545
+          },
+          "holm_rejection_operational": {
+            "count": 1406,
+            "denominator": 2000,
+            "rate": 0.703,
+            "mcse": 0.010217411609600545
+          },
+          "mean_switchers": 114.905
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.002013588691692931,
+          "bias_mcse": 0.0016752736665402368,
+          "coverage_conditional": {
+            "count": 1924,
+            "denominator": 2000,
+            "rate": 0.962,
+            "mcse": 0.004275277768753747
+          },
+          "coverage_operational": {
+            "count": 1924,
+            "denominator": 2000,
+            "rate": 0.962,
+            "mcse": 0.004275277768753747
+          },
+          "holm_rejection_conditional": {
+            "count": 68,
+            "denominator": 2000,
+            "rate": 0.034,
+            "mcse": 0.0040524066923249445
+          },
+          "holm_rejection_operational": {
+            "count": 68,
+            "denominator": 2000,
+            "rate": 0.034,
+            "mcse": 0.0040524066923249445
+          },
+          "mean_switchers": 113.722
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1411,
+        "denominator": 2000,
+        "rate": 0.7055,
+        "mcse": 0.010192392996740265
+      },
+      "joint_holm_rejection": {
+        "count": 63,
+        "denominator": 2000,
+        "rate": 0.0315,
+        "mcse": 0.0039056209493497957
+      },
+      "false_family_rejection": {
+        "count": 68,
+        "denominator": 2000,
+        "rate": 0.034,
+        "mcse": 0.0040524066923249445
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.18258986929925125,
+          "bias_mcse": 0.0029690009943183415,
+          "coverage_conditional": {
+            "count": 1532,
+            "denominator": 2000,
+            "rate": 0.766,
+            "mcse": 0.00946688966873492
+          },
+          "coverage_operational": {
+            "count": 1532,
+            "denominator": 2000,
+            "rate": 0.766,
+            "mcse": 0.00946688966873492
+          },
+          "holm_rejection_conditional": {
+            "count": 484,
+            "denominator": 2000,
+            "rate": 0.242,
+            "mcse": 0.009576951498258723
+          },
+          "holm_rejection_operational": {
+            "count": 484,
+            "denominator": 2000,
+            "rate": 0.242,
+            "mcse": 0.009576951498258723
+          },
+          "mean_switchers": 110.707
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06314119010094346,
+          "bias_mcse": 0.00162039627173391,
+          "coverage_conditional": {
+            "count": 1760,
+            "denominator": 2000,
+            "rate": 0.88,
+            "mcse": 0.0072663608498339805
+          },
+          "coverage_operational": {
+            "count": 1760,
+            "denominator": 2000,
+            "rate": 0.88,
+            "mcse": 0.0072663608498339805
+          },
+          "holm_rejection_conditional": {
+            "count": 167,
+            "denominator": 2000,
+            "rate": 0.0835,
+            "mcse": 0.006185780063985464
+          },
+          "holm_rejection_operational": {
+            "count": 167,
+            "denominator": 2000,
+            "rate": 0.0835,
+            "mcse": 0.006185780063985464
+          },
+          "mean_switchers": 112.8375
+        }
+      },
+      "any_holm_rejection": {
+        "count": 569,
+        "denominator": 2000,
+        "rate": 0.2845,
+        "mcse": 0.010088601241004622
+      },
+      "joint_holm_rejection": {
+        "count": 82,
+        "denominator": 2000,
+        "rate": 0.041,
+        "mcse": 0.004433903472111228
+      },
+      "false_family_rejection": {
+        "count": 167,
+        "denominator": 2000,
+        "rate": 0.0835,
+        "mcse": 0.006185780063985464
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00041892781382535296,
+          "bias_mcse": 0.002936277387306474,
+          "coverage_conditional": {
+            "count": 1924,
+            "denominator": 2000,
+            "rate": 0.962,
+            "mcse": 0.004275277768753747
+          },
+          "coverage_operational": {
+            "count": 1924,
+            "denominator": 2000,
+            "rate": 0.962,
+            "mcse": 0.004275277768753747
+          },
+          "holm_rejection_conditional": {
+            "count": 60,
+            "denominator": 2000,
+            "rate": 0.03,
+            "mcse": 0.00381444622455213
+          },
+          "holm_rejection_operational": {
+            "count": 60,
+            "denominator": 2000,
+            "rate": 0.03,
+            "mcse": 0.00381444622455213
+          },
+          "mean_switchers": 117.7055
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.004645431845877008,
+          "bias_mcse": 0.0016159327606777222,
+          "coverage_conditional": {
+            "count": 1912,
+            "denominator": 2000,
+            "rate": 0.956,
+            "mcse": 0.004586065852122058
+          },
+          "coverage_operational": {
+            "count": 1912,
+            "denominator": 2000,
+            "rate": 0.956,
+            "mcse": 0.004586065852122058
+          },
+          "holm_rejection_conditional": {
+            "count": 1276,
+            "denominator": 2000,
+            "rate": 0.638,
+            "mcse": 0.010746069048726608
+          },
+          "holm_rejection_operational": {
+            "count": 1276,
+            "denominator": 2000,
+            "rate": 0.638,
+            "mcse": 0.010746069048726608
+          },
+          "mean_switchers": 117.8125
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1282,
+        "denominator": 2000,
+        "rate": 0.641,
+        "mcse": 0.01072657913782395
+      },
+      "joint_holm_rejection": {
+        "count": 54,
+        "denominator": 2000,
+        "rate": 0.027,
+        "mcse": 0.0036242930345103167
+      },
+      "false_family_rejection": {
+        "count": 60,
+        "denominator": 2000,
+        "rate": 0.03,
+        "mcse": 0.00381444622455213
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00039183040146180306,
+          "bias_mcse": 0.002944280564777145,
+          "coverage_conditional": {
+            "count": 1939,
+            "denominator": 2000,
+            "rate": 0.9695,
+            "mcse": 0.0038451105315712303
+          },
+          "coverage_operational": {
+            "count": 1939,
+            "denominator": 2000,
+            "rate": 0.9695,
+            "mcse": 0.0038451105315712303
+          },
+          "holm_rejection_conditional": {
+            "count": 47,
+            "denominator": 2000,
+            "rate": 0.0235,
+            "mcse": 0.0033873108803297047
+          },
+          "holm_rejection_operational": {
+            "count": 47,
+            "denominator": 2000,
+            "rate": 0.0235,
+            "mcse": 0.0033873108803297047
+          },
+          "mean_switchers": 114.6945
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00015193620491085947,
+          "bias_mcse": 0.0016124716884933692,
+          "coverage_conditional": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "coverage_operational": {
+            "count": 1920,
+            "denominator": 2000,
+            "rate": 0.96,
+            "mcse": 0.004381780460041331
+          },
+          "holm_rejection_conditional": {
+            "count": 1249,
+            "denominator": 2000,
+            "rate": 0.6245,
+            "mcse": 0.010828198141888613
+          },
+          "holm_rejection_operational": {
+            "count": 1249,
+            "denominator": 2000,
+            "rate": 0.6245,
+            "mcse": 0.010828198141888613
+          },
+          "mean_switchers": 113.528
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1257,
+        "denominator": 2000,
+        "rate": 0.6285,
+        "mcse": 0.010804807957571482
+      },
+      "joint_holm_rejection": {
+        "count": 39,
+        "denominator": 2000,
+        "rate": 0.0195,
+        "mcse": 0.0030919047527373806
+      },
+      "false_family_rejection": {
+        "count": 47,
+        "denominator": 2000,
+        "rate": 0.0235,
+        "mcse": 0.0033873108803297047
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.1440977970528641,
+          "bias_mcse": 0.0028837965798742295,
+          "coverage_conditional": {
+            "count": 1669,
+            "denominator": 2000,
+            "rate": 0.8345,
+            "mcse": 0.008309926293295265
+          },
+          "coverage_operational": {
+            "count": 1669,
+            "denominator": 2000,
+            "rate": 0.8345,
+            "mcse": 0.008309926293295265
+          },
+          "holm_rejection_conditional": {
+            "count": 313,
+            "denominator": 2000,
+            "rate": 0.1565,
+            "mcse": 0.008124276890899276
+          },
+          "holm_rejection_operational": {
+            "count": 313,
+            "denominator": 2000,
+            "rate": 0.1565,
+            "mcse": 0.008124276890899276
+          },
+          "mean_switchers": 113.7845
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.047165418692306345,
+          "bias_mcse": 0.0015209237414982519,
+          "coverage_conditional": {
+            "count": 1844,
+            "denominator": 2000,
+            "rate": 0.922,
+            "mcse": 0.005996498978570745
+          },
+          "coverage_operational": {
+            "count": 1844,
+            "denominator": 2000,
+            "rate": 0.922,
+            "mcse": 0.005996498978570745
+          },
+          "holm_rejection_conditional": {
+            "count": 1755,
+            "denominator": 2000,
+            "rate": 0.8775,
+            "mcse": 0.007331226022978695
+          },
+          "holm_rejection_operational": {
+            "count": 1755,
+            "denominator": 2000,
+            "rate": 0.8775,
+            "mcse": 0.007331226022978695
+          },
+          "mean_switchers": 115.026
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1768,
+        "denominator": 2000,
+        "rate": 0.884,
+        "mcse": 0.0071604469134265636
+      },
+      "joint_holm_rejection": {
+        "count": 300,
+        "denominator": 2000,
+        "rate": 0.15,
+        "mcse": 0.007984359711335657
+      },
+      "false_family_rejection": {
+        "count": 313,
+        "denominator": 2000,
+        "rate": 0.1565,
+        "mcse": 0.008124276890899276
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0003548846837635997,
+          "bias_mcse": 0.0030418134852379934,
+          "coverage_conditional": {
+            "count": 1906,
+            "denominator": 2000,
+            "rate": 0.953,
+            "mcse": 0.004732388403332932
+          },
+          "coverage_operational": {
+            "count": 1906,
+            "denominator": 2000,
+            "rate": 0.953,
+            "mcse": 0.004732388403332932
+          },
+          "holm_rejection_conditional": {
+            "count": 1579,
+            "denominator": 2000,
+            "rate": 0.7895,
+            "mcse": 0.009115639034099584
+          },
+          "holm_rejection_operational": {
+            "count": 1579,
+            "denominator": 2000,
+            "rate": 0.7895,
+            "mcse": 0.009115639034099584
+          },
+          "mean_switchers": 117.585
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0004933370401650167,
+          "bias_mcse": 0.0015435849781946093,
+          "coverage_conditional": {
+            "count": 1938,
+            "denominator": 2000,
+            "rate": 0.969,
+            "mcse": 0.003875499967746099
+          },
+          "coverage_operational": {
+            "count": 1938,
+            "denominator": 2000,
+            "rate": 0.969,
+            "mcse": 0.003875499967746099
+          },
+          "holm_rejection_conditional": {
+            "count": 1464,
+            "denominator": 2000,
+            "rate": 0.732,
+            "mcse": 0.0099039386104721
+          },
+          "holm_rejection_operational": {
+            "count": 1464,
+            "denominator": 2000,
+            "rate": 0.732,
+            "mcse": 0.0099039386104721
+          },
+          "mean_switchers": 117.745
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1817,
+        "denominator": 2000,
+        "rate": 0.9085,
+        "mcse": 0.006447005118657811
+      },
+      "joint_holm_rejection": {
+        "count": 1226,
+        "denominator": 2000,
+        "rate": 0.613,
+        "mcse": 0.010891074327172687
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.005374833528524668,
+          "bias_mcse": 0.0031065485835759504,
+          "coverage_conditional": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "coverage_operational": {
+            "count": 1929,
+            "denominator": 2000,
+            "rate": 0.9645,
+            "mcse": 0.0041376170678302255
+          },
+          "holm_rejection_conditional": {
+            "count": 1473,
+            "denominator": 2000,
+            "rate": 0.7365,
+            "mcse": 0.009850577394244461
+          },
+          "holm_rejection_operational": {
+            "count": 1473,
+            "denominator": 2000,
+            "rate": 0.7365,
+            "mcse": 0.009850577394244461
+          },
+          "mean_switchers": 114.285
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.003232711771300066,
+          "bias_mcse": 0.0015749266884596933,
+          "coverage_conditional": {
+            "count": 1937,
+            "denominator": 2000,
+            "rate": 0.9685,
+            "mcse": 0.0039056209493497944
+          },
+          "coverage_operational": {
+            "count": 1937,
+            "denominator": 2000,
+            "rate": 0.9685,
+            "mcse": 0.0039056209493497944
+          },
+          "holm_rejection_conditional": {
+            "count": 1383,
+            "denominator": 2000,
+            "rate": 0.6915,
+            "mcse": 0.010327820438020793
+          },
+          "holm_rejection_operational": {
+            "count": 1383,
+            "denominator": 2000,
+            "rate": 0.6915,
+            "mcse": 0.010327820438020793
+          },
+          "mean_switchers": 113.504
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1760,
+        "denominator": 2000,
+        "rate": 0.88,
+        "mcse": 0.0072663608498339805
+      },
+      "joint_holm_rejection": {
+        "count": 1096,
+        "denominator": 2000,
+        "rate": 0.548,
+        "mcse": 0.011128701631367425
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.1,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.19068172701866185,
+          "bias_mcse": 0.0029581437297446856,
+          "coverage_conditional": {
+            "count": 1498,
+            "denominator": 2000,
+            "rate": 0.749,
+            "mcse": 0.009695333929267212
+          },
+          "coverage_operational": {
+            "count": 1498,
+            "denominator": 2000,
+            "rate": 0.749,
+            "mcse": 0.009695333929267212
+          },
+          "holm_rejection_conditional": {
+            "count": 603,
+            "denominator": 2000,
+            "rate": 0.3015,
+            "mcse": 0.010261524009619624
+          },
+          "holm_rejection_operational": {
+            "count": 603,
+            "denominator": 2000,
+            "rate": 0.3015,
+            "mcse": 0.010261524009619624
+          },
+          "mean_switchers": 111.0555
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04535639020418259,
+          "bias_mcse": 0.0015727608337424701,
+          "coverage_conditional": {
+            "count": 1829,
+            "denominator": 2000,
+            "rate": 0.9145,
+            "mcse": 0.006252589463574273
+          },
+          "coverage_operational": {
+            "count": 1829,
+            "denominator": 2000,
+            "rate": 0.9145,
+            "mcse": 0.006252589463574273
+          },
+          "holm_rejection_conditional": {
+            "count": 1741,
+            "denominator": 2000,
+            "rate": 0.8705,
+            "mcse": 0.007507654427316162
+          },
+          "holm_rejection_operational": {
+            "count": 1741,
+            "denominator": 2000,
+            "rate": 0.8705,
+            "mcse": 0.007507654427316162
+          },
+          "mean_switchers": 114.8985
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1781,
+        "denominator": 2000,
+        "rate": 0.8905,
+        "mcse": 0.006982469119158352
+      },
+      "joint_holm_rejection": {
+        "count": 563,
+        "denominator": 2000,
+        "rate": 0.2815,
+        "mcse": 0.010056285347980138
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0033618233338920532,
+          "bias_mcse": 0.0021395278592604757,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 30,
+            "denominator": 2000,
+            "rate": 0.015,
+            "mcse": 0.0027179955849853765
+          },
+          "holm_rejection_operational": {
+            "count": 30,
+            "denominator": 2000,
+            "rate": 0.015,
+            "mcse": 0.0027179955849853765
+          },
+          "mean_switchers": 195.405
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0009330109244882927,
+          "bias_mcse": 0.0011372815270274822,
+          "coverage_conditional": {
+            "count": 1931,
+            "denominator": 2000,
+            "rate": 0.9655,
+            "mcse": 0.00408103847078167
+          },
+          "coverage_operational": {
+            "count": 1931,
+            "denominator": 2000,
+            "rate": 0.9655,
+            "mcse": 0.00408103847078167
+          },
+          "holm_rejection_conditional": {
+            "count": 42,
+            "denominator": 2000,
+            "rate": 0.021,
+            "mcse": 0.0032061659345704488
+          },
+          "holm_rejection_operational": {
+            "count": 42,
+            "denominator": 2000,
+            "rate": 0.021,
+            "mcse": 0.0032061659345704488
+          },
+          "mean_switchers": 195.547
+        }
+      },
+      "any_holm_rejection": {
+        "count": 68,
+        "denominator": 2000,
+        "rate": 0.034,
+        "mcse": 0.0040524066923249445
+      },
+      "joint_holm_rejection": {
+        "count": 4,
+        "denominator": 2000,
+        "rate": 0.002,
+        "mcse": 0.0009989994994993741
+      },
+      "false_family_rejection": {
+        "count": 68,
+        "denominator": 2000,
+        "rate": 0.034,
+        "mcse": 0.0040524066923249445
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0007647250899802269,
+          "bias_mcse": 0.002153297451844076,
+          "coverage_conditional": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "coverage_operational": {
+            "count": 1914,
+            "denominator": 2000,
+            "rate": 0.957,
+            "mcse": 0.004536022486716751
+          },
+          "holm_rejection_conditional": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "holm_rejection_operational": {
+            "count": 39,
+            "denominator": 2000,
+            "rate": 0.0195,
+            "mcse": 0.0030919047527373806
+          },
+          "mean_switchers": 194.282
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.001442892639159048,
+          "bias_mcse": 0.0011919479097461886,
+          "coverage_conditional": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "coverage_operational": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "holm_rejection_conditional": {
+            "count": 40,
+            "denominator": 2000,
+            "rate": 0.02,
+            "mcse": 0.0031304951684997056
+          },
+          "holm_rejection_operational": {
+            "count": 40,
+            "denominator": 2000,
+            "rate": 0.02,
+            "mcse": 0.0031304951684997056
+          },
+          "mean_switchers": 193.4995
+        }
+      },
+      "any_holm_rejection": {
+        "count": 76,
+        "denominator": 2000,
+        "rate": 0.038,
+        "mcse": 0.004275277768753745
+      },
+      "joint_holm_rejection": {
+        "count": 3,
+        "denominator": 2000,
+        "rate": 0.0015,
+        "mcse": 0.0008653756409791069
+      },
+      "false_family_rejection": {
+        "count": 76,
+        "denominator": 2000,
+        "rate": 0.038,
+        "mcse": 0.004275277768753745
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13531686216833755,
+          "bias_mcse": 0.002049436479709115,
+          "coverage_conditional": {
+            "count": 1455,
+            "denominator": 2000,
+            "rate": 0.7275,
+            "mcse": 0.00995599693652022
+          },
+          "coverage_operational": {
+            "count": 1455,
+            "denominator": 2000,
+            "rate": 0.7275,
+            "mcse": 0.00995599693652022
+          },
+          "holm_rejection_conditional": {
+            "count": 412,
+            "denominator": 2000,
+            "rate": 0.206,
+            "mcse": 0.009043340090917736
+          },
+          "holm_rejection_operational": {
+            "count": 412,
+            "denominator": 2000,
+            "rate": 0.206,
+            "mcse": 0.009043340090917736
+          },
+          "mean_switchers": 193.694
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.060743347308931564,
+          "bias_mcse": 0.001153460886767855,
+          "coverage_conditional": {
+            "count": 1599,
+            "denominator": 2000,
+            "rate": 0.7995,
+            "mcse": 0.008952646256833787
+          },
+          "coverage_operational": {
+            "count": 1599,
+            "denominator": 2000,
+            "rate": 0.7995,
+            "mcse": 0.008952646256833787
+          },
+          "holm_rejection_conditional": {
+            "count": 287,
+            "denominator": 2000,
+            "rate": 0.1435,
+            "mcse": 0.007839252196478947
+          },
+          "holm_rejection_operational": {
+            "count": 287,
+            "denominator": 2000,
+            "rate": 0.1435,
+            "mcse": 0.007839252196478947
+          },
+          "mean_switchers": 192.886
+        }
+      },
+      "any_holm_rejection": {
+        "count": 581,
+        "denominator": 2000,
+        "rate": 0.2905,
+        "mcse": 0.010151594702311553
+      },
+      "joint_holm_rejection": {
+        "count": 118,
+        "denominator": 2000,
+        "rate": 0.059,
+        "mcse": 0.0052687284993630104
+      },
+      "false_family_rejection": {
+        "count": 581,
+        "denominator": 2000,
+        "rate": 0.2905,
+        "mcse": 0.010151594702311553
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.000307008706104141,
+          "bias_mcse": 0.0020895462060517775,
+          "coverage_conditional": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "coverage_operational": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "holm_rejection_conditional": {
+            "count": 1934,
+            "denominator": 2000,
+            "rate": 0.967,
+            "mcse": 0.003994433626936366
+          },
+          "holm_rejection_operational": {
+            "count": 1934,
+            "denominator": 2000,
+            "rate": 0.967,
+            "mcse": 0.003994433626936366
+          },
+          "mean_switchers": 195.6565
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0015564501700136859,
+          "bias_mcse": 0.0011479475916886365,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 89,
+            "denominator": 2000,
+            "rate": 0.0445,
+            "mcse": 0.004610843198374892
+          },
+          "holm_rejection_operational": {
+            "count": 89,
+            "denominator": 2000,
+            "rate": 0.0445,
+            "mcse": 0.004610843198374892
+          },
+          "mean_switchers": 195.4475
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1934,
+        "denominator": 2000,
+        "rate": 0.967,
+        "mcse": 0.003994433626936366
+      },
+      "joint_holm_rejection": {
+        "count": 89,
+        "denominator": 2000,
+        "rate": 0.0445,
+        "mcse": 0.004610843198374892
+      },
+      "false_family_rejection": {
+        "count": 89,
+        "denominator": 2000,
+        "rate": 0.0445,
+        "mcse": 0.004610843198374892
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.00063477646628774,
+          "bias_mcse": 0.002206352227032312,
+          "coverage_conditional": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "coverage_operational": {
+            "count": 1913,
+            "denominator": 2000,
+            "rate": 0.9565,
+            "mcse": 0.004561126505590477
+          },
+          "holm_rejection_conditional": {
+            "count": 1908,
+            "denominator": 2000,
+            "rate": 0.954,
+            "mcse": 0.0046842288586276416
+          },
+          "holm_rejection_operational": {
+            "count": 1908,
+            "denominator": 2000,
+            "rate": 0.954,
+            "mcse": 0.0046842288586276416
+          },
+          "mean_switchers": 193.893
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0012939608983070033,
+          "bias_mcse": 0.0011692147091981223,
+          "coverage_conditional": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "coverage_operational": {
+            "count": 1923,
+            "denominator": 2000,
+            "rate": 0.9615,
+            "mcse": 0.004302194207610808
+          },
+          "holm_rejection_conditional": {
+            "count": 76,
+            "denominator": 2000,
+            "rate": 0.038,
+            "mcse": 0.004275277768753745
+          },
+          "holm_rejection_operational": {
+            "count": 76,
+            "denominator": 2000,
+            "rate": 0.038,
+            "mcse": 0.004275277768753745
+          },
+          "mean_switchers": 192.862
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1908,
+        "denominator": 2000,
+        "rate": 0.954,
+        "mcse": 0.0046842288586276416
+      },
+      "joint_holm_rejection": {
+        "count": 76,
+        "denominator": 2000,
+        "rate": 0.038,
+        "mcse": 0.004275277768753745
+      },
+      "false_family_rejection": {
+        "count": 76,
+        "denominator": 2000,
+        "rate": 0.038,
+        "mcse": 0.004275277768753745
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": 0.0
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.17541508141841514,
+          "bias_mcse": 0.0020500472244968215,
+          "coverage_conditional": {
+            "count": 1153,
+            "denominator": 2000,
+            "rate": 0.5765,
+            "mcse": 0.011048704675209669
+          },
+          "coverage_operational": {
+            "count": 1153,
+            "denominator": 2000,
+            "rate": 0.5765,
+            "mcse": 0.011048704675209669
+          },
+          "holm_rejection_conditional": {
+            "count": 1050,
+            "denominator": 2000,
+            "rate": 0.525,
+            "mcse": 0.011166355717063647
+          },
+          "holm_rejection_operational": {
+            "count": 1050,
+            "denominator": 2000,
+            "rate": 0.525,
+            "mcse": 0.011166355717063647
+          },
+          "mean_switchers": 191.36
+        },
+        "H3": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.06116750611511286,
+          "bias_mcse": 0.0011590373463467945,
+          "coverage_conditional": {
+            "count": 1605,
+            "denominator": 2000,
+            "rate": 0.8025,
+            "mcse": 0.00890207138816579
+          },
+          "coverage_operational": {
+            "count": 1605,
+            "denominator": 2000,
+            "rate": 0.8025,
+            "mcse": 0.00890207138816579
+          },
+          "holm_rejection_conditional": {
+            "count": 322,
+            "denominator": 2000,
+            "rate": 0.161,
+            "mcse": 0.008218241904446474
+          },
+          "holm_rejection_operational": {
+            "count": 322,
+            "denominator": 2000,
+            "rate": 0.161,
+            "mcse": 0.008218241904446474
+          },
+          "mean_switchers": 192.597
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1133,
+        "denominator": 2000,
+        "rate": 0.5665,
+        "mcse": 0.011081014168387296
+      },
+      "joint_holm_rejection": {
+        "count": 239,
+        "denominator": 2000,
+        "rate": 0.1195,
+        "mcse": 0.007253266505513223
+      },
+      "false_family_rejection": {
+        "count": 322,
+        "denominator": 2000,
+        "rate": 0.161,
+        "mcse": 0.008218241904446474
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0014756749279313535,
+          "bias_mcse": 0.002070623129259911,
+          "coverage_conditional": {
+            "count": 1937,
+            "denominator": 2000,
+            "rate": 0.9685,
+            "mcse": 0.0039056209493497944
+          },
+          "coverage_operational": {
+            "count": 1937,
+            "denominator": 2000,
+            "rate": 0.9685,
+            "mcse": 0.0039056209493497944
+          },
+          "holm_rejection_conditional": {
+            "count": 62,
+            "denominator": 2000,
+            "rate": 0.031,
+            "mcse": 0.003875499967746097
+          },
+          "holm_rejection_operational": {
+            "count": 62,
+            "denominator": 2000,
+            "rate": 0.031,
+            "mcse": 0.003875499967746097
+          },
+          "mean_switchers": 195.4955
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.00010182511517344306,
+          "bias_mcse": 0.0011568321603881865,
+          "coverage_conditional": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "coverage_operational": {
+            "count": 1916,
+            "denominator": 2000,
+            "rate": 0.958,
+            "mcse": 0.00448530935387962
+          },
+          "holm_rejection_conditional": {
+            "count": 1862,
+            "denominator": 2000,
+            "rate": 0.931,
+            "mcse": 0.0056674068144081545
+          },
+          "holm_rejection_operational": {
+            "count": 1862,
+            "denominator": 2000,
+            "rate": 0.931,
+            "mcse": 0.0056674068144081545
+          },
+          "mean_switchers": 195.505
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1863,
+        "denominator": 2000,
+        "rate": 0.9315,
+        "mcse": 0.0056483515294287415
+      },
+      "joint_holm_rejection": {
+        "count": 61,
+        "denominator": 2000,
+        "rate": 0.0305,
+        "mcse": 0.0038451105315712316
+      },
+      "false_family_rejection": {
+        "count": 62,
+        "denominator": 2000,
+        "rate": 0.031,
+        "mcse": 0.003875499967746097
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.005019665996737388,
+          "bias_mcse": 0.002199474535937363,
+          "coverage_conditional": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "coverage_operational": {
+            "count": 1911,
+            "denominator": 2000,
+            "rate": 0.9555,
+            "mcse": 0.004610843198374891
+          },
+          "holm_rejection_conditional": {
+            "count": 85,
+            "denominator": 2000,
+            "rate": 0.0425,
+            "mcse": 0.0045107510461119445
+          },
+          "holm_rejection_operational": {
+            "count": 85,
+            "denominator": 2000,
+            "rate": 0.0425,
+            "mcse": 0.0045107510461119445
+          },
+          "mean_switchers": 194.13
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0008996037662809094,
+          "bias_mcse": 0.0011357949383578,
+          "coverage_conditional": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "coverage_operational": {
+            "count": 1926,
+            "denominator": 2000,
+            "rate": 0.963,
+            "mcse": 0.004220841148396847
+          },
+          "holm_rejection_conditional": {
+            "count": 1879,
+            "denominator": 2000,
+            "rate": 0.9395,
+            "mcse": 0.005331029450303197
+          },
+          "holm_rejection_operational": {
+            "count": 1879,
+            "denominator": 2000,
+            "rate": 0.9395,
+            "mcse": 0.005331029450303197
+          },
+          "mean_switchers": 193.17
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1880,
+        "denominator": 2000,
+        "rate": 0.94,
+        "mcse": 0.005310367218940704
+      },
+      "joint_holm_rejection": {
+        "count": 84,
+        "denominator": 2000,
+        "rate": 0.042,
+        "mcse": 0.004485309353879618
+      },
+      "false_family_rejection": {
+        "count": 85,
+        "denominator": 2000,
+        "rate": 0.0425,
+        "mcse": 0.0045107510461119445
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.0,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.0,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.13343095388021117,
+          "bias_mcse": 0.002101698415355884,
+          "coverage_conditional": {
+            "count": 1473,
+            "denominator": 2000,
+            "rate": 0.7365,
+            "mcse": 0.009850577394244461
+          },
+          "coverage_operational": {
+            "count": 1473,
+            "denominator": 2000,
+            "rate": 0.7365,
+            "mcse": 0.009850577394244461
+          },
+          "holm_rejection_conditional": {
+            "count": 526,
+            "denominator": 2000,
+            "rate": 0.263,
+            "mcse": 0.009844567029585404
+          },
+          "holm_rejection_operational": {
+            "count": 526,
+            "denominator": 2000,
+            "rate": 0.263,
+            "mcse": 0.009844567029585404
+          },
+          "mean_switchers": 193.351
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04753190202937986,
+          "bias_mcse": 0.0010583208280734746,
+          "coverage_conditional": {
+            "count": 1769,
+            "denominator": 2000,
+            "rate": 0.8845,
+            "mcse": 0.007147018609182434
+          },
+          "coverage_operational": {
+            "count": 1769,
+            "denominator": 2000,
+            "rate": 0.8845,
+            "mcse": 0.007147018609182434
+          },
+          "holm_rejection_conditional": {
+            "count": 1995,
+            "denominator": 2000,
+            "rate": 0.9975,
+            "mcse": 0.001116635571706353
+          },
+          "holm_rejection_operational": {
+            "count": 1995,
+            "denominator": 2000,
+            "rate": 0.9975,
+            "mcse": 0.001116635571706353
+          },
+          "mean_switchers": 194.0665
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1995,
+        "denominator": 2000,
+        "rate": 0.9975,
+        "mcse": 0.001116635571706353
+      },
+      "joint_holm_rejection": {
+        "count": 526,
+        "denominator": 2000,
+        "rate": 0.263,
+        "mcse": 0.009844567029585404
+      },
+      "false_family_rejection": {
+        "count": 526,
+        "denominator": 2000,
+        "rate": 0.263,
+        "mcse": 0.009844567029585404
+      }
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mcar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0014772513939724664,
+          "bias_mcse": 0.0021102663107141406,
+          "coverage_conditional": {
+            "count": 1931,
+            "denominator": 2000,
+            "rate": 0.9655,
+            "mcse": 0.00408103847078167
+          },
+          "coverage_operational": {
+            "count": 1931,
+            "denominator": 2000,
+            "rate": 0.9655,
+            "mcse": 0.00408103847078167
+          },
+          "holm_rejection_conditional": {
+            "count": 1965,
+            "denominator": 2000,
+            "rate": 0.9825,
+            "mcse": 0.002932042803234629
+          },
+          "holm_rejection_operational": {
+            "count": 1965,
+            "denominator": 2000,
+            "rate": 0.9825,
+            "mcse": 0.002932042803234629
+          },
+          "mean_switchers": 195.377
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.0007379274416271575,
+          "bias_mcse": 0.001131096188546997,
+          "coverage_conditional": {
+            "count": 1915,
+            "denominator": 2000,
+            "rate": 0.9575,
+            "mcse": 0.004510751046111944
+          },
+          "coverage_operational": {
+            "count": 1915,
+            "denominator": 2000,
+            "rate": 0.9575,
+            "mcse": 0.004510751046111944
+          },
+          "holm_rejection_conditional": {
+            "count": 1932,
+            "denominator": 2000,
+            "rate": 0.966,
+            "mcse": 0.004052406692324946
+          },
+          "holm_rejection_operational": {
+            "count": 1932,
+            "denominator": 2000,
+            "rate": 0.966,
+            "mcse": 0.004052406692324946
+          },
+          "mean_switchers": 195.579
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1994,
+        "denominator": 2000,
+        "rate": 0.997,
+        "mcse": 0.0012229063741758816
+      },
+      "joint_holm_rejection": {
+        "count": 1903,
+        "denominator": 2000,
+        "rate": 0.9515,
+        "mcse": 0.004803527349771207
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0008187096264811358,
+          "bias_mcse": 0.0021280428048389708,
+          "coverage_conditional": {
+            "count": 1927,
+            "denominator": 2000,
+            "rate": 0.9635,
+            "mcse": 0.004193313129257102
+          },
+          "coverage_operational": {
+            "count": 1927,
+            "denominator": 2000,
+            "rate": 0.9635,
+            "mcse": 0.004193313129257102
+          },
+          "holm_rejection_conditional": {
+            "count": 1959,
+            "denominator": 2000,
+            "rate": 0.9795,
+            "mcse": 0.0031685761786644775
+          },
+          "holm_rejection_operational": {
+            "count": 1959,
+            "denominator": 2000,
+            "rate": 0.9795,
+            "mcse": 0.0031685761786644775
+          },
+          "mean_switchers": 194.287
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": 0.0021569463931240167,
+          "bias_mcse": 0.0011673921575527863,
+          "coverage_conditional": {
+            "count": 1918,
+            "denominator": 2000,
+            "rate": 0.959,
+            "mcse": 0.00443390347211123
+          },
+          "coverage_operational": {
+            "count": 1918,
+            "denominator": 2000,
+            "rate": 0.959,
+            "mcse": 0.00443390347211123
+          },
+          "holm_rejection_conditional": {
+            "count": 1906,
+            "denominator": 2000,
+            "rate": 0.953,
+            "mcse": 0.004732388403332932
+          },
+          "holm_rejection_operational": {
+            "count": 1906,
+            "denominator": 2000,
+            "rate": 0.953,
+            "mcse": 0.004732388403332932
+          },
+          "mean_switchers": 193.425
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1991,
+        "denominator": 2000,
+        "rate": 0.9955,
+        "mcse": 0.0014966211945579198
+      },
+      "joint_holm_rejection": {
+        "count": 1874,
+        "denominator": 2000,
+        "rate": 0.937,
+        "mcse": 0.00543281694887652
+      },
+      "false_family_rejection": null
+    },
+    {
+      "n": 320,
+      "prevalence": 0.25,
+      "mechanism": "mnar",
+      "targets": {
+        "H2": 0.4,
+        "H3": -0.2
+      },
+      "models": {
+        "H2": {
+          "target": 0.4,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.1748554012161587,
+          "bias_mcse": 0.002048156980866669,
+          "coverage_conditional": {
+            "count": 1158,
+            "denominator": 2000,
+            "rate": 0.579,
+            "mcse": 0.011039904890894667
+          },
+          "coverage_operational": {
+            "count": 1158,
+            "denominator": 2000,
+            "rate": 0.579,
+            "mcse": 0.011039904890894667
+          },
+          "holm_rejection_conditional": {
+            "count": 1271,
+            "denominator": 2000,
+            "rate": 0.6355,
+            "mcse": 0.010761964272380763
+          },
+          "holm_rejection_operational": {
+            "count": 1271,
+            "denominator": 2000,
+            "rate": 0.6355,
+            "mcse": 0.010761964272380763
+          },
+          "mean_switchers": 191.476
+        },
+        "H3": {
+          "target": -0.2,
+          "valid": 2000,
+          "failed": 0,
+          "failure_reasons": {},
+          "bias": -0.04469612108138222,
+          "bias_mcse": 0.0011338811733870335,
+          "coverage_conditional": {
+            "count": 1739,
+            "denominator": 2000,
+            "rate": 0.8695,
+            "mcse": 0.00753225563825339
+          },
+          "coverage_operational": {
+            "count": 1739,
+            "denominator": 2000,
+            "rate": 0.8695,
+            "mcse": 0.00753225563825339
+          },
+          "holm_rejection_conditional": {
+            "count": 1989,
+            "denominator": 2000,
+            "rate": 0.9945,
+            "mcse": 0.0016537457482938467
+          },
+          "holm_rejection_operational": {
+            "count": 1989,
+            "denominator": 2000,
+            "rate": 0.9945,
+            "mcse": 0.0016537457482938467
+          },
+          "mean_switchers": 194.4805
+        }
+      },
+      "any_holm_rejection": {
+        "count": 1993,
+        "denominator": 2000,
+        "rate": 0.9965,
+        "mcse": 0.0013205585939290896
+      },
+      "joint_holm_rejection": {
+        "count": 1267,
+        "denominator": 2000,
+        "rate": 0.6335,
+        "mcse": 0.010774454742584426
+      },
+      "false_family_rejection": null
+    }
+  ],
+  "interpretation": "Conditional-mean DGP targets; operational failure counts retained. MNAR and selection need not preserve the full eligible projection."
+}

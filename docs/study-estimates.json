@@ -244,9 +244,11 @@
         "manuscripts/MSC-MUS-P07/analysis/stress-results-n320-v0.5.0.json",
         "manuscripts/MSC-MUS-P07/analysis/secondary-local-evidence.md",
         "manuscripts/MSC-MUS-P07/analysis/extended-local-evidence.md",
-        "manuscripts/MSC-MUS-P07/analysis/extended_calibration.py"
+        "manuscripts/MSC-MUS-P07/analysis/extended_calibration.py",
+        "manuscripts/MSC-MUS-P07/analysis/secondary-full.json",
+        "manuscripts/MSC-MUS-P07/analysis/extended-screen.json"
       ],
-      "provenance_note": "Historical exact-head H1 archives; local H2/H3 results and extended screen documented with SHA-256, source and environment limits; no independent full rerun. No causal claim or approved sample.",
+      "provenance_note": "Historical exact-head H1 archives; original synthetic secondary and extended JSON archived byte-for-byte, with SHA-256, source and environment limits documented. No independent full rerun, causal claim or approved sample.",
       "archived_subsets": [
         {
           "run": 45899777729,

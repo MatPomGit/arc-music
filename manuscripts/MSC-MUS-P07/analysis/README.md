@@ -36,3 +36,5 @@ For full secondary calibration locally, use `python secondary_calibration.py --r
 ## Expanded screen and bounded-outcome sensitivity (v0.11.0)
 
 Run `python extended_calibration.py --reps 2000 --workers 16 --seed 20261206 --output ../results/extended-full.json` for higher precision. The 200-replicate complete preliminary screen is documented in extended-local-evidence.md. The main analysis returns `secondary_outcome_bounds` for H2 and H3; known exposure, valid baseline, fixed switchers, and for H3 known initial goal. Bounds are finite-design coefficient extrema, not confidence intervals. Unknown exposure and missing baseline are outside that target. The original H1/H2/H3 simulations remain separate. No approved N.
+
+Archived synthetic aggregates: `secondary-full.json` (72 × 2000) and `extended-screen.json` (72 × 200). See companion evidence notes for hashes and provenance. Never store empirical participant records here.
