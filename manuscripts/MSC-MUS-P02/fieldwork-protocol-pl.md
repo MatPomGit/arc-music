@@ -1,4 +1,4 @@
-# MSC-MUS-P02. Procedura terenowa 0.2.0
+# MSC-MUS-P02. Procedura terenowa 0.3.0
 
 Status: projekt do uzgodnienia z zespołem i uczelnią. Nie stanowi zgody na rekrutację. Kanoniczne kryteria i metoda: sections/method.tex; pytania: interview-guide-pl.md; zasady ochrony danych: sections/ethics.tex.
 
@@ -19,3 +19,5 @@ Gdy pojawia się dystres: przerwać temat, umożliwić przerwę, zakończenie lu
 
 ## Po rozmowie
 Potwierdzić dalszy kontakt i sposób wycofania materiału. Zabezpieczyć zapis; zweryfikować integralność i usunąć kopie robocze zgodnie z zatwierdzoną polityką. Wyłączyć nieautoryzowane asystenty spotkań, zewnętrzne transkrypcje i automatyczną synchronizację. Sporządzić memo refleksyjne, zapisać numer wersji scenariusza oraz odstępstwa; nie umieszczać danych uczestnika w Git. Pilotaż 2–3 wywiady, decyzje po pilotażu i po 15 oraz 20 wywiadach dokumentować bez mechanicznego progu nasycenia.
+
+Pilotaż: ocena neutralności, zrozumienia, głębokości, czasu oraz działania procedur zgody i zapisu. Decyzja zachować, poprawić lub wstrzymać z uzasadnieniem; włączenie pilota do korpusu tylko przy odpowiedniej zgodzie i zgodności metodologicznej. Zmiany istotne wymagają właściwego zatwierdzenia.

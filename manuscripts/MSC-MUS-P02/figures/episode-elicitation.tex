@@ -1,0 +1,19 @@
+\begin{tikzpicture}[
+ phase/.style={draw,rounded corners=2pt,text width=2.65cm,minimum height=1.3cm,align=center,font=\small,fill=blue!5},
+ note/.style={draw,rounded corners=2pt,text width=5.8cm,minimum height=1.25cm,align=center,font=\small,fill=black!3},
+ arr/.style={-{Stealth[length=2mm]},thick},
+ interpret/.style={-{Stealth[length=2mm]},dashed},
+ node distance=3mm]
+\node[phase] (a) {Before session\\Context and intention};
+\node[phase,right=of a] (b) {Creation\\Actions and decisions};
+\node[phase,right=of b] (c) {Stopping\\Output or no output};
+\node[phase,right=of c] (d) {Later\\Listening, sharing, other events};
+\draw[arr] (a)--(b); \draw[arr] (b)--(c); \draw[arr] (c)--(d);
+\node[note,below=13mm of b,xshift=-1.5cm] (e) {Present interpretation\\Reported meaning, uncertainty, alternative explanations};
+\node[note,right=5mm of e] (f) {Optional contrasting episode\\Similarities and differences in context, action and experience};
+\draw[interpret] (a.south) -- (e.north west);
+\draw[interpret] (c.south) -- (e.north east);
+\draw[interpret] (d.south) -- (f.north);
+\draw[interpret] (f.west)--(e.east);
+\node[below=4mm of e,anchor=north west,font=\scriptsize,align=left,text width=12cm,xshift=-2cm] {Solid arrows: elicitation order. Dashed arrows: interpretive comparison.\\Neither arrow type identifies causation.};
+\end{tikzpicture}
