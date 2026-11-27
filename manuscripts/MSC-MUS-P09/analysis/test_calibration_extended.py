@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from inference import prepare
-from calibration_extended import raw_record, run, summary, BOOT_GRID
+from calibration_extended import raw_record, run, summary, BOOT_GRID, stress_run
 
 
 class ExtendedCalibrationTests(unittest.TestCase):
@@ -22,6 +22,22 @@ class ExtendedCalibrationTests(unittest.TestCase):
         self.assertEqual(s["interval_failures"],2)
         self.assertEqual(s["conditional_coverage"]["rate"],1)
         self.assertAlmostEqual(s["operational_coverage"]["rate"],1/3)
+
+    def test_stress_grid(self):
+        result = stress_run(42, 2, 3)
+        cells = result["cells"]
+        self.assertEqual(len(cells), 48)
+        self.assertEqual(len({(c["hypothesis"], c["missingness"], c["effect"],
+                               c["n"], c["profile"]) for c in cells}), 48)
+        self.assertEqual({c["allocation"] for c in cells}, {"stratified_blocks"})
+        self.assertEqual({c["n"] for c in cells}, {434, 588})
+        for cell in cells:
+            for method in cell["methods"].values():
+                self.assertEqual(method["attempted"], 2)
+                self.assertEqual(method["point_fits"] + method["point_failures"], 2)
+                self.assertEqual(method["intervals"] + method["interval_failures"], 2)
+                expected = .5 if cell["hypothesis"] == "H3" and cell["effect"] == "distance_only" else 0.
+                self.assertEqual(method["truth"], expected)
 
     def test_smoke_reproducibility(self):
         a = run(21, 100, 3, 5, 3, smoke=True)
