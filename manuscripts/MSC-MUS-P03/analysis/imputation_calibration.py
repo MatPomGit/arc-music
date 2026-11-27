@@ -76,22 +76,43 @@ def estimates(data, m, sweeps, seed):
     try:
         for completed, missing in draw_imputations(data, m, sweeps, seed):
             for key, (delta, slope) in SHIFTS.items():
-                samples[key].append(fit(shift_outcome(completed, missing, delta, slope), "H1"))
+                try:
+                    samples[key].append(fit(shift_outcome(completed, missing, delta, slope), "H1"))
+                except (ValueError, np.linalg.LinAlgError):
+                    # A failed sensitivity fit invalidates only its own pooled estimate.
+                    samples[key].append(None)
     except (ValueError, np.linalg.LinAlgError):
         pass
     for key, results in samples.items():
         try:
-            output[key] = pool(results) if len(results) == m else None
+            output[key] = pool(results) if len(results) == m and all(
+                result is not None for result in results) else None
         except (ValueError, np.linalg.LinAlgError):
             output[key] = None
     return output
 
 
+def valid_inference(result):
+    """Reject malformed or nonfinite inference before computing simulation metrics."""
+    if not isinstance(result, dict):
+        return False
+    try:
+        beta, p = float(result["beta"]), float(result["p"])
+        ci = np.asarray(result["ci95"], dtype=float)
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return False
+    return bool(ci.shape == (2,) and np.isfinite([beta, p, *ci]).all()
+                and 0 <= p <= 1 and ci[0] <= beta <= ci[1])
+
+
 def summary(values, truth):
+    if not np.isfinite(truth):
+        raise ValueError("Nonfinite projection reference")
     n = len(values)
-    good = [v for v in values if v is not None]
+    good = [v for v in values if valid_inference(v)]
     k = len(good)
-    out = dict(attempted=n, fitted=k, failures=n-k)
+    invalid = sum(v is not None and not valid_inference(v) for v in values)
+    out = dict(attempted=n, fitted=k, failures=n-k, invalid_results=invalid)
     if not k:
         return out | dict(bias=None, rmse=None, coverage=None, rejection=None,
                           operational_coverage=0., operational_rejection=0.,

@@ -1,8 +1,9 @@
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
-from imputation_calibration import mask_and_stop, raw_records, run, summary, mixed_mar_attainment
+from imputation_calibration import mask_and_stop, raw_records, run, summary, mixed_mar_attainment, estimates
 from stress import generate
 
 
@@ -40,6 +41,47 @@ class CalibrationTests(unittest.TestCase):
         self.assertEqual(a["operational_coverage"],.5)
         self.assertEqual(a["failures"],1)
         self.assertIsNone(summary([None,None],.1)["coverage"])
+
+    def test_invalid_inference_is_counted_as_failure(self):
+        valid = dict(beta=.1, ci95=[0,.2], p=.1)
+        malformed = [
+            dict(valid, beta=np.nan),
+            dict(valid, p=np.inf),
+            dict(valid, p=1.1),
+            dict(valid, ci95=[.2,0]),
+            dict(valid, ci95=[0,.05]),
+            dict(valid, ci95=[0,np.inf]),
+            dict(valid, ci95=[0]),
+            dict(beta=.1, p=.1),
+        ]
+        result = summary([valid, *malformed, None], .1)
+        self.assertEqual(result["fitted"], 1)
+        self.assertEqual(result["failures"], 9)
+        self.assertEqual(result["invalid_results"], 8)
+        self.assertEqual(result["coverage"], 1.)
+        self.assertEqual(result["operational_coverage"], .1)
+        self.assertTrue(np.isfinite(result["bias"]))
+        with self.assertRaises(ValueError):
+            summary([valid], np.nan)
+
+    def test_failed_shift_does_not_invalidate_other_scenarios(self):
+        valid = dict(beta=.1, ci95=[0,.2], p=.1)
+        def shifted(completed, missing, delta, slope):
+            return slope
+        def fitted(data, hypothesis):
+            if data == -2:
+                raise ValueError("synthetic scenario failure")
+            return valid
+        with patch("imputation_calibration.draw_imputations",
+                   return_value=iter([(0, None), (0, None)])), \
+             patch("imputation_calibration.shift_outcome", side_effect=shifted), \
+             patch("imputation_calibration.fit", side_effect=fitted), \
+             patch("imputation_calibration.pool", return_value=valid):
+            result = estimates(0, m=2, sweeps=1, seed=42)
+        self.assertEqual(result["complete_case"], valid)
+        self.assertEqual(result["mi_zero"], valid)
+        self.assertIsNone(result["mi_slope_minus2"])
+        self.assertEqual(result["mi_slope_plus2"], valid)
 
     def test_small_reproducible_production_screen(self):
         kw = dict(reps=2,m=2,sweeps=1,target=100,cap=160,reference_n=1000)
