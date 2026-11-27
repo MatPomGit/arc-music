@@ -11,9 +11,12 @@ These are field specifications, not participant data or a mandatory codebook. Co
 | Sampling review | Completed interviews; diversity of relevant contexts; depth and contrasting accounts; gaps; feasibility; reasons for continuing or stopping; protocol version. |
 | Translation review | Protected source extract reference; English rendering; ambiguous terms; reviewer rationale; de-identification decision; quotation/paraphrase status. |
 | Pilot review | Guide version; understanding; neutral prompts; contextual depth; duration; consent and recording; keep/revise/suspend; justification; pilot corpus eligibility and approval. |
-| Construct transfer | Theme and interpretation; relevant contrasts; proposed construct or design implication; reflective/formative/contextual status if justified; candidate indicator; retain/revise/defer; rationale; validation needs. |
+| Corpus manifest | Protected pseudonymous reference; record type; corpus version; pilot/main status; inclusion decision; permission and withdrawal status; date of authorised review. No participant content or identifying details. |
+| Construct transfer | Authorised corpus version and theme memo reference; empirical interpretation or theoretical candidate; relevant contrasts and evidence gaps; proposed construct or design implication; reflective/formative/contextual status if justified; candidate indicator; retain/revise/defer; rationale; permitted purpose and disclosure review; validation needs; reassessment after corpus or theme change. |
 | Deviation log | Protocol version; departure; context; impact on interpretation or participant safety; decision and approval where applicable. |
 | Capture incident | Protected incident reference; affected activity stopped; access restricted; institutional procedure invoked; disposition and authorisation to resume if applicable. No captured content in this record; use the approved institutional incident register for details. |
+
+Keep unresolved permissions outside the active corpus. After an applicable withdrawal, follow the approved procedure and revisit dependent analytic records and construct transfers without retaining withdrawn content. The manifest is held only in approved institutional storage; it does not replace the institutional consent register.
 
 Do not force all fields to be filled; mark not elicited, not applicable or uncertain separately. Records support reflexive analysis, not inter-rater agreement or prevalence estimates. Preserve a clear distinction between reported experience, interpretation and proposed theory. A theme is a pattern of shared meaning organised around a central concept; an interview domain alone is not a theme.
 
