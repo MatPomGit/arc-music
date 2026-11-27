@@ -20,3 +20,16 @@ class SecondaryCalibrationTests(unittest.TestCase):
                 self.assertEqual(model["valid"]+model["failed"],2)
                 self.assertEqual(model["holm_rejection_operational"]["denominator"],2)
         json.dumps(report,allow_nan=False)
+
+    def test_parallel_reproducibility_and_checkpoint(self):
+        import tempfile
+        from pathlib import Path
+        serial=run(2,42,True)
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'secondary.json'
+            parallel=run(2,42,True,workers=2,output=path)
+            self.assertEqual(serial,parallel)
+            self.assertEqual(json.loads(path.read_text(encoding='utf-8')),parallel)
+            self.assertTrue(parallel['complete'])
+            with self.assertRaises(FileExistsError):
+                run(2,42,True,output=path)
