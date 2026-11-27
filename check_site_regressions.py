@@ -204,7 +204,7 @@ def check_zoom_reflow(page):
     """Regression: enlarged text must not retain narrow desktop columns."""
     issues = page.evaluate("""() => {
       const bad=[], root=parseFloat(getComputedStyle(document.documentElement).fontSize);
-      for(const grid of document.querySelectorAll('.section-grid,.pub-list,.steps,.hero,.affect,.about-layout')){
+      for(const grid of document.querySelectorAll('.section-grid,.pub-list,.steps,.hero,.affect,.about-layout,.neuro-grid,.neuro-evidence')){
         const columns=getComputedStyle(grid).gridTemplateColumns.split(' ').map(parseFloat);
         if(columns.length>2)bad.push(['too many columns at 200%',grid.className,columns]);
         if(columns.length>1&&Math.min(...columns)<15*root)bad.push(['narrow columns',grid.className,columns,root]);
