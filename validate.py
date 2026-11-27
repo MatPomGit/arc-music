@@ -39,7 +39,7 @@ def check(root=ROOT):
     limits = dict(LIMITS)
     limits.update({f"pages/{name}": 2000 for name in PUBLIC})
     # Nine bilingual manuscript panels with methods, contribution, instruments and sample sizes.
-    limits.update({"pages/studies.md": 22000, "pages/en-studies.md": 22000})
+    limits.update({"pages/studies.md": 28000, "pages/en-studies.md": 28000})
     # Expanded bilingual scientific overview; retain an explicit finite budget.
     limits.update({"pages/neuropsychology.md": 7500, "pages/en-neuropsychology.md": 7500})
     for path in (root / "docs").glob("*.md"):

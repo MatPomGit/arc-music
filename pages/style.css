@@ -171,3 +171,8 @@ body[data-section=studies] .research-publications .pub-list{grid-template-column
 .research-publications .pub-parameters{padding:.75rem 0;border-top:1px solid var(--line);font-size:.95rem;line-height:1.55}
 .research-publications .pub-parameters p{max-width:none;color:var(--ink);margin:0 0 .4rem}
 .research-publications .pub-parameters p:last-child{margin-bottom:0}
+
+/* Design estimation results: separate from instruments, sample plan and empirical findings. */
+.research-publications .pub-estimation{margin:.65rem 0 0;padding:.65rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--paper);min-width:0}
+.research-publications .pub-estimation .pub-estimate-count{font-weight:600;font-variant-numeric:tabular-nums}
+.research-publications .pub-estimation .pub-estimate-note{font-size:.875rem;color:var(--muted);margin:.35rem 0 0}

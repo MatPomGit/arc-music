@@ -85,11 +85,14 @@ def check_study_content(page):
         assert panel.locator(".pub-body h4").count() == 2
         assert panel.locator(".pub-body p").count() == 2
         assert panel.locator(".pub-target").is_visible()
-        for selector in (".pub-instruments", ".pub-sample"):
+        for selector in (".pub-instruments", ".pub-sample", ".pub-estimate"):
             field = panel.locator(selector)
             assert field.count() == 1 and field.is_visible()
             assert field.locator("strong").count() == 1
             assert len(field.inner_text().strip()) > 35
+        note = panel.locator(".pub-estimate-note")
+        assert note.count() == 1 and note.is_visible()
+        assert panel.locator(".pub-estimation").count() == 1
         assert all(len(s.strip()) >= 80 for s in panel.locator(".pub-body p").all_text_contents())
     palettes = article.locator(".pub").evaluate_all("""nodes => nodes.map(e => ({
       bg:getComputedStyle(e).backgroundColor, edge:getComputedStyle(e).borderTopColor,
@@ -102,6 +105,9 @@ def check_study_content(page):
     assert all(.9*p["root"] <= p["description"] < p["question"] for p in palettes)
     assert "PAQ-S" in article.locator("#msc-mus-p04").inner_text()
     assert "500" in article.locator("#msc-mus-p03 .pub-sample").inner_text()
+    for i, markers in ((1, ("420", "200")), (3, ("660", "500")), (5, ("1/12", "4/12")), (8, ("720", "660")), (9, ("440", "600"))):
+        result = article.locator(f"#msc-mus-p{i:02d} .pub-estimate").inner_text()
+        assert all(marker in result for marker in markers), result
     for i, targets in ((1, ("N=420",)), (8, ("N=500",)), (9, ("N=440", "600"))):
         sample = article.locator(f"#msc-mus-p{i:02d} .pub-sample").inner_text()
         assert all(target in sample for target in targets), sample
