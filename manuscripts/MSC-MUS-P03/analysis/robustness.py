@@ -7,6 +7,8 @@ import pandas as pd
 from intake import read_records
 import statsmodels.api as sm
 from statsmodels.miscmodels.ordinal_model import OrderedModel
+from statsmodels.tools.sm_exceptions import PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning
+import warnings
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from models import MODELS, prepare, design, fit
 
@@ -40,6 +42,44 @@ def nonlinear(data):
     return dict(n=len(y),knots=list(KNOTS),reference_score=5,pointwise_contrasts=rows)
 
 
+def threshold_diagnostics(y, x, target):
+    """Descriptive cumulative-logit slopes on the same complete records.
+
+    Threshold fits are dependent; differences are not a formal assumption test.
+    Rare splits and failed fits stay visible rather than disappearing.
+    """
+    categories = sorted(int(v) for v in y.unique())
+    rows = []
+    design = sm.add_constant(x, has_constant="add")
+    for cut in categories[:-1]:
+        binary = (y > cut).astype(int)
+        counts = [int((binary == 0).sum()), int(binary.sum())]
+        row = dict(threshold=cut, n_below_or_equal=counts[0], n_above=counts[1])
+        if min(counts) <= design.shape[1]:
+            row.update(status="insufficient_split", beta=None, ci95=None)
+        else:
+            try:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("error", PerfectSeparationWarning)
+                    warnings.simplefilter("error", ConvergenceWarning)
+                    result = sm.Logit(binary, design).fit(
+                        method="newton", maxiter=100, disp=False, cov_type="HC0")
+                beta = float(result.params[target])
+                lo, hi = result.conf_int().loc[target]
+                if not result.mle_retvals.get("converged", False) or not np.isfinite([beta, lo, hi]).all():
+                    raise ValueError("Nonconvergent or nonfinite threshold fit")
+                row.update(status="estimated", beta=beta, ci95=[float(lo), float(hi)])
+            except (ValueError, ArithmeticError, np.linalg.LinAlgError,
+                    PerfectSeparationError, PerfectSeparationWarning, ConvergenceWarning):
+                row.update(status="not_estimable", beta=None, ci95=None)
+        rows.append(row)
+    estimated = sum(row["status"] == "estimated" for row in rows)
+    return dict(status="descriptive_only" if estimated >= 2 else "insufficient_thresholds",
+                thresholds=rows, estimated_thresholds=estimated,
+                formal_test=False, assumption_verified=False,
+                interpretation="Compare slopes for P(Y > threshold); dependent pointwise intervals are not an equality test.")
+
+
 def ordinal(data,h):
     y,x,target=design(data,h)
     if not np.all(y==np.rint(y)) or y.nunique()<2:
@@ -57,7 +97,8 @@ def ordinal(data,h):
         raise ValueError("Nonfinite ordinal odds ratio")
     return dict(n=len(y),categories=sorted(int(v) for v in y.unique()),
                 common_odds_ratio=float(odds[0]),ci95=[float(odds[1]),float(odds[2])],
-                assumption="proportional odds; descriptive sensitivity")
+                assumption="proportional odds; descriptive sensitivity",
+                threshold_diagnostics=threshold_diagnostics(y,x,target))
 
 
 def diagnostics(data,h):
