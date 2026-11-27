@@ -15,6 +15,7 @@ from imputation import draw_imputations, pool, shift_outcome
 from models import MODELS, fit, prepare
 from power import calibration, wilson
 from scipy.special import expit
+from scipy.stats import binom
 from stress import generate
 
 MECHANISMS = ("complete", "outcome_mar", "predictor_mar", "mixed_mar", "outcome_mnar")
@@ -109,6 +110,22 @@ def summary(values, truth):
     return out
 
 
+def mixed_mar_attainment(target=500, caps=(640, 660, 680, 700)):
+    """Exact retention sensitivity for the rounded mixed-MAR synthetic model."""
+    if target < 1 or any(cap < target for cap in caps):
+        raise ValueError("Invalid target or cap")
+    pre = np.arange(11, dtype=float) - 5
+    mass = np.full(11, .10)
+    mass[[0, -1]] = .05
+    complete = float(mass @ ((1-expit(-2.2-.16*pre)) *
+                             (1-expit(-2.2+.16*pre))))
+    return dict(p_complete=complete, target=target,
+                caps=[dict(cap=cap, expected_complete=cap*complete,
+                           attainment=float(binom.sf(target-1, cap, complete)))
+                      for cap in caps],
+                assumptions="rounded uniform baseline, conditional independent masks, iid eligible submissions")
+
+
 def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
         seed=20261127, reference_n=500000, rounded=True):
     if mechanism not in MECHANISMS or reps < 2 or not 50 <= target <= cap:
@@ -146,7 +163,9 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
                           methods={key: summary(v, truth) for key,v in values.items()}))
     return dict(synthetic=True, mechanism=mechanism, target_complete=target, cap=cap,
                 reps=reps, m=m, sweeps=sweeps, seed=seed, rounded=rounded,
-                reference_n=reference_n, screening_only=True, cells=cells)
+                reference_n=reference_n, screening_only=True, cells=cells,
+                exact_rounded_mixed_mar_retention=mixed_mar_attainment(target, (cap, max(cap, 660)))
+                if rounded and mechanism == "mixed_mar" else None)
 
 
 if __name__ == "__main__":

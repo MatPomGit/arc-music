@@ -2,11 +2,21 @@ import unittest
 
 import numpy as np
 
-from imputation_calibration import mask_and_stop, raw_records, run, summary
+from imputation_calibration import mask_and_stop, raw_records, run, summary, mixed_mar_attainment
 from stress import generate
 
 
 class CalibrationTests(unittest.TestCase):
+    def test_exact_mixed_mar_attainment(self):
+        result = mixed_mar_attainment()
+        self.assertAlmostEqual(result["p_complete"], .7946660954548412, places=12)
+        self.assertAlmostEqual(result["caps"][0]["attainment"], .8135951928199157, places=10)
+        self.assertAlmostEqual(result["caps"][1]["attainment"], .991001488006452, places=10)
+        self.assertTrue(all(a["attainment"] < b["attainment"]
+                            for a,b in zip(result["caps"],result["caps"][1:])))
+        with self.assertRaises(ValueError):
+            mixed_mar_attainment(500,(480,))
+
     def test_complete_stopping_rule(self):
         rng = np.random.default_rng(42)
         x, y = generate(rng, 120, .6, .08, True)
