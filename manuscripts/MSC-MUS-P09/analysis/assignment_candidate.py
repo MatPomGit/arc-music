@@ -46,9 +46,9 @@ def candidate_test(d, outcome, status, reps=999, seed=20261127):
     if reps < MIN_DRAWS:
         raise ValueError("At least 199 bootstrap draws required")
     result = {"candidate_available": False, "confirmatory_available": False,
-              "requested": reps, "successful": 0, "failed": 0,
+              "requested": reps, "attempted": 0, "successful": 0, "failed": 0,
               "label": "development candidate; not authorized for confirmatory inference"}
-    if not d[status].eq("defined").all():
+    if not d[status].eq("defined").fillna(False).all():
         return dict(result, unavailable="Full-cohort target undefined or unresolved")
     try:
         estimate, diagnostics = point(d, outcome)
@@ -66,7 +66,7 @@ def candidate_test(d, outcome, status, reps=999, seed=20261127):
                 values.append(value)
         except (ValueError, np.linalg.LinAlgError):
             continue
-    result.update(successful=len(values), failed=reps-len(values))
+    result.update(attempted=reps, successful=len(values), failed=reps-len(values))
     if len(values) < math.ceil(.95*reps):
         return dict(result, unavailable="More than 5% bootstrap fits failed")
     try:
