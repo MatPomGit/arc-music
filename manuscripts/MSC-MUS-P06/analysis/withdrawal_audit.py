@@ -8,7 +8,18 @@ from datetime import datetime, timedelta, time
 from zoneinfo import ZoneInfo
 import pandas as pd
 from ledger import TIMES, parse_time
-from daily import dates, daily_ledger
+from daily import dates
+
+# User-entered or task-reported payloads require their own event timestamp.
+# Identifiers and eligibility fields are administrative metadata; the raw
+# pre-assessment score fields and activity token are checked separately.
+PAYLOADS={
+    "pre_time":("avoidance","distress_pre","expected_difficulty","activity_id"),
+    "post_time":("distress_post","brooding","reflection","generation_count","duration_minutes","technical_failure"),
+    "followup_time":("interference","activity_relevant","activity_completed","distress_followup",
+                     "followup_activity_id","activity_status_reason","followup_missing_reason"),
+}
+
 
 
 def audit(enrollment,checkins,sessions):
@@ -47,17 +58,19 @@ def audit(enrollment,checkins,sessions):
     def check(stamp,cutoff):
         if pd.notna(stamp) and pd.notna(cutoff) and stamp>=cutoff:
             raise ValueError("Timestamp at or after withdrawal cutoff")
+    if not {"participant_id","local_day",*TIMES}<=set(sessions):
+        raise ValueError("Missing authoritative session time fields")
     for row in sessions.itertuples():
         zone,cutoff,first=person(row.participant_id)
         stamps={k:parse_time(getattr(row,k)) for k in TIMES}
         if all(pd.isna(v) for v in stamps.values()):
             raise ValueError("Session has no auditable event timestamp")
         for value in stamps.values():check(value,cutoff)
-        for event,fields in (("pre_time",("avoidance","distress_pre","expected_difficulty")),
-                             ("post_time",("distress_post","brooding","reflection")),
-                             ("followup_time",("interference","activity_relevant","activity_completed","distress_followup","followup_activity_id"))):
+        for event,fields in PAYLOADS.items():
             if pd.isna(stamps[event]) and any(pd.notna(getattr(row,k,None)) for k in fields):
-                raise ValueError("Response payload lacks event timestamp")
+                raise ValueError("Response payload lacks event timestamp: "+event)
+        if any(pd.notna(v) and v.tz_convert(zone).date()<first for v in stamps.values()):
+            raise ValueError("Event precedes first enrolled local day")
         if pd.notna(stamps["start_time"]) and stamps["start_time"].tz_convert(zone).date().isoformat()!=str(row.local_day):
             raise ValueError("Session local day contradicts enrollment timezone")
     for row in checkins.itertuples():
@@ -65,6 +78,7 @@ def audit(enrollment,checkins,sessions):
         stamp=parse_time(row.checkin_time)
         if pd.isna(stamp):raise ValueError("Check-in lacks timestamp")
         check(stamp,cutoff)
+        if stamp.tz_convert(zone).date()<first:raise ValueError("Check-in precedes enrollment")
         if stamp.tz_convert(zone).date().isoformat()!=str(row.local_day):
             raise ValueError("Check-in day contradicts timestamp")
     return {"enrolled_participants":len(info),"session_records_checked":len(sessions),

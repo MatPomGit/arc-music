@@ -41,6 +41,9 @@ def ledger(frame, upper_hours=28):
         raise ValueError("Activity identifier reused across sessions")
     if not d.activity_relevant.dropna().map(lambda v:isinstance(v,(bool,np.bool_))).all():
         raise ValueError("Invalid activity relevance flag")
+    for flag in ("activity_completed","technical_failure"):
+        if flag in d and not d[flag].dropna().map(lambda v:isinstance(v,(bool,np.bool_))).all():
+            raise ValueError("Invalid flag: "+flag)
     for col in PREDICTORS+["interference"]+[c for c in OPTIONAL_SCORES if c in d]:
         v=pd.to_numeric(d[col],errors="raise")
         lo,hi=(1,14) if col=="study_day" else (0,10)
