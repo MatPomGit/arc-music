@@ -10,9 +10,10 @@ from itertools import product
 
 import numpy as np
 import pandas as pd
+import statsmodels.api as sm
 
 from imputation import draw_imputations, pool, shift_outcome
-from models import MODELS, fit, prepare
+from models import MODELS, fit, prepare, design
 from power import calibration, wilson
 from scipy.special import expit
 from scipy.stats import binom
@@ -36,11 +37,10 @@ def raw_records(x, y):
         resonance=np.nan, regenerated=np.nan, selected=np.nan, edited=np.nan))
 
 
-def mask_and_stop(rng, raw, mechanism, target):
-    """Keep all submissions before reaching the complete-record target or cap."""
-    if mechanism not in MECHANISMS or not 1 <= target <= len(raw):
-        raise ValueError("Invalid mechanism or target")
-    raw = raw.copy()
+def missing_probabilities(raw, mechanism):
+    """Known generator probabilities, available only in the synthetic benchmark."""
+    if mechanism not in MECHANISMS:
+        raise ValueError("Invalid missingness mechanism")
     pre = raw.clarity_pre.to_numpy() - 5
     x = raw.motive_expression.to_numpy() - 5
     y = raw.clarity_post.to_numpy() - 5
@@ -56,6 +56,15 @@ def mask_and_stop(rng, raw, mechanism, target):
         predictor = expit(-2.2 + .16*pre)
     elif mechanism == "outcome_mnar":
         outcome = expit(-1.9 - .25*y + .15*x*y)
+    return outcome, predictor
+
+
+def mask_and_stop(rng, raw, mechanism, target):
+    """Keep all submissions before reaching the complete-record target or cap."""
+    if not 1 <= target <= len(raw):
+        raise ValueError("Invalid target")
+    raw = raw.copy()
+    outcome, predictor = missing_probabilities(raw, mechanism)
     raw.loc[rng.random(len(raw)) < outcome, "clarity_post"] = np.nan
     raw.loc[rng.random(len(raw)) < predictor, "motive_expression"] = np.nan
     data, _ = prepare(raw)
@@ -90,6 +99,56 @@ def estimates(data, m, sweeps, seed):
         except (ValueError, np.linalg.LinAlgError):
             output[key] = None
     return output
+
+
+def oracle_estimates(full_raw, masked, mechanism):
+    """Paired full-data and known-propensity benchmarks on the recruited prefix.
+
+    Neither estimator imputes missing values. The full-data oracle uses hidden
+    synthetic outcomes; IPW uses the generator's known observation probabilities
+    on complete rows. Neither is an empirical MNAR correction.
+    """
+    prefix = full_raw.iloc[:len(masked)].reset_index(drop=True)
+    if not prefix.study_id.equals(masked.study_id.reset_index(drop=True)):
+        raise ValueError("Oracle and observed prefixes differ")
+    full, _ = prepare(prefix)
+    if len(full) != len(masked) or full[CORE].isna().any().any():
+        raise ValueError("Oracle requires fully observed eligible synthetic core")
+    estimates = dict(oracle_full=None, oracle_ipw=None)
+    try:
+        estimates["oracle_full"] = fit(full, "H1")
+    except (ValueError, ArithmeticError, np.linalg.LinAlgError):
+        pass
+    try:
+        y, x, target = design(masked, "H1")
+        # On complete rows the generator probabilities are evaluable without
+        # retrieving hidden outcomes or predictors of incomplete rows.
+        outcome, predictor = missing_probabilities(masked.loc[y.index], mechanism)
+        probability = (1-outcome)*(1-predictor)
+        if not np.isfinite(probability).all() or (probability <= 0).any():
+            raise ValueError("Invalid oracle observation probabilities")
+        result = sm.WLS(y, x, weights=1/probability).fit(cov_type="HC3", use_t=True)
+        lo, hi = result.conf_int().loc[target]
+        candidate = dict(beta=float(result.params[target]),
+                         ci95=[float(lo),float(hi)],p=float(result.pvalues[target]))
+        if valid_inference(candidate):
+            estimates["oracle_ipw"] = candidate
+    except (ValueError, ArithmeticError, np.linalg.LinAlgError):
+        pass
+    return estimates
+
+
+def paired_difference(values, oracle):
+    """Estimate paired MI-minus-oracle error, with Monte Carlo precision."""
+    if len(values) != len(oracle):
+        raise ValueError("Unequal paired replication counts")
+    diff = np.asarray([a["beta"]-b["beta"] for a,b in zip(values,oracle)
+                       if valid_inference(a) and valid_inference(b)], dtype=float)
+    k = len(diff)
+    return dict(attempted=len(values), paired=k,
+                mean_difference=float(diff.mean()) if k else None,
+                rmse_difference=float(np.sqrt(np.mean(diff**2))) if k else None,
+                mcse=float(diff.std(ddof=1)/np.sqrt(k)) if k>1 else None)
 
 
 def valid_inference(result):
@@ -148,7 +207,8 @@ def mixed_mar_attainment(target=500, caps=(640, 660, 680, 700)):
 
 
 def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
-        seed=20261127, reference_n=500000, rounded=True, *, effect_override=None):
+        seed=20261127, reference_n=500000, rounded=True, *, effect_override=None,
+        oracle_benchmark=False):
     if mechanism not in MECHANISMS or reps < 2 or not 50 <= target <= cap:
         raise ValueError("Invalid design")
     if m < 2 or sweeps < 1 or reference_n < 1000:
@@ -165,14 +225,20 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
             truth = float(beta)
         rng = np.random.default_rng(np.random.SeedSequence(
             [seed, MECHANISMS.index(mechanism), int(effect*100), int(rounded)]))
-        values = {key: [] for key in ("complete_case", *SHIFTS)}
+        keys = ("complete_case", *SHIFTS)
+        if oracle_benchmark:
+            keys += ("oracle_full","oracle_ipw")
+        values = {key: [] for key in keys}
         flow = []
         for _ in range(reps):
             x, y = generate(rng, cap, .6, beta, rounded)
-            data, complete = mask_and_stop(rng, raw_records(x, y), mechanism, target)
+            raw = raw_records(x, y)
+            data, complete = mask_and_stop(rng, raw, mechanism, target)
             flow.append([len(data), complete, data.clarity_post.isna().sum(),
                          data.motive_expression.isna().sum()])
             result = estimates(data, m, sweeps, int(rng.integers(0, 2**32)))
+            if oracle_benchmark:
+                result.update(oracle_estimates(raw,data,mechanism))
             for key, value in result.items():
                 values[key].append(value)
         f = np.array(flow)
@@ -183,9 +249,14 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
                           mean_missing_outcome=float(f[:,2].mean()),
                           mean_missing_predictor=float(f[:,3].mean()),
                           methods={key: summary(v, truth) for key,v in values.items()}))
+        if oracle_benchmark:
+            cells[-1]["paired_against_full"] = {
+                key: paired_difference(values[key],values["oracle_full"])
+                for key in ("complete_case","mi_zero","oracle_ipw")}
     return dict(synthetic=True, mechanism=mechanism, target_complete=target, cap=cap,
                 reps=reps, m=m, sweeps=sweeps, seed=seed, rounded=rounded,
                 reference_n=reference_n, screening_only=True, cells=cells,
+                oracle_benchmark=bool(oracle_benchmark),
                 exact_rounded_mixed_mar_retention=mixed_mar_attainment(target, (cap, max(cap, 660)))
                 if rounded and mechanism == "mixed_mar" else None)
 
@@ -202,6 +273,9 @@ if __name__ == "__main__":
     p.add_argument("--reference-n", type=int, default=500000)
     p.add_argument("--continuous", action="store_true")
     p.add_argument("--effect",type=float)
+    p.add_argument("--oracle-benchmark",action="store_true",
+                   help="Synthetic full-data and known-propensity paired benchmarks")
     a = p.parse_args()
     print(json.dumps(run(a.mechanism, a.reps, a.m, a.sweeps, a.target, a.cap,
-                         a.seed, a.reference_n, not a.continuous, effect_override=a.effect), indent=2, allow_nan=False))
+                         a.seed, a.reference_n, not a.continuous, effect_override=a.effect,
+                         oracle_benchmark=a.oracle_benchmark), indent=2, allow_nan=False))

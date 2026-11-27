@@ -5,6 +5,7 @@ import numpy as np
 
 from imputation_calibration import mask_and_stop, raw_records, run, summary, mixed_mar_attainment, estimates
 from stress import generate
+from imputation_calibration import oracle_estimates, paired_difference, missing_probabilities
 
 
 class CalibrationTests(unittest.TestCase):
@@ -91,6 +92,39 @@ class CalibrationTests(unittest.TestCase):
             for v in c["methods"].values():
                 self.assertEqual(v["fitted"]+v["failures"],2)
                 self.assertEqual(v["fitted"],2)
+
+    def test_oracle_complete_matches_observed_fit(self):
+        rng=np.random.default_rng(42)
+        x,y=generate(rng,160,.6,.08,True)
+        raw=raw_records(x,y)
+        data,_=mask_and_stop(rng,raw,"complete",100)
+        result=oracle_estimates(raw,data,"complete")
+        self.assertAlmostEqual(result["oracle_full"]["beta"],result["oracle_ipw"]["beta"],places=10)
+        self.assertAlmostEqual(result["oracle_full"]["ci95"][0],result["oracle_ipw"]["ci95"][0],places=10)
+        changed=data.copy()
+        changed.loc[0,"study_id"]=data.loc[1,"study_id"]
+        with self.assertRaises(ValueError):
+            oracle_estimates(raw,changed,"complete")
+
+    def test_oracle_paired_screen_does_not_change_production_draws(self):
+        kw=dict(reps=2,m=2,sweeps=1,target=100,cap=160,reference_n=1000)
+        baseline=run("mixed_mar",**kw)
+        paired=run("mixed_mar",oracle_benchmark=True,**kw)
+        for a,b in zip(baseline["cells"],paired["cells"]):
+            self.assertEqual(a["methods"]["mi_zero"],b["methods"]["mi_zero"])
+            self.assertEqual(b["methods"]["oracle_full"]["fitted"],2)
+            self.assertEqual(b["methods"]["oracle_ipw"]["fitted"],2)
+            self.assertEqual(b["paired_against_full"]["mi_zero"]["paired"],2)
+
+    def test_paired_difference_counts_only_valid_pairs(self):
+        a=dict(beta=.1,ci95=[0,.2],p=.1)
+        b=dict(beta=.2,ci95=[.1,.3],p=.1)
+        result=paired_difference([a,None,b],[b,a,a])
+        self.assertEqual(result["paired"],2)
+        self.assertAlmostEqual(result["mean_difference"],0.)
+        self.assertAlmostEqual(result["mcse"],.1)
+        with self.assertRaises(ValueError):
+            paired_difference([a],[])
 
     def test_complete_shift_invariance(self):
         a = run("complete",reps=2,m=2,sweeps=1,target=100,cap=160,reference_n=1000)
