@@ -4,7 +4,7 @@ Checked 26 November 2026: https://journals.sagepub.com/author-instructions/MSX. 
 
 ## Title page (complete privately with author approval)
 
-Title: AI-Assisted Music Creation as a Mechanism of Emotion Regulation: The AIM-ER Framework
+Title: AI-Assisted Music Creation and Emotion Regulation: The AIM-ER Theoretical Framework
 
 - Author names/order, affiliations, ORCIDs: confirm with all authors.
 - Corresponding author and contact: confirm.
@@ -18,7 +18,7 @@ Title: AI-Assisted Music Creation as a Mechanism of Emotion Regulation: The AIM-
 
 Dear Editors,
 
-We wish to submit for consideration a theoretical article entitled “AI-Assisted Music Creation as a Mechanism of Emotion Regulation: The AIM-ER Framework”. The article specifies a process account of emotion regulation in AI-assisted music creation, distinguishes it from existing music-regulation and co-creation theories, and proposes falsifiable predictions and research designs. Its central prediction concerns the interaction of regulatory goals and creative affordances. Computational examples illustrate design properties; they do not represent participant observations. We believe the framework is relevant to the journal’s interest in musical experience and generation.
+We wish to submit for consideration a theoretical article entitled “AI-Assisted Music Creation and Emotion Regulation: The AIM-ER Theoretical Framework”. The article specifies a process account of emotion regulation in AI-assisted music creation, distinguishes it from existing music-regulation and co-creation theories, and proposes falsifiable predictions and research designs. Its central prediction concerns the interaction of regulatory goals and creative affordances. Computational examples illustrate design properties; they do not represent participant observations. We believe the framework is relevant to the journal’s interest in musical experience and generation.
 
 [Insert author-confirmed declarations and corresponding-author details before sending.]
 

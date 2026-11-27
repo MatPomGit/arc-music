@@ -6,8 +6,8 @@
     {
       "id": "P01",
       "estimand": "mean matching contrast (historical), directional conjunction (candidate)",
-      "method": "Welch intersection-union; independent retention and Gaussian summary model",
-      "design": "N420/1000; symmetric .30 and asymmetric .15/.45; 96×20000",
+      "method": "Welch intersection-union; Gaussian and beta-binomial bounded outcomes; available-case, stratum standardisation and fixed pattern-mixture sensitivity",
+      "design": "Historical Gaussian N420/1000; bounded 360 and extended 2376 scenarios, 20000 datasets per scenario; extended N1600 to 5000; six observation mechanisms",
       "sha": "f3af537fe1ca58d80cea8226e735461d2a1b16ce",
       "run": "46008739611",
       "artifact": "15202454395",
@@ -15,16 +15,19 @@
       "status": "CONDITIONAL_CANDIDATE",
       "display": {
         "pl": {
-          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Praca teoretyczna, bez próby empirycznej. Eksperyment 2 × 2: warunkowe N=1000 jako pierwszy z badanych wariantów przekraczający moc 80% dla obu efektów 0,30; symulacyjnie 85,76% lub 81,77% w dwóch profilach wariancji i retencji. Historyczne N=420 dotyczyło tylko średniego kontrastu.</p>",
-          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">200 000 replikacji</span>. N=420, po 105 osób w czterech grupach; oczekiwane N=357 po utracie 15%. Dla d=0,30 moc teoretyczna 80,69%, symulacyjna 80,58%; błąd I rodzaju 5,08%, pokrycie 95% CI przy alternatywie 94,98%. Dotyczy wyłącznie średniego kontrastu dopasowania. Nowy test łączny: 1 920 000 replikacji w 96 konfiguracjach; przy N=420 i symetrycznych efektach 0,30 moc 40,69%, przy N=1000 85,76% (MCSE 0,25 pkt proc.). Przy asymetrii 0,15/0,45 moc dla N=1000 wynosi 45,98%. Wielkości efektów, pomiar i rekrutacja nie są zatwierdzone.</p>"
+          "sample": "<p class=\"pub-sample\"><strong>Liczebność próby:</strong> Praca teoretyczna, bez próby empirycznej. Dla efektów 0,30 pkt na skali 0–10 pierwsze testowane N=5000 zapewnia ≥80% mocy we wszystkich sześciu konfiguracjach MAR; dla 0,45 pkt N=2000, dla 0,60 pkt N=1600. Przy efektach 0,15 pkt lub asymetrii 0,15/0,45 żadne N do 5000 nie spełnia tego kryterium. Brak zatwierdzonej próby.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">54 720 000 replikacji</span> na skali 0–10 (360 + 2376 scenariuszy, po 20 000). W rozszerzeniu: 332 640 000 ocen siedmiu metod, bez nieudanych estymacji. Minimalna moc standaryzowanego estymatora przy MAR i efektach 0,30 pkt: 85,64% przy N=5000; różnicowy MNAR może dać 100% fałszywych odrzuceń. Wcześniejsze N=1000 dotyczyło modelu gaussowskiego, a N=420 średniego kontrastu. Analizy pattern-mixture wykazują wrażliwość na założenia o brakach.</p>"
         },
         "en": {
-          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Theoretical paper, no empirical sample. 2 × 2 experiment: conditional N=1000 is the first evaluated candidate exceeding 80% joint power for two .30 effects (85.76% and 81.77% across variance/retention profiles). Historical N=420 referred only to the mean contrast.</p>",
-          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">200,000 replications</span>. N=420, 105 per factorial cell; expected N=357 after 15% loss. At d=.30, analytical power 80.69%, simulated power 80.58%; type I error 5.08%, alternative 95% CI coverage 94.98%. Mean matching contrast only. The new conjunction screen uses 1,920,000 replications in 96 configurations: joint power at N=420 is 40.69% for symmetric .30 effects, and at N=1000 is 85.76% (MCSE 0.25 percentage points). With asymmetric .15/.45 effects, power at N=1000 is 45.98%. Effect sizes, measurement and recruitment remain unapproved.</p>"
+          "sample": "<p class=\"pub-sample\"><strong>Sample size:</strong> Theoretical paper, no empirical sample. For .30 raw-point effects on the 0–10 scale, N=5000 is the first tested size with ≥80% power in all six MAR configurations; for .45 points N=2000, and for .60 points N=1600. At .15 points or asymmetric .15/.45 effects no tested N through 5000 meets this criterion. Recruitment is unapproved.</p>",
+          "estimate": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">54,720,000 replications</span> on the bounded 0–10 scale (360 + 2,376 scenarios, 20,000 each). Extension: 332,640,000 evaluations of seven methods, none failed. Minimum standardised-estimator power under MAR at .30-point effects: 85.64% at N=5000; differential MNAR can yield 100% false rejections. Earlier N=1000 concerned the Gaussian model, N=420 the mean contrast. Pattern-mixture analyses demonstrate sensitivity to missingness assumptions.</p>"
         }
       },
       "additional_evidence": [
-        "docs/rounded-calibration-audit.md"
+        "docs/rounded-calibration-audit.md",
+        "manuscripts/MSC-MUS-P01/analysis/cp_bounded.py",
+        "manuscripts/MSC-MUS-P01/analysis/cp_bounded_extended.py",
+        "manuscripts/MSC-MUS-P01/analysis/cp-bounded-local-results.md"
       ],
       "additional_sources": [
         {
@@ -46,8 +49,20 @@
           "artifact": 15202454395
         }
       ],
-      "scope": "Mean and conjunction tests; Gaussian summary simulations with independent retention; historical N420 mean vs N1000 conjunction; symmetric and asymmetric effects.",
-      "source_commit": "180c809f4d75fae73a1583766faa59254a5b2c1e"
+      "scope": "Historical Gaussian contrasts remain separate. Bounded raw-score simulations: first extended-grid N5000 reaching 80% across six MAR configurations at symmetric .30-point effects; differential MNAR can yield 100% false rejection. Recruitment not approved.",
+      "source_commit": "180c809f4d75fae73a1583766faa59254a5b2c1e",
+      "local_synthetic_sources": [
+        {
+          "source_script_commit": "7aa49252d89a38301a4ab20e766804de2b96df0b",
+          "scope": "360 bounded scenarios, supplied aggregate; exact local HEAD not recorded",
+          "file": "cp-bounded-full.json"
+        },
+        {
+          "source_script_commit": "8697768411b57567faad806d391906f1a0b119ef",
+          "scope": "2376 extended bounded scenarios, supplied aggregate; exact local HEAD not recorded",
+          "file": "cp-extended-full.json"
+        }
+      ]
     },
     {
       "id": "P02",

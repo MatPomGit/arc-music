@@ -1,0 +1,27 @@
+\begin{tikzpicture}[font=\scriptsize]
+\begin{scope}[x=1cm,y=4cm]
+\draw[->] (0,0)--(5.35,0) node[below right] {$N$};
+\draw[->] (0,0)--(0,1.08);
+\foreach \v in {0,.2,.4,.6,.8,1}{\draw[gray!25] (0,\v)--(5.1,\v);\node[left] at (0,\v) {\v};}
+\foreach \n/\x in {1600/.24,2000/.80,2400/1.36,3000/2.2,4000/3.6,5000/5.0}{\draw (\x,0)--++(0,-.015);\node[below,rotate=45,anchor=north east] at (\x,-.015) {\n};}
+\draw[dashed] (0,.8)--(5.1,.8);
+\draw[thick,black,densely dotted] plot coordinates {(.24,.04755)(.80,.06290)(1.36,.07775)(2.2,.10210)(3.6,.15670)(5,.20660)};
+\draw[thick,blue!75!black] plot coordinates {(.24,.28460)(.80,.37450)(1.36,.46075)(2.2,.58975)(3.6,.74480)(5,.85640)};
+\draw[thick,teal!85!black,dashed] plot coordinates {(.24,.68965)(.80,.80575)(1.36,.88570)(2.2,.94545)(3.6,.98705)(5,.99680)};
+\draw[thick,orange!85!black,dashdotted] plot coordinates {(.24,.93230)(.80,.97345)(1.36,.99175)(2.2,.99825)(3.6,.99990)(5,1)};
+\node[above,font=\small\bfseries] at (2.5,1.08) {A. Minimum MAR power};
+\node[anchor=west,black] at (2.5,.1) {.15};
+\node[anchor=west,blue!75!black] at (2.5,.52) {.30};
+\node[anchor=west,teal!85!black] at (.7,.73) {.45};
+\node[anchor=west,orange!85!black] at (.6,.92) {.60};
+\end{scope}
+\begin{scope}[xshift=8.5cm,x=4.3cm,y=.66cm]
+\foreach \v in {0,.25,.5,.75,1}{\draw[gray!25] (\v,0)--(\v,6);\node[below] at (\v,0) {\v};}
+\foreach \lab/\y/\v in {Complete/5.5/.05265,MCAR/4.5/.05310,MAR/3.5/.05410,MNAR/2.5/.05385,MNAR matched/1.5/1.00000,MNAR mismatched/.5/.00040}{
+\node[left] at (0,\y) {\lab};
+\fill[blue!65!black] (0,\y-.24) rectangle (\v,\y+.24);
+}
+\draw[dashed] (.05,0)--(.05,6);
+\node[above,font=\small\bfseries] at (.5,6.45) {B. Maximum null rejection};
+\end{scope}
+\end{tikzpicture}
