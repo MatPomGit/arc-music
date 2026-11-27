@@ -81,3 +81,19 @@ The exact archived comparison [15193905033](https://github.com/MatPomGit/arc-mus
 | Historical weak draw | improper, minimum eigenvalue -.05252 | improper | not estimable |
 
 The historical comparison is immutable. The new comparison pins the observed runtime and numerical package versions, hashes the paired input, reports both estimator statuses even when one fails, and uses prospective development tolerances .02 for loadings, factor correlations and thresholds and .01 for standard errors. It requires both moderate cases to agree and all cases to execute, but any weak-case disagreement remains explicit and blocks a claim of full agreement. Different fit-statistic corrections are not required to yield identical p-values. The new execution and reproducibility remain to be verified; content validation and independent samples remain prerequisites.
+
+
+## Global five-test family candidate
+
+The previous ordered gate used two group-fit tests at .025 each and three cumulative restriction tests at .05 each. Nonrejection of a preceding test does not guarantee global error control. The new development candidate applies Holm at family alpha .05 over all five valid p-values, under arbitrary dependence. A significant group-fit test blocks interpretation of the restriction sequence; otherwise the first adjusted rejection is reported. Cumulative tests do not uniquely identify the violated restriction. No latent means are authorized. The old gate and archived outputs remain unchanged. The global control guarantee is conditional on valid individual null p-values; small-sample Wald and model-fit approximations must be calibrated.
+
+Paired retrospective screen from run 46006727066, artifact 15201653027 (ZIP SHA256 ef76147e785f424b1a2a7365adc01b538b07dbf63e5e46129016440718baac53): 20 proper fits per cell.
+
+| Group sizes | Invariant | Threshold DIF | Loading DIF | Intercept DIF |
+|---|---:|---:|---:|---:|
+| 250 + 250 | 1/20 | 16/20 | 7/20 | 12/20 |
+| 350 + 150 | 2/20 | 19/20 | 3/20 | 13/20 |
+| 400 + 400 | 0/20 | 20/20 | 8/20 | 17/20 |
+| 560 + 240 | 1/20 | 19/20 | 8/20 | 14/20 |
+
+These are any-gate rejections, not unique detection of the generating violation. The paired retrospective screen is not independent validation. Reduced loading-DIF sensitivity remains a problem. The independent-seed driver records the same gate, proper/failed counts, conditional and operational rejection, target cumulative-test rejection, Wilson intervals and Monte Carlo standard errors. Its 20-replicate CI run is an execution screen. Final calibration requires enough independent replications to resolve the intended error rate (e.g. at least 2,000 per intended null configuration; MCSE near .0049 at .05), partial-null configurations and a separately parameterized multigroup ordinal WLSMV reference. No approved group comparison or final sample size follows.
