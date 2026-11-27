@@ -6,7 +6,7 @@ import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import pandas as pd
-from allocation import allocate, ledger, withdraw, assert_active, reconcile
+from allocation import allocate, ledger, withdraw, assert_active, reconcile, record_checkpoint
 from stimulus_bank import validate_manifest
 from task import start, transition, summary
 
@@ -53,6 +53,28 @@ class AllocationTests(unittest.TestCase):
             list(pool.map(self.assign,range(2,34)))
         self.assertTrue(all(x==same[0] for x in same))
         self.assertEqual(len(ledger(self.path)),33)
+
+    def test_checkpoint_withdrawal_serialization(self):
+        for i in range(1, 13):
+            self.assign(i)
+            pid = f"{i:032x}"
+            def write():
+                try:
+                    record_checkpoint(self.path, pid, "task_started")
+                    return True
+                except ValueError:
+                    return False
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                writer = pool.submit(write)
+                cessation = pool.submit(withdraw, self.path, pid)
+                accepted = writer.result()
+                cessation.result()
+            with self.assertRaises(ValueError):
+                record_checkpoint(self.path, pid, "t1_submitted")
+            with sqlite3.connect(self.path) as db:
+                exists = db.execute("SELECT name FROM sqlite_master WHERE name='checkpoints'").fetchone()
+                count = db.execute("SELECT count(*) FROM checkpoints WHERE participant_id=?", (pid,)).fetchone()[0] if exists else 0
+            self.assertEqual(count, int(accepted))
 
     def test_reconciliation_and_cessation(self):
         self.assign(1); self.assign(2,1)
