@@ -86,7 +86,9 @@ if(wave||dot||steps.length||genWave){
     steps.forEach((step,i)=>step.classList.toggle("step-active",!reduced.matches&&i===active));
   }
   function tick(now){
-    if(reduced.matches||paused||document.hidden){frame=0;return}
+    // A media-query change can become visible to RAF before its change event.
+    // Reconcile the entire UI instead of silently abandoning the clock.
+    if(reduced.matches||paused||document.hidden){sync();return}
     if(last!==null)elapsed+=Math.min(now-last,100);
     last=now;
     if(elapsed-lastDraw>=16){draw(elapsed);lastDraw=elapsed}
@@ -105,7 +107,7 @@ if(wave||dot||steps.length||genWave){
     if(!paused&&!document.hidden)frame=requestAnimationFrame(tick);
   }
   if(motion)motion.addEventListener("change",()=>{paused=motion.value==="off";save(motionKey,motion.value);sync()});
-  reduced.addEventListener("change",()=>{draw(reduced.matches?0:elapsed);sync()});
+  reduced.addEventListener("change",()=>{if(!reduced.matches)draw(elapsed);sync()});
   document.addEventListener("visibilitychange",sync);
   draw(0);sync();
 }
