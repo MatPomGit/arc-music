@@ -1,11 +1,41 @@
 @echo off
 setlocal
 if not "%~1"=="" goto args
-call "%~dp0..\..\run-monte-carlo.bat" P07 --profile smoke
-set "rc=%errorlevel%"
-echo.
-pause
-exit /b %rc%
+:menu
+ echo.
+ echo MSC-MUS-P07 - Monte Carlo
+ echo [1] Instalacja zaleznosci
+ echo [2] Symulacja wstepna
+ echo [3] Pelna symulacja
+ echo [4] Test uruchomieniowy
+ echo [0] Wyjscie
+ choice /c 12340 /n /m "Wybierz: "
+ if errorlevel 5 exit /b 0
+ if errorlevel 4 goto smoke
+ if errorlevel 3 goto full
+ if errorlevel 2 goto pilot
+ if errorlevel 1 goto setup
+ goto menu
+:setup
+ call "%~dp0..\..\run-monte-carlo.bat" P07 --setup
+ goto report
+:pilot
+ call "%~dp0..\..\run-monte-carlo.bat" P07 --profile pilot
+ goto report
+:full
+ call "%~dp0..\..\run-monte-carlo.bat" P07 --profile full --summary
+ if errorlevel 1 goto report
+ choice /c TN /n /m "Rozpoczac pelna symulacje? [T/N] "
+ if errorlevel 2 goto menu
+ call "%~dp0..\..\run-monte-carlo.bat" P07 --profile full
+ goto report
+:smoke
+ call "%~dp0..\..\run-monte-carlo.bat" P07 --profile smoke
+:report
+ echo Kod zakonczenia: %errorlevel%
+ echo Wykresy: "%~dp0results"
+ pause
+ goto menu
 :args
-call "%~dp0..\..\run-monte-carlo.bat" P07 %*
-exit /b %errorlevel%
+ call "%~dp0..\..\run-monte-carlo.bat" P07 %*
+ exit /b %errorlevel%

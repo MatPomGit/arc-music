@@ -15,6 +15,8 @@ if /i "%~2"=="--setup" goto setup
 if /i "%study%"=="P02" goto qualitative
 if /i "%~2"=="--help" goto systempython
 if /i "%~2"=="--list" goto systempython
+for %%A in (%*) do if /i "%%~A"=="--summary" goto systempython
+for %%A in (%*) do if /i "%%~A"=="--list" goto systempython
 if not exist "%venvpython%" goto missing
 set "runner=%venvpython%"
 goto execute

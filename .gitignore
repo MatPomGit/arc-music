@@ -27,3 +27,5 @@ transcripts/
 site-checks/
 
 /build/
+
+/manuscripts/MSC-MUS-*/results/

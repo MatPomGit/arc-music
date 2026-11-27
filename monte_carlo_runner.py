@@ -19,7 +19,7 @@ import time
 ROOT=Path(__file__).resolve().parent
 STUDIES=tuple(f"P{i:02}" for i in range(1,10))
 PROFILES=("smoke","pilot","full")
-VERSION="1.0.0"
+VERSION="1.1.0"
 
 @dataclass(frozen=True)
 class Job:
@@ -95,7 +95,7 @@ def git(*args):
     return subprocess.check_output(["git",*args],cwd=ROOT,text=True).strip()
 
 def source_hash(study):
-    paths=[ROOT/"monte_carlo_runner.py",directory(study)/"monte_carlo.py"]
+    paths=[ROOT/"monte_carlo_runner.py",ROOT/"monte_carlo_results.py",directory(study)/"monte_carlo.py"]
     tracked=git("ls-files","-z","--",str(directory(study).relative_to(ROOT))).split("\0")
     paths.extend(ROOT/p for p in tracked if p and Path(p).suffix in (".py",".R",".r",".csv",".txt",".json"))
     return {p.relative_to(ROOT).as_posix():sha(p) for p in sorted(set(paths))}
@@ -175,7 +175,7 @@ def schedule(tasks,worker,jobs):
                 if not blocked:break
                 for t in blocked:
                     state[t.name]="BLOCKED";remaining.pop(t.name)
-                    print(t.name,"BLOCKED",flush=True)
+                    print(f"[{len(state)}/{len(tasks)}] {t.name} BLOCKED",flush=True)
             ready=[t for t in remaining.values() if all(state.get(d) in ("EXECUTED","REUSED") for d in t.deps)]
             for t in ready[:max(0,jobs-len(active))]:
                 active[pool.submit(worker,t)]=t;remaining.pop(t.name)
@@ -189,7 +189,7 @@ def schedule(tasks,worker,jobs):
                 except Exception as exc:
                     state[t.name]="FAILED"
                     print(t.name,str(exc),file=sys.stderr,flush=True)
-                print(t.name,state[t.name],flush=True)
+                print(f"[{len(state)}/{len(tasks)}] {t.name} {state[t.name]}",flush=True)
     return state
 
 def run_study(study,profile,pattern,jobs,threads,base,run_id):
@@ -198,8 +198,10 @@ def run_study(study,profile,pattern,jobs,threads,base,run_id):
         print(study+": NOT_APPLICABLE (qualitative design)")
         return True
     # Deliberately refuse dirty source trees; run only reviewed tracked code.
-    if git("status","--porcelain","--untracked-files=all","--","monte_carlo_runner.py",str(directory(study).relative_to(ROOT))):
+    if git("status","--porcelain","--untracked-files=all","--","monte_carlo_runner.py","monte_carlo_results.py",str(directory(study).relative_to(ROOT))):
         raise ValueError("Commit or use a clean checkout of the reviewed source first")
+    from monte_carlo_results import describe_plan, export_plots
+    describe_plan(study,profile,tasks)
     head=git("rev-parse","HEAD")
     out=(base/head/study/profile/run_id).resolve()
     ctx={"runner_version":VERSION,"head":head,"study":study,"profile":profile,
@@ -213,7 +215,10 @@ def run_study(study,profile,pattern,jobs,threads,base,run_id):
         ok=all(v in ("EXECUTED","REUSED") for v in state.values())
         atomic_json(out/"run-summary.json",{"context":ctx,"tasks":state,
             "synthetic":True,"confirmatory_authorized":False,"all_requested_executed":ok})
-        return ok
+        plot_dir=directory(study)/"results"/head/profile/run_id
+        count=export_plots(tasks,state,out,plot_dir,study,profile)
+        print(f"Plots: {count}; {plot_dir}",flush=True)
+        return ok and count>0
 
 def main(default_study="all"):
     p=argparse.ArgumentParser(description=__doc__)
@@ -224,12 +229,18 @@ def main(default_study="all"):
     p.add_argument("--threads",type=int,default=1)
     p.add_argument("--run-id",default="local",help="Separate environment/run namespace")
     p.add_argument("--list",action="store_true",help="List exact commands, no computation or dependency installation")
+    p.add_argument("--summary",action="store_true",help="Show planned outer replications without running")
     a=p.parse_args()
     if min(a.jobs,a.threads)<1 or not re.fullmatch("[a-zA-Z0-9_-]+",a.run_id):
         p.error("Positive jobs/threads and simple run ID required")
     if a.jobs*a.threads>(os.cpu_count() or 1):
         p.error("Requested workers × threads exceeds available logical CPUs")
     chosen=STUDIES if a.study=="all" else (a.study,)
+    if a.summary:
+        from monte_carlo_results import describe_plan
+        for study in chosen:
+            describe_plan(study,a.profile,selected(load_plan(study,a.profile),a.task))
+        return
     if a.list:
         for study in chosen:
             tasks=selected(load_plan(study,a.profile),a.task)

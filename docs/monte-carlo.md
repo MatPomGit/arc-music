@@ -1,4 +1,4 @@
-# Lokalne symulacje Monte Carlo v1.1.0
+# Lokalne symulacje Monte Carlo v1.2.0
 
 Uruchamiaj na zaufanym komputerze (np. Andromeda/WSL), po przeglądzie kodu. Nie uruchamiaj niezaufanych PR na stałym runnerze. Bez danych uczestników, API, usług płatnych i automatycznego uruchamiania pełnych symulacji w CI.
 
@@ -14,20 +14,9 @@ bash run-monte-carlo.sh all --profile smoke --jobs 4
 bash run-monte-carlo.sh P09 --profile full --jobs 8
 ```
 
-Alternatywnie dla pojedynczej pracy:
-
-```bash
-python3 manuscripts/MSC-MUS-P09/monte_carlo.py --profile full --list
-python3 -m venv .venv/p09
-source .venv/p09/bin/activate
-python -m pip install -r manuscripts/MSC-MUS-P09/analysis/requirements.txt
-python manuscripts/MSC-MUS-P09/monte_carlo.py --profile smoke --jobs 4
-python manuscripts/MSC-MUS-P09/monte_carlo.py --profile full --jobs 8
-```
-
 Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Jeśli systemowy Python jest niezgodny z przypiętymi pakietami, wybierz Python 3.12/3.13, np. `PYTHON_BIN=python3.12 bash run-monte-carlo.sh all --setup`. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. Bez skryptu wspólne uruchomienie runnera wymaga zgodnego środowiska; wersje NumPy/SciPy mogą się różnić.
 
-`--task 'ipw/cell-06/*'` wybiera konfigurację z zależnościami; `--list` wypisuje programy, ziarna, parametry i zależności bez obliczeń. Domyślnie jeden proces i jeden wątek BLAS; zwiększ --jobs ostrożnie względem pamięci, --threads domyślnie 1. GPU nie jest wykorzystywane przez obecne modele NumPy/SciPy/R.
+`--list` wypisuje programy, ziarna, parametry i zależności bez obliczeń. Domyślnie jeden proces i jeden wątek BLAS; zwiększ --jobs ostrożnie względem pamięci, --threads domyślnie 1. GPU nie jest wykorzystywane przez obecne modele NumPy/SciPy/R.
 
 ## Windows (CMD i dwuklik)
 
@@ -40,11 +29,13 @@ monte_carlo.bat --profile full --jobs 8
 monte_carlo.bat --list --profile full
 ```
 
-Dwuklik uruchamia profil smoke i pozostawia okno otwarte do odczytu wyniku. Pełne obliczenia wymagają jawnego wyboru full. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Wymagany jest Python i Git w PATH, a dla P05 także Rscript z lavaan i semTools. Opcjonalnie ustaw PYTHON_BIN na pełną ścieżkę do zgodnego python.exe przed --setup. Po przejściu między Windows i WSL użyj odrębnego --run-id, ponieważ metadane środowisk są różne. P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
+Dwuklik otwiera menu: instalacja, pilot, full, smoke i wyjście. Full pokazuje planowaną liczbę replikacji i wymaga potwierdzenia. Licznik w trakcie dotyczy zakończonych zadań, nie pojedynczych replikacji wewnątrz monolitycznych programów. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Wymagany jest Python i Git w PATH, a dla P05 także Rscript z lavaan i semTools. Opcjonalnie ustaw PYTHON_BIN na pełną ścieżkę do zgodnego python.exe przed --setup. Po przejściu między Windows i WSL użyj odrębnego --run-id, ponieważ metadane środowisk są różne. P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
+
+Wykresy SVG i indeks wartości: `manuscripts/MSC-MUS-Pxx/results/<HEAD>/<profil>/<run-id>/`. Surowy JSON pozostaje w build/. Wykresy rozróżniają metryki i rodziny zadań; nie przedstawiają danych empirycznych.
 
 ## Zakres profilu full
 
-P01: 96 komórek × 20 000; P03: 5 mechanizmów × 2000 na konfigurację, 50 imputacji/15 iteracji, cel 500/cap 660; P04: wspólna kalibracja PAQ-S, produkcji i PMM, 2000/50; P05: trzy struktury EFA/CFA (2000 i 500 permutacji, partie po 5) oraz 16 komórek ośmiopozycyjnej inwariancji (2000, partie po 20); P06: skupienia, ograniczone wyniki, braki, bootstrap 999, 2000; P07: H1 i rodzina H2/H3, 2000; P08: faktorialny model, brak słyszenia, bootstrap 1999, 2000; P09: 40 komórek IPW po 2000 × 999 na endpoint, partie 20 i agregacja; osobne porównania IPW/AIPW w 9 komórkach, także partie po 20. Obliczenia pełne są wymagające czasowo. Obecne programy nie obejmują wszystkich przyszłych bramek i nie dowodzą trafności empirycznej.
+Profil full: P01 20 000 replikacji na scenariusz, pozostałe badania ilościowe 2000. Dokładne konfiguracje: `--list`; liczebności: `--summary`. Obliczenia nie dowodzą trafności empirycznej.
 
 ## Wyniki i wznowienie
 
