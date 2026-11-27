@@ -30,7 +30,9 @@ def estimate(x, y):
     return coef[1],t.ppf(.975,n-p)*se
 
 
-def simulate(reps=2000, seed=2718):
+def simulate(reps=2000, seed=2718, *, target_complete=TARGET, submission_cap=CAP):
+    if reps < 1 or target_complete < 20 or submission_cap < target_complete:
+        raise ValueError('invalid replications or recruitment sizes')
     rows=[]
     for r in (0.,.15):
         beta=calibration(.6,r)
@@ -44,27 +46,29 @@ def simulate(reps=2000, seed=2718):
                 rng=np.random.default_rng(np.random.SeedSequence([seed,int(r*100),int(discrete),('complete','MAR-predictor','MNAR-interaction').index(mechanism)]))
                 values=[]
                 for _ in range(reps):
-                    x,y=generate(rng,CAP,.6,beta,discrete)
-                    probability=np.zeros(CAP)
+                    x,y=generate(rng,submission_cap,.6,beta,discrete)
+                    probability=np.zeros(submission_cap)
                     if mechanism=='MAR-predictor':
                         probability=expit(-1.9+.20*(y-5)+.1*(x[:,5]-5))
                     elif mechanism=='MNAR-interaction':
                         probability=expit(-1.9+.25*(5-y)+.15*(x[:,1]-5)*(y-5))
-                    ids=np.flatnonzero(rng.random(CAP)>=probability)[:TARGET]
+                    ids=np.flatnonzero(rng.random(submission_cap)>=probability)[:target_complete]
                     point,half=estimate(x[ids],y[ids])
                     values.append((len(ids),point,abs(point-target)<=half,abs(point)>half))
                 a=np.asarray(values)
                 hits=int(a[:,2].sum()); rejects=int(a[:,3].sum())
-                rows.append(dict(partial_r=r,discrete=discrete,mechanism=mechanism,reps=reps,target=target,mean_n=float(a[:,0].mean()),attainment=float(np.mean(a[:,0]==TARGET)),bias=float(a[:,1].mean()-target),coverage=hits/reps,coverage_ci95=wilson(hits,reps),rejection=rejects/reps,rejection_ci95=wilson(rejects,reps)))
-    return dict(data_kind='synthetic',seed=seed,scenarios=rows)
+                rows.append(dict(partial_r=r,discrete=discrete,mechanism=mechanism,reps=reps,target=target,mean_n=float(a[:,0].mean()),attainment=float(np.mean(a[:,0]==target_complete)),bias=float(a[:,1].mean()-target),coverage=hits/reps,coverage_ci95=wilson(hits,reps),rejection=rejects/reps,rejection_ci95=wilson(rejects,reps)))
+    return dict(data_kind='synthetic',seed=seed,target_complete=target_complete,submission_cap=submission_cap,scenarios=rows)
 
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--reps',type=int,default=2000)
     p.add_argument('--seed',type=int,default=2718)
+    p.add_argument('--target',type=int,default=TARGET)
+    p.add_argument('--cap',type=int,default=CAP)
     p.add_argument('--out',type=Path,required=True)
     a=p.parse_args()
     if a.reps<1:
         p.error('reps must be positive')
-    a.out.write_text(json.dumps(simulate(a.reps,a.seed),indent=2,allow_nan=False)+'\n')
+    a.out.write_text(json.dumps(simulate(a.reps,a.seed,target_complete=a.target,submission_cap=a.cap),indent=2,allow_nan=False)+'\n')

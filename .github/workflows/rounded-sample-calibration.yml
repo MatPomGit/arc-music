@@ -1,0 +1,50 @@
+name: Rounded sample-size calibration
+on:
+  pull_request:
+    paths:
+      - 'rounded_sample_calibration.py'
+      - '.github/workflows/rounded-sample-calibration.yml'
+      - 'manuscripts/MSC-MUS-P01/analysis/**'
+      - 'manuscripts/MSC-MUS-P03/analysis/**'
+      - 'manuscripts/MSC-MUS-P08/analysis/**'
+      - 'manuscripts/MSC-MUS-P09/analysis/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  calibration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - study: P01
+            reps: 100000
+          - study: P03
+            reps: 1000
+          - study: P08
+            reps: 1000
+          - study: P09
+            reps: 500
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - run: |
+          python3 -m venv "$RUNNER_TEMP/calibration"
+          "$RUNNER_TEMP/calibration/bin/pip" install numpy==2.3.5 scipy==1.17.0 pandas==2.3.3
+          "$RUNNER_TEMP/calibration/bin/python" rounded_sample_calibration.py --study ${{ matrix.study }} --reps ${{ matrix.reps }} > rounded-calibration.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rounded-calibration-${{ matrix.study }}
+          path: |
+            rounded-calibration.json
+            exact-head.txt
+          if-no-files-found: error

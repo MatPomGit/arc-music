@@ -59,17 +59,17 @@ def contrasts(x,y,masks):
     return {"H1": out[0].get("authority"), "H2": out[1].get("authority"),
             "H3": out[0].get("interaction")}
 
-def run(reps=500,reference_n=40000,seed=2808,smoke=False,nonadherence=0.):
-    if reps<1 or reference_n<100 or reference_n%4:raise ValueError("Invalid calibration size")
+def run(reps=500,reference_n=40000,seed=2808,smoke=False,nonadherence=0., *, grid=None, loss=.20):
+    if reps<1 or reference_n<100 or reference_n%4 or not 0<=loss<1:raise ValueError("Invalid calibration size")
     rng=np.random.default_rng(seed); refs={};cells=[]
-    for n,a,interaction,mechanism in scenarios(smoke):
+    for n,a,interaction,mechanism in (scenarios(smoke) if grid is None else grid):
         key=(a,interaction)
         if key not in refs:
             x,y,k=draw(rng,reference_n,a,interaction,"mcar",loss=0,nonadherence=nonadherence)
             refs[key]=contrasts(x,y,k)
         ref=refs[key];stats={h:[] for h in ref};joint=0;failed=0
         for _ in range(reps):
-            x,y,k=draw(rng,n,a,interaction,mechanism,nonadherence=nonadherence)
+            x,y,k=draw(rng,n,a,interaction,mechanism,loss=loss,nonadherence=nonadherence)
             f = contrasts(x, y, k)
             failed += int(any(value is None for value in f.values()))
             adj = holm({h: f[h]["p"] if f[h] else None for h in ("H2", "H3")})
@@ -103,7 +103,7 @@ def run(reps=500,reference_n=40000,seed=2808,smoke=False,nonadherence=0.):
         cells.append(dict(n=n,latent_authority=a,latent_interaction=interaction,mechanism=mechanism,
           valid=reps-failed,failures=failed,all_three_reject=joint/reps,contrasts=results))
     return dict(status="SYNTHETIC",seed=seed,reps=reps,reference_n=reference_n,screening_only=smoke or reps<1000,
-      nonadherence=nonadherence,environment={"python":platform.python_version(),"numpy":np.__version__,"scipy":scipy.__version__},cells=cells)
+      nonadherence=nonadherence,expected_missingness=loss,environment={"python":platform.python_version(),"numpy":np.__version__,"scipy":scipy.__version__},cells=cells)
 
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("--reps",type=int,default=500)

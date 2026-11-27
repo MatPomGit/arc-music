@@ -34,18 +34,18 @@ def calibration(rho, partial_r):
     return partial_r * sigma / (np.std(residual) * np.sqrt(1 - partial_r**2))
 
 
-def trial(rng, rho, beta, missing):
-    x = covariates(rng, CAP, rho)
+def trial(rng, rho, beta, missing, *, target=TARGET, cap=CAP):
+    x = covariates(rng, cap, rho)
     y = (5 + .25*(x[:, 5]-5) + beta*(x[:, 1]-5)
-         + .12*(x[:, 2]-5) + rng.uniform(-2, 2, CAP))
+         + .12*(x[:, 2]-5) + rng.uniform(-2, 2, cap))
     if np.any((y < 0) | (y > 10)):
         raise ValueError("DGP exceeded rating bounds; revise calibration")
     # MAR: post-clarity missingness depends on observed expression and pre-clarity.
-    observed = np.ones(CAP, dtype=bool)
+    observed = np.ones(cap, dtype=bool)
     if missing:
         probability = expit(-2.2 + .12*(x[:, 1]-5) - .16*(x[:, 5]-5))
-        observed = rng.uniform(size=CAP) >= probability
-    ids = np.flatnonzero(observed)[:TARGET]
+        observed = rng.uniform(size=cap) >= probability
+    ids = np.flatnonzero(observed)[:target]
     x, y = x[ids], y[ids]
     n, p = x.shape
     inv = np.linalg.inv(x.T @ x)
@@ -67,31 +67,33 @@ def wilson(success, total):
     return [float(center-half), float(center+half)]
 
 
-def simulate(reps=2000, seed=SEED):
-    if reps < 1:
-        raise ValueError("reps must be positive")
+def simulate(reps=2000, seed=SEED, *, target=TARGET, cap=CAP):
+    if reps < 1 or target < 20 or cap < target:
+        raise ValueError("invalid replications or recruitment sizes")
     rows = []
     for rho in (.2, .6):
         for partial_r in (0., .15):
             beta = calibration(rho, partial_r)
             for missing in (False, True):
                 rng = np.random.default_rng(np.random.SeedSequence([seed, int(rho*10), int(partial_r*100), int(missing)]))
-                a = np.array([trial(rng, rho, beta, missing) for _ in range(reps)])
+                a = np.array([trial(rng, rho, beta, missing, target=target, cap=cap) for _ in range(reps)])
                 rejected, covered = int(a[:, 2].sum()), int(a[:, 3].sum())
                 rows.append(dict(rho=rho, target_partial_r=partial_r, beta=float(beta),
                     mar_outcome_missing=missing, reps=reps, mean_n=float(a[:,0].mean()),
-                    target_attainment=float(np.mean(a[:,0]==TARGET)),
+                    target_attainment=float(np.mean(a[:,0]==target)),
                     bias=float(a[:,1].mean()-beta), rejection_rate=rejected/reps,
                     rejection_ci95=wilson(rejected,reps), coverage=covered/reps,
                     coverage_ci95=wilson(covered,reps)))
-    return {"data_kind":"synthetic", "seed":seed, "target_complete":TARGET,
-            "submission_cap":CAP, "scenarios":rows}
+    return {"data_kind":"synthetic", "seed":seed, "target_complete":target,
+            "submission_cap":cap, "scenarios":rows}
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--reps", type=int, default=2000)
     p.add_argument("--seed", type=int, default=SEED)
+    p.add_argument("--target", type=int, default=TARGET)
+    p.add_argument("--cap", type=int, default=CAP)
     p.add_argument("--out", type=Path, required=True)
     a = p.parse_args()
-    a.out.write_text(json.dumps(simulate(a.reps, a.seed), indent=2, allow_nan=False)+"\n")
+    a.out.write_text(json.dumps(simulate(a.reps, a.seed, target=a.target, cap=a.cap), indent=2, allow_nan=False)+"\n")
