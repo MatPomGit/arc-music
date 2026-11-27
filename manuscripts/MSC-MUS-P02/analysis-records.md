@@ -4,7 +4,7 @@ These are field specifications, not participant data or a mandatory codebook. Co
 
 | Record | Fields |
 |---|---|
-| Interview log | Pseudonymous ID; guide version; recording consent verified; date in protected log; duration; eligible session; optional contrast; deviations; recording/storage status; withdrawal status. |
+| Interview log | Pseudonymous ID; guide version; recording consent verified; date in protected log; duration; latest eligible session discussed (yes/no/not elicited); optional consented selection category (privacy/recall/other/not stated); optional contrast; deviations; unrecorded artefact showing (yes/no/not elicited); no transfer by default; recording/storage status; withdrawal status. |
 | Episode memo | Episode ID; selection reason; recency and uncertainty; context; reported intent before session; operations in reported order; turning points; perceived contribution and ownership if raised; personal meaning; immediate and later experience; other explanations; missing context; analyst reflection. |
 | Reflexivity memo | Researcher role; prior assumptions; interview interaction; leading probes or changes in direction; alternative interpretations; analytic decisions; next review. |
 | Candidate theme memo | Working name; central organising concept; interpretive claim; supporting extract references; divergent cases; boundaries; relationship to other themes; change history; theoretical implications and limits. |

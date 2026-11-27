@@ -29,6 +29,7 @@ jobs:
         run: |
           OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" -m unittest -v
           "$RUNNER_TEMP/aim-er-venv/bin/python" design_checks.py > design-results.json
+          OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" cp_joint_power.py > cp-joint-power.json
           OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" longitudinal_checks.py > longitudinal-results.json
           OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/aim-er-venv/bin/python" mixed_checks.py --reps 8 > mixed-results.json
       - name: Install LaTeX
@@ -53,6 +54,7 @@ jobs:
             manuscripts/MSC-MUS-P01/word-count.txt
             manuscripts/MSC-MUS-P01/source-tree.txt
             manuscripts/MSC-MUS-P01/analysis/design-results.json
+            manuscripts/MSC-MUS-P01/analysis/cp-joint-power.json
             manuscripts/MSC-MUS-P01/analysis/longitudinal-results.json
             manuscripts/MSC-MUS-P01/analysis/mixed-results.json
           if-no-files-found: error
