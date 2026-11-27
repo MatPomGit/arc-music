@@ -4,14 +4,14 @@ Scope: all 34 keys inventoried, not all independently verified. Status indicates
 
 | Key | Access / verification | Claim boundary or follow-up |
 |---|---|---|
-| gross2015 | prior register / not reopened | Regulation process distinctions; not evidence of AI effects. |
+| gross2015 | university-hosted PDF, p. 1 inspected | Abstract and article outline distinguish identification, selection and implementation; publisher body blocked (403). Not evidence of AI effects. |
 | saarikallio2007 | targeted author-hosted body | Methods pp. 90–91: eight Finnish adolescents, group interviews, personally meaningful recordings and 120 follow-up forms; constructivist grounded theory, not adult AI creation. |
 | juslin2008 | prior register / not reopened | Music emotion induction mechanisms, not regulation efficacy. |
 | baltazar2016 | prior register / not reopened | Goals, tactics and mechanisms of music-related regulation. |
 | baltazar2019 | publisher abstract / restricted body | N=571; correspondence analysis of reported strategies and mechanisms; no causal conclusions. |
 | pennebaker1986 | prior register / not reopened | Expressive writing is adjacent, not interchangeable with AI songwriting. |
-| nolen2008 | prior register / not reopened | Rumination theory; no attribution from lyrics alone. |
-| bonanno2013 | prior register / not reopened | Regulatory flexibility; context-dependent evaluation. |
+| nolen2008 | indexed publisher and PubMed abstracts | Distinguishes rumination from more adaptive reflection; no attribution from lyrics or iteration alone. Full-text audit outstanding. |
+| bonanno2013 | author-hosted PDF, pp. 593–594 inspected | Context sensitivity, strategy repertoire and responsiveness to feedback; heuristic framework, temporal linkages partly speculative. No AI-specific evidence. |
 | ryan2000 | prior register / not reopened | Autonomy/competence concepts; not a music-generation experiment. |
 | zhao2026 | targeted publisher body | Research methods and authorial positioning: 11 Mandarin interviews, public output histories, online 45–60 min. Updated issue/pages 11(3),352–367. |
 | huang2020 | targeted proceedings PDF body, p. 708 inspected | 13 teams, 61 participants, survey and multi-model curation; contest setting, not emotion-regulation efficacy. |
@@ -20,7 +20,7 @@ Scope: all 34 keys inventoried, not all independently verified. Status indicates
 | hums2015 | prior register / not reopened | Healthy/unhealthy music-use constructs; not validation for AI use. |
 | carlson2015 | targeted publisher body | Methods and Table 2: N=123, fMRI subset 56; Discharge correlated with anxiety and neuroticism; observational associations, not harm caused by music creation. |
 | janata2009 | indexed body excerpt / direct page access blocked | 13 subjects, familiar music cues; listening task and autobiographical salience, not identity change. |
-| kross2011 | prior register / not reopened | Self-distancing as adjacent construct; not necessarily an AI mechanism. |
+| kross2011 | author-hosted PDF, p. 188 inspected | Experimental perspective manipulation, recounting versus reconstrual; not evidence that changing a lyrical narrator induces distancing. |
 | peters2024 | targeted publisher body | Methods, Table 1, results and limitations: eight studies, 441 participants, two creative components, heterogeneous interventions and no moderator analysis by activity; no AI-specific effect transfer. |
 | braun2021 | metadata / access blocked | DOI and volume/pages verified via repository metadata; publisher body 403. |
 | braunsaturation2021 | indexed body excerpt / repository abstract | Explicit incompatibility of saturation with reflexive TA; full body audit outstanding. |
@@ -46,3 +46,5 @@ Editorial policy checked at https://journals.sagepub.com/author-instructions/pom
 ## Targeted follow-up (26 November 2026)
 Huang: https://program.ismir2020.net/static/final_papers/167.pdf (p.708, introduction; original page image inspected). Copet: https://proceedings.neurips.cc/paper_files/paper/2023/file/94b472a1842cd7c56dcb125fb2765fbd-Paper-Conference.pdf (p.1, original page image inspected); pages from https://www.proceedings.com/075280-2066.html. Carlson: https://www.frontiersin.org/journals/human-neuroscience/articles/10.3389/fnhum.2015.00466/full (methods/Table 2). Peters: https://journals.sagepub.com/doi/10.1177/03057356231212362 (methods, Tables 1–2 and limitations). Saarikallio: https://www.researchgate.net/publication/229471062_The_role_of_music_in_adolescents%27_mood_regulation (methods pp.90–91). Baltazar: https://doi.org/10.1177/1029864917715061 (abstract; restricted). Janata: indexed publisher text at https://doi.org/10.1093/cercor/bhp008; direct retrieval unsuccessful. Baker 2018: https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.01422/full (methods and results excerpts). Baker 2019: https://pubmed.ncbi.nlm.nih.gov/30791702/ (abstract; 47 enrolled, no significant primary group effect). Neither Baker report establishes benefit from AI songwriting. These are targeted claim checks, not all-page audits.
 Zhang: https://doi.org/10.3389/fpsyg.2026.1987055 (accepted abstract, 13 November 2026); Wu and Holmes: https://doi.org/10.1186/s41235-026-00715-z (Study 1 and 2 methods/results; published 2 March 2026).
+
+Targeted theoretical follow-up (27 November 2026): Gross https://doi.org/10.1080/1047840X.2014.940781 (university-hosted article, p. 1); Bonanno and Burton https://doi.org/10.1177/1745691613504116 (author-hosted pp. 593–594); Kross and Ayduk https://doi.org/10.1177/0963721411408883 (author-hosted p. 188, Experimental Evidence); Nolen-Hoeksema et al. https://doi.org/10.1111/j.1745-6924.2008.00088.x (indexed abstracts). These checks support the theoretical distinctions, not causal claims about AI. No full-text audit of all 34 entries is asserted.

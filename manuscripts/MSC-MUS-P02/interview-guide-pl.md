@@ -1,4 +1,4 @@
-# MSC-MUS-P02: scenariusz wywiadu (wersja 0.3.0, 2026-11-26)
+# MSC-MUS-P02: scenariusz wywiadu (wersja 0.3.1, 2026-11-27)
 
 Status: projekt do konsultacji i zatwierdzenia etycznego. Nie służy do rozpoczęcia rekrutacji. Kanoniczny opis metody: main.tex i sections/. Wywiad online 45–60 min, po polsku, z możliwością przerwania i pominięcia dowolnego pytania.
 
@@ -7,8 +7,8 @@ Status: projekt do konsultacji i zatwierdzenia etycznego. Nie służy do rozpocz
 | Otwarcie | 5 min | Sprawdź zrozumienie informacji i odrębną zgodę na nagranie. Przypomnij, że nie trzeba ujawniać osobistego zdarzenia ani pokazywać utworu. |
 | Kontekst | 5 min | Proszę pomyśleć o ostatniej kwalifikującej się sesji, także nieukończonej. Czy chce i może Pan/Pani ją omówić? Można wybrać kolejną najnowszą sesję możliwą do omówienia albo pominąć temat. Co skłoniło do rozpoczęcia? Jak wyglądała sytuacja przed sesją? Czy zamiar zmienił się w trakcie? |
 | Przebieg | 10 min | Jak wyglądały kolejne kroki? Co zdecydowało o treści polecenia, tekście lub stylu? Co zostało zmienione, pominięte lub odrzucone? Co zdecydowało o zakończeniu, także bez gotowego utworu? |
-| Sprawstwo | 7 min | Które elementy uważa Pan/i za swój wkład, a które za wkład systemu? Jak odbierał/a Pan/i możliwość wpływania na rezultat? |
-| Znaczenie | 7 min | Co, jeśli cokolwiek, sprawiało, że utwór był związany z doświadczeniem? Czy rezultat bywał nietrafiony? Jak Pan/i to rozpoznawał/a? |
+| Sprawstwo | 7 min | Które elementy uważa Pan/i za swój wkład, a które za wkład systemu? Jak ocenia Pan/Pani swój wpływ na przebieg tworzenia? Jeżeli powstał utwór, co, jeśli cokolwiek, sprawiało, że był odczuwany jako własny lub obcy? |
+| Znaczenie | 7 min | Co, jeśli cokolwiek, sprawiało, że utwór był związany z doświadczeniem? Czy rezultat bywał nietrafiony? Jak Pan/Pani to rozpoznawał(a)? Jeżeli nie powstał użyteczny utwór, jakie znaczenie, jeśli jakiekolwiek, miała sama próba? |
 | Następstwa | 8 min | Jak opisał(a)by Pan/i swoje doświadczenie po zakończeniu i później? Co się zmieniło, a co pozostało takie samo? Co wydarzyło się pomiędzy tymi momentami? Jak Pan/i rozumie to teraz? |
 | Kontekst i alternatywy | 5 min | Jakie znaczenie, jeśli jakiekolwiek, miało dotychczasowe doświadczenie muzyczne, narzędzie, obecność innych osób lub inne sposoby tworzenia? Czy bez AI proces wyglądałby inaczej według Pana/Pani? |
 | Kontrast | 8 min | Czy pamięta Pan/i inną sesję, która przebiegła odmiennie? Czym się różniła? Można pominąć tę część. |
