@@ -252,6 +252,22 @@ def projection_benchmark(beta, rng, n, rounded):
                 method="uniform-noise rounding identity; independent OLS HC0 check")
 
 
+def precision_plan(reps, target_mcse=.005):
+    """Design precision for binomial Monte Carlo rates, not an acceptance test."""
+    if reps<1 or not np.isfinite(target_mcse) or not 0<target_mcse<.5:
+        raise ValueError("Invalid Monte Carlo precision design")
+    nominal=.95*.05
+    return dict(reps_per_cell=int(reps),target_mcse=float(target_mcse),
+                nominal_95_coverage_mcse=float(np.sqrt(nominal/reps)),
+                nominal_05_rejection_mcse=float(np.sqrt(nominal/reps)),
+                worst_case_mcse=float(np.sqrt(.25/reps)),
+                minimum_reps_nominal=int(np.ceil(nominal/target_mcse**2)),
+                minimum_reps_worst_case=int(np.ceil(.25/target_mcse**2)),
+                nominal_precision_reached=bool(np.sqrt(nominal/reps)<=target_mcse),
+                worst_case_precision_reached=bool(np.sqrt(.25/reps)<=target_mcse),
+                interpretation="design precision only; evaluate achieved rates and Wilson intervals separately")
+
+
 def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
         seed=20261127, reference_n=500000, rounded=True, *, effect_override=None,
         oracle_benchmark=False):
@@ -301,7 +317,9 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
                 reps=reps, m=m, sweeps=sweeps, seed=seed, rounded=rounded,
                 reference_n=reference_n, screening_only=True, cells=cells,
                 oracle_benchmark=bool(oracle_benchmark),
-                exact_rounded_mixed_mar_retention=mixed_mar_attainment(target, (cap, max(cap, 660)))
+                monte_carlo_precision=precision_plan(reps),
+                confirmatory_authorized=False,
+                exact_rounded_mixed_mar_retention=mixed_mar_attainment(target, tuple(sorted({cap, max(cap, 660)})))
                 if rounded and mechanism == "mixed_mar" else None)
 
 

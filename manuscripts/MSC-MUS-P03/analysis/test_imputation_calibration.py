@@ -1,11 +1,13 @@
 import unittest
 from unittest.mock import patch
+from pathlib import Path
+import runpy
 
 import numpy as np
 
 from imputation_calibration import mask_and_stop, raw_records, run, summary, mixed_mar_attainment, estimates
 from stress import generate
-from imputation_calibration import oracle_estimates, paired_difference, projection_benchmark
+from imputation_calibration import oracle_estimates, paired_difference, projection_benchmark, precision_plan
 
 
 class CalibrationTests(unittest.TestCase):
@@ -173,6 +175,29 @@ class CalibrationTests(unittest.TestCase):
                                    2*1.959963984540054*a["sample_se"])
         with self.assertRaises(ValueError):
             projection_benchmark(1.,np.random.default_rng(42),1000,True)
+
+    def test_precision_plan_distinguishes_nominal_and_worst_case(self):
+        small=precision_plan(30)
+        full=precision_plan(2000)
+        self.assertFalse(small["nominal_precision_reached"])
+        self.assertTrue(full["nominal_precision_reached"])
+        self.assertFalse(full["worst_case_precision_reached"])
+        self.assertAlmostEqual(full["nominal_95_coverage_mcse"],np.sqrt(.0475/2000))
+        self.assertEqual(full["minimum_reps_nominal"],1900)
+        self.assertEqual(full["minimum_reps_worst_case"],10000)
+        with self.assertRaises(ValueError):
+            precision_plan(0)
+
+    def test_local_profiles_include_paired_benchmarks(self):
+        plan=runpy.run_path(str(Path(__file__).resolve().parents[1]/"monte_carlo.py"))["plan"]
+        for profile,reps,m,sweeps in (("smoke",2,5,3),("pilot",30,10,5),("full",2000,50,15)):
+            tasks=plan(profile)
+            self.assertEqual(len(tasks),5)
+            for task in tasks:
+                self.assertIn("--oracle-benchmark",task.args)
+                for flag,value in (("--cap",660),("--target",500),("--reps",reps),("--m",m),("--sweeps",sweeps)):
+                    self.assertEqual(task.args[task.args.index(flag)+1],str(value))
+                self.assertFalse(task.r)
 
     def test_complete_shift_invariance(self):
         a = run("complete",reps=2,m=2,sweeps=1,target=100,cap=160,reference_n=1000)
