@@ -17,6 +17,12 @@ PROFILES = {
 }
 MECHANISMS = ("complete", "MCAR", "MAR", "MNAR")
 EFFECTS = {"null": (0., 0., 0.), "alternative": (.5, .5, 0.)}
+STRESS_EFFECTS = {"distance_only": (0., 0., .5), "all_positive": (.5, .5, .5)}
+STRESS_MECHANISMS = ("MAR_nonlinear", "MAR_low_overlap")
+
+
+def effect_values(name):
+    return (EFFECTS | STRESS_EFFECTS)[name]
 
 
 def rating(rng, probability, concentration, items):
@@ -36,6 +42,10 @@ def observed(rng, mechanism, arm, baseline, outcome, centre):
         logit += .35 * (baseline - centre) - .55 * arm
     if mechanism == "MNAR":
         logit += .45 * (outcome - centre)
+    if mechanism == "MAR_nonlinear":
+        logit += -.65 * (baseline - centre)**2 + .75 * arm * (baseline - centre)
+    if mechanism == "MAR_low_overlap":
+        logit = 1.0 + 2.5 * (baseline - centre) - 1.5 * arm
     return rng.random(len(arm)) < expit(logit)
 
 
@@ -60,10 +70,10 @@ def stratified_assignment(rng, training):
 def generate(rng, n, profile, mechanism, alternative, *, allocation="balanced"):
     if n < 20 or n % 2:
         raise ValueError("n must be even and at least 20")
-    if mechanism not in MECHANISMS:
+    if mechanism not in MECHANISMS + STRESS_MECHANISMS:
         raise ValueError("Unknown missingness mechanism")
     base_p, centre, slope, c0, c1 = PROFILES[profile]
-    effects = EFFECTS[alternative]
+    effects = effect_values(alternative)
     if allocation == "balanced":
         z = np.repeat([0, 1], n // 2)
         rng.shuffle(z)
@@ -126,7 +136,7 @@ def cell(seed, n, profile, mechanism, alternative, reps, *, allocation="balanced
     holm_rates = {h: [] for h in ("H2", "H3")}
     fwer = []
     observed_arm = {h: [[], []] for h in MODELS}
-    truth = dict(zip(MODELS, EFFECTS[alternative]))
+    truth = dict(zip(MODELS, effect_values(alternative)))
     for _ in range(reps):
         d = generate(rng, n, profile, mechanism, alternative, allocation=allocation)
         secondary = {}
