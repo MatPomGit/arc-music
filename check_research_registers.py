@@ -11,10 +11,24 @@ def check(root):
     if len(gates["studies"])!=9 or {r["study"] for r in gates["studies"]}!=ids:
         errors.append("Research register must contain each P01-P09 once")
     for row in gates["studies"]:
-        if not (root/row["contract"]).is_file():
-            errors.append("Missing research contract: "+row["study"])
+        for contract in [row["contract"],*row.get("additional_contracts",[])]:
+            if not (root/contract).is_file() or not (root/contract).resolve().is_relative_to(root.resolve()):
+                errors.append("Missing or unsafe research contract: "+row["study"]+": "+contract)
         if row["fieldwork"]!="BLOCKED":
             errors.append("Unapproved fieldwork: "+row["study"])
+    matrix=root/"docs/research-matrix.md"
+    content=matrix.read_text(encoding="utf-8")
+    rows=re.findall(r"^\| \[(P\d{2})\]\(([^)]+)\) /",content,re.M)
+    if [r[0] for r in rows]!=sorted(ids):
+        errors.append("Research matrix must contain each P01-P09 once in order")
+    for study,link in rows:
+        expected=root/"manuscripts"/("MSC-MUS-"+study)/"main.tex"
+        if (matrix.parent/link).resolve()!=expected.resolve() or not expected.is_file():
+            errors.append("Invalid study matrix manuscript link: "+study)
+    if gates.get("status")=="PROSPECTIVE_NO_GO":
+        common=gates.get("common",{})
+        if common.get("recruitment")!="BLOCKED" or common.get("raw_records_in_git") is not False:
+            errors.append("Invalid prospective recruitment/data gate")
     mapfile=root/"manuscripts/MSC-MUS-P01/analysis/proposition-map.md"
     content=mapfile.read_text(encoding="utf-8")
     rows=[line.split("|")[1:-1] for line in content.splitlines()

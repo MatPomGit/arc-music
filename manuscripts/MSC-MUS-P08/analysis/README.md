@@ -15,3 +15,5 @@ See measurement-validation.md for construct map, expert review, cognitive interv
 ## Authoritative assignment candidate
 
 Empirical CLI: python inference.py export.csv --data-kind empirical --ledger restricted.sqlite. Synthetic CLI requires --data-kind synthetic. assignment_ledger.py validates the frozen bank, schema, schedule and full assigned cohort; missing outcome rows must remain. Withdrawal blocks reconciliation until university-approved policy is implemented. No real data or deployment; the existing hearing-defined endpoint gate is unchanged and remains blocked for full-cohort confirmation.
+
+CSV import uses `export_schema.read_export`: exact empirical dictionary columns, unique literal header, opaque strings with leading zeroes, four-bit schedule, bank digest and schema validation. Hearing tokens True/true and False/false are distinct from blank/NA (unknown); all other tokens fail closed. Legacy synthetic columns remain supported. Reconcile parsed empirical rows with the authoritative assignment ledger before analysis. This does not resolve retention or authenticated task service approval.

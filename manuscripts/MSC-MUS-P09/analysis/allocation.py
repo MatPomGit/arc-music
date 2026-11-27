@@ -5,6 +5,7 @@ import sqlite3
 from contextlib import closing
 from datetime import datetime, timezone
 from export_schema import VERSION, instant, validate_fields
+from visit_payload import canonical,visit_fields,empty_visit
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -109,13 +110,18 @@ def assert_active(path, participant_id):
 
 TERMINAL=("task_finished","task_stopped","task_technical_failure")
 
-def record_checkpoint(path, participant_id, stage):
+def record_checkpoint(path, participant_id, stage, *, payload=None):
     """Atomic server-side timestamp and state transition; no browser flags.
-    A repeated identical transition is idempotent while active.
+    Visit submissions bind the canonical response in the same transaction.
+    A repeated identical transition and payload is idempotent while active.
     """
     validate_id(participant_id)
     if stage not in ("task_started",*TERMINAL,"t1_submitted","t2_submitted"):
         raise ValueError("Invalid checkpoint")
+    visit={"t1_submitted":1,"t2_submitted":2}.get(stage)
+    if visit is None and payload is not None:
+        raise ValueError("Unexpected task checkpoint payload")
+    encoded=canonical(visit,payload) if visit is not None else None
     with closing(connect(path)) as db:
         db.execute("BEGIN IMMEDIATE")
         try:
@@ -126,8 +132,14 @@ def record_checkpoint(path, participant_id, stage):
                 participant_id TEXT NOT NULL REFERENCES assignments(participant_id),
                 stage TEXT NOT NULL, recorded_at TEXT NOT NULL,
                 PRIMARY KEY(participant_id,stage))""")
+            db.execute("""CREATE TABLE IF NOT EXISTS visit_payloads (
+                participant_id TEXT NOT NULL, stage TEXT NOT NULL, payload TEXT NOT NULL,
+                PRIMARY KEY(participant_id,stage),
+                FOREIGN KEY(participant_id,stage) REFERENCES checkpoints(participant_id,stage))""")
             events=dict(db.execute("SELECT stage,recorded_at FROM checkpoints WHERE participant_id=?",(participant_id,)))
             if stage in events:
+                if visit is not None and db.execute("SELECT payload FROM visit_payloads WHERE participant_id=? AND stage=?",(participant_id,stage)).fetchone()!=(encoded,):
+                    raise ValueError("Visit retry payload mismatch or legacy unbound submission")
                 db.commit();return events[stage]
             stamp=now();t=instant(stamp);assigned=instant(active[1])
             if t<assigned or any(t<instant(v) for v in events.values()):
@@ -151,12 +163,14 @@ def record_checkpoint(path, participant_id, stage):
             elif not 144*3600<=elapsed<=192*3600:
                 raise ValueError("T2 outside independent follow-up window")
             db.execute("INSERT INTO checkpoints VALUES(?,?,?)",(participant_id,stage,stamp))
+            if visit is not None:
+                db.execute("INSERT INTO visit_payloads VALUES(?,?,?)",(participant_id,stage,encoded))
             db.commit();return stamp
         except BaseException:
             db.rollback();raise
 
 
-def ledger(path):
+def ledger(path, *, include_payloads=False):
     """Single read snapshot of consumed assignments and checkpoint events."""
     with closing(connect(path)) as db:
         db.execute("BEGIN")
@@ -169,6 +183,9 @@ def ledger(path):
         if exists:
             for pid,stage,stamp in db.execute("SELECT participant_id,stage,recorded_at FROM checkpoints"):
                 events.setdefault(pid,{})[stage]=stamp
+        payloads={}
+        if include_payloads and db.execute("SELECT name FROM sqlite_master WHERE name='visit_payloads'").fetchone():
+            payloads={(pid,stage):data for pid,stage,data in db.execute("SELECT participant_id,stage,payload FROM visit_payloads")}
     result=[]
     for row in rows:
         rec=dict(zip(("participant_id","training","music","randomised_at","withdrawn"),row),
@@ -178,13 +195,13 @@ def ledger(path):
         rec.update(task_started_at=v.get("task_started"),task_ended_at=v.get(terminal),
                    task_end_reason=terminal,t1_at=v.get("t1_submitted"),t2_at=v.get("t2_submitted"))
         result.append(rec)
-    return result
+    return (result,payloads) if include_payloads else result
 
 
 def reconcile(path,frame,*,strict=True):
     """Fail closed before analysis; strict=False is synthetic ledger-only testing."""
     import pandas as pd
-    entries=ledger(path)
+    entries,payloads=ledger(path,include_payloads=True)
     if not entries:raise ValueError("Empty allocation ledger")
     if any(row["withdrawn"] for row in entries):
         raise ValueError("Withdrawal retention decision required before export")
@@ -204,4 +221,12 @@ def reconcile(path,frame,*,strict=True):
                 if instant(row[field])!=instant(e[field]):raise ValueError("Ledger mismatch: "+field)
             reason=None if pd.isna(row.task_end_reason) else row.task_end_reason
             if reason!=e["task_end_reason"]:raise ValueError("Ledger mismatch: task_end_reason")
+            for j in (1,2):
+                stage=f"t{j}_submitted"
+                bound=payloads.get((e["participant_id"],stage))
+                if e[f"t{j}_at"] is None:
+                    if bound is not None or not empty_visit(j,row):
+                        raise ValueError("Unsubmitted visit lacks authoritative target ascertainment")
+                elif bound is None or bound!=canonical(j,{k:row[k] for k in visit_fields(j)}):
+                    raise ValueError("Ledger mismatch: visit payload")
     return len(entries)

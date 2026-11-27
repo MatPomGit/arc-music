@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from unittest.mock import patch
 from export_schema import FIELDS,VERSION,read_export
+from visit_payload import visit_fields
 from test_inference import fixture
 from inference import analyze,prepare
 import pandas as pd
@@ -104,10 +105,13 @@ class AllocationTests(unittest.TestCase):
         import csv
         with patch("allocation.now",return_value="2026-11-01T10:00:00+00:00"):
             self.assign(1);self.assign(2,1);self.assign(3)
+        f=fixture().iloc[:3].reset_index(drop=True)
+        def payload(i,j):
+            return {k:f.loc[i,k] for k in visit_fields(j)}
         pid=f"{1:032x}"
         with patch("allocation.now",return_value="2026-11-01T10:00:01Z"):
             for stage in ("task_finished","t1_submitted"):
-                with self.assertRaises(ValueError):record_checkpoint(self.path,pid,stage)
+                with self.assertRaises(ValueError):record_checkpoint(self.path,pid,stage,**({"payload":payload(0,1)} if stage=="t1_submitted" else {}))
             first=record_checkpoint(self.path,pid,"task_started")
             self.assertEqual(record_checkpoint(self.path,pid,"task_started"),first)
             with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"task_finished")
@@ -115,22 +119,23 @@ class AllocationTests(unittest.TestCase):
             record_checkpoint(self.path,pid,"task_finished")
             with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"task_stopped")
         with patch("allocation.now",return_value="2026-11-01T10:09:00Z"):
-            record_checkpoint(self.path,pid,"t1_submitted")
+            record_checkpoint(self.path,pid,"t1_submitted",payload=payload(0,1))
         pid2=f"{2:032x}"
         with patch("allocation.now",return_value="2026-11-01T10:00:01Z"):
             record_checkpoint(self.path,pid2,"task_started")
             record_checkpoint(self.path,pid2,"task_stopped")
-            record_checkpoint(self.path,pid2,"t1_submitted")
+            record_checkpoint(self.path,pid2,"t1_submitted",payload=payload(1,1))
         with patch("allocation.now",return_value="2026-11-08T10:00:00Z"):
-            record_checkpoint(self.path,f"{3:032x}","t2_submitted")
+            record_checkpoint(self.path,f"{3:032x}","t2_submitted",payload=payload(2,2))
         d=pd.DataFrame(ledger(self.path)).drop(columns="withdrawn")
-        f=fixture().iloc[:3].reset_index(drop=True)
         for k in FIELDS:
             if k not in d:d[k]=f[k]
         for j in (1,2):
             cols=[f"same_event{j}",*[f"understanding{j}{k}" for k in (1,2,3)]]
             if j==1:cols.append("distance1")
+            d[f"same_event{j}"]=d[f"same_event{j}"].astype("boolean")
             d.loc[d[f"t{j}_at"].isna(),cols]=None
+            d.loc[d[f"t{j}_at"].isna(),f"target_status{j}"]="unknown"
         self.assertEqual(set(d),set(FIELDS))
         with open(Path(__file__).with_name("data-dictionary.csv"),newline="") as file:
             self.assertEqual({row["field"] for row in csv.DictReader(file)},set(FIELDS))
@@ -141,7 +146,7 @@ class AllocationTests(unittest.TestCase):
         restored=read_export(export)
         self.assertEqual(reconcile(self.path,restored),3)
         self.assertEqual(analyze(restored)["randomised"],3)
-        bad=d.copy();bad.loc[0,"same_event1"]="1";bad.to_csv(export,index=False)
+        bad=d.copy();bad["same_event1"]=bad.same_event1.astype(object);bad.loc[0,"same_event1"]="1";bad.to_csv(export,index=False)
         with self.assertRaisesRegex(ValueError,"Invalid event flag"):read_export(export)
         self.assertEqual(int(prepare(d).valid1.sum()),2)
         self.assertEqual(int(prepare(d).valid2.sum()),1)
@@ -151,6 +156,34 @@ class AllocationTests(unittest.TestCase):
         with self.assertRaises(ValueError):reconcile(self.path,d.drop(columns="bank_digest"))
         d.loc[0,"t1_at"]="2026-11-01T11:09:00+01:00"
         self.assertEqual(reconcile(self.path,d),3)
+        bad=d.copy();bad.loc[0,"understanding11"]=(int(d.loc[0,"understanding11"])+1)%11
+        with self.assertRaisesRegex(ValueError,"visit payload"):reconcile(self.path,bad)
+        bad=d.copy();bad.loc[2,"target_status1"]="defined"
+        with self.assertRaisesRegex(ValueError,"target ascertainment"):reconcile(self.path,bad)
+
+    def test_visit_atomic_retry_and_technical_stop(self):
+        with patch("allocation.now",return_value="2026-11-01T10:00:00Z"):
+            self.assign(1)
+        pid=f"{1:032x}"
+        payload={"same_event1":True,"target_status1":"defined","understanding11":0,
+                 "understanding12":None,"understanding13":10,"distance1":5}
+        with patch("allocation.now",return_value="2026-11-01T10:00:01Z"):
+            record_checkpoint(self.path,pid,"task_started")
+            record_checkpoint(self.path,pid,"task_technical_failure")
+            with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"task_stopped")
+            with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"t1_submitted")
+            with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"t1_submitted",payload=dict(payload,distance1=11))
+        with sqlite3.connect(self.path) as db:
+            self.assertEqual(db.execute("SELECT count(*) FROM checkpoints WHERE stage='t1_submitted'").fetchone()[0],0)
+        with patch("allocation.now",return_value="2026-11-01T10:01:00Z"):
+            stamp=record_checkpoint(self.path,pid,"t1_submitted",payload=payload)
+            self.assertEqual(stamp,record_checkpoint(self.path,pid,"t1_submitted",payload=dict(payload)))
+            with self.assertRaisesRegex(ValueError,"retry payload mismatch"):
+                record_checkpoint(self.path,pid,"t1_submitted",payload=dict(payload,distance1=6))
+        with sqlite3.connect(self.path) as db:
+            self.assertEqual(db.execute("SELECT count(*) FROM visit_payloads").fetchone()[0],1)
+        withdraw(self.path,pid)
+        with self.assertRaises(ValueError):record_checkpoint(self.path,pid,"t1_submitted",payload=payload)
 
 
 class BankTests(unittest.TestCase):

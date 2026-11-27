@@ -61,9 +61,11 @@ if __name__=="__main__":
     p.add_argument("--checkins")
     a=p.parse_args()
     if a.bootstrap<1:p.error("bootstrap must be positive")
-    d=pd.read_csv(a.csv,dtype={"participant_id":str,"session_id":str})
+    from export_schema import read_export
+    empirical=a.data_kind=="empirical"
+    d=read_export(a.csv,"sessions",empirical=empirical)
     if bool(a.enrollment)!=bool(a.checkins):p.error("Supply both --enrollment and --checkins")
     if a.data_kind=="empirical" and not a.enrollment:p.error("Empirical mode requires both ledgers")
-    e=pd.read_csv(a.enrollment,dtype={"participant_id":str}) if a.enrollment else None
-    c=pd.read_csv(a.checkins,dtype={"participant_id":str}) if a.checkins else None
+    e=read_export(a.enrollment,"enrollment",empirical=empirical) if a.enrollment else None
+    c=read_export(a.checkins,"checkins",empirical=empirical) if a.checkins else None
     print(json.dumps(analyze(d,a.bootstrap,a.seed,e,c,data_kind=a.data_kind),indent=2,allow_nan=False))

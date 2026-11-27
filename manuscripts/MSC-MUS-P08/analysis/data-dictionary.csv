@@ -6,7 +6,7 @@ training,integer,0 less than one year or 1 at least one year
 prior_use_days,integer,0-30
 familiarity,integer,0-10 baseline
 anticipated_ownership,integer,0-10 baseline
-heard_version,boolean,heard assessable arrangement or unknown
+heard_version,boolean,True/true or False/false; blank/NA unknown
 ownership1,integer,0-10 or missing
 ownership2,integer,0-10 or missing
 ownership3,integer,0-10 or missing
