@@ -48,6 +48,18 @@ class MissingnessTests(unittest.TestCase):
             self.assertIn("unavailable", analyze(d)["missingness"]["H1"])
             self.assertEqual(analyze(d)["randomised"], 320)
 
+    def test_undefined_secondary_is_not_a_confirmatory_test(self):
+        d = fixture()
+        d.loc[0,"target_status1"] = "undefined"
+        d.loc[0,["understanding11","understanding12","understanding13","distance1"]] = np.nan
+        result = analyze(d)
+        for h in ("H2","H3"):
+            self.assertFalse(result["hypotheses"][h]["confirmatory_available"])
+            self.assertIn("descriptive_p",result["hypotheses"][h])
+            self.assertNotIn("p",result["hypotheses"][h])
+            self.assertIsNone(result["secondary_holm"][h])
+        self.assertIn("p",result["hypotheses"]["H1"])
+
     def test_observed_score_conflicts_with_undefined(self):
         d = fixture()
         d.loc[0, "target_status2"] = "undefined"

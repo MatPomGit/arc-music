@@ -103,6 +103,10 @@ def analyze(frame):
             sens[h]={"unavailable":"Full-cohort outcome undefined or unresolved",
                      "target_status":d.groupby("music")[status].value_counts().unstack(fill_value=0).to_dict(orient="index")}
             models[h]["interpretation"]="Observed defined outcomes only; not full-cohort assignment contrast"
+            # Do not advertise a confirmatory test of an undefined cohort contrast.
+            if "p" in models[h]:
+                models[h]["descriptive_p"]=models[h].pop("p")
+            models[h]["confirmatory_available"]=False
         else:
             try:sens[h]=sensitivity(d,o,b)
             except (ValueError,np.linalg.LinAlgError) as exc:sens[h]={"unavailable":str(exc)}
