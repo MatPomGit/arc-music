@@ -19,6 +19,56 @@ class RevisedDesignTests(unittest.TestCase):
         se=np.sqrt(np.sum(v*v*(y-x@beta)**2/(1-h)))
         self.assertAlmostEqual(a,beta[1],places=10)
         self.assertAlmostEqual(r,t.ppf(.98,df)*se,places=10)
+    def test_cr2_multisession_deleted_rows_oracle(self):
+        rng = np.random.default_rng(451)
+        groups, sessions = 18, 5
+        x = np.stack([np.ones((groups, sessions)),
+                      rng.normal(size=(groups, sessions))], axis=-1)
+        y = x @ np.array([.3, -.25]) + rng.normal(size=(groups, 1)) + rng.normal(size=(groups, sessions))
+        mask = rng.random((groups, sessions)) > .2
+        mask[0] = False
+        c = np.array([0., 1.])
+        actual = cr2(x, y, mask, c)
+        # Independent dense reference: physically delete missing rows,
+        # construct the full residual-maker and adjusted score vectors.
+        X, Y = x[mask], y[mask]
+        B = np.linalg.inv(X.T @ X)
+        beta = np.linalg.lstsq(X, Y, rcond=None)[0]
+        M = np.eye(len(Y)) - X @ B @ X.T
+        residual = M @ Y
+        scores, vectors = [], []
+        offset = 0
+        for n in mask.sum(axis=1):
+            if n == 0:
+                continue
+            idx = slice(offset, offset+n)
+            eigen, U = np.linalg.eigh(M[idx, idx])
+            A = U @ np.diag(1 / np.sqrt(eigen)) @ U.T
+            v = np.zeros(len(Y))
+            v[idx] = A @ X[idx] @ B @ c
+            scores.append(v @ residual)
+            vectors.append(M @ v)
+            offset += n
+        gram = np.asarray(vectors) @ np.asarray(vectors).T
+        df = np.trace(gram)**2 / np.sum(gram**2)
+        radius = t.ppf(.98, df) * np.linalg.norm(scores)
+        np.testing.assert_allclose(actual, [c @ beta, radius, df], rtol=1e-10)
+
+    def test_cr2_rejects_malformed_inputs(self):
+        x = np.ones((8, 3, 1))
+        y = np.ones((8, 3))
+        m = np.ones((8, 3), dtype=bool)
+        c = np.ones(1)
+        with self.assertRaises(ValueError):
+            cr2(x, y, m.astype(int), c)
+        with self.assertRaises(ValueError):
+            cr2(x, y[:, :-1], m, c)
+        with self.assertRaises(ValueError):
+            cr2(x, y, m, np.array([np.nan]))
+        y[0, 0] = np.nan
+        with self.assertRaises(ValueError):
+            cr2(x, y, m, c)
+
     def test_hidden_outcomes_invariant(self):
         x,y,g,c,m,_,_=design(np.random.default_rng(42),'h6',80,8,0.,'mar')
         def f(y): return cr2(x.reshape(80,8,-1),y.reshape(80,8),m.reshape(80,8),c)
@@ -30,6 +80,9 @@ class RevisedDesignTests(unittest.TestCase):
         with self.assertRaises(ValueError): endpoint(invalid,y0,y1,m)
         with self.assertRaises(ValueError): endpoint(z,y0,y1,m.astype(int))
         with self.assertRaises(ValueError): endpoint(z,y0,y1[:-1],m)
+        for shifts in ((0.,), (0., np.nan), (0., 0., 0.)):
+            with self.assertRaises(ValueError):
+                endpoint(z,y0,y1,m,shifts)
         bad=y1.copy()
         bad[0]=np.nan
         with self.assertRaises(ValueError): endpoint(z,y0,bad,m)
