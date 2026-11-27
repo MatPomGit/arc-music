@@ -35,3 +35,6 @@ Searches: adaptive maladaptive music regulation Carlson; sad music acceptance co
 
 ## Extension v0.14.0 (2026-11-28)
 Targeted title searches; publisher metadata/abstracts and PubMed records: gross2015 (extended process model, 10.1080/1047840X.2014.940781), watkins2008 (context and construal of repetitive thought, 10.1037/0033-2909.134.2.163), hayes1996 (functional avoidance, 10.1037/0022-006X.64.6.1152). The publisher title resolves the PubMed title discrepancy for Hayes. All three are transferred theoretical evidence, not AI-creation outcome studies. No full-text audit or independent review claimed. Total: 19 records.
+
+## Editorial metadata check (2026-11-28)
+The publisher and University of New England repository confirm tol2016, Musicae Scientiae 20(1), 68--83 (https://doi.org/10.1177/1029864915627844); the page range was added. The Zenodo record confirms huang2020 conference numbering and pagination (https://doi.org/10.5281/zenodo.4245530). Article-title sentence case was standardised without changing DOI identifiers. No full-text review claimed.
