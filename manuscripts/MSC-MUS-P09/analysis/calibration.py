@@ -39,15 +39,40 @@ def observed(rng, mechanism, arm, baseline, outcome, centre):
     return rng.random(len(arm)) < expit(logit)
 
 
-def generate(rng, n, profile, mechanism, alternative):
+def stratified_assignment(rng, training):
+    """Simulate sequential concealed blocks of 4 or 6 within each stratum."""
+    training = np.asarray(training)
+    if training.ndim != 1 or not np.isin(training, (0, 1)).all():
+        raise ValueError("Invalid training stratum")
+    assignment = np.empty(len(training), dtype=int)
+    for stratum in (0, 1):
+        positions = np.flatnonzero(training == stratum)
+        offset = 0
+        while offset < len(positions):
+            block = np.tile([0, 1], int(rng.choice((2, 3))))
+            rng.shuffle(block)
+            used = min(len(block), len(positions) - offset)
+            assignment[positions[offset:offset+used]] = block[:used]
+            offset += used
+    return assignment
+
+
+def generate(rng, n, profile, mechanism, alternative, *, allocation="balanced"):
     if n < 20 or n % 2:
         raise ValueError("n must be even and at least 20")
     if mechanism not in MECHANISMS:
         raise ValueError("Unknown missingness mechanism")
     base_p, centre, slope, c0, c1 = PROFILES[profile]
     effects = EFFECTS[alternative]
-    z = np.repeat([0, 1], n // 2)
-    rng.shuffle(z)
+    if allocation == "balanced":
+        z = np.repeat([0, 1], n // 2)
+        rng.shuffle(z)
+        training = None
+    elif allocation == "stratified_blocks":
+        training = rng.binomial(1, .4, n)
+        z = stratified_assignment(rng, training)
+    else:
+        raise ValueError("Unknown allocation design")
     base = rating(rng, np.full(n, base_p), 15., 3)
     distance = rating(rng, np.full(n, .5), 15., 1)
     concentration = np.where(z == 0, c0, c1)
@@ -61,7 +86,7 @@ def generate(rng, n, profile, mechanism, alternative):
     keep1 = observed(rng, mechanism, z, base, y1, base_p * 10)
     keep2 = observed(rng, mechanism, z, base, y2, base_p * 10)
     return pd.DataFrame(dict(
-        music=z, training=rng.binomial(1, .4, n),
+        music=z, training=rng.binomial(1, .4, n) if training is None else training,
         importance0=rng.integers(0, 11, n), prior_use_days=rng.integers(0, 31, n),
         understanding0=base, distance0=distance,
         understanding2=np.where(keep2, y2, np.nan),
@@ -95,7 +120,7 @@ def summarize(results, truth, reps):
     )
 
 
-def cell(seed, n, profile, mechanism, alternative, reps):
+def cell(seed, n, profile, mechanism, alternative, reps, *, allocation="balanced"):
     rng = np.random.default_rng(seed)
     fits = {h: [] for h in MODELS}
     holm_rates = {h: [] for h in ("H2", "H3")}
@@ -103,7 +128,7 @@ def cell(seed, n, profile, mechanism, alternative, reps):
     observed_arm = {h: [[], []] for h in MODELS}
     truth = dict(zip(MODELS, EFFECTS[alternative]))
     for _ in range(reps):
-        d = generate(rng, n, profile, mechanism, alternative)
+        d = generate(rng, n, profile, mechanism, alternative, allocation=allocation)
         secondary = {}
         for h, (outcome, baseline) in MODELS.items():
             for a in (0, 1):
@@ -121,7 +146,7 @@ def cell(seed, n, profile, mechanism, alternative, reps):
         for h in holm_rates:
             holm_rates[h].append(adjusted[h] is not None and adjusted[h] < .05)
         fwer.append(any(holm_rates[h][-1] for h in holm_rates if truth[h] == 0))
-    return dict(n=n, profile=profile, missingness=mechanism, effect=alternative,
+    return dict(n=n, profile=profile, missingness=mechanism, effect=alternative, allocation=allocation,
                 hypotheses={h: dict(summarize(fits[h], truth[h], reps),
                                     observed_arm=[float(np.mean(x)) for x in observed_arm[h]])
                             for h in MODELS},
