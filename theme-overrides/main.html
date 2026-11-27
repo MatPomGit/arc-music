@@ -29,8 +29,8 @@
 <div class="hero"><div class="hero-copy"><p class="eyebrow">{{ 'Psychology · Music · Artificial intelligence' if en else 'Psychologia · Muzyka · Sztuczna inteligencja' }}</p><h1>{{ 'When emotion takes the form of music' if en else 'Kiedy emocje przybierają formę muzyki' }}</h1><p class="lead">{{ 'We study how making music with generative AI relates to emotion regulation, agency and personal meaning' if en else 'Badamy związki twórczości muzycznej wspomaganej przez generatywną AI z regulacją emocji, sprawstwem i nadawaniem znaczenia doświadczeniom' }}</p><a class="cta" href="{{ 'en-studies.html' if en else 'studies.html' }}">{{ 'Explore the research' if en else 'Poznaj program badań' }} <span aria-hidden="true">↗</span></a></div>
 <div class="art"><svg id="wave" viewBox="0 0 560 380" role="img" aria-label="{{ 'Illustrative sound waves' if en else 'Ilustracyjne fale dźwiękowe' }}"><defs><linearGradient id="wave-gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#68d6ca"/><stop offset=".42" stop-color="#b7a7ee"/><stop offset=".72" stop-color="#f29bb7"/><stop offset="1" stop-color="#f9bd72"/></linearGradient></defs><g fill="none" stroke="url(#wave-gradient)" stroke-width="2" opacity=".85">{% for i in range(20) %}<path d="M -12 {{ 95+i*9 }} C 130 {{ -85+i*13 }}, 175 {{ 430-i*8 }}, 285 {{ 180+i*2 }} S 450 {{ 55+i*5 }}, 575 {{ 140+i*6 }}"/>{% endfor %}</g><circle cx="280" cy="190" r="122" fill="none" stroke="#ffffff" stroke-opacity=".13"/><circle cx="280" cy="190" r="155" fill="none" stroke="#ffffff" stroke-opacity=".1"/></svg></div></div>
 {% endif %}
-<article class="article">{% if section == "index" %}{{ page.content | replace("<h1", "<h2") | replace("</h1>", "</h2>") }}{% else %}{{ page.content }}{% endif %}</article>
 {% if section == 'index' %}
+<div class="about-layout">
 <figure class="generative-flow" aria-describedby="generative-description">
 <svg id="generative-network" viewBox="0 0 340 120" aria-hidden="true" focusable="false">
 <g class="gen-edges" fill="none" stroke-width="1"><path d="M66 31L145 18 M66 31L145 55 M66 31L145 92 M66 55L145 18 M66 55L145 55 M66 55L145 92 M66 79L145 18 M66 79L145 55 M66 79L145 92 M145 18L193 34 M145 18L193 76 M145 55L193 34 M145 55L193 76 M145 92L193 34 M145 92L193 76 M193 34L242 55 M193 76L242 55"/></g>
@@ -43,6 +43,10 @@
 <figcaption>{{ 'from intention to music' if en else 'od intencji do muzyki' }}</figcaption>
 <span id="generative-description" class="visually-hidden">{{ 'Conceptual illustration of emotional intention, latent representation and music generation; not a specific AI architecture or live generation.' if en else 'Ilustracja pojęciowa przejścia od intencji emocjonalnej przez reprezentację latentną do muzyki; nie przedstawia konkretnej architektury AI ani generowania na żywo.' }}</span>
 </figure>
+<article class="article">{{ page.content | replace("<h1", "<h2") | replace("</h1>", "</h2>") }}</article>
+</div>
+{% else %}
+<article class="article">{{ page.content }}</article>
 {% endif %}
 {% if section == 'index' or section == 'studies' %}
 <section class="feature" aria-labelledby="model-title"><p class="eyebrow">{{ 'Theoretical model · hypothesis' if en else 'Model teoretyczny · hipoteza' }}</p><h2 id="model-title">AIM-ER <span class="aim-er-expansion">(AI-assisted Music for Emotion Regulation)</span></h2><p>{{ 'A proposed framework for examining the successive stages of music creation and listening.' if en else 'Proponowany model badania kolejnych etapów twórczości muzycznej i słuchania własnego utworu.' }}</p>
@@ -52,11 +56,7 @@
 <p class="small">{{ 'Possible mechanisms are not established causal pathways. Immediate relief and delayed effects may differ.' if en else 'Możliwe mechanizmy nie są ustalonymi zależnościami przyczynowymi. Doraźna ulga i odroczone skutki mogą się różnić.' }}</p></section>
 {% endif %}
 {% if section == 'neuropsychology' or section == 'index' %}
-<section class="feature affect" aria-labelledby="affect-title"><div>
-    <p class="eyebrow">{{ 'Conceptual illustration' if en else 'Ilustracja pojęciowa' }}</p>
-    <h2 id="affect-title">{{ 'A space of emotions' if en else 'Przestrzeń emocji' }}</h2>
-    <p>{{ 'Explore two dimensions of affect: pleasantness (valence) and activation (arousal). Positions are illustrative; they do not diagnose emotions or represent participant data.' if en else 'Poznaj dwa wymiary afektu: przyjemność (walencję) i pobudzenie. Położenie punktu ma charakter ilustracyjny i nie służy diagnozie.' }}</p>
-    <p class="small">{{ 'Dashed lines project the moving point onto the X (valence) and Y (arousal) axes. Coordinates use an illustrative scale from −1 to +1. V and A next to the point denote valence and arousal.' if en else 'Linie przerywane rzutują ruchomy punkt na oś X (walencja) i oś Y (pobudzenie). Współrzędne przedstawiono w umownej skali od −1 do +1. W i P obok punktu oznaczają walencję i pobudzenie.' }}</p><p class="small">{{ "Theoretical background:" if en else "Podstawa teoretyczna:" }} <a href="https://doi.org/10.1037/h0077714">Russell (1980)</a>.</p></div>
+<section class="feature affect affect-compact" aria-label="{{ 'Illustrative valence and arousal space, based on Russell (1980); not a diagnostic tool or participant data.' if en else 'Ilustracyjna przestrzeń walencji i pobudzenia na podstawie Russella (1980); nie służy diagnozie ani nie przedstawia danych uczestników.' }}">
 <figure class="affect-figure"><figcaption class="affect-label affect-high">{{ 'High arousal' if en else 'Wysokie pobudzenie' }}</figcaption>
     <div class="affect-valence"><span class="affect-label">{{ 'Unpleasant' if en else 'Nieprzyjemne' }}</span>
         <span class="affect-label">{{ 'Pleasant' if en else 'Przyjemne' }}</span></div>

@@ -49,6 +49,39 @@ def check_render(page):
     assert result["skip"] == "absolute" and result["skipWidth"] <= 2, result
     assert result["nav"] == "flex" and result["token"] and not result["overflow"], result
     assert page.locator("h1").count() == 1 and page.locator("h1").is_visible()
+    check_home_layout(page, page.locator("body").get_attribute("data-section"))
+
+
+def check_home_layout(page, section):
+    """Keep requested content removal and responsive illustration order."""
+    if section == "index":
+        assert page.locator(".about-layout").count() == 1
+        assert page.locator(".about-layout > .generative-flow + .article").count() == 1
+        assert page.locator(".about-layout > .article h2").is_visible()
+        assert page.evaluate("""() => {
+          const layout=document.querySelector('.about-layout');
+          const figure=layout.querySelector('.generative-flow').getBoundingClientRect();
+          const article=layout.querySelector('.article').getBoundingClientRect();
+          const columns=getComputedStyle(layout).gridTemplateColumns.split(' ').length;
+          const root=parseFloat(getComputedStyle(document.documentElement).fontSize);
+          const gap=parseFloat(getComputedStyle(layout).columnGap);
+          const canFit=layout.clientWidth+1>=48*root+gap;
+          if(canFit) return columns===2 && figure.right<=article.left+1 &&
+            Math.min(figure.bottom,article.bottom)>Math.max(figure.top,article.top);
+          return columns===1 && figure.bottom<=article.top+1;
+        }"""), "About illustration/text layout"
+    if section in ("index","neuropsychology"):
+        assert page.locator("#affect-title").count() == 0
+        assert page.locator(".affect-compact > .affect-figure:only-child").count() == 1
+        assert page.locator(".affect-compact").get_attribute("aria-label")
+        assert page.evaluate("""() => {
+          const card=document.querySelector('.affect-compact');
+          const shell=card.closest('main');
+          const a=card.getBoundingClientRect(), b=shell.getBoundingClientRect();
+          return getComputedStyle(card).gridTemplateColumns.split(' ').length===1 &&
+            Math.abs((a.left+a.right-b.left-b.right)/2)<2 &&
+            a.width<=36*parseFloat(getComputedStyle(document.documentElement).fontSize)+1;
+        }"""), "Affect card must be compact and centered"
 
 
 def theme_state(page, theme):
