@@ -1,4 +1,53 @@
 """Focused E3.1 browser regressions; called by the existing accessibility pass."""
+
+from html.parser import HTMLParser
+import json
+from pathlib import Path
+
+
+class _EstimateText(HTMLParser):
+    """Extract text from the canonical HTML fragment, decoding entities."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+
+    def handle_data(self, data):
+        self.parts.append(data)
+
+
+def _normalise_text(text):
+    return " ".join(text.split())
+
+
+def estimate_text(fragment):
+    parser = _EstimateText()
+    parser.feed(fragment)
+    parser.close()
+    return _normalise_text("".join(parser.parts))
+
+
+def check_rendered_estimates(page, registry=None):
+    """Check all current rendered estimates against the versioned registry.
+
+    Source validation separately checks exact HTML and bilingual numeric
+    parity. Do not duplicate mutable historical numbers in browser tests.
+    """
+    if registry is None:
+        path = Path(__file__).resolve().parent / "docs/study-estimates.json"
+        registry = json.loads(path.read_text(encoding="utf-8"))
+    assert registry["schema"] == "arc-music-site-estimates-v1"
+    assert [r["id"] for r in registry["studies"]] == [f"P{i:02d}" for i in range(1, 10)]
+    lang = page.locator("html").get_attribute("lang")
+    assert lang in ("pl", "en"), ("estimate language", lang)
+    for record in registry["studies"]:
+        for field in ("sample", "estimate"):
+            selector = f"#msc-mus-{record['id'].lower()} .pub-{field}"
+            node = page.locator(selector)
+            assert node.count() == 1, (record["id"], lang, field, "missing or duplicated")
+            expected = estimate_text(record["display"][lang][field])
+            actual = _normalise_text(node.inner_text())
+            assert actual == expected, (record["id"], lang, field, actual, expected)
+
 def check_contrast(page):
     evidence = page.evaluate("""() => {
       const records=[];
@@ -107,13 +156,7 @@ def check_study_content(page):
     assert all(a["bg"] != b["bg"] and a["edge"] != b["edge"] for a,b in zip(palettes,palettes[1:]))
     assert all(.9*p["root"] <= p["description"] < p["question"] for p in palettes)
     assert "PAQ-S" in article.locator("#msc-mus-p04").inner_text()
-    assert "500" in article.locator("#msc-mus-p03 .pub-sample").inner_text()
-    for i, markers in ((1, ("420", "200")), (3, ("660", "500")), (5, ("1/12", "4/12")), (8, ("720", "660")), (9, ("440", "600"))):
-        result = article.locator(f"#msc-mus-p{i:02d} .pub-estimate").inner_text()
-        assert all(marker in result for marker in markers), result
-    for i, targets in ((1, ("N=420",)), (8, ("N=500",)), (9, ("N=440", "600"))):
-        sample = article.locator(f"#msc-mus-p{i:02d} .pub-sample").inner_text()
-        assert all(target in sample for target in targets), sample
+    check_rendered_estimates(page)
     assert all(len(s.strip()) >= 180 for s in article.locator("#msc-mus-p01 .pub-body p, #msc-mus-p02 .pub-body p, #msc-mus-p03 .pub-body p, #msc-mus-p04 .pub-body p").all_text_contents())
     assert article.locator(".pub-list").evaluate("e => getComputedStyle(e).gridTemplateColumns.split(' ').length") == 1
     assert article.locator(".section-card:last-child p").count() >= 1

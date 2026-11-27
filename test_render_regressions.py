@@ -110,5 +110,65 @@ class RoutingTests(unittest.TestCase):
             check_assets(page, "css", "js")
 
 
+class EstimateRegistryTests(unittest.TestCase):
+    def fixture(self):
+        from check_site_regressions import estimate_text
+        registry = {
+            "schema": "arc-music-site-estimates-v1",
+            "studies": [
+                {"id": f"P{i:02d}", "display": {
+                    lang: {
+                        "sample": f'<p class="pub-sample"><strong>N:</strong> {100*i}</p>',
+                        "estimate": f'<p class="pub-estimate"><strong>{lang}:</strong> {1000*i:,} &amp; N={100*i}</p>',
+                    } for lang in ("pl", "en")
+                }} for i in range(1, 10)
+            ],
+        }
+        def page_for(lang):
+            page = Mock()
+            nodes = {"html": Mock()}
+            nodes["html"].get_attribute.return_value = lang
+            for record in registry["studies"]:
+                for field in ("sample", "estimate"):
+                    selector = f"#msc-mus-{record['id'].lower()} .pub-{field}"
+                    node = nodes[selector] = Mock()
+                    node.count.return_value = 1
+                    node.inner_text.return_value = estimate_text(record["display"][lang][field])
+            page.locator.side_effect = nodes.__getitem__
+            return page, nodes
+        return registry, page_for
+
+    def test_both_languages_and_updated_numbers(self):
+        from check_site_regressions import check_rendered_estimates
+        registry, page_for = self.fixture()
+        for lang in ("pl", "en"):
+            page, nodes = page_for(lang)
+            check_rendered_estimates(page, registry)
+        registry["studies"][0]["display"]["pl"]["sample"] = "<p>N: 5000</p>"
+        page, nodes = page_for("pl")
+        check_rendered_estimates(page, registry)
+        nodes["#msc-mus-p01 .pub-sample"].inner_text.return_value = "N: 420"
+        with self.assertRaises(AssertionError):
+            check_rendered_estimates(page, registry)
+
+    def test_missing_duplicate_or_changed_content(self):
+        from check_site_regressions import check_rendered_estimates
+        registry, page_for = self.fixture()
+        for count in (0, 2):
+            page, nodes = page_for("en")
+            nodes["#msc-mus-p09 .pub-estimate"].count.return_value = count
+            with self.assertRaises(AssertionError):
+                check_rendered_estimates(page, registry)
+        page, nodes = page_for("en")
+        nodes["#msc-mus-p05 .pub-estimate"].inner_text.return_value = "Changed"
+        with self.assertRaises(AssertionError):
+            check_rendered_estimates(page, registry)
+
+    def test_entities_and_whitespace(self):
+        from check_site_regressions import estimate_text
+        self.assertEqual(estimate_text("<p><strong>N:</strong> 54&nbsp;720 000 &amp; 80%\n</p>"),
+                         "N: 54 720 000 & 80%")
+
+
 if __name__ == "__main__":
     unittest.main()
