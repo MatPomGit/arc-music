@@ -35,6 +35,7 @@ class CFAResult:
     objective: float
     jacobian_rank: int
     proper: bool
+    diagnostics: dict
 
 def fit_moments(corr,weights,cuts,domains):
     """Fit a fixed simple structure with standardized latent response variance.
@@ -67,32 +68,77 @@ def fit_moments(corr,weights,cuts,domains):
     lower[anchors]=.005
     lower[p:]=-5; upper[p:]=5
     scale=np.sqrt(weights/weights.mean())
+    row = np.arange(len(i))
+    di, dj = domains[i], domains[j]
+
     def unpack(theta):
-        l=theta[:p]
-        chol=np.eye(k); chol[u,v]=theta[p:]
-        chol/=np.linalg.norm(chol,axis=1,keepdims=True)
-        return l,chol@chol.T
+        chol = np.eye(k)
+        chol[u,v] = theta[p:]
+        norms = np.linalg.norm(chol,axis=1)
+        chol /= norms[:,None]
+        return theta[:p],chol,norms
+
     def residual(theta):
-        l,phi=unpack(theta)
-        return scale*(corr-l[i]*l[j]*phi[domains[i],domains[j]])
+        l,chol,_ = unpack(theta)
+        phi = chol@chol.T
+        return scale*(corr-l[i]*l[j]*phi[di,dj])
+
+    def jacobian(theta):
+        l,chol,norms = unpack(theta)
+        phi = chol@chol.T
+        jac = np.zeros((len(i),p+q))
+        jac[row,i] = -l[j]*phi[di,dj]
+        jac[row,j] = -l[i]*phi[di,dj]
+        for index,(domain,column) in enumerate(zip(u,v),p):
+            # A factor correlation depends on this parameter only where
+            # exactly one item belongs to the affected factor.
+            for a,b in ((di,dj),(dj,di)):
+                m = (a==domain)&(b!=domain)
+                other = b[m]
+                derivative = (chol[other,column]-phi[domain,other]*chol[domain,column])/norms[domain]
+                jac[m,index] = -l[i[m]]*l[j[m]]*derivative
+        return scale[:,None]*jac
+
+    correlated = np.linalg.cholesky(.5*np.ones((k,k))+.5*np.eye(k))
+    correlated /= np.diag(correlated).copy()[:,None]
+    starts = [(.45,np.zeros(q)),(.7,np.zeros(q)),(.5,correlated[u,v])]
     fits=[]
-    for start in (.45,.7):
-        initial=np.r_[np.full(p,start),np.zeros(q)]
-        fit=least_squares(residual,initial,bounds=(lower,upper),
+    for loading,correlation in starts:
+        initial=np.r_[np.full(p,loading),correlation]
+        fit=least_squares(residual,initial,jac=jacobian,bounds=(lower,upper),
                           max_nfev=1000,ftol=1e-9,xtol=1e-9,gtol=1e-9)
         if fit.success and np.isfinite(fit.cost):
             fits.append(fit)
     if not fits:
         raise ArithmeticError("CFA optimization failed")
     fit=min(fits,key=lambda f:f.cost)
-    l,phi=unpack(fit.x)
-    rank=int(np.linalg.matrix_rank(fit.jac))
-    unique=1-l*l
-    proper=bool(rank==p+q and np.min(unique)>.01 and
-                np.min(np.linalg.eigvalsh(phi))>.01 and not np.any(fit.active_mask))
-    raw=corr-l[i]*l[j]*phi[domains[i],domains[j]]
+    l,chol,_ = unpack(fit.x)
+    phi = chol@chol.T
+    singular = np.linalg.svd(fit.jac,compute_uv=False)
+    rank = int(np.linalg.matrix_rank(fit.jac))
+    unique = 1-l*l
+    min_unique = float(np.min(unique))
+    min_eigenvalue = float(np.min(np.linalg.eigvalsh(phi)))
+    active = np.flatnonzero(fit.active_mask).tolist()
+    flags = []
+    if rank!=p+q:
+        flags.append("rank_deficient")
+    if min_unique<=.01:
+        flags.append("near_heywood")
+    if min_eigenvalue<=.01:
+        flags.append("near_singular_factors")
+    if active:
+        flags.append("active_bound")
+    diagnostics = dict(flags=flags, min_uniqueness=min_unique,
+                       min_factor_eigenvalue=min_eigenvalue, active_parameters=active,
+                       jacobian_condition=float(singular[0]/singular[-1]) if rank==p+q else None,
+                       largest_absolute_factor_correlation=float(np.max(abs(phi[u,v]))) if q else None,
+                       lowest_absolute_loading=float(np.min(abs(l))),
+                       converged_starts=len(fits),
+                       objective_range=2*(max(f.cost for f in fits)-fit.cost))
+    raw=corr-l[i]*l[j]*phi[di,dj]
     return CFAResult(l,phi,cuts,unique,float(np.sqrt(np.mean(raw**2))),
-                     float(2*fit.cost),rank,proper)
+                     float(2*fit.cost),rank,not flags,diagnostics)
 
 def fit_cfa(x,domains):
     if np.asarray(x).ndim!=2 or np.asarray(x).shape[1]!=len(domains):

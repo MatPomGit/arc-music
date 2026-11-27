@@ -17,6 +17,7 @@ def run(reps=8,seed=20261127):
             record={"replicate":i,"complete_n":len(x)}
             try:
                 fit=fit_cfa(x,domains)
+                record["diagnostics"] = fit.diagnostics
                 if not fit.proper:
                     raise ArithmeticError("improper CFA")
                 record.update(status="proper",loading_bias=float(fit.loadings.mean()-loading),

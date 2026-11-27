@@ -53,3 +53,7 @@ The factor-count driver selects the count by ordinal parallel analysis, extracts
 ## Item diagnostics and group power v0.13.0
 
 Item diagnostics records category counts, missingness, corrected item-rest rank correlations, and residual polychoric dependence flags with optional proper frozen CFA parameters. Flags (.80 extreme endorsement, .10 missingness, .30 item-rest, .15 residual) are provisional review triggers, not automatic deletion criteria. Invariance power evaluates balanced and 70:30 allocations at total N=500/800, with all four prior DIF scenarios; reports conditional and unconditional rejection rates and Monte Carlo uncertainty. CI 320 datasets at eight items, not full-pool calibrated power. The earlier CI 45894529075 passed; 45895131526 passed unit tests and selected-count/interval steps at inspection. No empirical score or revised recruitment target authorized.
+
+### Ordinal CFA reference check
+
+Run `OPENBLAS_NUM_THREADS=1 python compare_lavaan.py --full` with R and lavaan on the shell path. The script generates the same records for Python and R and compares thresholds, loadings, factor correlations and standard errors on the delta scale. It aligns factor signs and records the minimum uniqueness, factor matrix eigenvalue and post-fit warnings. The two fit-test probabilities are descriptive because the corrections differ. The command must complete a valid paired comparison on the prespecified moderate eight-item case. The historical failure is retained in the output and detailed in `simulation_evidence.md`.

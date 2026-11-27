@@ -13,3 +13,10 @@ This is a partial claim/metadata audit, not a systematic review. No instrument r
 | gross2015, flora2004, wu2016, muthen2002 | Existing DOI entries | Direct re-verification of full text and exact claim mapping pending. |
 
 Before freeze: search PsycINFO, Scopus/Web of Science where available, PubMed and open indexes for AI/music creation/emotion regulation and measurement development; record exact queries, dates, duplicates, screening and eligibility. Audit remaining primary claims, citation metadata and permissions for any comparator actually selected. Do not equate public access to an instrument with permission or validity of a translation.
+
+## Targeted update, 2026-11-27
+
+| Key | Source checked | Claim and boundary |
+|---|---|---|
+| boateng2018 | https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2018.00149/full, Table 1 and Step 3 | Expert and target-population reviews are complementary. The primer recommends iterative interviews that elicit the response process. It does not establish AI-MRFS content validity. |
+| rosseel2012 | https://doi.org/10.18637/jss.v048.i02 and https://lavaan.ugent.be/tutorial/cat.html, Endogenous categorical variables | Rosseel identifies the reference software. Current official documentation specifies diagonal estimation weights, full weight matrix for robust standard errors, and the mean and variance correction for WLSMV. The project statistic has a different correction. |

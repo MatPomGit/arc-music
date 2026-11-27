@@ -57,3 +57,7 @@ Both previous CI runs passed unit tests at inspection and remained in progress. 
 ## v0.13.0 implementation
 
 CI 45894529075 succeeded; CI 45895131526 completed unit tests and new recovery/interval smoke simulations successfully at inspection. Added item-level diagnostics and expanded group-size simulation with 16 scenarios and 20 replicates each. Five new regression tests. All new numerical results pending; no claim that power increased or that full-pool invariance has been established. Reference estimator and large calibration remain open.
+
+## v1.0.0 Stage A development
+
+A03.1: reproduced the historical improper fits with explicit diagnostics and compared the first failing sample to an independent software implementation. The analytic Jacobian and extra start preserve the failure rules. Empirical separation remains unresolved. A03.2: paired reference comparisons were executed in lavaan 0.6-19 on four complete synthetic datasets. The matched parameters and limitations are documented in the simulation evidence. A03.3 and A03.4: 72 additional complete datasets tested the effect of weak loadings and high correlations. RMSE, uncertainty and failure reasons are available in shard aggregation. Full ordinal EFA/CFA coverage, invariance, imputation and validity calibration still gate final sample sizes. A03.5: expert and cognitive interview procedures and the item-to-P02 linkage schema were refined. P02 evidence and validation are pending. A03.6 remains open for source audit completion, exact-head checks and independent psychometric review.
