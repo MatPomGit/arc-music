@@ -12,10 +12,15 @@ class TestSensitivity(unittest.TestCase):
         f=fixture();f.loc[0,"heard_version"]=False;f.loc[101,"ownership1"]=np.nan
         d=prepare(f);r=assess(d,"ownership")
         self.assertEqual(r["missing"],2)
-        self.assertEqual(len(r["shift_scenarios"]),27)
-        lo,hi=r["unadjusted_hypothetical_bounds"]["authority"]
-        self.assertAlmostEqual(hi-lo,.1)
-        self.assertTrue(np.isfinite(r["ipw"]["point_estimates"]["20"]["interaction"]))
+        self.assertFalse(r["full_cohort_target_defined"])
+        self.assertNotIn("shift_scenarios",r)
+        self.assertNotIn("ipw",r)
+        self.assertNotIn("unadjusted_hypothetical_bounds",r)
+        heard=r["heard_only_descriptive"]
+        self.assertEqual(len(heard["shift_scenarios"]),27)
+        lo,hi=heard["unadjusted_hypothetical_bounds"]["authority"]
+        self.assertAlmostEqual(hi-lo,.05)
+        self.assertTrue(np.isfinite(heard["ipw"]["point_estimates"]["20"]["interaction"]))
     def test_empty_observed_cell(self):
         f=fixture();f.loc[(f.authority==1)&(f.manual==1),"ownership1"]=np.nan
         r=assess(prepare(f),"ownership")
@@ -35,6 +40,14 @@ class TestHearingStatus(unittest.TestCase):
             "defined_observed": 397, "defined_missing": 1, "undefined": 1, "unknown": 1,
         })
         self.assertEqual(audit["heard_only_descriptive"]["missing"], 1)
+
+    def test_bootstrap_empty_heard_cell_is_unavailable(self):
+        from sensitivity import bootstrap
+        f=fixture()
+        f.loc[(f.authority==0)&(f.manual==0),"heard_version"]=False
+        result=bootstrap(prepare(f),"ownership",199,8)
+        self.assertIn("unavailable",result)
+        self.assertEqual(result["draws"],199)
 
     def test_bootstrap_refits_and_returns_finite_intervals(self):
         from sensitivity import bootstrap

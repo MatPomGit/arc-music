@@ -1,0 +1,21 @@
+# P08 measurement and fidelity plan v0.1.0
+
+Prospective, no validation data. The six existing items in items-pl.md are candidate task-specific composites; no claim of validated scale adaptation. Keep instrument version and exact referent (last assessable heard arrangement) fixed after pilot.
+
+## Construct map and expert review
+
+Ownership: felt belonging, own work and personal connection as one's creation. Agency: perceived influence, direction of changes and correspondence to decisions. Legal authorship, credited contribution, autonomy, motor execution, preference congruence, liking, effort and general trait agency are separate. The third agency item may primarily capture congruence, and the second ownership item may invite legal authorship; probe both before retaining them. Do not copy items from the general SoAS.
+
+Invite 6–8 reviewers in music cognition, HCI, psychometrics and Polish survey language. Independent 1–4 ratings of relevance and comprehensibility; assign each item to ownership, agency, both or neither and explain uncertainty. Report proportions of 3/4 ratings and domain agreement with denominators, and unresolved coverage gaps. Proposed review flag below .80 or any substantive unresolved ambiguity; not a validity certificate. Two iterative cognitive-interview rounds (5–8 eligible adults each, varied training and AI experience) probe role comprehension, interpretation of anchors, distinction between legal and felt ownership and whether choosing without applying differs from applying without choosing. No personal data in Git.
+
+## Separate feasibility pilot
+
+N=30–50, excluded from confirmation. Report item missingness, distributions, floor/ceiling, inter-item and cross-domain associations with uncertainty. A three-item isolated one-factor model is just identified; fit alone does not establish unidimensionality. A correlated two-factor six-item model needs an independent adequately sized validation sample, ordinal thresholds, comparison with a one-factor alternative, cross-loading diagnostics and uncertainty of factor correlation. No definitive invariance, discriminant validity or omega from this small pilot. Avoid selecting items based on treatment effects. If domain overlap remains unresolved, revise and re-pilot before confirmation.
+
+## Factorial fidelity
+
+All cells receive the same candidate bank, preview opportunities and common application deadline. Authority manipulates who determines selection; execution manipulates who initiates application. Keep stage logs and objective assignment separate from subjective agency. After outcomes ask who determined revision and who applied it (participant/system/unsure); correct response refers to actual assigned roles, not success on every stage. Report two role responses separately and joint correct flag; nonresponse is unconfirmed, not evidence of misunderstanding. Playback telemetry is not confirmed hearing. Record selected versus applied option, confirmed perception, and missing records separately. Use the existing pilot gates from online-protocol.md.
+
+Measure task and active preview duration in seconds (0–480), using nonoverlapping active intervals. Compare six pairwise cell contrasts per duration using Welch 90% intervals against a prespecified symmetric practical margin in seconds; require all 12 intervals inside their respective limits for a joint timing-equivalence claim (intersection-union). Missing timing, sparse cells or degenerate variance prevent a claim. No nonsignificance-based equivalence. Margins require team approval based on audible duration, task design and feasible exposure, not observed differences. A pilot of 30–50 likely gives inconclusive equivalence; report intervals, not a pass by default. Differences in actual manual effort and choice congruence are intended or competing processes, not equivalence targets.
+
+Run pilot_fidelity.py on approved or synthetic exports with explicit --task-margin and --preview-margin. Additional fields: task_seconds, preview_seconds, roles_correct, started_playback, playback_success; Boolean flags may be unknown. Report exact binomial intervals and all randomised denominators, conditional playback denominator and unknown exposure. Do not filter confirmatory analyses by these measures. No field deployment, final measurement validity or recruitment approval.

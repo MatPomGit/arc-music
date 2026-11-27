@@ -24,6 +24,31 @@ class TestInference(unittest.TestCase):
         d=fixture();d.loc[0,"heard_version"]=False
         r=analyze(d);self.assertEqual(r["randomised"],400)
         self.assertEqual(r["cells"]["0/0"]["ownership_observed"],99)
+        self.assertEqual(r["cells"]["0/0"]["unheard"],1)
+        self.assertFalse(r["full_cohort_target_defined"])
+        self.assertEqual(r["secondary_holm"],{"H2":None,"H3":None})
+        for h in r["hypotheses"].values():
+            self.assertFalse(h["confirmatory_available"])
+            self.assertIn("descriptive_p",h)
+            self.assertNotIn("p",h)
+    def test_unknown_hearing_suppresses_confirmatory(self):
+        d=fixture()
+        d["heard_version"]=d.heard_version.astype("boolean")
+        d.loc[0,"heard_version"]=pd.NA
+        r=analyze(d)
+        self.assertEqual(r["cells"]["0/0"]["hearing_unknown"],1)
+        self.assertIsNone(r["secondary_holm"]["H2"])
+        self.assertNotIn("ipw",r["missingness"]["ownership"])
+
+    def test_defined_missing_preserves_confirmatory(self):
+        d=fixture()
+        d.loc[0,"ownership1"]=np.nan
+        r=analyze(d)
+        self.assertTrue(r["full_cohort_target_defined"])
+        self.assertTrue(r["hypotheses"]["H1"]["confirmatory_available"])
+        self.assertIn("p",r["hypotheses"]["H1"])
+        self.assertIn("ipw",r["missingness"]["ownership"])
+
     def test_missing_item(self):
         d=fixture();d.loc[0,"ownership1"]=np.nan
         self.assertTrue(pd.isna(prepare(d).iloc[0].ownership))

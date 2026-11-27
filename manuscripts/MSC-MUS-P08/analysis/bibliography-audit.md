@@ -12,3 +12,7 @@ Scope: decision authority, execution, automation, ownership and agency during AI
 | Parasuraman et al. (2000), DOI 10.1109/3468.844354 | PubMed abstract and publication metadata | Selection and action implementation are distinct stages of automation. A taxonomy does not establish empirical factor independence. |
 | Deci and Ryan (2000), DOI 10.1207/S15327965PLI1104_01 | Publisher abstract and publication metadata | Autonomy concerns the quality of motivation and self-endorsement. More available control need not guarantee autonomy. |
 | Krol et al. (2025), arXiv:2509.25834 | NeurIPS proceedings abstract | The ecological study links reliance on musicians' initial inputs to reported ownership. It does not estimate a factorial treatment contrast or establish effects in novices. |
+
+| Tapal et al. (2017), DOI 10.3389/fpsyg.2017.01552 | Publisher abstract and PubMed 28955273 | General context-free agency beliefs, not a validated task state scale. |
+| Terwee et al. (2018), DOI 10.1007/s11136-018-1829-0 | PubMed 29550964 abstract and metadata | Content validity framework for PROMs; adapted principles, not evidence of P08 validity. |
+| Lakens (2017), DOI 10.1177/1948550617697177 | Publisher full-text equivalence discussion and PubMed metadata | Prespecified equivalence limits and TOST; pilot precision and justified margins remain necessary. |
