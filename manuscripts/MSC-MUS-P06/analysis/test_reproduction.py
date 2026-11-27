@@ -21,5 +21,15 @@ class TestReproduction(unittest.TestCase):
         r=run(reps=1,bootstrap=3,reference_n=500,n=40,seed=12)
         self.assertTrue(r["screening_only"])
         self.assertEqual(len(r["cells"]),6)
-        self.assertTrue(all(c["valid"]+c["failures"]==1 for c in r["cells"]))
+        self.assertTrue(all(c["requested"]==1 for c in r["cells"]))
+        for cell in r["cells"]:
+            self.assertEqual(len(cell["methods"]),17)
+            self.assertEqual(cell["point_failures"],0)
+            self.assertFalse(cell["shift_envelope_is_ci"])
+            for method in cell["methods"].values():
+                self.assertEqual(method["point_valid"],1)
+                self.assertEqual(method["interval_valid"],0)
+                self.assertEqual(method["interval_unavailable"],1)
+                self.assertIsNone(method["coverage_conditional"])
+                self.assertEqual(method["coverage_operational"],0.)
 if __name__=="__main__":unittest.main()
