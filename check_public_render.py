@@ -371,6 +371,45 @@ def check_motion_regressions(browser, base, out=None):
         print("PASS: E3.1 deterministic cycle, persisted preference, system and visibility regressions", flush=True)
 
 
+def check_motion_event_race(browser, base):
+    """A frame observing reduced motion must reconcile even before its event."""
+    with browser.new_context(reduced_motion="no-preference") as ctx:
+        ctx.add_init_script(MOTION_CLOCK + """
+;(() => {
+    const nativeMatchMedia=window.matchMedia.bind(window);
+    const query=nativeMatchMedia('(prefers-reduced-motion: reduce)');
+    query.addEventListener('change', event => {
+        if(window.__holdMotionChange)event.stopImmediatePropagation();
+    });
+    window.matchMedia=value=>value==='(prefers-reduced-motion: reduce)'?query:nativeMatchMedia(value);
+    window.__holdMotionChange=true;
+})();""")
+        page=ctx.new_page()
+        page.goto(base+"index.html")
+        advance(page, 800)
+        motion_state(page, "active")
+        assert point(page) != [170,145]
+        assert page.locator(".step-active").count() == 1
+        page.emulate_media(reduced_motion="reduce")
+        page.wait_for_function(
+            "() => matchMedia('(prefers-reduced-motion: reduce)').matches",
+            polling=50)
+        # Deliver the outstanding frame while the media event is withheld.
+        advance(page, 816)
+        motion_state(page, "system")
+        assert point(page) == [170,145]
+        assert page.locator(".step-active").count() == 0
+        assert page.evaluate("window.__motionTest.pending()") == 0
+        check_projections(page)
+        page.evaluate("window.__holdMotionChange=false")
+        page.emulate_media(reduced_motion="no-preference")
+        motion_state(page, "active")
+        advance(page, 1616)
+        assert point(page) != [170,145]
+        assert page.locator(".step-active").count() == 1
+        check_projections(page)
+
+
 def visit(page, base, path, css, js):
     response = page.goto(base + path, wait_until="load")
     assert response and response.ok, path
@@ -426,6 +465,7 @@ def run(base, out=None):
                             check_identity(returning, base, "index.html")
                             assert not errors and not external and not standalone, (errors, external, standalone)
                         print(f"PASS: {engine.name}, {width}px, {'blocked' if blocked else 'normal/warm'}, all 11 routes", flush=True)
+                check_motion_event_race(browser, base)
                 check_motion_regressions(browser, base, out if engine.name == "chromium" else None)
             finally:
                 browser.close()

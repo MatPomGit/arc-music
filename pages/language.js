@@ -86,7 +86,9 @@ if(wave||dot||steps.length||genWave){
     steps.forEach((step,i)=>step.classList.toggle("step-active",!reduced.matches&&i===active));
   }
   function tick(now){
-    if(reduced.matches||paused||document.hidden){frame=0;return}
+    // A media/visibility change may be observed by RAF before its event arrives.
+    // Reconcile the complete UI instead of silently abandoning the clock.
+    if(reduced.matches||paused||document.hidden){sync();return}
     if(last!==null)elapsed+=Math.min(now-last,100);
     last=now;
     if(elapsed-lastDraw>=16){draw(elapsed);lastDraw=elapsed}
