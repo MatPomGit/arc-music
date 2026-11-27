@@ -1,4 +1,4 @@
-# Lokalne symulacje Monte Carlo v1.7.0
+# Lokalne symulacje Monte Carlo v1.8.0
 
 Uruchamiaj na zaufanym komputerze (np. Andromeda/WSL), po przeglądzie kodu. Nie uruchamiaj niezaufanych PR na stałym runnerze. Bez danych uczestników, API, usług płatnych i automatycznego uruchamiania pełnych symulacji w CI.
 
@@ -29,9 +29,9 @@ monte_carlo.bat --profile full --jobs 8
 monte_carlo.bat --list --profile full
 ```
 
-Dwuklik otwiera menu: instalacja, pilot, full, smoke, własna symulacja i wyjście. Własny profil pyta o replikacje, seed, procesy, scenariusz i parametry obsługiwane przez dany model. Konfiguracja ma osobny identyfikator skrótu; P01, P07 (primary) i P08 (factorial/nonhearing) pozwalają wybrać pojedynczy własny scenariusz N, efektów i odpowiednich parametrów DGP. P03: korelacja; P04: N, interakcja, szum i mechanizm; P05 (structure): ładunek, MCAR, skośność; P06 (bounded): N, efekt i braki. P09: N, mechanizm, efekty H1–H3 w punktach skali i profil rozkładu. Pozostałe siatki są stałe. Full pokazuje planowaną liczbę replikacji i wymaga potwierdzenia. Licznik w trakcie dotyczy zakończonych zadań, nie pojedynczych replikacji wewnątrz monolitycznych programów. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Wymagany jest Python i Git w PATH, a dla P05 także Rscript z lavaan i semTools.   P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
+Dwuklik otwiera menu: instalacja, pilot, full, smoke, własna symulacja i wyjście. Własny profil pyta o replikacje, seed, procesy, scenariusz i parametry obsługiwane przez dany model. Konfiguracja ma osobny identyfikator skrótu; P01, P07 (primary) i P08 (factorial/nonhearing) pozwalają wybrać pojedynczy własny scenariusz N, efektów i odpowiednich parametrów DGP. P03: korelacja; P04: N, interakcja, szum i mechanizm; P05 (structure): ładunek, MCAR, skośność; P06 (bounded): N, efekt i braki. P09: N, mechanizm, efekty H1–H3 w punktach skali i profil rozkładu. Pozostałe siatki są stałe. Full pokazuje planowaną liczbę replikacji i wymaga potwierdzenia. Licznik w trakcie dotyczy zakończonych zadań, nie pojedynczych replikacji wewnątrz monolitycznych programów. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Python, Git i dla P05 Rscript w PATH. P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
 
-Wykresy SVG i indeks wartości: `manuscripts/MSC-MUS-Pxx/results/<HEAD>/<profil>/<run-id>/`. Surowy JSON pozostaje w build/. Wykresy rozróżniają metryki i rodziny zadań; nie przedstawiają danych empirycznych.
+Zbiorczy wykres mc-summary.svg i indeks: `manuscripts/MSC-MUS-Pxx/results/<HEAD>/<profil>/<run-id>/`. Surowy JSON pozostaje w build/. Wiersze to scenariusze, kolumny to metryki; nie przedstawiają danych empirycznych.
 
 ## Zakres profilu full
 

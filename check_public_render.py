@@ -80,7 +80,7 @@ def check_projections(page):
 
 def check_interactions(page, section):
     assert page.locator("input[type=range]").count() == 0
-    assert page.locator("#motion-toggle, .motion-controls").count() == 0
+    assert page.locator("#motion-toggle, .motion-controls, #motion-preference, #motion-status").count() == 0
     assert page.locator(".generative-flow").count() == (1 if section == "index" else 0)
     if section == "index":
         lang = page.locator("html").get_attribute("lang")
@@ -112,14 +112,6 @@ def check_interactions(page, section):
         page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=before, timeout=1000)
         check_projections(page)
         assert not page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
-        preference = page.locator("#motion-preference")
-        preference.select_option("off")
-        assert page.evaluate("localStorage.getItem('arc-music-neuro-motion')") == "off"
-        stationary = marker.get_attribute("cx")
-        page.wait_for_timeout(180)
-        assert marker.get_attribute("cx") == stationary
-        preference.select_option("on")
-        page.wait_for_function("(x) => document.querySelector('#affect-dot').getAttribute('cx') !== x", arg=stationary)
         page.emulate_media(reduced_motion="reduce")
         motion_state(page, "system")
         page.wait_for_function("() => document.querySelector('#affect-dot').getAttribute('cx') === '170.00'", polling=50)
@@ -127,11 +119,8 @@ def check_interactions(page, section):
         assert marker.get_attribute("cx") == "170.00"
         check_projections(page)
     if section in ("index", "studies"):
-        preference = page.locator("#motion-preference")
-        assert preference.count() == 1
         page.emulate_media(reduced_motion="no-preference")
         page.wait_for_function("() => !matchMedia('(prefers-reduced-motion: reduce)').matches", polling=50)
-        preference.select_option("on")
         motion_state(page, "active")
         if section == "index":
             marker = page.locator("#wave path").first
@@ -146,15 +135,6 @@ def check_interactions(page, section):
             first = page.locator(".step-active").inner_text()
             page.wait_for_function("(x) => document.querySelector('.step-active')?.innerText !== x", arg=first, timeout=8000)
             assert page.locator(".step-active").count() == 1
-        preference.select_option("off")
-        assert page.locator("html").evaluate("e => e.classList.contains('motion-paused')")
-        if section == "index":
-            before = marker.get_attribute("d")
-            page.wait_for_timeout(180)
-            assert marker.get_attribute("d") == before
-            check_projections(page)
-        preference.select_option("on")
-        motion_state(page, "active")
         page.emulate_media(reduced_motion="reduce")
         motion_state(page, "system")
         page.wait_for_function("() => !document.querySelector('.step-active')", polling=50)
@@ -214,12 +194,10 @@ def motion_state(page, expected):
     # The virtual RAF clock does not advance while waiting for a media-query event.
     # Playwright's default RAF polling would deadlock; use independent timer polling.
     page.wait_for_function(
-        "(s) => document.querySelector('#motion-status').dataset.state === s",
-        arg=expected, polling=50)
-    # Verify effective state against the browser, not just the UI status.
+        "(paused) => document.documentElement.classList.contains('motion-paused') === paused",
+        arg=expected != "active", polling=50)
     assert page.evaluate("matchMedia('(prefers-reduced-motion: reduce)').matches") == (expected == "system")
-    assert page.locator("#motion-status").inner_text().strip()
-    assert page.locator("#motion-preference").get_attribute("aria-describedby") == "motion-status"
+    assert page.locator("#motion-preference, #motion-status").count() == 0
 
 
 def point(page):
@@ -280,14 +258,7 @@ def check_motion_regressions(browser, base, out=None):
         assert page.locator(".step-active").inner_text() == stage0
         assert page.locator(".step-active").count() == 1
 
-        # Generative flow shares system motion and saved preference.
-        page.locator("#motion-preference").select_option("off")
-        stopped = gen_frame()
-        advance(page, 14400)
-        assert gen_frame() == stopped
-        page.locator("#motion-preference").select_option("on")
-        advance(page, 14600)
-        assert gen_frame() != stopped
+        # The remaining animation follows system reduced motion, without a manual control.
         page.emulate_media(reduced_motion="reduce")
         motion_state(page, "system")
         assert gen_frame() == gen0
@@ -304,43 +275,23 @@ def check_motion_regressions(browser, base, out=None):
             check_projections(page)
         page.set_viewport_size({"width":1440,"height":900})
 
-        # Persist an explicit preference across reload and reciprocal language routes.
+        # System preference remains effective across reloads and language routes.
         page.goto(base + "neuropsychology.html")
         motion_state(page, "active")
         advance(page, 800)
         assert point(page) != [170,145]
-        page.locator("#motion-preference").select_option("off")
-        motion_state(page, "off")
-        stationary = point(page)
-        advance(page, 1600)
-        assert point(page) == stationary
+        page.emulate_media(reduced_motion="reduce")
+        motion_state(page, "system")
+        assert point(page) == [170,145]
         page.reload()
-        motion_state(page, "off")
-        assert page.locator("#motion-preference").input_value() == "off"
+        motion_state(page, "system")
         advance(page, 800)
         assert point(page) == [170,145]
         page.locator("header a[hreflang=en]").click()
-        motion_state(page, "off")
-        assert page.locator("#motion-preference").input_value() == "off"
+        motion_state(page, "system")
         advance(page, 800)
         assert point(page) == [170,145]
-        page.locator("#motion-preference").select_option("on")
-        motion_state(page, "active")
-        advance(page, 1600)
-        assert point(page) != [170,145]
-        page.emulate_media(reduced_motion="reduce")
-        motion_state(page, "system")
-        assert page.locator("#motion-preference").input_value() == "on"
-        assert point(page) == [170,145]
-        advance(page, 2400)
-        assert point(page) == [170,145]
-        page.locator("#motion-preference").select_option("off")
-        motion_state(page, "system")
         page.emulate_media(reduced_motion="no-preference")
-        motion_state(page, "off")
-        advance(page, 3200)
-        assert page.evaluate("window.__motionTest.pending()") == 0
-        page.locator("#motion-preference").select_option("on")
         motion_state(page, "active")
         advance(page, 4000)
         stationary = point(page)
@@ -361,7 +312,6 @@ def check_motion_regressions(browser, base, out=None):
         for path, lang in (("neuropsychology.html","pl"),("en-neuropsychology.html","en")):
             page.goto(base + path)
             motion_state(page, "active")
-            assert page.locator("#motion-preference").input_value() == "on"
             advance(page, 800)
             x,y = point(page)
             assert abs(x-170)>30 and abs(y-145)>30
