@@ -7,3 +7,6 @@ W repozytorium udostępniamy zatwierdzone materiały, kod, dane syntetyczne oraz
 Wykorzystanie wypowiedzi z grupy na Facebooku do celów badawczych wymaga uprzedniego uzgodnienia procedury etycznej i poinformowania uczestników. Tekstów zawierających osobiste informacje nie przekazujemy zewnętrznym generatorom bez odpowiednich zabezpieczeń.
 
 W badaniach potwierdzających planujemy prerejestrować hipotezy i sposób analizy danych. W publikacjach rozróżniamy analizy potwierdzające i eksploracyjne oraz opisujemy odstępstwa od protokołu.
+
+
+Macierz estymandów, identyfikatory zbiorów i zasady nakładania prób: [research-matrix.md](research-matrix.md). Rejestr bramek zgód i praw: [research-gates.json](research-gates.json). Nie potwierdzono zgód na zbieranie danych; nie uruchamiać rekrutacji. Dostęp do narzędzia nie oznacza prawa do jego reprodukcji.

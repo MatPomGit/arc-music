@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-11-27",
+  "status": "synthetic_or_planning_only",
+  "notes": "Canonical bilingual public estimate paragraphs. Evidence files contain scenario-specific denominators and results. Listed run/HEAD references cover identified historical subsets only; missing exact archival provenance remains open, not inferred. No empirical approval.",
+  "records": [
+    {
+      "id": "P01",
+      "interpretation": "Mean and conjunction tests; Gaussian summary simulations with independent retention; historical N420 mean vs N1000 conjunction; symmetric and asymmetric effects.",
+      "evidence": [
+        "docs/rounded-calibration-audit.md",
+        "manuscripts/MSC-MUS-P01/analysis/cp_joint_power.py"
+      ],
+      "artifacts": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15191799855
+        },
+        {
+          "run": 46008739611,
+          "head": "f3af537fe1ca58d80cea8226e735461d2a1b16ce",
+          "artifact": 15202454395
+        }
+      ],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">200 000 replikacji</span>. N=420, po 105 osób w czterech grupach; oczekiwane N=357 po utracie 15%. Dla d=0,30 moc teoretyczna 80,69%, symulacyjna 80,58%; błąd I rodzaju 5,08%, pokrycie 95% CI przy alternatywie 94,98%. Dotyczy wyłącznie średniego kontrastu dopasowania. Nowy test łączny: 1 920 000 replikacji w 96 konfiguracjach; przy N=420 i symetrycznych efektach 0,30 moc 40,69%, przy N=1000 85,76% (MCSE 0,25 pkt proc.). Przy asymetrii 0,15/0,45 moc dla N=1000 wynosi 45,98%. Wielkości efektów, pomiar i rekrutacja nie są zatwierdzone.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">200,000 replications</span>. N=420, 105 per factorial cell; expected N=357 after 15% loss. At d=.30, analytical power 80.69%, simulated power 80.58%; type I error 5.08%, alternative 95% CI coverage 94.98%. Mean matching contrast only. The new conjunction screen uses 1,920,000 replications in 96 configurations: joint power at N=420 is 40.69% for symmetric .30 effects, and at N=1000 is 85.76% (MCSE 0.25 percentage points). With asymmetric .15/.45 effects, power at N=1000 is 45.98%. Effect sizes, measurement and recruitment remain unapproved.</p>"
+    },
+    {
+      "id": "P02",
+      "interpretation": "Qualitative planning range only; no power or simulated outcomes.",
+      "evidence": [
+        "manuscripts/MSC-MUS-P02/sections/method.tex"
+      ],
+      "artifacts": [],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">20–30 wywiadów</span>. Celowy dobór zróżnicowanych doświadczeń i pogłębiona analiza tematyczna; adekwatność materiału oceniana po pilotażu. Moc statystyczna nie dotyczy badania jakościowego.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">20–30 interviews</span>. Purposive recruitment targets varied experiences and in-depth thematic analysis; material adequacy will be assessed after piloting. Statistical power does not apply to this qualitative design.</p>"
+    },
+    {
+      "id": "P03",
+      "interpretation": "Historical HC3 partial association; mixed MAR and MNAR, target assurance and PMM screen distinct.",
+      "evidence": [
+        "docs/rounded-calibration-audit.md",
+        "docs/p03-imputation-audit.md",
+        "manuscripts/MSC-MUS-P03/main.tex"
+      ],
+      "artifacts": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15193146592
+        }
+      ],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">60 000 replikacji oraz 300 zbiorów PMM</span>. N=500, cząstkowe r=0,15: moc teoretyczna 91,55%, historyczna częstość odrzuceń 90,0–92,6% (cel 500, różne limity i mechanizmy braków; 1000 replikacji na konfigurację). Przy mieszanych brakach MAR szansa uzyskania 500 rekordów: 81,36% dla 640 zgłoszeń i 99,10% dla 660. Przy limicie 640 pokrycie CI w scenariuszu MNAR: 72,0%; w odrębnym przesiewowym badaniu PMM: 76,7%. Limit 660 jest wariantem planistycznym: przy p=0,78 prawdopodobieństwo wynosi 92,35%; dla p=0,75 potrzebny jest wariant 700, a dla p=0,70 wariant 760. Retencja oznacza łącznie kwalifikację i kompletność. Ostateczny limit zależy od pilotażu i zatwierdzenia.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">60,000 replications and 300 PMM datasets</span>. N=500, partial r=.15: analytical power 91.55%, historical rejection 90.0–92.6% (target 500, varying caps and missingness; 1,000 replications per cell). With mixed MAR, probability of reaching 500 complete records is 81.36% at 640 submissions and 99.10% at 660. At cap 640, MNAR CI coverage was 72.0%; in a separate PMM screen, 76.7%. Cap 660 is a planning candidate: at p=.78 assurance is 92.35%; at p=.75 the rounded candidate is 700, and at p=.70 it is 760. Final cap depends on feasibility review and approval.</p>"
+    },
+    {
+      "id": "P04",
+      "interpretation": "Historical status-dependent composite missingness, observed-score interaction; baseline PMM vs enhanced capture; 120 per cell.",
+      "evidence": [
+        "manuscripts/MSC-MUS-P04/analysis/paqs-calibration-evidence.md"
+      ],
+      "artifacts": [
+        {
+          "run": 45888642713,
+          "head": "50192c297a709a53f75b0f637c2d702a6125537d",
+          "artifact": 15151041277
+        },
+        {
+          "run": 45889492136,
+          "head": "7ece9ac84bc64ffef6e14b7613afff42ea425c84",
+          "artifact": 15150727691
+        }
+      ],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">720 zbiorów PAQ-S i 3600 zbiorów błędu pomiaru</span>. W historycznym scenariuszu braków zależnych od statusu szkicu (120 zbiorów na konfigurację), przy N=1000 i interakcji 0,54 punktu PMM dawała 89,2% odrzuceń H0, ale tylko 20,0% wyników odpornych w siatce wrażliwości. Lepsza rejestracja statusu szkicu: 91,7% i 26,7%; przy interakcji 0,72 punktu 70,8% odpornych wyników. Ostateczne N nieustalone.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">720 PAQ-S datasets and 3,600 measurement-error datasets</span>. Historical sketch-status-dependent missingness (120 datasets per cell), N=1,000 and a .54-point interaction: PMM gave 89.2% null rejection but 20.0% grid-robust rejection. Enhanced sketch-status capture: 91.7% and 26.7%; at .72 points, robust rejection was 70.8%. Final N undetermined.</p>"
+    },
+    {
+      "id": "P05",
+      "interpretation": "Ordinal CFA stability diagnostic, 12 per condition; not sample-size adequacy.",
+      "evidence": [
+        "manuscripts/MSC-MUS-P05/analysis/simulation_evidence.md"
+      ],
+      "artifacts": [],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">72 zbiory diagnostyczne CFA</span>. EFA N=400 i CFA N=500 pozostają wstępne. Przy ładunkach 0,40 i korelacji czynników 0,80 poprawne rozwiązania: N=500 1/12 (8,3%), N=800 4/12 (33,3%); przy korelacji 0,35 i N=800 12/12. Stabilność modelu, nie walidacja empiryczna.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">72 diagnostic CFA datasets</span>. EFA N=400 and CFA N=500 remain provisional. With .40 loadings and .80 factor correlations, proper fits: 1/12 (8.3%) at N=500, 4/12 (33.3%) at N=800; with .35 correlations and N=800, 12/12. Model stability, not empirical validation.</p>"
+    },
+    {
+      "id": "P06",
+      "interpretation": "Historical FE/CR1 association under defined outcomes, MAR and attrition stress; not current endpoint-state gate calibration.",
+      "evidence": [
+        "manuscripts/MSC-MUS-P06/analysis/cluster-calibration-evidence.md",
+        "manuscripts/MSC-MUS-P06/main.tex"
+      ],
+      "artifacts": [],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">40 200 replikacji</span>. N=160, latentne nachylenie 0,15, sześć sesji i 30% braków: 95,6% odrzuceń H0 pod MAR. W odrębnym scenariuszu MAR z 30% rezygnacji: 62,7%, 84,7%, 96,3% dla 4, 6, 10 sesji (różna autokorelacja); przy 45% rezygnacji i sześciu sesjach 77,7%. N=160 nie jest zatwierdzonym celem.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">40,200 replications</span>. N=160, latent slope .15, six sessions and 30% missingness: 95.6% MAR rejection. In a separate MAR-style stress design with 30% attrition: 62.7%, 84.7%, 96.3% for 4, 6, 10 sessions (serial correlation also varied); with 45% attrition and six sessions: 77.7%. N=160 is not an approved target.</p>"
+    },
+    {
+      "id": "P07",
+      "interpretation": "Historical FE/CR1 observed switcher association; latent synthetic input, stage loss and informative dropout; not causal.",
+      "evidence": [
+        "manuscripts/MSC-MUS-P07/analysis/calibration-evidence.md",
+        "manuscripts/MSC-MUS-P07/analysis/stress-plan.md"
+      ],
+      "artifacts": [
+        {
+          "run": 45899777729,
+          "head": "9e51be6c577869c506f9635bd6b6e2b9f00c6c0c"
+        }
+      ],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 800 replikacji</span>. N=160, 30% planowanej łącznej utraty okien, kontrast 0,4 punktu: 83,5% i 99,0% odrzuceń H0 dla częstości twórczości 10% i 25%. W odrębnym scenariuszu 45% rezygnacji, N=320: 61,4% przy częstości 5%, 88,7% przy 10%. Ostateczne N zależy od dostępności obu typów okien u jednej osoby.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,800 replications</span>. N=160, 30% planned combined window loss, .4-point contrast: 83.5% and 99.0% rejection at 10% and 25% creation prevalence. In a separate 45% withdrawal scenario, N=320: 61.4% at 5% prevalence, 88.7% at 10%. Final N depends on availability of both window types within individuals.</p>"
+    },
+    {
+      "id": "P08",
+      "interpretation": "Historical HC3, 1000 per cell; heard-only IPW; separate availability calculation and blocked full-cohort gate; NO-GO.",
+      "evidence": [
+        "docs/rounded-calibration-audit.md",
+        "docs/rounded-sensitivity-audit.md",
+        "docs/rounded-sensitivity-artifacts.json",
+        "manuscripts/MSC-MUS-P08/main.tex"
+      ],
+      "artifacts": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15193456534
+        }
+      ],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">76 000 zbiorów i bootstrap 160 × 199</span>. N=500 kompletnych ocen, d=0,30: moc 91,74%. Historyczny HC3 przy N=660: odrzucenia H1 93,2% (MAR) lub 75,5% przy 15% osłabieniu manipulacji; H3 po korekcie Holma: 58,6% lub 34,8%. N=720 przy niezależnych stratach 20% pomiarów i 5–10% nieodsłuchania: 532,8 oczekiwanych ocen, 99,74% szans uzyskania 500 dla jednego wyniku. IPW przy N=660: pokrycie CI 97,5% (MAR), 47,5% (MNAR), po 40 zbiorów, tylko wśród słuchających. W zweryfikowanym teście 160/160 pełnych analiz zablokowano z powodu niezdefiniowanych lub nieustalonych wyników. Potwierdzenie: NO-GO.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">76,000 datasets and bootstrap 160 × 199</span>. N=500 complete ratings, d=.30: power 91.74%. Historical HC3 at N=660: H1 rejection 93.2% (MAR) or 75.5% with 15% feature suppression; Holm H3: 58.6% or 34.8%. With independent 20% measurement loss and 5–10% non-hearing, N=720 yields 532.8 expected ratings and a 99.74% chance of reaching 500 for one endpoint. IPW at N=660: CI coverage 97.5% (MAR), 47.5% (MNAR), 40 datasets each, heard-only. All 160/160 full-cohort analyses were blocked in the screen due to undefined/unresolved targets. Confirmation: NO-GO.</p>"
+    },
+    {
+      "id": "P09",
+      "interpretation": "Historical HC3 500 per cell; defined-outcome IPW screen 40 per cell; present incomplete-outcome confirmation unavailable; candidate unapproved.",
+      "evidence": [
+        "docs/rounded-calibration-audit.md",
+        "docs/rounded-sensitivity-audit.md",
+        "manuscripts/MSC-MUS-P09/analysis/calibration-audit.md"
+      ],
+      "artifacts": [
+        {
+          "run": 45988878791,
+          "head": "dbb0f175e4624dbaf63f24bb61c35f893a419aaf",
+          "artifact": 15192343492
+        }
+      ],
+      "pl": "<p class=\"pub-estimate\"><strong>Wyniki oszacowania:</strong> <span class=\"pub-estimate-count\">32 000 zbiorów i bootstrap 240 × 199</span>. N=440/600, przy 20% braków: oczekiwane 352/480 obserwacji, moc 90,56%/90,65% dla d=0,35/0,30. Historyczny HC3 w czterech profilach MAR dla efektu 0,5 punktu: odrzucenia H1 67,0–98,2%/81,2–99,8%. IPW przy N=600, H0: pokrycie CI 77,5% (MAR), 30,0% (MNAR), po 40 zbiorów. Przy brakującym wyniku obecna procedura HC3 nie daje testu potwierdzającego; kandydat IPW niezatwierdzony. Większe N nie usuwa selekcji.</p>",
+      "en": "<p class=\"pub-estimate\"><strong>Estimation results:</strong> <span class=\"pub-estimate-count\">32,000 datasets and bootstrap 240 × 199</span>. N=440/600, 20% loss: 352/480 expected observations; power 90.56%/90.65% for d=.35/.30. Historical HC3 across four MAR profiles at a .5-point effect, H1 rejection 67.0–98.2%/81.2–99.8%. IPW at N=600 under H0: CI coverage 77.5% (MAR), 30.0% (MNAR), 40 datasets each. Current HC3 cannot provide confirmatory tests with missing outcomes; IPW candidate unapproved. Larger N does not remove selection bias.</p>"
+    }
+  ]
+}

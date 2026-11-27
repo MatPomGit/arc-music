@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "date": "2026-11-27",
+  "status": "PROSPECTIVE_NO_GO",
+  "owner": "Mateusz Pomianek",
+  "storage": "institutional VIZJA OneDrive, access restricted; separate consent/linkage store",
+  "common": {
+    "ethics": "NOT_VERIFIED",
+    "consent": "NOT_VERIFIED",
+    "retention_and_withdrawal": "NOT_VERIFIED",
+    "recruitment": "BLOCKED",
+    "preregistration": "NOT_VERIFIED",
+    "raw_records_in_git": false
+  },
+  "studies": [
+    {
+      "study": "P01",
+      "dataset": "none",
+      "contract": "manuscripts/MSC-MUS-P01/analysis/proposition-map.md",
+      "instruments": "PAQ-PL/TAS-20-POL-R; ERQ-S-PL; SUPIN/PANAS-PL; HUMS",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "candidate permissions, versions and common goal-attainment measurement",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P02",
+      "dataset": "D02-S01",
+      "contract": "manuscripts/MSC-MUS-P02/sections/method.tex",
+      "instruments": "original Polish interview guide",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "recording consent; separate permission for excerpts/retention; participant copyright",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P03",
+      "dataset": "D03-S02",
+      "contract": "manuscripts/MSC-MUS-P03/analysis/intake.py",
+      "instruments": "original episode survey",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "eligibility/consent export; independent IDs and approved recruitment",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P04",
+      "dataset": "D04",
+      "contract": "manuscripts/MSC-MUS-P04/analysis/empirical.py",
+      "instruments": "PAQ-S-PL selected; S-DERS clarity candidate",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "electronic administration/reproduction permission not verified; frozen bank and consent ledger",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P05",
+      "dataset": "D05-EFA;D05-CFA",
+      "contract": "manuscripts/MSC-MUS-P05/analysis/sample_size_plan.md",
+      "instruments": "AI-MRFS v0.2.0 candidate; MMR/B-MMR, HUMS, ERP-IA-6 and other comparators candidates",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "P02 themes, expert/cognitive data, comparator rights, independent CFA",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P06",
+      "dataset": "D06",
+      "contract": "manuscripts/MSC-MUS-P06/analysis/withdrawal_audit.py",
+      "instruments": "original diary; RRS-R-PL/BEAQ-PL candidates",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "retention cutoff approval; endpoint applicability and state measure validity",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P07",
+      "dataset": "D07",
+      "contract": "manuscripts/MSC-MUS-P07/analysis/schedule.py",
+      "instruments": "original EMA",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "frozen schedule and withdrawal approval; pilot timing and prevalence",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P08",
+      "dataset": "D08",
+      "contract": "manuscripts/MSC-MUS-P08/analysis/assignment_ledger.py",
+      "instruments": "original v0.2.0 ownership/agency candidates",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "bank provenance/rights, authenticated service, hearing target, approved withdrawal",
+      "fieldwork": "BLOCKED"
+    },
+    {
+      "study": "P09",
+      "dataset": "D09",
+      "contract": "manuscripts/MSC-MUS-P09/analysis/export_schema.py",
+      "instruments": "original v0.2.0 understanding/perspective candidates",
+      "rights_status": "NOT_VERIFIED",
+      "measurement_status": "CANDIDATE_OR_EXTERNAL_VALIDATION_ONLY",
+      "blocker": "music/image bank rights, authenticated state/payload integration, approved withdrawal",
+      "fieldwork": "BLOCKED"
+    }
+  ]
+}
