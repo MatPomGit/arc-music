@@ -130,6 +130,7 @@ def check_interactions(page, section):
         preference = page.locator("#motion-preference")
         assert preference.count() == 1
         page.emulate_media(reduced_motion="no-preference")
+        page.wait_for_function("() => !matchMedia('(prefers-reduced-motion: reduce)').matches", polling=50)
         preference.select_option("on")
         motion_state(page, "active")
         if section == "index":
