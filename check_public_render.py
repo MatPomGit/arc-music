@@ -238,6 +238,9 @@ def check_motion_regressions(browser, base, out=None):
         page.goto(base + "index.html")
         advance(page, 0)
         wave0 = wave_geometry(page)
+        initial = point(page)
+        assert initial == [170,145], ("affect origin", initial)
+        stage0 = page.locator(".step-active").inner_text()
         gen_frame = lambda: page.locator("[data-gen-pulse]").evaluate_all(
             "nodes => nodes.map(e => ['cx','cy','opacity'].map(a => e.getAttribute(a)))")
         gen0 = gen_frame()
@@ -248,8 +251,7 @@ def check_motion_regressions(browser, base, out=None):
         advance(page, 2720)
         assert gen_frame() == gen0, "Generative animation does not close its cycle"
         assert page.locator("#gen-wave").get_attribute("d") == gen_wave0
-        initial = point(page)
-        stage0 = page.locator(".step-active").inner_text()
+        assert point(page) != initial, "Affect must move independently of the generative cycle"
         advance(page, 3184)
         assert page.locator(".step-active").inner_text() == stage0
         advance(page, 3200)
@@ -267,7 +269,7 @@ def check_motion_regressions(browser, base, out=None):
         p_before = point(page)
         check_projections(page)
         advance(page, 6400)
-        assert point(page) == initial == [170,145]
+        assert point(page) == initial == [170,145], ("affect cycle boundary", point(page), initial)
         check_projections(page)
         advance(page, 6416)
         p_after = point(page)
