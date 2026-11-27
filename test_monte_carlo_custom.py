@@ -39,6 +39,16 @@ class Custom(unittest.TestCase):
         tasks=build("P05",23,123,{},"structure/one_factor",dict(loading=.5,missing=.1,skew=True))
         self.assertTrue(all("--loading" in t.args for t in tasks if not t.deps))
         self.assertNotIn("--loading",tasks[-1].args)
+    def test_p09_design(self):
+        d=dict(n=500,mechanism="MAR",effect="alternative",profile="standard")
+        for family in ("ipw/cell-06","paired/cell-19"):
+            jobs=build("P09",23,123,{},family,d)
+            self.assertEqual(len(jobs),3)
+            self.assertEqual(sum(planned_reps("P09","custom",j) for j in jobs),23)
+            self.assertTrue(all(j.args[-5:]==("--design","500","MAR","alternative","standard") for j in jobs[:-1]))
+            self.assertNotIn("--design",jobs[-1].args)
+        with self.assertRaises(ValueError):
+            build("P09",23,123,{},"ipw/cell-06",dict(d,n=501))
     def test_invalid(self):
         for study,options in [("P03",{"--cap":100}),("P08",{"--reference-n":101}),("P01",{"--n":100})]:
             with self.assertRaises(ValueError):build(study,5,0,options)
