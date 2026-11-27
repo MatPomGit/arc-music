@@ -10,7 +10,7 @@ permissions:
 jobs:
   protocol:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
@@ -26,6 +26,10 @@ jobs:
           "$RUNNER_TEMP/p09/bin/pip" install -r requirements.txt
           "$RUNNER_TEMP/p09/bin/python" -m unittest -v
           "$RUNNER_TEMP/p09/bin/python" power.py > power-reproduction.json
+          "$RUNNER_TEMP/p09/bin/python" calibration.py --reps 200 > calibration-grid.json
+          "$RUNNER_TEMP/p09/bin/python" missingness.py --demo --reps 199 > missingness-demo.json
+          "$RUNNER_TEMP/p09/bin/python" calibration_extended.py --reps 30 --draws 99 --raw-reps 200 > calibration-extended.json
+          "$RUNNER_TEMP/p09/bin/python" calibration_extended.py --stress --reps 20 --draws 49 > calibration-stress.json
       - run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
@@ -42,4 +46,8 @@ jobs:
             manuscripts/MSC-MUS-P09/main.log
             manuscripts/MSC-MUS-P09/exact-head.txt
             manuscripts/MSC-MUS-P09/analysis/power-reproduction.json
+            manuscripts/MSC-MUS-P09/analysis/calibration-grid.json
+            manuscripts/MSC-MUS-P09/analysis/missingness-demo.json
+            manuscripts/MSC-MUS-P09/analysis/calibration-extended.json
+            manuscripts/MSC-MUS-P09/analysis/calibration-stress.json
           if-no-files-found: error

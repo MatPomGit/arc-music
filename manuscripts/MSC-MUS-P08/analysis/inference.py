@@ -65,12 +65,24 @@ def analyze(frame, bootstrap_draws=0, bootstrap_seed=2808):
         for e in [0,1]:
             x=d[(d.authority==a)&(d.manual==e)]
             cells[f"{a}/{e}"]=dict(randomised=len(x),heard=int(x.heard_version.eq(True).sum()),
+              unheard=int(x.heard_version.eq(False).sum()),hearing_unknown=int(x.heard_version.isna().sum()),
               ownership_observed=int(x.ownership.notna().sum()),agency_observed=int(x.agency.notna().sum()),
               ownership_mean=float(x.ownership.mean()) if x.ownership.notna().any() else None,
               agency_mean=float(x.agency.mean()) if x.agency.notna().any() else None)
     for k in ITEMS:
         try:models[k]=fit(d,k)
         except (ValueError,np.linalg.LinAlgError) as exc:models[k]={"unavailable":str(exc)}
+    # Exposure defines both outcome constructs; do not treat selection into
+    # the heard population as a causal full-cohort contrast.
+    all_defined=bool(d.heard_version.eq(True).fillna(False).all())
+    for k in ITEMS:
+        if "unavailable" in models[k]:
+            continue
+        for result in models[k].values():
+            result["confirmatory_available"]=all_defined
+            if not all_defined:
+                result["descriptive_p"]=result.pop("p")
+                result["interpretation"]="Observed heard population only; no full-cohort causal contrast"
     h1=models["ownership"].get("authority");h2=models["agency"].get("authority");h3=models["ownership"].get("interaction")
     from sensitivity import assess, bootstrap
     sensitivity={}
@@ -83,7 +95,8 @@ def analyze(frame, bootstrap_draws=0, bootstrap_seed=2808):
                 )
         except (ValueError,np.linalg.LinAlgError) as exc:sensitivity[key]={"unavailable":str(exc)}
     return dict(randomised=len(d),cells=cells,models=models,hypotheses={"H1":h1,"H2":h2,"H3":h3},missingness=sensitivity,
-                secondary_holm=holm({"H2":h2["p"] if h2 else None,"H3":h3["p"] if h3 else None}))
+                full_cohort_target_defined=all_defined,
+                secondary_holm=holm({"H2":h2.get("p") if h2 else None,"H3":h3.get("p") if h3 else None}))
 if __name__=="__main__":
     p = argparse.ArgumentParser()
     p.add_argument("csv")

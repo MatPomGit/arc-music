@@ -16,7 +16,7 @@ def prepare(frame):
     d=frame.copy()
     scores=["music",*BASE,"distance0","distance1",*sum(ITEMS.values(),[])]
     times=["randomised_at","t1_at","t2_at"]
-    if not {"participant_id","same_event1","same_event2",*times,*scores}<=set(d):raise ValueError("Missing columns")
+    if not {"participant_id","same_event1","same_event2","target_status1","target_status2",*times,*scores}<=set(d):raise ValueError("Missing columns")
     ids=d.participant_id.astype(str)
     if d.participant_id.isna().any() or ids.str.strip().eq("").any() or ids.duplicated().any():raise ValueError("Invalid participant ID")
     for c in scores:
@@ -39,6 +39,14 @@ def prepare(frame):
         d[f"understanding{j}"]=d[ITEMS[j]].mean(axis=1,skipna=False)
         if j:d[f"understanding{j}"]=d[f"understanding{j}"].where(d[f"valid{j}"])
     d["distance1"]=d.distance1.where(d.valid1)
+    for j in (1,2):
+        c=f"target_status{j}"
+        if not d[c].isin(("defined","undefined","unknown")).all():
+            raise ValueError("Invalid target status "+c)
+        observed=d[f"understanding{j}"].notna()
+        if j==1:observed=observed|d.distance1.notna()
+        if (observed & d[c].ne("defined")).any():
+            raise ValueError("Observed valid score with undefined or unresolved target")
     return d
 
 def design(d,baseline):
@@ -86,13 +94,56 @@ def analyze(frame):
     for a in (0,1):
         g=d[d.music==a]
         flow[str(a)]={"randomised":len(g),"timely1":int(g.timely1.sum()),"timely2":int(g.timely2.sum()),"valid1":int(g.valid1.sum()),"valid2":int(g.valid2.sum()),"observed":{h:int(g[o].notna().sum()) for h,(o,_) in MODELS.items()}}
+    for arm in (0,1):
+        g=d[d.music==arm]
+        visits={}
+        for j in (1,2):
+            timestamp=g[f"t{j}_at"]
+            event=g[f"same_event{j}"]
+            valid=g[f"valid{j}"]
+            items=ITEMS[j]
+            visits[str(j)]={
+                "missing_timestamp":int(timestamp.isna().sum()),
+                "outside_window":int((timestamp.notna() & ~g[f"timely{j}"]).sum()),
+                "wrong_event":int(event.eq(False).sum()),
+                "unknown_event":int(event.isna().sum()),
+                "missing_items_at_valid_visit":{c:int((valid & g[c].isna()).sum()) for c in items},
+                "incomplete_composite_at_valid_visit":int((valid & g[items].isna().any(axis=1)).sum()),
+                "target_status":{k:int(g[f"target_status{j}"].eq(k).sum()) for k in ("defined","undefined","unknown")}
+            }
+            if j==1:
+                visits[str(j)]["missing_distance_at_valid_visit"]=int((valid & g.distance1.isna()).sum())
+        flow[str(arm)]["visit_diagnostics_nonexclusive"]=visits
     for h,(o,b) in MODELS.items():
         a=d[d[o].notna()]
         try:models[h]=fit_arrays(design(a,b),a[o].to_numpy(float))
         except (ValueError,np.linalg.LinAlgError) as exc:models[h]={"unavailable":str(exc)}
-        try:sens[h]=sensitivity(d,o,b)
-        except (ValueError,np.linalg.LinAlgError) as exc:sens[h]={"unavailable":str(exc)}
+        status="target_status2" if h=="H1" else "target_status1"
+        if not d[status].eq("defined").all():
+            sens[h]={"unavailable":"Full-cohort outcome undefined or unresolved",
+                     "target_status":d.groupby("music")[status].value_counts().unstack(fill_value=0).to_dict(orient="index")}
+            models[h]["interpretation"]="Observed defined outcomes only; not full-cohort assignment contrast"
+            # Do not advertise a confirmatory test of an undefined cohort contrast.
+            if "p" in models[h]:
+                models[h]["descriptive_p"]=models[h].pop("p")
+            models[h]["confirmatory_available"]=False
+        else:
+            try:sens[h]=sensitivity(d,o,b)
+            except (ValueError,np.linalg.LinAlgError) as exc:sens[h]={"unavailable":str(exc)}
+            if len(a)!=len(d):
+                models[h]["interpretation"]="Complete-outcome HC3; full-cohort interpretation requires unverified missingness assumptions"
+                if "p" in models[h]:
+                    models[h]["descriptive_p"]=models[h].pop("p")
+                models[h]["confirmatory_available"]=False
+            else:
+                models[h]["confirmatory_available"]="p" in models[h]
     return dict(randomised=len(d),flow=flow,hypotheses=models,secondary_holm=holm({h:models[h].get("p") for h in ("H2","H3")}),missingness=sens)
 if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()
-    print(json.dumps(analyze(pd.read_csv(a.csv,dtype={"participant_id":str})),indent=2,allow_nan=False))
+    from allocation import reconcile
+    p=argparse.ArgumentParser()
+    p.add_argument("csv")
+    p.add_argument("--ledger", required=True, help="Restricted authoritative allocation database")
+    a=p.parse_args()
+    frame=pd.read_csv(a.csv,dtype={"participant_id":str})
+    reconcile(a.ledger,frame)
+    print(json.dumps(analyze(frame),indent=2,allow_nan=False))

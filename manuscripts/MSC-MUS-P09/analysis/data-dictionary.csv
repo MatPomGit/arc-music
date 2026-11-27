@@ -20,3 +20,5 @@ understanding22,integer,0-10 or missing
 understanding23,integer,0-10 or missing
 distance0,integer,0-10
 distance1,integer,0-10 or missing
+target_status1,enum,defined or undefined or unknown for original-event target at T1
+target_status2,enum,defined or undefined or unknown for original-event target at T2
