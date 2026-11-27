@@ -224,6 +224,10 @@ def check_manuscript_previews(page):
     for i in range(1, 10):
         identifier = f"msc-mus-p{i:02d}"
         panel = page.locator(f"#{identifier}")
+        authors = panel.locator(".pub-heading .pub-authors")
+        assert authors.count() == 1
+        label = "Authors" if page.locator("html").get_attribute("lang") == "en" else "Autorzy"
+        assert authors.inner_text() == label + ": Ewa Sterniczuk, Paulina Ficner, Cezary Biele, Mateusz Pomianek"
         preview = panel.locator(".pub-header > .pub-preview")
         assert preview.count() == 1
         link = preview.locator("a")

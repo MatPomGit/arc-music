@@ -20,6 +20,7 @@ def on_page_context(context, **kwargs):
 # Only the nine explicitly named manuscript PDFs may enter the public build.
 MANUSCRIPTS = tuple(f"MSC-MUS-P{i:02d}" for i in range(1, 10))
 PREVIEW_DIR = "manuscript-previews"
+AUTHORS = ("Ewa Sterniczuk", "Paulina Ficner", "Cezary Biele", "Mateusz Pomianek")
 PANEL = re.compile(
     r'(<article class="pub" id="(msc-mus-p0[1-9])" aria-labelledby="\2-title">\s*)'
     r'(.*?<p class="pub-question">.*?</p>)', re.S
@@ -37,6 +38,9 @@ def add_manuscript_previews(html, english):
         alt = "First page of manuscript" if english else "Pierwsza strona manuskryptu"
         status = "Draft manuscript" if english else "Manuskrypt roboczy"
         path = f"{PREVIEW_DIR}/{identifier}"
+        authors_label = "Authors" if english else "Autorzy"
+        authors = f'<p class="pub-authors">{authors_label}: {", ".join(AUTHORS)}</p>'
+        header = header.replace("</h3>", "</h3>" + authors, 1)
         return (
             f'{opening}<div class="pub-header"><div class="pub-heading">{header}</div>'
             f'<figure class="pub-preview"><a href="{path}.pdf" '

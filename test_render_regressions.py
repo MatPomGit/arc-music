@@ -187,6 +187,10 @@ class ManuscriptPreviewTests(unittest.TestCase):
         for english, label in ((False, "Otwórz manuskrypt PDF"), (True, "Open manuscript PDF")):
             result = embed_site_assets.add_manuscript_previews(self.fixture(), english)
             self.assertEqual(result.count('class="pub-preview"'), 9)
+            self.assertEqual(result.count('class="pub-authors"'), 9)
+            authors = ", ".join(embed_site_assets.AUTHORS)
+            self.assertEqual(result.count(authors), 9)
+            self.assertTrue(authors.endswith("Mateusz Pomianek"))
             self.assertEqual(result.count('class="pub-body"'), 9)
             self.assertEqual(result.count(label), 18)
             for i in range(1, 10):
