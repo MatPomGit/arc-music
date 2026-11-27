@@ -11,3 +11,7 @@ Allocation: allocation.py implements a local SQLite prototype with variable bloc
 The offline task contract and sample-free audio fixtures cover all sixteen arrangement paths. The proposed participant procedure, approval requirements and pilot gates are in online-protocol.md. Evidence locations and remaining full-text gaps are in bibliography-audit.md.
 
 See measurement-validation.md for construct map, expert review, cognitive interviews and feasibility gates. Run python pilot_fidelity.py pilot.csv --task-margin <approved seconds> --preview-margin <approved seconds> with approved margins; report all assigned counts, exact binomial intervals and all six pairwise Welch timing contrasts per metric. No claim of empirical validity or equivalence.
+
+## Authoritative assignment candidate
+
+Empirical CLI: python inference.py export.csv --data-kind empirical --ledger restricted.sqlite. Synthetic CLI requires --data-kind synthetic. assignment_ledger.py validates the frozen bank, schema, schedule and full assigned cohort; missing outcome rows must remain. Withdrawal blocks reconciliation until university-approved policy is implemented. No real data or deployment; the existing hearing-defined endpoint gate is unchanged and remains blocked for full-cohort confirmation.
