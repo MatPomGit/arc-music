@@ -33,3 +33,13 @@ class SecondaryCalibrationTests(unittest.TestCase):
             self.assertTrue(parallel['complete'])
             with self.assertRaises(FileExistsError):
                 run(2,42,True,output=path)
+
+    def test_selected_cell_matches_smoke_seed(self):
+        smoke=run(2,42,True)
+        from secondary_calibration import scenario_grid
+        self.assertEqual(smoke["full_grid_indices"],[scenario_grid().index(s) for s in scenario_grid(True)])
+        selected=run(2,42,cell_index=smoke["full_grid_indices"][-1])
+        self.assertEqual(selected["cells"][0],smoke["cells"][-1])
+        self.assertTrue(selected["screening_only"])
+        with self.assertRaises(ValueError):
+            run(2,42,cell_index=-1)

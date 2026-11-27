@@ -9,3 +9,13 @@ Po trzech godzinach: aktualna walencja i pobudzenie, informacja o twórczości p
 Każde pytanie można pominąć. Materiał wymaga wywiadów poznawczych, pilotażu i zatwierdzenia etycznego; nie jest skalą kliniczną. Nie zbieramy tekstów utworów ani promptów.
 
 Instrukcja czasu: stan oceniamy w chwili udzielania odpowiedzi, nie w chwili powiadomienia i nie jako średnią z poprzedniej godziny. Pytanie o aktywność dotyczy dokładnie pierwszych 60 minut od faktycznego pomiaru początkowego, również przy odpowiedzi późniejszej. Pożądane pobudzenie odnosi się do celu zadeklarowanego przed oknem; zmiana celu nie jest tożsama z niepowodzeniem regulacji. Sprawdzić te rozróżnienia w wywiadach poznawczych.
+
+## Przykłady do wywiadów poznawczych (nie do rekrutacji)
+
+- Rozpoczęcie generowania, aktywny wybór wariantu albo edycja w pierwszej godzinie to twórczość, nawet gdy utwór nie został ukończony.
+- Samo słuchanie gotowego utworu lub bierne oczekiwanie na wynik bez aktywnego udziału w tym oknie nie wystarcza do zaklasyfikowania twórczości.
+- Rozpoczęcie aktywności dopiero po upływie pierwszych 60 minut nie zmienia wcześniejszej odpowiedzi. Jeżeli nie da się ustalić czasu lub rodzaju aktywności, należy wybrać odpowiedź „nie wiem”.
+- Ocena walencji dotyczy własnego aktualnego samopoczucia, także wtedy, gdy treść utworu wyraża inną emocję. Pobudzenie nie oznacza wyłącznie zdenerwowania.
+- Brak odpowiedzi pozostaje brakiem danych, nie wartością zero ani odpowiedzią „nie”.
+
+Przykłady służą ocenie rozumienia, nie sugerowaniu oczekiwanych zmian emocjonalnych. Wersja uczestnicząca i kolejność prezentacji wymagają zatwierdzenia po pilotażu poznawczym.

@@ -111,15 +111,21 @@ def simulate_scenario(task):
                   "joint_holm_rejection":rate(joint,reps),
                   "false_family_rejection":rate(false_family,reps) if 0 in effects else None}
 
-def run(reps=1000,seed=20261205,smoke=False,workers=1,output=None):
+def run(reps=1000,seed=20261205,smoke=False,workers=1,output=None,cell_index=None):
     if reps<1 or workers<1 or seed<0:
         raise ValueError("Positive reps/workers and non-negative seed required")
-    grid=scenario_grid(smoke)
-    tasks=[(i,s,reps,seed) for i,s in enumerate(grid)]
+    full_grid=scenario_grid()
+    if cell_index is not None and (smoke or not 0<=cell_index<len(full_grid)):
+        raise ValueError('Choose a valid full-grid cell index without smoke')
+    grid=[full_grid[cell_index]] if cell_index is not None else scenario_grid(smoke)
+    indices=[full_grid.index(s) for s in grid]
+    tasks=[(i,s,reps,seed) for i,s in zip(indices,grid)]
     report={"status":"SYNTHETIC_DEVELOPMENT","seed":seed,"reps":reps,
-            "screening_only":smoke or reps<1000,"planned_cells":len(grid),
+            "screening_only":smoke or cell_index is not None or reps<1000,"planned_cells":len(grid),
             "complete":False,"cells":[],
             "interpretation":"Conditional-mean DGP targets; operational failure counts retained. MNAR and selection need not preserve the full eligible projection."}
+    if smoke or cell_index is not None:
+        report["full_grid_indices"]=indices
     if output is not None:
         output=Path(output)
         if output.exists():
@@ -153,7 +159,8 @@ if __name__=="__main__":
     p.add_argument("--smoke",action="store_true")
     p.add_argument("--workers",type=int,default=1)
     p.add_argument("--output",type=Path)
+    p.add_argument("--cell-index",type=int)
     a=p.parse_args()
-    result=run(a.reps,a.seed,a.smoke,a.workers,a.output)
+    result=run(a.reps,a.seed,a.smoke,a.workers,a.output,a.cell_index)
     if a.output is None:
         print(json.dumps(result,indent=2,allow_nan=False))

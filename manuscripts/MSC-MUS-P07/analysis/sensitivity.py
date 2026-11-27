@@ -85,8 +85,8 @@ def assess(d,draws=100,seed=2708):
         # from a working model fitted to known exposure and observed outcome.
         k=o; observed=e&o
         design=np.column_stack([cov,y])
-        model=probability(design[observed],c[observed])
         if not (~e&o).any():return {"unavailable":"No unknown exposure among valid outcomes"}
+        model=probability(design[observed],c[observed])
         p=np.clip(model(design[k]),.001,.999);known=e[k];cc=c[k]
         rng=np.random.default_rng(seed); uniforms=rng.random((draws,k.sum()))
         results={}
@@ -105,4 +105,7 @@ def assess(d,draws=100,seed=2708):
         attempt("stage_ipw",weights)
         attempt("outcome_shifts",outcome_shifts)
         attempt("exposure_shifts",exposure_shifts)
+    else:
+        for name in ("stage_ipw","outcome_shifts","exposure_shifts"):
+            out[name]={"unavailable":"No complete known exposure and outcome windows"}
     return out

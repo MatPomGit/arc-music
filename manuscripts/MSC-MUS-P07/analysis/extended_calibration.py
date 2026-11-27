@@ -77,11 +77,14 @@ def scenario(task):
     return {'n':n,'prevalence':prev,'targets':targets,'mechanism':mechanism,'models':out,'joint_rejection':joint/reps,'false_family':false/reps if 0 in effects else None}
 
 
-def run(reps=200,seed=20261206,workers=1,smoke=False,output=None):
+def run(reps=200,seed=20261206,workers=1,smoke=False,output=None,cell_index=None):
     if reps<1 or workers<1 or seed<0:raise ValueError('Invalid run parameters')
     grid=list(itertools.product((480,640,1000),(.05,.10),((0.,0.),(.4,0.),(0.,-.2),(.4,-.2)),('mcar','mar','joint_mnar')))
-    if smoke:grid=[grid[0],grid[-1]]
-    report={'status':'SYNTHETIC_DEVELOPMENT','seed':seed,'reps':reps,'planned_cells':len(grid),'complete':False,'screening_only':smoke or reps<1000,'environment':{'python':platform.python_version(),'numpy':np.__version__,'scipy':scipy.__version__},'cells':[]}
+    if cell_index is not None and (smoke or not 0<=cell_index<len(grid)):
+        raise ValueError('Choose a valid full-grid cell index without smoke')
+    indices=([cell_index] if cell_index is not None else ([0,len(grid)-1] if smoke else list(range(len(grid)))))
+    tasks=[(i,grid[i],reps,seed) for i in indices]
+    report={'status':'SYNTHETIC_DEVELOPMENT','seed':seed,'reps':reps,'planned_cells':len(indices),'complete':False,'screening_only':smoke or cell_index is not None or reps<1000,'environment':{'python':platform.python_version(),'numpy':np.__version__,'scipy':scipy.__version__},'cells':[]}
     path=Path(output) if output else None
     if path:
         if path.exists():raise FileExistsError(path)
@@ -89,7 +92,7 @@ def run(reps=200,seed=20261206,workers=1,smoke=False,output=None):
     def save():
         if path:
             tmp=path.with_suffix(path.suffix+'.tmp');tmp.write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8');tmp.replace(path)
-    tasks=[(i,s,reps,seed) for i,s in enumerate(grid)]
+    if smoke or cell_index is not None:report['full_grid_indices']=indices
     def collect(results):
         for row in results:report['cells'].append(row);save()
     if workers==1:collect(map(scenario,tasks))
@@ -98,5 +101,5 @@ def run(reps=200,seed=20261206,workers=1,smoke=False,output=None):
     report['complete']=True;save();return report
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reps',type=int,default=200);p.add_argument('--seed',type=int,default=20261206);p.add_argument('--workers',type=int,default=1);p.add_argument('--smoke',action='store_true');p.add_argument('--output');a=p.parse_args();d=run(a.reps,a.seed,a.workers,a.smoke,a.output)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--reps',type=int,default=200);p.add_argument('--seed',type=int,default=20261206);p.add_argument('--workers',type=int,default=1);p.add_argument('--smoke',action='store_true');p.add_argument('--output');p.add_argument('--cell-index',type=int);a=p.parse_args();d=run(a.reps,a.seed,a.workers,a.smoke,a.output,a.cell_index)
     if not a.output:print(json.dumps(d,indent=2,allow_nan=False))

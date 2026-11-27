@@ -25,4 +25,19 @@ class TestSensitivity(unittest.TestCase):
         a,_=prepare(fixture());r=assess(a,draws=3)
         self.assertEqual(r["unknown_exposure"],0)
         self.assertIn("unavailable",r["exposure_shifts"])
+    def test_no_complete_windows_reports_unavailable(self):
+        raw=fixture()
+        raw["valence60"]=np.nan
+        d,_=prepare(raw)
+        result=assess(d,draws=2)
+        self.assertEqual(result["unknown_outcome"],400)
+        for key in ("stage_ipw","outcome_shifts","exposure_shifts"):
+            self.assertIn("No complete",result[key]["unavailable"])
+    def test_no_unknown_exposure_precedes_logistic_fit(self):
+        raw=fixture()
+        raw["creation_first_hour"]=False
+        d,_=prepare(raw)
+        result=assess(d,draws=2)
+        self.assertEqual(result["exposure_shifts"]["unavailable"],
+                         "No unknown exposure among valid outcomes")
 if __name__=="__main__":unittest.main()
