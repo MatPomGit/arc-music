@@ -10,7 +10,7 @@ Do not show hypotheses to participants. Test comprehension with 8–12 volunteer
 3. Initial motives, four independent ratings, 0 (wcale) to 10 (bardzo silnie): „Na ile przed rozpoczęciem sesji chciałeś/aś: wyrazić swoje emocje; poprawić swój nastrój; odkryć nowe możliwości muzyczne; dobrze się bawić?” Include skip option.
 4. Pre and post ratings, separate time anchors: „Tuż przed rozpoczęciem / tuż po zakończeniu sesji, na ile łatwo było Ci zrozumieć własne emocje?” 0 = bardzo trudno, 10 = bardzo łatwo. „Jak przyjemny lub nieprzyjemny był Twój stan emocjonalny?” 0 = bardzo nieprzyjemny, 5 = neutralny, 10 = bardzo przyjemny.
 5. Operations: prompting/lyrics, regeneration, selection among variants, editing/extension. Each yes/no/skip. Record whether output completed.
-6. Agency: „Na ile miałeś/aś poczucie wpływu na decyzje twórcze?” 0–10. Resonance: „Na ile doświadczenie tej sesji miało dla Ciebie osobiste znaczenie?” 0–10.
+6. Agency: „Na ile miałeś/aś poczucie wpływu na decyzje twórcze?” 0–10. Personal significance (legacy field resonance): „Na ile doświadczenie tej sesji miało dla Ciebie osobiste znaczenie?” 0–10.
 7. Functions: „Na ile podczas sesji działanie umożliwiło Ci wyrażenie emocji, poznanie nowych możliwości, oderwanie uwagi od trudnych myśli, poczucie więzi z innymi?” Separate 0–10 ratings, not applicable/skip permitted. Optional adverse items: frustration, difficulty disengaging (0–10); no clinical interpretation.
 8. Background: age, musical experience (0–10), generator-use days over 30 days (0–30), source of recruitment, broad platform category. No direct identifiers.
 
@@ -32,7 +32,7 @@ One row per participant. Mandatory P03 study code: `p03-` plus a random canonica
 | function_expression, function_explore, function_distraction, function_social | 0–10 or NA |
 | frustration, difficulty_disengaging | 0–10 or NA |
 
-Define iteration_count = regenerated + selected + edited only if all three are observed. Reject impossible values at entry; unresolved invalid values become NA. Document ineligible records and withdrawals without retaining their sensitive responses. No exclusions based on outcomes, response speed alone or failure to finish a song. No IP-based duplicate detection.
+Define operation_diversity = regenerated + selected + edited only if all three are observed; retain iteration_count solely as a compatibility alias. This is diversity of operation types, not count of iterations. The clarity fields represent recalled perceived ease of understanding emotions and resonance represents personal significance, not emotional resonance. See analysis/construct-map.md for the complete item contract and cognitive interview probes. Reject impossible values at entry; unresolved invalid values become NA. Document ineligible records and withdrawals without retaining their sensitive responses. No exclusions based on outcomes, response speed alone or failure to finish a song. No IP-based duplicate detection.
 
 ## Analysis freeze gates
 - Verify Polish comprehensibility; check rights for any external instrument; do not describe custom indicators as validated scales.
@@ -43,3 +43,7 @@ Define iteration_count = regenerated + selected + edited only if all three are o
 
 ## Source readiness
 Schäfer et al. (2013), doi:10.3389/fpsyg.2013.00511, and Saarikallio (2008), doi:10.1177/102986490801200206, support music listening/function and mood regulation constructs, not equivalence to generative creation. He (2026), doi:10.3389/fpsyg.2026.1835406, is directly relevant to agency. Full-text audit and current systematic novelty search remain open; existing P02 bibliography entries are inherited and not independently audited here.
+
+## Conditional recruitment plan
+
+Target 500 complete eligible H1 records; conditional cap 660 submissions or eight weeks, whichever limit is reached first, subject to prospective approval. Historical cap 560 is a sensitivity scenario only. Before freeze use a separate approved feasibility sample to obtain the combined eligible-and-complete rate and one-sided 95% exact lower bound. Select a cap rounded upward to 20 with binomial assurance ≥.95 at that lower bound, separately assess throughput, costs and time limit, and obtain owner approval. If infeasible, retain NO-GO. Example scenarios are not pilot observations: at p=.794666, cap660 gives .99100; at p=.78, cap660 gives .92349; at p=.75, cap700 gives .98607; at p=.70, cap760 gives .99454. See analysis/recruitment_assurance.py. Never monitor effect estimates or change the cap after start.

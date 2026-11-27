@@ -43,6 +43,8 @@ class ModelTests(unittest.TestCase):
         self.assertTrue(np.isnan(data.loc[0, "iteration_count"]))
         self.assertEqual(data.loc[1, "iteration_count"], 0)
         self.assertEqual(fit(data,"H3")["n"], 499)
+        self.assertTrue(data["operation_diversity"].equals(data["iteration_count"]))
+        self.assertEqual(data.loc[1,"operation_diversity"],0)
 
     def test_filter_and_range(self):
         raw = fixture()

@@ -23,7 +23,7 @@ INTEGERS = set(OPS + ["prompted", "age", "use_days", "recency"])
 MODELS = {
     "H1": ("clarity_post", "motive_expression", ["clarity_pre"] + MOTIVES + BACKGROUND),
     "H2": ("valence_post", "motive_mood", ["valence_pre"] + MOTIVES + BACKGROUND),
-    "H3": ("iteration_count", "motive_explore", MOTIVES + BACKGROUND),
+    "H3": ("operation_diversity", "motive_explore", MOTIVES + BACKGROUND),
     "H4": ("resonance", "agency", ["agency"] + MOTIVES + BACKGROUND),
 }
 
@@ -49,7 +49,8 @@ def prepare(raw):
     valid = data.source.isin(SOURCES)
     invalid["source"] = int((data.source.notna() & ~valid).sum())
     data["source"] = data.source.where(valid)
-    data["iteration_count"] = data[OPS].sum(axis=1, min_count=len(OPS))
+    data["operation_diversity"] = data[OPS].sum(axis=1, min_count=len(OPS))
+    data["iteration_count"] = data["operation_diversity"]  # compatibility only
     return data, invalid
 
 
