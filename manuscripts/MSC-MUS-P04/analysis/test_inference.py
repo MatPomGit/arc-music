@@ -52,6 +52,19 @@ class InferenceTests(unittest.TestCase):
         self.assertEqual(len(result["sensitivity"]),27)
         zero=[s for s in result["sensitivity"] if s["offset_control"]==s["offset_scaffold"]==s["differential_slope"]==0][0]
         self.assertAlmostEqual(zero["estimate"],result["mar"]["estimate"])
+    def test_assignment_contrasts_require_common_support(self):
+        rng=np.random.default_rng(42)
+        arm=np.repeat([0,1],36)
+        y=rng.integers(0,11,size=len(arm)).astype(float)
+        for control_max,scaffold_min,expected in (
+                (20,28,set()),(30,18,{"0"}),(42,6,{"-1","0","1"})):
+            with self.subTest(control_max=control_max,scaffold_min=scaffold_min):
+                total=np.rint(np.r_[np.linspace(6,control_max,36),
+                                    np.linspace(scaffold_min,42,36)])
+                x=design(arm,total,np.empty((len(arm),0)))
+                result=analyze(x,y,m=3,grid=False)
+                self.assertEqual(set(result["assignment_contrasts"]),expected)
+                self.assertIn("estimate",result["mar"])
     def test_rank_guard(self):
         with self.assertRaises(ValueError):
             design([0,1],[1,1],np.empty((2,0)))

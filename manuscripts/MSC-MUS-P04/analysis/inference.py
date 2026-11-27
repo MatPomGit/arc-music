@@ -163,10 +163,15 @@ def analyze(x,y,m=50,seed=20261126,grid=True):
     b,v,df=fit_hc3(x,y)
     completed=impute_pmm(x,y,m,seed)
     pooled=pooled_contrast(x,completed,w)
+    # Report conditional contrasts only within the baseline moderator range
+    # shared by both randomized arms, as in the exploratory spline analysis.
+    z=x[:,2]
+    lo=max(z[x[:,1]==-.5].min(),z[x[:,1]==.5].min())
+    hi=min(z[x[:,1]==-.5].max(),z[x[:,1]==.5].max())
     result={"complete_outcome":contrast(b,v,df,w),"mar":pooled,
             "availability":availability(x,y),
             "assignment_contrasts":{str(d):pooled_contrast(x,completed,target_weights(x,d))
-                                     for d in (-1,0,1)}}
+                                     for d in (-1,0,1) if lo<=d<=hi}}
     if grid:
         result["sensitivity"]=[{"offset_control":i,"offset_scaffold":j,"differential_slope":s,
              **pooled_contrast(x,shift_imputed(x,y,completed,i,j,s),w)}
