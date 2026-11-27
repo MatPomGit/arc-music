@@ -54,10 +54,11 @@ def run(reps=20,seed=20261126,offset=0):
                 rng=np.random.default_rng(np.random.SeedSequence([seed,sid,tid,i]))
                 try:
                     f=compare_groups(group(n1,rng,scenario,False),group(n2,rng,scenario,True),d)
-                    rows.append({"replicate":i,"status":"proper","target_rejected":f["tests"][target]["p_value"]<.05,
-                                 "any_gate_rejected":gate_rejected(f["ordered_gate"]),**f})
                 except (ValueError,ArithmeticError,np.linalg.LinAlgError) as exc:
                     rows.append({"replicate":i,"status":"failure","reason":str(exc)})
+                else:
+                    rows.append({"replicate":i,"status":"proper","target_rejected":f["tests"][target]["p_value"]<.05,
+                                 "any_gate_rejected":gate_rejected(f["ordered_gate"]),**f})
             proper=[x for x in rows if x["status"]=="proper"]
             reject=sum(x["target_rejected"] for x in proper)
             out.append({"sizes":[n1,n2],"scenario":scenario,"target":target,
