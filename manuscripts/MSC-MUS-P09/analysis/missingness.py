@@ -156,9 +156,19 @@ if __name__ == "__main__":
     parser.add_argument("--demo", action="store_true")
     parser.add_argument("--reps", type=int, default=999)
     parser.add_argument("--seed", type=int, default=20261127)
+    parser.add_argument("--ledger", help="Restricted authoritative allocation database; required for CSV")
     args = parser.parse_args()
     if args.demo == bool(args.csv):
         parser.error("Provide exactly one of CSV or --demo")
-    result = (demo(args.reps, args.seed) if args.demo else
-              analyze_missingness(pd.read_csv(args.csv, dtype={"participant_id": str}), args.reps, args.seed))
+    if args.demo:
+        if args.ledger:
+            parser.error("--ledger is not used for synthetic demos")
+        result = demo(args.reps, args.seed)
+    else:
+        if not args.ledger:
+            parser.error("--ledger is required for assigned-cohort CSV analysis")
+        from allocation import reconcile
+        frame = pd.read_csv(args.csv, dtype={"participant_id": str})
+        reconcile(args.ledger, frame)
+        result = analyze_missingness(frame, args.reps, args.seed)
     print(json.dumps(result, indent=2, allow_nan=False))
