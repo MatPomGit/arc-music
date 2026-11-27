@@ -134,3 +134,24 @@ Source HEAD `bf1879598a55a14b8aa73674bfb24d25ca4fbab7`; local Python 3.13.5, Num
 | Selective | 160 | 112.13 | 100 | 93 | -.0085 | .2410 |
 
 The exact complete-pair population agreement targets are .7000, .4828 and .4856, respectively; the selective scenario's all-invitee target is .4828. The 30-invitation cells produced no available intervals in this screen (30 complete pairs required), so conditional coverage is undefined rather than zero. At other invitation counts all intervals were available and conditional and operational coverage coincide in the observed replicates. The observed 84/100 and 88/100 coverage at 60 invitations motivates further calibration, not selection of a larger N by default. The intervals at 160 invitations still have appreciable widths. These are 1200 stylised synthetic datasets, not participant data. The screen does not use 2000 bootstrap draws or the required 1000 to 2000 datasets per cell. Identical item values within each domain, no item missingness, one positive agreement configuration and a limited shift/selection model restrict inference. Final invitation counts, precision criteria and retest scoring remain unapproved.
+
+## Executed ordinal-item retest precision screen (28 November 2026)
+
+Source HEAD `1194c70e7f8077b0d6e98bccc35ff0847caa54dc`, ordinal driver Git blob `c68bdd80f267c8d908198b3fabbfb7ad2202a965`, verified locally along with the four unchanged source dependencies identified in the preceding screen. Python 3.13.5, NumPy 2.3.5, SciPy 1.17.0, single OpenBLAS thread. Command from analysis/: `OPENBLAS_NUM_THREADS=1 python retest_ordinal_calibration.py --reps 100 --boot 199 > ordinal_screen.json` (default seed 20261129). Local JSON SHA-256 `344970082b8b95ec2261c4f4eeb7e169f13ab19db9497a0d38fcffabdb3a2d72`. This is a local execution, not a CI artifact; dependencies differ from the pinned CI runtime.
+
+| Scenario | Invited | Mean eligible pairs | Intervals available / 100 | Covered / 100 | Conditional coverage | Bias | Mean width |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Stable | 60 | 47.68 | 100 | 93 | .930 | -.0043 | .4352 |
+| Stable | 100 | 79.92 | 100 | 94 | .940 | .0040 | .3468 |
+| Stable | 160 | 127.70 | 100 | 95 | .950 | -.0029 | .2772 |
+| Shift | 60 | 48.12 | 100 | 96 | .960 | -.0145 | .3792 |
+| Shift | 100 | 79.60 | 100 | 95 | .950 | .0035 | .2934 |
+| Shift | 160 | 128.16 | 100 | 97 | .970 | -.0026 | .2399 |
+| MCAR | 60 | 26.81 | 24 | 21 | .875 | .0228 | .4969 |
+| MCAR | 100 | 43.02 | 99 | 87 | .879 | -.0218 | .4698 |
+| MCAR | 160 | 69.13 | 100 | 88 | .880 | .0090 | .3640 |
+| Selective | 60 | 27.42 | 33 | 30 | .909 | -.0132 | .5212 |
+| Selective | 100 | 47.05 | 100 | 92 | .920 | -.0150 | .4547 |
+| Selective | 160 | 73.76 | 100 | 93 | .930 | .0064 | .3620 |
+
+Full-data agreement targets are .5698 for stable, MCAR and selective, and .4240 for shift. Complete-pair targets are .5698, .4240, .5531 and .5318, respectively. Analytical eligible-pair probabilities are .8000, .8000, .4349 and .4656. At 60 invitations the MCAR and selective scenarios often fail the 30-pair execution guard; operational coverage (21/100 and 30/100) is therefore substantially lower than conditional coverage (21/24 and 30/33). At 160 invitations the MCAR scenario still covers only 88/100, with mean interval width .3640; increasing invitations alone does not establish nominal coverage. Monte Carlo uncertainty is substantial at 100 replications per cell. Comparisons with the earlier stylised score-level screen are descriptive because the generating distributions and targets differ. These 1200 synthetic datasets do not provide participant evidence or authorize an invitation count. Next evaluate alternative interval constructions on paired datasets with independent confirmation, 2000 bootstrap draws and larger replication counts; prespecify precision and availability criteria before sample-size selection.
