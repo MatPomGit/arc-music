@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from scipy.stats import t
-from revised_design import cr2, endpoint_design, endpoint
+from revised_design import cr2, endpoint_design, endpoint, summary
 from longitudinal_checks import design
 
 
@@ -86,6 +86,24 @@ class RevisedDesignTests(unittest.TestCase):
         bad=y1.copy()
         bad[0]=np.nan
         with self.assertRaises(ValueError): endpoint(z,y0,bad,m)
+
+    def test_summary_retains_failed_replications(self):
+        empty = summary([], 0., 10)
+        self.assertEqual((empty['valid'], empty['failed']), (0, 10))
+        self.assertIsNone(empty['coverage'])
+        self.assertIsNone(empty['bias_mcse'])
+        single = summary([(0., 1.)], 0., 10)
+        self.assertEqual((single['valid'], single['failed']), (1, 9))
+        self.assertEqual(single['coverage'], 1.)
+        self.assertIsNone(single['bias_mcse'])
+        mixed = summary([(0., 1.), (2., .5)], 0., 10)
+        self.assertEqual(mixed['failed'], 8)
+        self.assertEqual(mixed['coverage'], .5)
+        self.assertEqual(mixed['rejection'], .5)
+        with self.assertRaises(ValueError):
+            summary([(np.nan, 1.)], 0., 10)
+        with self.assertRaises(ValueError):
+            summary([(0., -1.)], 0., 10)
 
     def test_endpoint_complete_oracle(self):
         z,y0,y1,m=endpoint_design(np.random.default_rng(42),80,.85,-.35,'none')
