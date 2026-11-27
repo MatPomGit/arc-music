@@ -87,58 +87,103 @@ def collect(value, label, prefix=(), groups=None):
                 collect(v,f"{label} | row {i+1}",prefix,groups)
     return groups
 
-def svg(title,rows):
-    # Horizontal dot chart with explicit numeric axis; no implicit zero or
-    # pooling of distinct conditional and operational metrics.
-    width=1250; left=720; right=1180; top=90; step=24
-    height=top+len(rows)*step+65
-    vals=[v for _,v in rows]
-    low=min(0.,min(vals)); high=max(0.,max(vals))
-    if high==low: high=1.
-    scale=lambda v:left+(v-low)/(high-low)*(right-left)
-    parts=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-           '<rect width="100%" height="100%" fill="white"/>',
-           f'<text x="20" y="30" font-size="17" font-family="sans-serif">{escape(title)}</text>',
-           '<text x="20" y="55" font-size="13" fill="#555" font-family="sans-serif">Synthetic Monte Carlo diagnostics; scenario rows, not empirical observations.</text>']
-    for i in range(5):
-        val=low+(high-low)*i/4; x=scale(val)
-        parts.append(f'<path d="M{x:.2f} {top-12} V{height-50}" stroke="#ddd"/>')
-        parts.append(f'<text x="{x:.2f}" y="{height-25}" text-anchor="middle" font-size="12">{val:.3g}</text>')
-    for i,(label,v) in enumerate(rows):
-        y=top+i*step
-        short=label if len(label)<=100 else label[:97]+"..."
-        parts.append(f'<text x="15" y="{y+4}" font-size="11" font-family="sans-serif"><title>{escape(label)}</title>{escape(short)}</text>')
-        parts.append(f'<circle cx="{scale(v):.2f}" cy="{y}" r="4" fill="#245b85"><title>{v:.8g}</title></circle>')
-        parts.append(f'<text x="1240" y="{y+4}" text-anchor="end" font-size="11">{v:.4g}</text>')
-    parts.append('</svg>')
-    return "\n".join(parts)
+def summary_svg(study,profile,groups,complete):
+    """One multi-panel figure; independent scales, no pooling across estimands."""
+    width=1600
+    body=[]
+    y=112
+    families=defaultdict(dict)
+    for (family,name),rows in sorted(groups.items()):
+        families[family][name]=rows
+    for family,metrics in families.items():
+        labels=list(dict.fromkeys(label for rows in metrics.values() for label,_ in rows))
+        names=list(metrics)
+        # Each panel has its own metric scale. All panels share scenario order.
+        for start in range(0,len(names),5):
+            cols=names[start:start+5]
+            lookup={}
+            bounds={}
+            for name in cols:
+                lookup[name]={}
+                for label,value in metrics[name]:
+                    if label in lookup[name]:
+                        raise ValueError("Duplicate scenario/metric: "+label+" / "+name)
+                    lookup[name][label]=value
+                values=list(lookup[name].values())
+                key=name.lower().split(" / ")[-1]
+                if "bias" in key:
+                    lim=max(abs(v) for v in values) or 1.
+                    bounds[name]=(-lim,lim)
+                elif all(0<=v<=1 for v in values) and "rmse" not in key and "count" not in key:
+                    bounds[name]=(0.,1.)
+                else:
+                    bounds[name]=(min(0.,min(values)),max(0.,max(values)) or 1.)
+            body.append(f'<text x="20" y="{y}" font-size="18" font-weight="bold">{escape(family)} | metrics {start+1}-{start+len(cols)} / {len(names)}</text>')
+            y+=16
+            for j,name in enumerate(cols):
+                x=660+j*184
+                lo,hi=bounds[name]
+                short=name if len(name)<=24 else name[-23:]
+                body.append(f'<text x="{x+90}" y="{y+18}" text-anchor="middle" font-size="12"><title>{escape(name)}</title>{escape(short)}</text>')
+                body.append(f'<text x="{x+90}" y="{y+34}" text-anchor="middle" font-size="11">{lo:.3g} to {hi:.3g}</text>')
+            y+=44
+            for label in labels:
+                short=label if len(label)<=92 else label[:89]+"..."
+                body.append(f'<text x="20" y="{y+16}" font-size="11"><title>{escape(label)}</title>{escape(short)}</text>')
+                for j,name in enumerate(cols):
+                    x=660+j*184
+                    value=lookup[name].get(label)
+                    lo,hi=bounds[name]
+                    body.append(f'<rect x="{x}" y="{y}" width="180" height="22" fill="#f1f3f5"/>')
+                    if value is not None:
+                        scale=lambda v:x+4+126*(v-lo)/(hi-lo) if hi>lo else x+4
+                        a,b=sorted((scale(0),scale(value)))
+                        body.append(f'<rect x="{a:.2f}" y="{y+4}" width="{max(1,b-a):.2f}" height="14" fill="#3779ac"><title>{escape(label+" / "+name)}: {value:.8g}</title></rect>')
+                        shown=f"{value:.4g}"
+                    else:
+                        shown="NA"
+                    body.append(f'<text x="{x+176}" y="{y+16}" text-anchor="end" font-size="11">{shown}</text>')
+                y+=24
+            y+=30
+    status="COMPLETE" if complete else "PARTIAL - failed or blocked tasks excluded"
+    return "\n".join([f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{y+20}" viewBox="0 0 {width} {y+20}" font-family="sans-serif">',
+        '<rect width="100%" height="100%" fill="white"/>',
+        f'<text x="20" y="34" font-size="24" font-weight="bold">{escape(study+" / "+profile+" : Monte Carlo summary")}</text>',
+        f'<text x="20" y="60" font-size="15">{status}</text>',
+        '<text x="20" y="83" font-size="13">Rows: scenarios. Columns: metrics with separate numeric scales. NA: unavailable. Synthetic results.</text>',
+        *body,'</svg>'])
 
 def export_plots(tasks,state,out,dest,study,profile):
     dest.mkdir(parents=True,exist_ok=True)
-    # A resumed run may have fewer selected outputs. Remove only our own
-    # previously indexed plot files, never user-created figures.
     index=dest/"plot-index.json"
+    old_files=set()
     if index.exists():
         for entry in json.loads(index.read_text(encoding="utf-8")).get("plots",[]):
             name=entry["file"]
             if Path(name).name==name and name.startswith("mc-") and name.endswith(".svg"):
-                (dest/name).unlink(missing_ok=True)
+                old_files.add(name)
     groups=defaultdict(list)
     for task in tasks:
         if state.get(task.name) not in {"EXECUTED","REUSED"} or "/shard-" in task.name:
             continue
         payload=json.loads((out/(task.name+".json")).read_text(encoding="utf-8"))
-        # Group by job family rather than combining unrelated estimands.
         family=task.name.split("/")[0]
         for metric_name,rows in collect(payload,task.name).items():
             groups[(family,metric_name)].extend(rows)
+    complete=all(state.get(t.name) in {"EXECUTED","REUSED"} for t in tasks)
+    filename="mc-summary.svg"
     entries=[]
-    for (family,name),rows in sorted(groups.items()):
-        for start in range(0,len(rows),30):
-            filename=f"mc-{len(entries)+1:04}.svg"
-            chunk=rows[start:start+30]
-            (dest/filename).write_text(svg(f"{study} {profile}: {family} / {name}",chunk),encoding="utf-8")
-            entries.append({"file":filename,"family":family,"metric":name,"rows":[{"scenario":s,"value":v} for s,v in chunk]})
-    index.write_text(json.dumps({"synthetic":True,"profile":profile,"plots":entries,
-                                 "complete":all(state.get(t.name) in {"EXECUTED","REUSED"} for t in tasks)},indent=2,ensure_ascii=False),encoding="utf-8")
+    if groups:
+        temp=dest/(filename+".tmp")
+        temp.write_text(summary_svg(study,profile,groups,complete),encoding="utf-8")
+        temp.replace(dest/filename)
+        entries=[{"file":filename,"panels":[{"family":family,"metric":name,
+                  "rows":[{"scenario":label,"value":v} for label,v in rows]}
+                  for (family,name),rows in sorted(groups.items())]}]
+    temp=index.with_suffix(".tmp")
+    temp.write_text(json.dumps({"synthetic":True,"profile":profile,"plots":entries,
+                               "complete":complete},indent=2,ensure_ascii=False),encoding="utf-8")
+    temp.replace(index)
+    for name in old_files-({filename} if groups else set()):
+        (dest/name).unlink(missing_ok=True)
     return len(entries)
