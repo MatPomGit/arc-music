@@ -67,3 +67,17 @@ The historical development artifact [15192334440](https://github.com/MatPomGit/a
 | 560 + 240 | 2 (0.10) | 20 (1.00) | 9 (0.45) | 18 (0.90) |
 
 Thirteen of 16 historical numerical rates change; three coincide with the corrected rates. No target-specific Wald statistic or p-value is changed. The 20-replication null results are imprecise and do not establish control of the joint type-I error. Any-gate rejection is not target-specific detection, and nonrejection is not proof of invariance. The original archive is not overwritten. Reproduce the comparison with `python3 reaggregate_invariance.py path/to/original.zip` from this directory. The production calibration now separates rejection, nonrejection and estimation failure and reports conditional and unconditional denominators and Wilson intervals. This correction does not change the ordered decision rule or authorize a group comparison or sample size.
+
+
+## Versioned reference-estimator discrepancy (27 November 2026)
+
+The exact archived comparison [15193905033](https://github.com/MatPomGit/arc-music/actions/runs/45990267517/artifacts/15193905033), ZIP SHA-256 `a8f9289195e1bbfee3a5ebf92c5febb364511c28dfc7cbe77032d4469cf4c12c`, was independently inspected. The workflow job 140476001715 logged Ubuntu 26.04, Python 3.12.16, R 4.5.2-1ubuntu2 and lavaan 0.6.21-1. NumPy and SciPy were pinned to 2.2.6 and 1.15.3 in requirements.txt.
+
+| Seed / draw | Reference | Python | Max loading / correlation / SE difference |
+|---|---|---|---|
+| 67, 8 items | proper | proper | .00455 / .00116 / .00121 |
+| 68, 35 items, moderate | proper | proper | .00495 / .00461 / .00191 |
+| 69, 35 items, weak | proper, minimum eigenvalue .01522 | improper | not estimable |
+| Historical weak draw | improper, minimum eigenvalue -.05252 | improper | not estimable |
+
+The historical comparison is immutable. The new comparison pins the observed runtime and numerical package versions, hashes the paired input, reports both estimator statuses even when one fails, and uses prospective development tolerances .02 for loadings, factor correlations and thresholds and .01 for standard errors. It requires both moderate cases to agree and all cases to execute, but any weak-case disagreement remains explicit and blocks a claim of full agreement. Different fit-statistic corrections are not required to yield identical p-values. The new execution and reproducibility remain to be verified; content validation and independent samples remain prerequisites.
