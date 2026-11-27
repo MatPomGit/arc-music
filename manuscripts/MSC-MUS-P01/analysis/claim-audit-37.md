@@ -66,3 +66,16 @@ The preceding register covers the original 37 entries. The following four entrie
 | louie2022 | abstract / author copy | https://doi.org/10.1145/3490099.3511159 ; expressive communication and steering; not demonstrated emotion regulation. |
 
 Backward citation links: Zhang & Pan cites PAGURI and Louie steering research. AIM-ER's contribution is a proposed goal-by-affordance affective contrast, not the discovery of creative control. No firstness claim. Original two inaccessible reports remain limited-access.
+
+## Extension to 45 sources (27 November 2026)
+
+Bibliography blob: `50759dfa4152c49778f7564206126fc5b64aa66b`; base commit: `97b1c2622fa7d22eeb90cfb32b3c3f6b2a1d5b48`. Targeted DOI/title searches and publisher/PubMed records; the four additional keys were checked against the claims in the manuscript. This extension preserves the historical register and its access categories.
+
+| Key | Access | Source and claim boundary |
+|---|---|---|
+| baltazarstress2019 | body inspected | https://journals.sagepub.com/doi/full/10.1177/2059204319844161 ; procedure, Tables 1–2 and Discussion: four within-person conditions, 34 participants, outcome-specific samples (Table 2 tension N=29, valence N=30). Both factors affected tension; the adequate combination did not outperform every mixed condition. One stress-reduction goal and existing recordings, not a goal-by-semantic-affordance crossover. |
+| dewitte2020 | abstract and indexed metadata | https://pubmed.ncbi.nlm.nih.gov/31167611/ ; two multilevel meta-analyses, 104 randomized trials and 9,617 participants, physiological d=.380 and psychological d=.545. Heterogeneous music interventions, not a contrast isolating AI creation or goal attainment. Full-text moderator and risk-of-bias assessment not independently repeated here. |
+| hesun2026 | body located; targeted abstract and scope | https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1889696/full ; listener-level outcomes, authorship attribution, affect and aesthetic judgement. Distinguish perception of musical origin from actual creation and intentional regulation. Does not establish an effect of active co-creation on goal attainment. |
+| adiasto2022 | body inspected | https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0270031 ; Results, Overall effect and Moderator analyses: 14 studies, 706 participants, 90 effect sizes; g=.15, 95% CI [-.21,.52], I²=89.29%. The interval is compatible with negative and positive effects; nonsignificance does not establish equivalence. Listening after stress induction in healthy adults, not AI creation. |
+
+Rechecked Zhang 2026 on the publisher's /full URL; it redirects to /abstract. No new full-text evidence. The existing Swarbrick conference-only limitation remains. All 45 bibliography keys have a register row; coverage of keys is not exhaustive claim validation. NOV-02 and BIB-01/02 remain partial; database-complete searches and independent review remain outstanding.

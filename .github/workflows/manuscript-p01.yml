@@ -41,10 +41,14 @@ jobs:
       - name: Compile manuscript
         working-directory: manuscripts/MSC-MUS-P01
         run: |
-          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-          if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' main.log; then exit 1; fi
-          test -s main.pdf
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex supplement.tex
+          for document in main supplement; do
+            test -s "$document.pdf"
+            test -s "$document.log"
+            if grep -Ei 'undefined (references|citations)|citation .* undefined|reference .* undefined' "$document.log"; then exit 1; fi
+          done
           texcount -inc -sum main.tex > word-count.txt
+          texcount -inc -sum supplement.tex > supplement-word-count.txt
           git ls-tree -r HEAD > source-tree.txt
       - name: Publish exact-head validation artifacts
         uses: actions/upload-artifact@v4
@@ -53,6 +57,9 @@ jobs:
           path: |
             manuscripts/MSC-MUS-P01/main.pdf
             manuscripts/MSC-MUS-P01/main.log
+            manuscripts/MSC-MUS-P01/supplement.pdf
+            manuscripts/MSC-MUS-P01/supplement.log
+            manuscripts/MSC-MUS-P01/supplement-word-count.txt
             manuscripts/MSC-MUS-P01/word-count.txt
             manuscripts/MSC-MUS-P01/source-tree.txt
             manuscripts/MSC-MUS-P01/analysis/design-results.json

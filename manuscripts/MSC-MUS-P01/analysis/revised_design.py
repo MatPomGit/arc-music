@@ -21,6 +21,14 @@ def cr2(x, y, mask, contrast, alpha=.04):
     """
     if not 0 < alpha < 1:
         raise ValueError('invalid alpha')
+    if x.ndim != 3 or y.shape != x.shape[:2] or mask.shape != y.shape:
+        raise ValueError('CR2 requires aligned participant/session arrays')
+    if mask.dtype != np.bool_:
+        raise ValueError('CR2 mask must be boolean')
+    if contrast.shape != (x.shape[2],) or not np.isfinite(contrast).all():
+        raise ValueError('invalid contrast')
+    if not np.isfinite(x[mask]).all() or not np.isfinite(y[mask]).all():
+        raise ValueError('observed design and outcomes must be finite')
     x = np.where(mask[..., None], x, 0.)
     y = np.where(mask, y, 0.)
     _, k, p = x.shape
@@ -84,6 +92,9 @@ def endpoint(z, y0, y1, mask, shifts=(0., 0.)):
         raise ValueError('observed endpoint ratings must be finite')
     if not np.isfinite(y0).all():
         raise ValueError('first-session missingness requires separate model')
+    shifts = np.asarray(shifts, dtype=float)
+    if shifts.shape != (2,) or not np.isfinite(shifts).all():
+        raise ValueError('shifts must contain two finite arm-specific values')
     means, variances = [], []
     for arm in (0, 1):
         q = z == arm
@@ -104,15 +115,23 @@ def endpoint(z, y0, y1, mask, shifts=(0., 0.)):
 
 
 def summary(vals, truth, reps):
+    if reps < 2 or len(vals) > reps:
+        raise ValueError('invalid replication counts')
+    if not vals:
+        return dict(valid=0, requested=reps, failed=reps, bias=None,
+                    rejection=None, coverage=None, rejection_mc_interval=None,
+                    coverage_mc_interval=None, bias_mcse=None)
     a = np.asarray(vals)
     est, rad = a[:,0], a[:,1]
+    if not np.isfinite(a).all() or np.any(rad < 0):
+        raise ValueError('invalid replication estimates or intervals')
     rejects = int(np.sum(np.abs(est)>rad))
     covers = int(np.sum(np.abs(est-truth)<=rad))
-    return dict(valid=len(a), requested=reps, bias=float(est.mean()-truth),
+    return dict(valid=len(a), requested=reps, failed=reps-len(a), bias=float(est.mean()-truth),
                 rejection=rejects/len(a), coverage=covers/len(a),
                 rejection_mc_interval=wilson(rejects,len(a)),
                 coverage_mc_interval=wilson(covers,len(a)),
-                bias_mcse=float(est.std(ddof=1)/np.sqrt(len(a))))
+                bias_mcse=float(est.std(ddof=1)/np.sqrt(len(a))) if len(a)>1 else None)
 
 
 def main():
@@ -128,26 +147,41 @@ def main():
         for mode in ('none','mar','mnar'):
             for effect in (0.,-.25):
                 rng = np.random.default_rng(seed)
-                vals = []
+                vals, failures = [], {}
                 for _ in range(args.reps):
                     x,y,g,c,m,_,_ = design(rng,'h6',80,8,effect,mode)
-                    vals.append(cr2(x.reshape(80,8,-1),y.reshape(80,8),m.reshape(80,8),c,alpha))
+                    try:
+                        vals.append(cr2(x.reshape(80,8,-1),y.reshape(80,8),m.reshape(80,8),c,alpha))
+                    except (ValueError, np.linalg.LinAlgError) as exc:
+                        reason = str(exc)
+                        failures[reason] = failures.get(reason, 0) + 1
                 result = summary(vals,effect,args.reps)
-                result['mean_df'] = float(np.mean(np.asarray(vals)[:,2]))
+                result.update(seed=seed, n=80, sessions=8, alpha=alpha,
+                              missing=mode, truth=effect, failure_reasons=failures)
+                result['mean_df'] = float(np.mean(np.asarray(vals)[:,2])) if vals else None
                 out['h6'][f'{alpha}_{mode}_{effect}'] = result
     for n in (600,800,1000):
         for mode in ('none','mar','mnar'):
             for effect in (0.,-.35):
                 rng = np.random.default_rng(20261127+n)
-                vals, retained = [], []
+                vals, retained, failures = [], [], {}
                 for _ in range(args.reps):
                     z,y0,y1,m = endpoint_design(rng,n,.85,effect,mode)
-                    vals.append(endpoint(z,y0,y1,m))
                     retained.append(m.mean())
+                    try:
+                        vals.append(endpoint(z,y0,y1,m))
+                    except (ValueError, np.linalg.LinAlgError) as exc:
+                        reason = str(exc)
+                        failures[reason] = failures.get(reason, 0) + 1
                 result = summary(vals,effect,args.reps)
+                result.update(seed=20261127+n, n=n, sessions=8, alpha=.05,
+                              missing=mode, truth=effect, failure_reasons=failures)
                 result['retention'] = float(np.mean(retained))
                 out['h10'][f'{n}_{mode}_{effect}'] = result
     print(json.dumps(out,indent=2,allow_nan=False))
+    # Preserve diagnostic output but fail the run if any fit failed.
+    if any(row['failed'] for kind in ('h6', 'h10') for row in out[kind].values()):
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':
