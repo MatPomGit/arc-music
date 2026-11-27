@@ -22,6 +22,7 @@ REFERENCES = {
     "https://doi.org/10.1038/nn.2726",
     "https://doi.org/10.1111/j.1467-9280.2007.01916.x",
     "https://doi.org/10.1093/cercor/bhp008",
+    "https://doi.org/10.1080/17437199.2019.1627897",
     "https://doi.org/10.1177/03057356231212362",
     "https://doi.org/10.3389/fnhum.2026.1967909",
 }
@@ -64,8 +65,11 @@ def check(root=ROOT):
             body = path.read_text(encoding="utf-8")
             if FORBIDDEN.search(body):
                 errors.append(f"Unsafe public content: {name}")
-            for target in re.findall(r"\]\(([^)]+)\)", body):
-                if target not in PUBLIC and not (name in {"neuropsychology.md", "en-neuropsychology.md"} and target in REFERENCES):
+            targets = re.findall(r"\]\(([^)]+)\)", body)
+            if name in {"neuropsychology.md", "en-neuropsychology.md"}:
+                targets += re.findall(r'\bhref="([^"]+)"', body)
+            for target in targets:
+                if target not in PUBLIC and not (name in {"neuropsychology.md", "en-neuropsychology.md"} and target in REFERENCES | {"studies.html", "en-studies.html"}):
                     errors.append(f"Unapproved public link: {name}")
     config = (root / "mkdocs.yml").read_text(encoding="utf-8")
     keys = [line.split(":", 1)[0].strip() for line in config.splitlines()

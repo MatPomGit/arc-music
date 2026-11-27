@@ -152,7 +152,17 @@ def check_interactions(page, section):
         check_projections(page)
     if section == "neuropsychology":
         assert page.locator("#motion-toggle").count() == 0
-        assert page.locator(".article > h2").count() >= 7
+        assert page.locator(".article .neuro-evidence .neuro-stat").count() == 3
+        assert page.locator(".article .neuro-grid .neuro-card").count() == 8
+        assert page.locator(".article .neuro-card h3").count() == 8
+        assert page.locator(".article > h2").count() == 2
+        assert page.locator(".article .neuro-next a.cta").count() == 1
+        assert page.evaluate("""() => {
+          const grid=document.querySelector('.neuro-grid');
+          const tracks=getComputedStyle(grid).gridTemplateColumns.split(' ');
+          return tracks.length>=1 && tracks.length<=2 &&
+            [...grid.children].every(card=>card.getBoundingClientRect().width>0);
+        }""")
         assert page.locator(".article a[href^='https://doi.org/']").count() >= 9
         if page.viewport_size["width"] >= 1200:
             assert page.locator(".article").bounding_box()["width"] >= 850

@@ -192,3 +192,27 @@ body[data-section=index] .about-layout .article{min-width:0;width:100%;max-width
 .affect-music .affect-copy{min-width:0;max-width:72ch}
 .affect-music .affect-copy p:last-child{margin-bottom:0}
 .affect-music .affect-figure{max-width:27.5rem;justify-self:center}
+
+/* Music and the brain: evidence cards and responsive thematic panels. */
+body[data-section=neuropsychology] .article{max-width:none}
+body[data-section=neuropsychology] .article>p{max-width:90ch}
+.neuro-evidence,.neuro-grid{--neuro-gap:clamp(16px,2.2vw,28px);display:grid;gap:var(--neuro-gap);margin-block:1.5rem;align-items:stretch}
+.neuro-evidence{grid-template-columns:repeat(auto-fit,minmax(min(100%,max(15rem,calc((100% - 2*var(--neuro-gap))/3))),1fr))}
+.neuro-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,max(24rem,calc((100% - var(--neuro-gap))/2))),1fr))}
+.neuro-stat,.neuro-card,.neuro-next{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(18px,2.5vw,32px)}
+.neuro-stat{border-top:3px solid var(--accent);display:flex;flex-direction:column;gap:.45rem}
+.neuro-stat:nth-child(2){border-top-color:var(--lavender)}
+.neuro-stat:nth-child(3){border-top-color:var(--gold)}
+.neuro-stat strong{font-size:clamp(1.7rem,3vw,2.45rem);line-height:1.15;font-variant-numeric:tabular-nums;color:var(--ink)}
+.neuro-stat small,.neuro-note,.neuro-sources{font-size:.875rem;line-height:1.5;color:var(--muted)}
+.neuro-card{display:flex;flex-direction:column;border-top:3px solid var(--accent)}
+.neuro-card:nth-child(4n+2){border-top-color:var(--rose)}
+.neuro-card:nth-child(4n+3){border-top-color:var(--gold)}
+.neuro-card:nth-child(4n+4){border-top-color:var(--lavender)}
+.neuro-number{display:block;color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums;letter-spacing:.08em;margin-bottom:.6rem}
+.neuro-card h3,.neuro-next h3{margin:0 0 .65rem;font-size:clamp(1.35rem,2vw,1.75rem);color:var(--ink)}
+.neuro-card p{margin:0 0 1rem;max-width:75ch}
+.neuro-card p:last-child{margin-bottom:0}
+.neuro-card .neuro-sources{margin-top:auto;padding-top:.7rem;border-top:1px solid var(--line);color:var(--muted)}
+.neuro-next{margin-top:1.5rem}
+.neuro-next p{max-width:85ch}
