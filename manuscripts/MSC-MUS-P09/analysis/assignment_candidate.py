@@ -36,13 +36,14 @@ def centered_test(estimate, draws, alpha=.05):
     return {"contrast": estimate, "ci": [estimate-radius, estimate+radius], "p": p}
 
 
-def candidate_test(d, outcome, status, reps=999, seed=20261127):
+def candidate_test(d, outcome, status, reps=999, seed=20261127, *, point_estimator=None):
     """Full assigned cohort marginal contrast under defined target and MAR.
 
     Response probabilities are refitted separately within each arm on every
     participant bootstrap, preserving realised arm/training stratum counts.
     Unresolved/undefined targets and insufficient overlap fail closed.
     """
+    estimator = point if point_estimator is None else point_estimator
     if reps < MIN_DRAWS:
         raise ValueError("At least 199 bootstrap draws required")
     result = {"candidate_available": False, "confirmatory_available": False,
@@ -51,7 +52,7 @@ def candidate_test(d, outcome, status, reps=999, seed=20261127):
     if not d[status].eq("defined").fillna(False).all():
         return dict(result, unavailable="Full-cohort target undefined or unresolved")
     try:
-        estimate, diagnostics = point(d, outcome)
+        estimate, diagnostics = estimator(d, outcome)
     except (ValueError, np.linalg.LinAlgError) as exc:
         return dict(result, unavailable=str(exc))
     result.update(contrast=estimate, response_diagnostics=diagnostics)
@@ -61,7 +62,7 @@ def candidate_test(d, outcome, status, reps=999, seed=20261127):
     values = []
     for _ in range(reps):
         try:
-            value, _ = point(resample(d, rng), outcome)
+            value, _ = estimator(resample(d, rng), outcome)
             if np.isfinite(value):
                 values.append(value)
         except (ValueError, np.linalg.LinAlgError):
