@@ -5,7 +5,7 @@ import numpy as np
 
 from imputation_calibration import mask_and_stop, raw_records, run, summary, mixed_mar_attainment, estimates
 from stress import generate
-from imputation_calibration import oracle_estimates, paired_difference, missing_probabilities
+from imputation_calibration import oracle_estimates, paired_difference, projection_benchmark
 
 
 class CalibrationTests(unittest.TestCase):
@@ -89,6 +89,8 @@ class CalibrationTests(unittest.TestCase):
         a = run("mixed_mar",**kw)
         self.assertEqual(a,run("mixed_mar",**kw))
         for c in a["cells"]:
+            self.assertEqual(c["reference_kind"],"exact_rounded_projection")
+            self.assertEqual(c["projection_reference"],c["reference_check"]["analytic"])
             for v in c["methods"].values():
                 self.assertEqual(v["fitted"]+v["failures"],2)
                 self.assertEqual(v["fitted"],2)
@@ -125,6 +127,25 @@ class CalibrationTests(unittest.TestCase):
         self.assertAlmostEqual(result["mcse"],.1)
         with self.assertRaises(ValueError):
             paired_difference([a],[])
+
+    def test_projection_rounding_identity(self):
+        # Integrate rounding exactly over four unit periods for arbitrary means.
+        for mu in (1.13,3.5,5.,7.89):
+            k=np.arange(-2,13,dtype=float)
+            mass=np.maximum(0,np.minimum(k+.5,mu+2)-np.maximum(k-.5,mu-2))/4
+            self.assertAlmostEqual(mass.sum(),1.)
+            self.assertAlmostEqual(k@mass,mu,places=12)
+
+    def test_independent_projection_precision_and_support(self):
+        for rounded in (False,True):
+            a=projection_benchmark(.08,np.random.default_rng(42),4000,rounded)
+            self.assertEqual(a["analytic"],.08)
+            self.assertGreater(a["sample_se"],0)
+            self.assertAlmostEqual(a["sample_error"],a["sample_estimate"]-.08)
+            self.assertAlmostEqual(a["sample_ci95"][1]-a["sample_ci95"][0],
+                                   2*1.959963984540054*a["sample_se"])
+        with self.assertRaises(ValueError):
+            projection_benchmark(1.,np.random.default_rng(42),1000,True)
 
     def test_complete_shift_invariance(self):
         a = run("complete",reps=2,m=2,sweeps=1,target=100,cap=160,reference_n=1000)

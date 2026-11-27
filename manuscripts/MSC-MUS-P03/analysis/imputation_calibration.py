@@ -1,6 +1,7 @@
 """Prospective calibration of the production P03 H1 imputation and stopping rule.
 
-Synthetic records only. The rounded full-data projection is estimated independently.
+Synthetic records only. The full-data projection is known for this generator;
+an independent reference sample checks that projection and quantifies its precision.
 Compare complete records, zero-shift PMM and two differential MNAR sensitivity
 scenarios using the same imputations. This screen is not validation of all 17 shifts.
 """
@@ -16,7 +17,7 @@ from imputation import draw_imputations, pool, shift_outcome
 from models import MODELS, fit, prepare, design
 from power import calibration, wilson
 from scipy.special import expit
-from scipy.stats import binom
+from scipy.stats import binom, norm
 from stress import generate
 
 MECHANISMS = ("complete", "outcome_mar", "predictor_mar", "mixed_mar", "outcome_mnar")
@@ -206,6 +207,43 @@ def mixed_mar_attainment(target=500, caps=(640, 660, 680, 700)):
                 assumptions="rounded uniform baseline, conditional independent masks, iid eligible submissions")
 
 
+def projection_benchmark(beta, rng, n, rounded):
+    """Analytic target and independent numerical check for stress.generate.
+
+    Conditional on generated covariates, Y = mu + U(-2,2). Rounding
+    to the nearest integer has mean-zero error because this uniform
+    interval spans four complete unit periods. Without clipping or
+    out-of-range filtering, the projection coefficient is therefore beta
+    for both the continuous and rounded outcomes.
+    """
+    if not np.isfinite(beta):
+        raise ValueError("Nonfinite generator coefficient")
+    # Conservative support bound for mu and the uniform noise.
+    radius = 5*(.25 + abs(beta) + .12) + 2
+    if radius > (5.5 if rounded else 5.):
+        raise ValueError("Generator may exceed rating bounds; projection not applicable")
+    x, y = generate(rng,n,.6,beta,rounded)
+    if np.any((y<0)|(y>10)):
+        raise ValueError("Reference outcomes outside rating bounds")
+    z = np.delete(x,1,axis=1)
+    if np.linalg.matrix_rank(x) < x.shape[1]:
+        raise ValueError("Rank-deficient projection reference")
+    rx = x[:,1] - z @ np.linalg.lstsq(z,x[:,1],rcond=None)[0]
+    denom = float(rx @ rx)
+    coef = np.linalg.lstsq(x,y,rcond=None)[0]
+    residual = y-x@coef
+    # HC0 large-sample sandwich standard error of the independent reference.
+    se = float(np.sqrt(np.sum((rx*residual)**2))/denom)
+    point = float(coef[1])
+    if not np.isfinite([point,se]).all() or se <= 0:
+        raise ValueError("Invalid numerical projection reference")
+    half = float(norm.ppf(.975)*se)
+    return dict(analytic=float(beta),sample_estimate=point,sample_se=se,
+                sample_ci95=[point-half,point+half],
+                sample_error=point-float(beta),n=n,
+                method="uniform-noise rounding identity; independent OLS HC0 check")
+
+
 def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
         seed=20261127, reference_n=500000, rounded=True, *, effect_override=None,
         oracle_benchmark=False):
@@ -218,11 +256,8 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
     for effect in ((0., .15) if effect_override is None else (effect_override,)):
         beta = calibration(.6, effect)
         ref_rng = np.random.default_rng(np.random.SeedSequence([seed, 99, int(effect*100)]))
-        if rounded:
-            x, y = generate(ref_rng, reference_n, .6, beta, True)
-            truth = float(np.linalg.lstsq(x, y, rcond=None)[0][1])
-        else:
-            truth = float(beta)
+        reference = projection_benchmark(beta,ref_rng,reference_n,rounded)
+        truth = reference["analytic"]
         rng = np.random.default_rng(np.random.SeedSequence(
             [seed, MECHANISMS.index(mechanism), int(effect*100), int(rounded)]))
         keys = ("complete_case", *SHIFTS)
@@ -243,7 +278,8 @@ def run(mechanism, reps=30, m=10, sweeps=5, target=500, cap=640,
                 values[key].append(value)
         f = np.array(flow)
         cells.append(dict(partial_r_input=effect, projection_reference=truth,
-                          reference_kind="estimated_rounded_projection" if rounded else "exact_continuous",
+                          reference_kind="exact_rounded_projection" if rounded else "exact_continuous",
+                          reference_check=reference,
                           mean_submitted=float(f[:,0].mean()), mean_complete=float(f[:,1].mean()),
                           attainment=float((f[:,1]==target).mean()),
                           mean_missing_outcome=float(f[:,2].mean()),
