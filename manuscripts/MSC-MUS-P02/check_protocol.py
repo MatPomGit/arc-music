@@ -40,7 +40,6 @@ register = (root / "citation-register.md").read_text(encoding="utf-8")
 registered = re.findall(r"^\| ([a-z]+\d{4}) \|", register, flags=re.M)
 assert len(registered) == len(set(registered)) and set(registered) == set(keys), (set(keys)-set(registered), set(registered)-set(keys))
 assert (root / "independent-review-handoff.md").is_file()
-print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
 
 # P02 corpus and artefact contract.
 field=(root / "fieldwork-protocol-pl.md").read_text(encoding="utf-8")
@@ -66,3 +65,12 @@ ethics_draft=(root/'ethics-preparation-pl.md').read_text(encoding='utf-8')
 assert 'NO-GO dla rekrutacji i pilotażu' in ethics_draft
 assert 'NIEZWERYFIKOWANE' in ethics_draft
 assert 'does not constitute institutional approval' in body
+
+# Capture controls must be applied before any interview, not afterwards.
+pre_interview = re.search(r"^## Przed rozmową\s*\n(.*?)(?=^## |\Z)", field, flags=re.M | re.S)
+assert pre_interview, "Missing pre-interview procedure"
+for control in ("nieautoryzowanych asystentów spotkań", "zewnętrzną transkrypcję", "automatyczną synchronizację"):
+    assert control in pre_interview.group(1), f"Missing pre-interview capture control: {control}"
+assert re.search(r"wyłączyć[^.]*nieautoryzowanych asystentów spotkań", pre_interview.group(1), re.I), "Capture controls must be disabled before interviewing"
+
+print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
