@@ -201,12 +201,18 @@ def analyze(frame, sensitivity_draws=100, schedule=None, withdrawals=None):
         flag,outcome,predictors=MODELS[key]
         known=d.baseline_valid & d.exposure_valid
         if key=="H3":known=known & d.deviation0.notna()
-        a=d.loc[known]
+        eligible=d.loc[known]
+        a=switcher_rows(eligible)
+        support={"known_exposure_windows":len(eligible),
+                 "known_exposure_participants":int(eligible.participant_id.nunique()),
+                 "switcher_windows":len(a),
+                 "switcher_participants":int(a.participant_id.nunique()),
+                 "observed_outcome_switcher_windows":int(a[flag].sum())}
         upper=np.full(len(a),10.) if key=="H2" else np.maximum(a.desired_arousal0,10-a.desired_arousal0).to_numpy(float)
         try:
             lo,hi=outcome_bounds(a.participant_id.to_numpy(),a[predictors].to_numpy(float),a[outcome].to_numpy(float),a[flag].to_numpy(bool),upper)
-            result["secondary_outcome_bounds"][key]={"lower":lo,"upper":hi,"known_exposure_windows":len(a),"interpretation":"Finite-window outcome bounds, not a confidence interval; excludes missing exposure and invalid baseline."}
-        except (ValueError,np.linalg.LinAlgError) as exc:result["secondary_outcome_bounds"][key]={"unavailable":str(exc)}
+            result["secondary_outcome_bounds"][key]={**support,"lower":lo,"upper":hi,"interpretation":"Finite-window outcome bounds, not a confidence interval; excludes missing exposure and invalid baseline."}
+        except (ValueError,np.linalg.LinAlgError) as exc:result["secondary_outcome_bounds"][key]={**support,"unavailable":str(exc)}
     return result
 
 if __name__=="__main__":

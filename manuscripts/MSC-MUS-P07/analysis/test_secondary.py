@@ -46,4 +46,26 @@ class TestSecondary(unittest.TestCase):
         self.assertIn("unavailable",r["models"]["H2"])
         self.assertIn("unavailable",r["models"]["H3"])
         self.assertIn("primary",r)
+    def test_bounds_report_actual_switcher_support(self):
+        d=complete_fixture()
+        d.loc[d.participant_id.eq("0"),"creation_first_hour"]=False
+        d.loc[d.participant_id.eq("1"),"creation_first_hour"]=True
+        d.loc[d.participant_id.eq("2"),"valence180"]=np.nan
+        result=analyze(d,sensitivity_draws=2)["secondary_outcome_bounds"]
+        h2=result["H2"]
+        self.assertEqual(h2["known_exposure_windows"],400)
+        self.assertEqual(h2["known_exposure_participants"],40)
+        self.assertEqual(h2["switcher_windows"],380)
+        self.assertEqual(h2["switcher_participants"],38)
+        self.assertEqual(h2["observed_outcome_switcher_windows"],370)
+        self.assertLessEqual(h2["lower"],h2["upper"])
+    def test_unavailable_bounds_preserve_support(self):
+        d=complete_fixture()
+        d["creation_first_hour"]=False
+        result=analyze(d,sensitivity_draws=2)["secondary_outcome_bounds"]
+        for model in result.values():
+            self.assertEqual(model["known_exposure_windows"],400)
+            self.assertEqual(model["switcher_windows"],0)
+            self.assertEqual(model["switcher_participants"],0)
+            self.assertIn("unavailable",model)
 if __name__=="__main__":unittest.main()
