@@ -1,0 +1,98 @@
+name: P09 targeted calibration
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P09/analysis/calibration_targeted.py'
+      - 'manuscripts/MSC-MUS-P09/analysis/test_calibration_targeted.py'
+      - '.github/workflows/manuscript-p09-targeted.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: p09-targeted-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+jobs:
+  hc3:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P09/analysis
+        run: |
+          python -m pip install -r requirements.txt
+          python -m unittest -v test_calibration_targeted
+          python calibration_targeted.py hc3 > hc3-targeted.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p09-targeted-hc3
+          path: |
+            manuscripts/MSC-MUS-P09/analysis/hc3-targeted.json
+            manuscripts/MSC-MUS-P09/analysis/exact-head.txt
+          if-no-files-found: error
+  bootstrap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        mechanism: [MAR, MNAR]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P09/analysis
+        env:
+          MECHANISM: ${{ matrix.mechanism }}
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python -m pip install -r requirements.txt
+          python calibration_targeted.py shard "$MECHANISM" "$SHARD" > shard.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p09-bootstrap-${{ matrix.mechanism }}-${{ matrix.shard }}
+          path: |
+            manuscripts/MSC-MUS-P09/analysis/shard.json
+            manuscripts/MSC-MUS-P09/analysis/exact-head.txt
+          if-no-files-found: error
+  aggregate:
+    needs: [hc3, bootstrap]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p09-bootstrap-*
+          path: shards
+      - run: |
+          python -m pip install -r manuscripts/MSC-MUS-P09/analysis/requirements.txt
+          python - <<'PY'
+          import pathlib, subprocess
+          expected = subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          heads = list(pathlib.Path("shards").rglob("exact-head.txt"))
+          if len(heads)!=20 or any(p.read_text().strip()!=expected for p in heads):
+              raise SystemExit("Incorrect shard HEAD")
+          pathlib.Path("exact-head.txt").write_text(expected+"\n")
+          PY
+          python manuscripts/MSC-MUS-P09/analysis/calibration_targeted.py aggregate shards > bootstrap-targeted.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p09-targeted-bootstrap-summary
+          path: |
+            bootstrap-targeted.json
+            exact-head.txt
+          if-no-files-found: error

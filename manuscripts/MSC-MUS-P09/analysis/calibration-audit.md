@@ -49,3 +49,6 @@ A01.6: offline allocation/task/manifest contracts implemented after this artifac
 A01.7: self-audit only; independent scientific review and latest exact-HEAD PDF visual inspection remain pending. No claim of submission or recruitment readiness.
 
 Reproducibility: preserve the historical artifact link and report scope; no rerunning unchanged cells solely for a fresh report. New CI must verify the new code and manuscript. Source check: Kross & Ayduk (2011) pages 187–191 confirmed via DOI publisher; Qin & Zhang DOI and He DOI resolved; Habermas & Bluck, Belfi et al. and Terwee et al. metadata confirmed. Full-text evidence and APA 7 formatting remain open.
+
+## Targeted follow-up selection (v0.6.2)
+Historical grid identifies all eight coverage values below .60 as H1/H2 heteroskedastic MNAR at N=434/588. Worst null N=588: H1 .215 (bias .459566), H2 .210 (bias .466811). Compare matching MAR cells rather than treating larger N as a solution to nonidentification. New independent seeds; 8 HC3 cells × 2,000; H1 null at N=588 under heteroskedastic MAR/MNAR × 1,000 outer × 999 inner draws. Other bootstrap endpoints and alternatives remain lower-precision screening only. No high-precision output yet. Check aggregate exact SHA, all 20 shards, denominators, bias and coverage before further decisions.
