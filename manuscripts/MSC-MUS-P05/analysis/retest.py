@@ -1,6 +1,6 @@
 """Prospective same-episode agreement; no empirical scoring authorization."""
 import numpy as np
-from cohort_contract import audit_cohorts
+from cohort_contract import audit_cohorts, CODE, FIELDS, STAGES
 from validity import domain_score
 
 
@@ -22,27 +22,83 @@ def icc_a1(pairs):
     return float((ms_row - ms_err)/den)
 
 
-def retest_domain(rows, items, *, authorized=False, reps=2000, seed=20261128, min_pairs=30):
-    """Rows and frozen-domain item matrix share the same order. Return aggregates only.
+def _key(row):
+    return (row["participant_code"], row["stage"], row["episode_code"])
 
-    Invalid metadata blocks analysis. Minimum pair count and percentile
-    bootstrap are provisional development choices, not calibrated criteria.
+
+def _eligible(rows):
+    """Separate eligibility from integrity. Never resolve ambiguous duplicates."""
+    baselines = []
+    retests = []
+    seen = set()
+    for i, row in enumerate(rows, 1):
+        if not isinstance(row, dict) or set(row) != FIELDS:
+            raise ValueError(f"row {i}: unexpected metadata fields")
+        person, stage, episode = _key(row)
+        if stage not in STAGES or any(not isinstance(v, str) or not CODE.fullmatch(v)
+                                      for v in (person, episode)):
+            raise ValueError(f"row {i}: invalid metadata")
+        slot = (person, stage)
+        if slot in seen:
+            raise ValueError(f"row {i}: duplicate participant-stage")
+        seen.add(slot)
+        (retests if stage == "retest" else baselines).append(row)
+    counts = audit_cohorts(baselines)
+    baseline = {r["participant_code"]: r for r in baselines if r["stage"] == "cfa"}
+    excluded = dict.fromkeys(("no_cfa_parent", "episode_mismatch", "invalid_lag", "outside_window"), 0)
+    eligible = []
+    for r in retests:
+        parent = baseline.get(r["participant_code"])
+        lag = r["lag_days"]
+        if parent is None:
+            excluded["no_cfa_parent"] += 1
+        elif r["episode_code"] != parent["episode_code"]:
+            excluded["episode_mismatch"] += 1
+        elif type(lag) is not int:
+            excluded["invalid_lag"] += 1
+        elif not 7 <= lag <= 14:
+            excluded["outside_window"] += 1
+        else:
+            eligible.append(r)
+    audit_cohorts(baselines + eligible)
+    return counts, baseline, eligible, excluded
+
+
+def retest_domain(rows, item_records, *, authorized=False, reps=2000, seed=20261128, min_pairs=30):
+    """Keyed item records: iterable of (participant, stage, episode) key and item vector pairs.
+
+    Reject duplicate or missing keys rather than silently overwrite. Only eligible
+    linked pairs are scored, in sorted participant order. Input identity and item
+    column order must already be verified by the approved export procedure.
+    Results are aggregate development diagnostics, not authorization.
     """
     if authorized is not True:
         raise ValueError("frozen domain scoring not authorized")
     if type(reps) is not int or reps < 20 or type(min_pairs) is not int or min_pairs < 2:
         raise ValueError("invalid bootstrap settings")
     rows = list(rows)
-    counts = audit_cohorts(rows)
-    scores = domain_score(items, authorized=True)
-    if len(scores) != len(rows):
-        raise ValueError("metadata and item row counts differ")
-    baseline = {r["participant_code"]: i for i, r in enumerate(rows) if r["stage"] == "cfa"}
-    linked = [(baseline[r["participant_code"]], i) for i, r in enumerate(rows) if r["stage"] == "retest"]
-    pairs = np.asarray([(scores[i], scores[j]) for i, j in linked], float).reshape(-1, 2)
+    counts, baseline, eligible, excluded = _eligible(rows)
+    expected = {_key(r) for r in rows}
+    values = {}
+    for key, items in item_records:
+        if not isinstance(key, tuple) or len(key) != 3 or any(not isinstance(v, str) for v in key):
+            raise ValueError("invalid item record key")
+        if key in values:
+            raise ValueError("duplicate item record key")
+        values[key] = items
+    if set(values) != expected:
+        raise ValueError("metadata and item keys differ")
+    eligible.sort(key=lambda r: r["participant_code"])
+    pairs = []
+    if eligible:
+        keys = [(_key(baseline[r["participant_code"]]), _key(r)) for r in eligible]
+        scores = domain_score([values[key] for pair in keys for key in pair], authorized=True)
+        pairs = scores.reshape(-1, 2)
+    pairs = np.asarray(pairs, float).reshape(-1, 2)
     pairs = pairs[np.isfinite(pairs).all(axis=1)]
-    result = {"cfa_records": counts["cfa"], "linked_retests": len(linked),
-              "complete_pairs": len(pairs), "incomplete_pairs": len(linked)-len(pairs)}
+    result = {"cfa_records": counts["cfa"], "retest_records": len(eligible)+sum(excluded.values()),
+              "excluded_retests": excluded, "linked_retests": len(eligible),
+              "complete_pairs": len(pairs), "incomplete_pairs": len(eligible)-len(pairs)}
     if len(pairs) < min_pairs:
         return dict(result, status="unavailable", reason="insufficient complete pairs")
     delta = pairs[:, 1] - pairs[:, 0]
