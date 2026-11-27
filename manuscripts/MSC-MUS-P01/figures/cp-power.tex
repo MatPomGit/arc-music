@@ -1,19 +1,19 @@
 \begin{tikzpicture}[x=1cm,y=1cm,font=\small]
-\begin{scope}[xscale=0.006,yscale=4]
-\draw[->] (380,0)--(1245,0) node[below right] {$N$};
-\draw[->] (380,0)--(380,1.05);
-\foreach \v in {0,.2,.4,.6,.8,1}{\draw[gray!25] (380,\v)--(1220,\v);\node[left] at (380,\v) {\v};}
-\foreach \n in {420,800,1000,1200}{\node[below] at (\n,0) {\n};}
-\draw[dashed] (380,.8)--(1220,.8);
-\draw[thick,blue!70!black] plot coordinates {(420,.40685)(800,.75240)(1000,.85760)(1200,.91910)};
-\draw[thick,orange!85!black,densely dotted] plot coordinates {(420,.37655)(800,.70515)(1000,.81770)(1200,.88940)};
-\foreach \n/\v in {420/.40685,800/.75240,1000/.85760,1200/.91910}{\fill[blue!70!black] (\n,\v) circle[radius=1.5pt];}
-\foreach \n/\v in {420/.37655,800/.70515,1000/.81770,1200/.88940}{\draw[orange!85!black,fill=white] (\n,\v) circle[radius=1.5pt];}
-\node[above,align=center,font=\small\bfseries] at (800,1.05) {A. Joint power};
-\node[above right,blue!70!black,font=\scriptsize] at (420,.45) {Equal};
-\node[below right,orange!85!black,font=\scriptsize] at (420,.32) {Heterogeneous};
+\begin{scope}[x=1cm,y=4cm]
+\draw[->] (0.00,0)--(5.19,0) node[below right] {$N$};
+\draw[->] (0.00,0)--(0.00,1.05);
+\foreach \v in {0,.2,.4,.6,.8,1}{\draw[gray!25] (0.00,\v)--(5.04,\v);\node[left] at (0.00,\v) {\v};}
+\foreach \n/\x in {0.24/.24,800/2.52,1000/3.72,1200/4.92}{\node[below] at (\x,0) {\n};}
+\draw[dashed] (0.00,.8)--(5.04,.8);
+\draw[thick,blue!70!black] plot coordinates {(0.24,.40685)(2.52,.75240)(3.72,.85760)(4.92,.91910)};
+\draw[thick,orange!85!black,densely dotted] plot coordinates {(0.24,.37655)(2.52,.70515)(3.72,.81770)(4.92,.88940)};
+\foreach \n/\v in {0.24/.40685,2.52/.75240,3.72/.85760,4.92/.91910}{\fill[blue!70!black] (\n,\v) circle[radius=1.5pt];}
+\foreach \n/\v in {0.24/.37655,2.52/.70515,3.72/.81770,4.92/.88940}{\draw[orange!85!black,fill=white] (\n,\v) circle[radius=1.5pt];}
+\node[above,align=center,font=\small\bfseries] at (2.52,1.05) {A. Joint power};
+\node[above right,blue!70!black,font=\scriptsize] at (0.24,.45) {Equal};
+\node[below right,orange!85!black,font=\scriptsize] at (0.24,.32) {Heterogeneous};
 \end{scope}
-\begin{scope}[xshift=8.1cm,x=1cm,y=4cm]
+\begin{scope}[xshift=7.4cm,x=1cm,y=4cm]
 \draw[->] (0,0)--(4.7,0);
 \draw[->] (0,0)--(0,1.05);
 \foreach \v in {0,.2,.4,.6,.8,1}{\draw[gray!25] (0,\v)--(4.5,\v);\node[left] at (0,\v) {\v};}
