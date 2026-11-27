@@ -51,3 +51,18 @@ assert "Korpus wywiadów jest jednostką analizy" in field and "Korpus wywiadów
 assert "Nie wymagać powodu" in field and "Nie żądać powodu" in guide
 assert "zatrzymać nagrywanie i transkrypcję" in field
 assert "Zgoda na rozmowę lub pokaz nie jest zgodą" in guide
+
+# Prospective pilot and analytic-transfer contract.
+assert r'\subsection{Pilot and fieldwork decision rules}' in body
+assert r'\label{fig:episode-elicitation}' in body
+assert r'\subsection{From extracts to an interpretive account}' in body
+assert 'hypothetical illustration, not a result of P02' in body
+records=(root/'analysis-records.md').read_text(encoding='utf-8')
+assert '| Pilot review |' in records and '| Construct transfer |' in records
+assert 'wersja 0.3.0' in guide and 'Procedura terenowa 0.3.0' in field
+
+# Ethics preparation is explicitly prospective.
+ethics_draft=(root/'ethics-preparation-pl.md').read_text(encoding='utf-8')
+assert 'NO-GO dla rekrutacji i pilotażu' in ethics_draft
+assert 'NIEZWERYFIKOWANE' in ethics_draft
+assert 'does not constitute institutional approval' in body

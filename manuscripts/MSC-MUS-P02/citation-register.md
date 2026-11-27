@@ -1,6 +1,6 @@
-# P02 citation register (26 November 2026)
+# P02 citation register (27 November 2026)
 
-Scope: all 32 keys inventoried, not all independently verified. Status indicates actual access, not quality or certification. Entries marked prior register / not reopened are inherited, still require claim-level inspection. Use DOI or URL in references.bib for exact source. No source was considered fully audited merely because a bibliography entry resolves.
+Scope: all 34 keys inventoried, not all independently verified. Status indicates actual access, not quality or certification. Entries marked prior register / not reopened are inherited, still require claim-level inspection. Use DOI or URL in references.bib for exact source. No source was considered fully audited merely because a bibliography entry resolves.
 
 | Key | Access / verification | Claim boundary or follow-up |
 |---|---|---|
@@ -37,6 +37,8 @@ Scope: all 32 keys inventoried, not all independently verified. Status indicates
 
 | baker2018 | targeted publisher body | Individual interviews (N=15), interpretative phenomenological analysis after structured therapeutic songwriting in neurorehabilitation; precedent for meaning-making, not evidence of AI benefit. |
 | baker2019 | PubMed abstract | Pilot RCT N=47, 12 sessions; no significant primary self-concept group difference (p=.38); clinical intervention, not an AI study. |
+| zhang2026 | publisher accepted abstract, checked 27 November 2026 | N=380, randomised workflow assignment, ownership and expressive outcomes; no detectable differential change in negative affect. Workflow bundle does not isolate agency; no non-AI comparator; measured mediators not randomised. Formatted full text unavailable. |
+| wuholmes2026 | targeted publisher body, checked 27 November 2026 | Study 1 N=99, Study 2 N=300, instrumental listening; label experiment reduced narrative engagement and narrativity. Listening evidence, not creation or emotion-regulation efficacy. |
 
 New source anchors: RTARG https://doi.org/10.1177/02692163241234800 (publisher body: reporting clarity and methodological incoherence); Zhao https://doi.org/10.1177/20594364261423866 (methods and publication metadata); He https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1835406/full (Methods 3.1–3.3); Kallio https://doi.org/10.1111/jan.13031 (abstract); Malterud https://pubmed.ncbi.nlm.nih.gov/26613970/ (abstract); Braun and Clarke https://doi.org/10.1080/2159676X.2019.1704846 (indexed excerpts); Peachey https://zenodo.org/records/22256495 (description); Wang https://so02.tci-thaijo.org/index.php/jam/article/view/288549 (abstract); Raffa https://www.rivisteweb.it/doi/10.1405/118716 (abstract); Levitt https://doi.org/10.1037/amp0000151 (indexed text and metadata). No PDF full-text audit claimed for failed retrievals.
 
@@ -44,3 +46,4 @@ Editorial policy checked at https://journals.sagepub.com/author-instructions/pom
 
 ## Targeted follow-up (26 November 2026)
 Huang: https://program.ismir2020.net/static/final_papers/167.pdf (p.708, introduction; original page image inspected). Copet: https://proceedings.neurips.cc/paper_files/paper/2023/file/94b472a1842cd7c56dcb125fb2765fbd-Paper-Conference.pdf (p.1, original page image inspected); pages from https://www.proceedings.com/075280-2066.html. Carlson: https://www.frontiersin.org/journals/human-neuroscience/articles/10.3389/fnhum.2015.00466/full (methods/Table 2). Peters: https://journals.sagepub.com/doi/10.1177/03057356231212362 (methods, Tables 1–2 and limitations). Saarikallio: https://www.researchgate.net/publication/229471062_The_role_of_music_in_adolescents%27_mood_regulation (methods pp.90–91). Baltazar: https://doi.org/10.1177/1029864917715061 (abstract; restricted). Janata: indexed publisher text at https://doi.org/10.1093/cercor/bhp008; direct retrieval unsuccessful. Baker 2018: https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2018.01422/full (methods and results excerpts). Baker 2019: https://pubmed.ncbi.nlm.nih.gov/30791702/ (abstract; 47 enrolled, no significant primary group effect). Neither Baker report establishes benefit from AI songwriting. These are targeted claim checks, not all-page audits.
+Zhang: https://doi.org/10.3389/fpsyg.2026.1987055 (accepted abstract, 13 November 2026); Wu and Holmes: https://doi.org/10.1186/s41235-026-00715-z (Study 1 and 2 methods/results; published 2 March 2026).
