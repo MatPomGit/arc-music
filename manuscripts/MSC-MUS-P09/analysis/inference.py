@@ -16,7 +16,7 @@ def prepare(frame):
     d=frame.copy()
     scores=["music",*BASE,"distance0","distance1",*sum(ITEMS.values(),[])]
     times=["randomised_at","t1_at","t2_at"]
-    if not {"participant_id","same_event1","same_event2",*times,*scores}<=set(d):raise ValueError("Missing columns")
+    if not {"participant_id","same_event1","same_event2","target_status1","target_status2",*times,*scores}<=set(d):raise ValueError("Missing columns")
     ids=d.participant_id.astype(str)
     if d.participant_id.isna().any() or ids.str.strip().eq("").any() or ids.duplicated().any():raise ValueError("Invalid participant ID")
     for c in scores:
@@ -39,6 +39,14 @@ def prepare(frame):
         d[f"understanding{j}"]=d[ITEMS[j]].mean(axis=1,skipna=False)
         if j:d[f"understanding{j}"]=d[f"understanding{j}"].where(d[f"valid{j}"])
     d["distance1"]=d.distance1.where(d.valid1)
+    for j in (1,2):
+        c=f"target_status{j}"
+        if not d[c].isin(("defined","undefined","unknown")).all():
+            raise ValueError("Invalid target status "+c)
+        observed=d[f"understanding{j}"].notna()
+        if j==1:observed=observed|d.distance1.notna()
+        if (observed & d[c].ne("defined")).any():
+            raise ValueError("Observed valid score with undefined or unresolved target")
     return d
 
 def design(d,baseline):
@@ -90,8 +98,14 @@ def analyze(frame):
         a=d[d[o].notna()]
         try:models[h]=fit_arrays(design(a,b),a[o].to_numpy(float))
         except (ValueError,np.linalg.LinAlgError) as exc:models[h]={"unavailable":str(exc)}
-        try:sens[h]=sensitivity(d,o,b)
-        except (ValueError,np.linalg.LinAlgError) as exc:sens[h]={"unavailable":str(exc)}
+        status="target_status2" if h=="H1" else "target_status1"
+        if not d[status].eq("defined").all():
+            sens[h]={"unavailable":"Full-cohort outcome undefined or unresolved",
+                     "target_status":d.groupby("music")[status].value_counts().unstack(fill_value=0).to_dict(orient="index")}
+            models[h]["interpretation"]="Observed defined outcomes only; not full-cohort assignment contrast"
+        else:
+            try:sens[h]=sensitivity(d,o,b)
+            except (ValueError,np.linalg.LinAlgError) as exc:sens[h]={"unavailable":str(exc)}
     return dict(randomised=len(d),flow=flow,hypotheses=models,secondary_holm=holm({h:models[h].get("p") for h in ("H2","H3")}),missingness=sens)
 if __name__=="__main__":
     p=argparse.ArgumentParser();p.add_argument("csv");a=p.parse_args()

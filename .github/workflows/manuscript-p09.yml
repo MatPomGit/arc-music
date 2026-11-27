@@ -27,6 +27,7 @@ jobs:
           "$RUNNER_TEMP/p09/bin/python" -m unittest -v
           "$RUNNER_TEMP/p09/bin/python" power.py > power-reproduction.json
           "$RUNNER_TEMP/p09/bin/python" calibration.py --reps 200 > calibration-grid.json
+          "$RUNNER_TEMP/p09/bin/python" missingness.py --demo --reps 199 > missingness-demo.json
       - run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
@@ -44,4 +45,5 @@ jobs:
             manuscripts/MSC-MUS-P09/exact-head.txt
             manuscripts/MSC-MUS-P09/analysis/power-reproduction.json
             manuscripts/MSC-MUS-P09/analysis/calibration-grid.json
+            manuscripts/MSC-MUS-P09/analysis/missingness-demo.json
           if-no-files-found: error

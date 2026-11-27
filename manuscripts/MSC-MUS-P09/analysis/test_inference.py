@@ -8,7 +8,7 @@ def fixture():
     for a in (0,1):
         for i in range(160):
             v=int(rng.integers(2,8));d=int(rng.integers(2,8))
-            r=dict(participant_id=f"{a}-{i}",music=a,training=int(rng.integers(2)),prior_use_days=int(rng.integers(31)),importance0=int(rng.integers(11)),distance0=d,distance1=int(np.clip(np.rint(d+.6*a+rng.normal(0,.7)),0,10)),randomised_at="2026-11-01T10:00:00+01:00",t1_at="2026-11-01T10:15:00+01:00",t2_at="2026-11-08T10:00:00+01:00",same_event1=True,same_event2=True)
+            r=dict(participant_id=f"{a}-{i}",music=a,training=int(rng.integers(2)),prior_use_days=int(rng.integers(31)),importance0=int(rng.integers(11)),distance0=d,distance1=int(np.clip(np.rint(d+.6*a+rng.normal(0,.7)),0,10)),randomised_at="2026-11-01T10:00:00+01:00",t1_at="2026-11-01T10:15:00+01:00",t2_at="2026-11-08T10:00:00+01:00",same_event1=True,same_event2=True,target_status1="defined",target_status2="defined")
             for k in (1,2,3):
                 r[f"understanding0{k}"]=v
                 r[f"understanding1{k}"]=int(np.clip(np.rint(v+.7*a+rng.normal(0,.8)),0,10))
