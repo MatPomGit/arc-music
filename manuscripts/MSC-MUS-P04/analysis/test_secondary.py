@@ -27,6 +27,19 @@ class SecondaryTests(unittest.TestCase):
             self.assertGreaterEqual(v["holm_p"],v["mar"]["p"])
             zero=[s for s in v["sensitivity"] if s["offset_control"]==s["offset_scaffold"]==s["differential_slope"]==0][0]
             self.assertAlmostEqual(zero["estimate"],v["mar"]["estimate"])
+    def test_fixed_family_when_h3_rank_deficient(self):
+        x,y,_=generate(240,.4,"mar",np.random.default_rng(42))
+        total=np.clip(np.rint(24+7*x[:,2]),6,42)
+        cov=x[:,4:].copy()
+        cov[:,0]=cov[:,1]  # retained only in H3
+        out=secondary(x[:,1]+.5,total,cov,y,m=3)
+        self.assertTrue(out["H2"]["available"])
+        self.assertFalse(out["H3"]["available"])
+        self.assertIsNone(out["H3"]["holm_p"])
+        self.assertAlmostEqual(out["H2"]["holm_p"],min(1,2*out["H2"]["mar"]["p"]))
+        out=secondary(x[:,1]+.5,total,cov,np.full(len(y),np.nan),m=3)
+        self.assertFalse(out["H2"]["available"])
+        self.assertFalse(out["H3"]["available"])
     def test_robust_implies_nominal(self):
         x,y,_=generate(240,0,"mar",np.random.default_rng(2))
         d=impute_pmm(x,y,4,1); w=target_weights(x)

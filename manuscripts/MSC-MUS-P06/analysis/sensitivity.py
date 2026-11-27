@@ -79,6 +79,19 @@ def sensitivity(frame):
             "fraction_probability_below_005":float((p<.05).mean()),
             "participants_without_observed_outcome":int(len(set(g)-set(g[observed])))}
 
+def interval_gate(series,reps):
+    """Prespecified minimum 499 draws and at least 90% joint successful fits.
+
+    A smaller smoke run is useful for execution, not inferential intervals.
+    The percentile procedure still needs separate coverage calibration.
+    """
+    if reps<1 or len(series)>reps:
+        raise ValueError("Invalid draw accounting")
+    if reps<499 or len(series)<.9*reps or not np.isfinite(series).all():
+        return None
+    return np.quantile(series,[.025,.975]).tolist()
+
+
 def cluster_bootstrap(frame,reps=499,seed=2606):
     if reps<1: raise ValueError("Positive reps required")
     rng=np.random.default_rng(seed)
@@ -90,12 +103,16 @@ def cluster_bootstrap(frame,reps=499,seed=2606):
                          ignore_index=True)
         try:
             values.append(sensitivity(sample))
-        except (ValueError,np.linalg.LinAlgError):
+        except (ValueError,ArithmeticError,np.linalg.LinAlgError):
             failures+=1
     def ci(series):
-        return np.quantile(series,[.025,.975]).tolist() if len(series) else None
+        return interval_gate(series,reps)
     return {"point":original,"valid":len(values),"failed":failures,"reps":reps,
             "ci_reliable":len(values)>=.9*reps and reps>=499,
+            "interval_gate":"reps >=499 and >=90% jointly successful; coverage not established",
+            "method_draws":{name:{"valid":len(values),"failed":failures,"joint_fit":True}
+                            for name in [*("ipw/"+k for k in original["ipw"]),
+                                         *("shift/"+k for k in original["pattern_mean_shifts"])]},
             "ipw_ci":{k:ci([v["ipw"][k] for v in values]) for k in original["ipw"]},
             "shift_ci":{k:ci([v["pattern_mean_shifts"][k] for v in values])
                          for k in original["pattern_mean_shifts"]}}
