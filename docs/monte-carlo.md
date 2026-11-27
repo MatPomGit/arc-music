@@ -1,4 +1,4 @@
-# Lokalne symulacje Monte Carlo v1.0.0
+# Lokalne symulacje Monte Carlo v1.1.0
 
 Uruchamiaj na zaufanym komputerze (np. Andromeda/WSL), po przeglądzie kodu. Nie uruchamiaj niezaufanych PR na stałym runnerze. Bez danych uczestników, API, usług płatnych i automatycznego uruchamiania pełnych symulacji w CI.
 
@@ -28,6 +28,19 @@ python manuscripts/MSC-MUS-P09/monte_carlo.py --profile full --jobs 8
 Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Jeśli systemowy Python jest niezgodny z przypiętymi pakietami, wybierz Python 3.12/3.13, np. `PYTHON_BIN=python3.12 bash run-monte-carlo.sh all --setup`. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. Bez skryptu wspólne uruchomienie runnera wymaga zgodnego środowiska; wersje NumPy/SciPy mogą się różnić.
 
 `--task 'ipw/cell-06/*'` wybiera konfigurację z zależnościami; `--list` wypisuje programy, ziarna, parametry i zależności bez obliczeń. Domyślnie jeden proces i jeden wątek BLAS; zwiększ --jobs ostrożnie względem pamięci, --threads domyślnie 1. GPU nie jest wykorzystywane przez obecne modele NumPy/SciPy/R.
+
+## Windows (CMD i dwuklik)
+
+W każdym katalogu manuskryptu znajduje się `monte_carlo.bat`. Pierwsza instalacja w CMD jest jawna:
+
+```bat
+monte_carlo.bat --setup
+monte_carlo.bat --profile smoke --jobs 4
+monte_carlo.bat --profile full --jobs 8
+monte_carlo.bat --list --profile full
+```
+
+Dwuklik uruchamia profil smoke i pozostawia okno otwarte do odczytu wyniku. Pełne obliczenia wymagają jawnego wyboru full. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Wymagany jest Python i Git w PATH, a dla P05 także Rscript z lavaan i semTools. Opcjonalnie ustaw PYTHON_BIN na pełną ścieżkę do zgodnego python.exe przed --setup. Po przejściu między Windows i WSL użyj odrębnego --run-id, ponieważ metadane środowisk są różne. P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
 
 ## Zakres profilu full
 
