@@ -4,6 +4,11 @@ on:
     paths:
       - 'manuscripts/MSC-MUS-P09/analysis/calibration_targeted.py'
       - 'manuscripts/MSC-MUS-P09/analysis/test_calibration_targeted.py'
+      - 'manuscripts/MSC-MUS-P09/analysis/calibration.py'
+      - 'manuscripts/MSC-MUS-P09/analysis/calibration_extended.py'
+      - 'manuscripts/MSC-MUS-P09/analysis/missingness.py'
+      - 'manuscripts/MSC-MUS-P09/analysis/inference.py'
+      - 'manuscripts/MSC-MUS-P09/analysis/requirements.txt'
       - '.github/workflows/manuscript-p09-targeted.yml'
   workflow_dispatch:
 permissions:
