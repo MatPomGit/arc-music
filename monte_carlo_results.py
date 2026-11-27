@@ -10,7 +10,7 @@ CELLS={"P01":{"cp-joint":96},"P03":{},"P04":{"joint":48},
        "P06":{"cluster":27,"bounded":18,"missing":12,"bootstrap":6},
        "P07":{"primary":44,"secondary":72},
        "P08":{"factorial":36,"nonhearing":36,"bootstrap":2}}
-SMOKE={"P04":{"joint":3},"P07":{"secondary":4},"P08":{"factorial":2,"nonhearing":2}}
+SMOKE={"P04":{"joint":3},"P07":{"primary":3,"secondary":4},"P08":{"factorial":2,"nonhearing":2}}
 
 def planned_reps(study,profile,task):
     args=task.args
@@ -23,8 +23,6 @@ def planned_reps(study,profile,task):
     reps=int(args[args.index("--reps")+1])
     if study=="P03":
         return reps*2
-    if profile=="smoke" and study=="P07" and task.name=="primary":
-        return None  # Report configured reps rather than guess a smoke grid.
     cells=SMOKE.get(study,{}).get(task.name) if profile=="smoke" else None
     if cells is None:
         cells=CELLS.get(study,{}).get(task.name,1)
