@@ -94,6 +94,26 @@ def analyze(frame):
     for a in (0,1):
         g=d[d.music==a]
         flow[str(a)]={"randomised":len(g),"timely1":int(g.timely1.sum()),"timely2":int(g.timely2.sum()),"valid1":int(g.valid1.sum()),"valid2":int(g.valid2.sum()),"observed":{h:int(g[o].notna().sum()) for h,(o,_) in MODELS.items()}}
+    for arm in (0,1):
+        g=d[d.music==arm]
+        visits={}
+        for j in (1,2):
+            timestamp=g[f"t{j}_at"]
+            event=g[f"same_event{j}"]
+            valid=g[f"valid{j}"]
+            items=ITEMS[j]
+            visits[str(j)]={
+                "missing_timestamp":int(timestamp.isna().sum()),
+                "outside_window":int((timestamp.notna() & ~g[f"timely{j}"]).sum()),
+                "wrong_event":int(event.eq(False).sum()),
+                "unknown_event":int(event.isna().sum()),
+                "missing_items_at_valid_visit":{c:int((valid & g[c].isna()).sum()) for c in items},
+                "incomplete_composite_at_valid_visit":int((valid & g[items].isna().any(axis=1)).sum()),
+                "target_status":{k:int(g[f"target_status{j}"].eq(k).sum()) for k in ("defined","undefined","unknown")}
+            }
+            if j==1:
+                visits[str(j)]["missing_distance_at_valid_visit"]=int((valid & g.distance1.isna()).sum())
+        flow[str(arm)]["visit_diagnostics_nonexclusive"]=visits
     for h,(o,b) in MODELS.items():
         a=d[d[o].notna()]
         try:models[h]=fit_arrays(design(a,b),a[o].to_numpy(float))
