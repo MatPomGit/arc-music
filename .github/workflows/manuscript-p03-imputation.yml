@@ -1,0 +1,78 @@
+name: P03 imputation calibration
+on:
+  pull_request:
+    paths:
+      - 'manuscripts/MSC-MUS-P03/**'
+      - '.github/workflows/manuscript-p03-imputation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 validate.py
+      - run: |
+          python3 -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.3.3 statsmodels==0.14.6
+          cd manuscripts/MSC-MUS-P03/analysis
+          python3 -m unittest discover -v
+  calibration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: tests
+    strategy:
+      fail-fast: false
+      matrix:
+        mechanism: [complete, outcome_mar, predictor_mar, mixed_mar, outcome_mnar]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: |
+          python3 -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.3.3 statsmodels==0.14.6
+          cd manuscripts/MSC-MUS-P03/analysis
+          python3 imputation_calibration.py --mechanism ${{ matrix.mechanism }} --reps 30 --m 10 --sweeps 5 > imputation-calibration.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p03-mi-${{ matrix.mechanism }}
+          path: |
+            manuscripts/MSC-MUS-P03/analysis/imputation-calibration.json
+            manuscripts/MSC-MUS-P03/analysis/exact-head.txt
+          if-no-files-found: error
+  protocol:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: tests
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: |
+          python3 -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.3.3 statsmodels==0.14.6
+          cd manuscripts/MSC-MUS-P03/analysis
+          python3 imputation_calibration.py --mechanism mixed_mar --reps 10 --m 50 --sweeps 15 > imputation-protocol-smoke.json
+          git rev-parse HEAD > exact-head.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p03-mi-protocol-smoke
+          path: |
+            manuscripts/MSC-MUS-P03/analysis/imputation-protocol-smoke.json
+            manuscripts/MSC-MUS-P03/analysis/exact-head.txt
+          if-no-files-found: error
