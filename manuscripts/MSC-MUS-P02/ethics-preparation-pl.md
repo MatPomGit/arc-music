@@ -1,4 +1,4 @@
-# MSC-MUS-P02. Przygotowanie dokumentacji etycznej 0.1.0
+# MSC-MUS-P02. Przygotowanie dokumentacji etycznej 0.2.0
 
 Status: PROJEKT, NO-GO dla rekrutacji i pilotażu. Dokument nie jest zatwierdzonym formularzem zgody ani opinią komisji. Podstawy: sections/ethics.tex, fieldwork-protocol-pl.md, docs/data-policy.md i docs/research-gates.json (D02-S01).
 
@@ -24,6 +24,7 @@ Odmowa pokazania artefaktu lub zgody na cytowanie nie jest przesłanką wyklucze
 | Wycofanie i retencja | Termin, procedura, zakres usunięcia i ograniczenia po nieodwracalnej anonimizacji | NIEZWERYFIKOWANE |
 | Dystres | Zatwierdzony sposób reagowania, aktualne kontakty wsparcia i przeszkolenie | NIEZWERYFIKOWANE |
 | Dane | Zatwierdzone miejsce zapisu, uprawnienia, transkrypcja, kopie i usuwanie | NIEZWERYFIKOWANE |
+| Incydenty | Zatwierdzona procedura nieuprawnionego przechwycenia, ograniczenia dostępu, dokumentacji, powiadomienia i warunków wznowienia | NIEZWERYFIKOWANE |
 | Rekrutacja | Zgody administratorów kanałów, neutralne zaproszenie | NIEZWERYFIKOWANE |
 | Materiały | Prawa do ewentualnych cytatów, artefaktów i zakres dopuszczalnego udostępnienia | NIEZWERYFIKOWANE |
 

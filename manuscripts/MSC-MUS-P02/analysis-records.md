@@ -13,6 +13,7 @@ These are field specifications, not participant data or a mandatory codebook. Co
 | Pilot review | Guide version; understanding; neutral prompts; contextual depth; duration; consent and recording; keep/revise/suspend; justification; pilot corpus eligibility and approval. |
 | Construct transfer | Theme and interpretation; relevant contrasts; proposed construct or design implication; reflective/formative/contextual status if justified; candidate indicator; retain/revise/defer; rationale; validation needs. |
 | Deviation log | Protocol version; departure; context; impact on interpretation or participant safety; decision and approval where applicable. |
+| Capture incident | Protected incident reference; affected activity stopped; access restricted; institutional procedure invoked; disposition and authorisation to resume if applicable. No captured content in this record; use the approved institutional incident register for details. |
 
 Do not force all fields to be filled; mark not elicited, not applicable or uncertain separately. Records support reflexive analysis, not inter-rater agreement or prevalence estimates. Preserve a clear distinction between reported experience, interpretation and proposed theory. A theme is a pattern of shared meaning organised around a central concept; an interview domain alone is not a theme.
 

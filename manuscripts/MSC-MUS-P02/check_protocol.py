@@ -58,7 +58,7 @@ assert r'\subsection{From extracts to an interpretive account}' in body
 assert 'hypothetical illustration, not a result of P02' in body
 records=(root/'analysis-records.md').read_text(encoding='utf-8')
 assert '| Pilot review |' in records and '| Construct transfer |' in records
-assert 'wersja 0.3.1' in guide and 'Procedura terenowa 0.3.1' in field
+assert 'wersja 0.3.1' in guide and 'Procedura terenowa 0.3.2' in field
 assert 'no directional statistical hypotheses' in body
 assert 'ownership of an output is not applicable' in body
 assert 'what, if anything, made it feel like yours or not yours?' in body
@@ -77,5 +77,11 @@ assert pre_interview, "Missing pre-interview procedure"
 for control in ("nieautoryzowanych asystentów spotkań", "zewnętrzną transkrypcję", "automatyczną synchronizację"):
     assert control in pre_interview.group(1), f"Missing pre-interview capture control: {control}"
 assert re.search(r"wyłączyć[^.]*nieautoryzowanych asystentów spotkań", pre_interview.group(1), re.I), "Capture controls must be disabled before interviewing"
+
+assert 'If capture cannot be disabled or verified, do not show the artefact.' in body
+assert 'Do not copy, analyse or publish the affected material.' in body
+assert 'Jeżeli nie można potwierdzić wyłączenia przechwytywania, nie pokazywać artefaktu.' in field
+assert 'Nie kopiować, nie analizować ani nie publikować' in field
+assert '| Incydenty |' in ethics_draft and '| Capture incident |' in records
 
 print(f"PASS: P02 protocol, {len(seen)} LaTeX files, 5 research questions, {len(keys)} matched references, 60-minute guide")
