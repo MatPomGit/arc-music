@@ -62,8 +62,22 @@ def aggregate(parts, *, count=100, draws=999):
             raise ValueError("Incomplete or duplicate outer replicates")
         for row in p["rows"]:
             for name,value in row["estimates"].items():
-                if name not in METHODS or value["successful"]+value["failed"]!=draws:
+                if name not in METHODS:
+                    raise ValueError("Unknown estimator")
+                success, failed = value["successful"], value["failed"]
+                if (type(success) is not int or type(failed) is not int
+                        or min(success, failed) < 0 or success + failed != draws):
                     raise ValueError("Invalid inner bootstrap accounting")
+                contrast, ci = value["contrast"], value["ci"]
+                if type(contrast) not in (int, float) or not np.isfinite(contrast) or not -10 <= contrast <= 10:
+                    raise ValueError("Invalid contrast")
+                eligible = success >= max(2, (95 * draws + 99) // 100)
+                if (ci is not None) != eligible:
+                    raise ValueError("Interval inconsistent with fit threshold")
+                if ci is not None and (not isinstance(ci, list) or len(ci) != 2
+                        or any(type(v) not in (int, float) or not np.isfinite(v) for v in ci)
+                        or not -10 <= ci[0] <= ci[1] <= 10):
+                    raise ValueError("Invalid confidence interval")
         grouped[key[0]].extend(p["rows"])
     if seen != expected:
         raise ValueError("Missing shards")
