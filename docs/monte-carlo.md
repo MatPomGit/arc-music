@@ -1,4 +1,4 @@
-# Lokalne symulacje Monte Carlo v1.3.0
+# Lokalne symulacje Monte Carlo v1.4.0
 
 Uruchamiaj na zaufanym komputerze (np. Andromeda/WSL), po przeglądzie kodu. Nie uruchamiaj niezaufanych PR na stałym runnerze. Bez danych uczestników, API, usług płatnych i automatycznego uruchamiania pełnych symulacji w CI.
 
@@ -14,7 +14,7 @@ bash run-monte-carlo.sh all --profile smoke --jobs 4
 bash run-monte-carlo.sh P09 --profile full --jobs 8
 ```
 
-Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Jeśli systemowy Python jest niezgodny z przypiętymi pakietami, wybierz Python 3.12/3.13, np. `PYTHON_BIN=python3.12 bash run-monte-carlo.sh all --setup`. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. Bez skryptu wspólne uruchomienie runnera wymaga zgodnego środowiska; wersje NumPy/SciPy mogą się różnić.
+Dla każdego badania utwórz oddzielne środowisko zgodne z analysis/requirements.txt. P05 dodatkowo wymaga Rscript, lavaan oraz semTools; użyj wersji zgodnych z referencją, odnotuj rozbieżności. Nic nie instaluje się automatycznie. Jeśli systemowy Python jest niezgodny z przypiętymi pakietami, wybierz Python 3.12/3.13, np. `PYTHON_BIN=python3.12 bash run-monte-carlo.sh all --setup`. Skrypt bash używa odrębnych .venv/monte-carlo/Pxx. 
 
 `--list` wypisuje programy, ziarna, parametry i zależności bez obliczeń. Domyślnie jeden proces i jeden wątek BLAS; zwiększ --jobs ostrożnie względem pamięci, --threads domyślnie 1. GPU nie jest wykorzystywane przez obecne modele NumPy/SciPy/R.
 
@@ -29,7 +29,7 @@ monte_carlo.bat --profile full --jobs 8
 monte_carlo.bat --list --profile full
 ```
 
-Dwuklik otwiera menu: instalacja, pilot, full, smoke, własna symulacja i wyjście. Własny profil pyta o replikacje, seed, procesy, scenariusz i parametry obsługiwane przez dany model. Konfiguracja ma osobny identyfikator skrótu; stałe siatki N i efektów pozostają bez zmian. Full pokazuje planowaną liczbę replikacji i wymaga potwierdzenia. Licznik w trakcie dotyczy zakończonych zadań, nie pojedynczych replikacji wewnątrz monolitycznych programów. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Wymagany jest Python i Git w PATH, a dla P05 także Rscript z lavaan i semTools. Opcjonalnie ustaw PYTHON_BIN na pełną ścieżkę do zgodnego python.exe przed --setup. Po przejściu między Windows i WSL użyj odrębnego --run-id, ponieważ metadane środowisk są różne. P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
+Dwuklik otwiera menu: instalacja, pilot, full, smoke, własna symulacja i wyjście. Własny profil pyta o replikacje, seed, procesy, scenariusz i parametry obsługiwane przez dany model. Konfiguracja ma osobny identyfikator skrótu; P01, P07 (primary) i P08 (factorial/nonhearing) pozwalają wybrać pojedynczy własny scenariusz N, efektów i odpowiednich parametrów DGP. Pozostałe siatki są stałe. Full pokazuje planowaną liczbę replikacji i wymaga potwierdzenia. Licznik w trakcie dotyczy zakończonych zadań, nie pojedynczych replikacji wewnątrz monolitycznych programów. Środowiska Windows są oddzielone od WSL w .venv/monte-carlo-windows/Pxx. Wymagany jest Python i Git w PATH, a dla P05 także Rscript z lavaan i semTools. Opcjonalnie ustaw PYTHON_BIN na pełną ścieżkę do zgodnego python.exe przed --setup. Windows i WSL wymagają odrębnych --run-id. P02 zwraca NOT_APPLICABLE. Zależności nie instalują się przy dwukliku.
 
 Wykresy SVG i indeks wartości: `manuscripts/MSC-MUS-Pxx/results/<HEAD>/<profil>/<run-id>/`. Surowy JSON pozostaje w build/. Wykresy rozróżniają metryki i rodziny zadań; nie przedstawiają danych empirycznych.
 

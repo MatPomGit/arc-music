@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import fnmatch
+import math
 
 # Bounds reflect CLI contracts, not approved methodological choices.
 FIELDS={
@@ -38,7 +39,7 @@ def integer(label,low,high,default=None):
             pass
         print("Nieprawidlowa wartosc.")
 
-def build(study,reps,seed,options,pattern="*"):
+def build(study,reps,seed,options,pattern="*",design=None):
     from monte_carlo_runner import load_plan
     if study=="P02":
         return []
@@ -99,7 +100,72 @@ def build(study,reps,seed,options,pattern="*"):
             if key in a:
                 a[a.index(key)+1]=str(val)
         output.append(replace(t,args=tuple(a)))
+    if design is not None:
+        output=apply_design(study,output,design)
     return output
+
+def apply_design(study,tasks,d):
+    allowed={"P01":{"cp-joint"},"P07":{"primary"},"P08":{"factorial","nonhearing"}}
+    if study not in allowed or any(t.name not in allowed[study] for t in tasks):
+        raise ValueError("Individual design requires a supported single simulation task")
+    n=d["n"]
+    if type(n) is not int or not 40<=n<=100000 or (study in ("P01","P08") and n%4):
+        raise ValueError("Invalid N; factorial designs require multiples of four")
+    def bounded(k,lo,hi):
+        v=d[k]
+        if not isinstance(v,(int,float)) or not math.isfinite(v) or not lo<=v<=hi:
+            raise ValueError("Invalid "+k)
+        return v
+    def category(k,choices):
+        if d[k] not in choices:raise ValueError("Invalid "+k)
+        return d[k]
+    if study=="P01":
+        args=["--design",n,bounded("effect1",-2,2),bounded("effect2",-2,2),category("profile",("equal","heterogeneous"))]
+    elif study=="P07":
+        args=["--design",n,bounded("prevalence",.01,.99),bounded("effect",-2,2),
+              bounded("missing",0,.95),category("mechanism",("mcar","mar","mnar","confounded"))]
+    else:
+        args=["--design",n,bounded("authority",-2,2),bounded("interaction",-2,2),
+              category("mechanism",("mcar","mar","mnar")),"--loss",bounded("missing",0,.95)]
+    out=[]
+    for t in tasks:
+        a=list(t.args)
+        if study=="P08":
+            if "--nonadherence" in a:a[a.index("--nonadherence")+1]=str(bounded("nonadherence",0,.95))
+            else:a.extend(["--nonadherence",str(bounded("nonadherence",0,.95))])
+        out.append(replace(t,args=tuple(a+list(map(str,args)))))
+    return out
+
+def decimal(label,lo,hi):
+    while True:
+        try:
+            v=float(input(f"{label} [{lo}..{hi}]: ").replace(",","."))
+            if math.isfinite(v) and lo<=v<=hi:return v
+        except ValueError:pass
+        print("Nieprawidlowa wartosc.")
+
+def ask_design(study,pattern):
+    if (study,pattern) not in {("P01","cp-joint"),("P07","primary"),("P08","factorial"),("P08","nonhearing")}:
+        return None
+    if input("Zmienic siatke na jeden wlasny scenariusz? [t/N]: ").strip().lower() not in ("t","tak","y","yes"):
+        return None
+    n=integer("Liczebnosc N"+(" (wielokrotnosc 4)" if study!="P07" else ""),40,100000)
+    while study!="P07" and n%4:
+        n=integer("N musi byc wielokrotnoscia 4",40,100000)
+    d={"n":n}
+    if study=="P01":
+        d.update(effect1=decimal("Efekt prosty 1",-2,2),effect2=decimal("Efekt prosty 2",-2,2),
+                 profile=("equal","heterogeneous")[integer("Profil: 1=equal, 2=heterogeneous",1,2)-1])
+    else:
+        choices=("mcar","mar","mnar","confounded") if study=="P07" else ("mcar","mar","mnar")
+        d["mechanism"]=choices[integer("Mechanizm: "+", ".join(f"{i+1}={x}" for i,x in enumerate(choices)),1,len(choices))-1]
+        d["missing"]=decimal("Frakcja brakow",0,.95)
+        if study=="P07":
+            d.update(prevalence=decimal("Czestosc ekspozycji",.01,.99),effect=decimal("Efekt latentny",-2,2))
+        else:
+            d.update(authority=decimal("Efekt authority",-2,2),interaction=decimal("Interakcja",-2,2),
+                     nonadherence=decimal("Frakcja nieprzestrzegania przydzialu",0,.95))
+    return d
 
 def interactive(study):
     from monte_carlo_runner import ROOT,load_plan,run_study,json_text
@@ -120,17 +186,18 @@ def interactive(study):
             print(f"{i}: {name}")
         choice=integer("Scenariusz",0,len(names))
         pattern=names[choice-1] if choice else "*"
+        design=ask_design(study,pattern)
         options={}
         while True:
             for k,(lo,hi,default) in FIELDS[study].items():
                 options[k]=integer(LABELS[k],lo,hi,default)
             try:
-                configured=build(study,reps,seed,options,pattern)
+                configured=build(study,reps,seed,options,pattern,design)
                 break
             except ValueError as exc:
                 print(exc)
         config={"study":study,"reps":reps,"seed":seed,"options":options,"pattern":pattern,
-                "jobs":jobs,"threads":threads}
+                "jobs":jobs,"threads":threads,"design":design}
         run_id="custom-"+hashlib.sha256(json_text(config).encode()).hexdigest()[:16]
         print(json_text(config))
         describe_plan(study,"custom",configured)

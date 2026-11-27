@@ -13,10 +13,11 @@ def decision(m,v,n):
     psi=s.mean(1); pv=q.sum(1)/4; pr=t.ppf(.975,q.sum(1)**2/w.sum(1))*np.sqrt(pv)
     return good,good&(p.max(1)<=.05),s,rad,psi,pr
 
-def run(reps=20000,seed=20261203):
+def run(reps=20000,seed=20261203,*,grid=None):
     effects=[(0.,0.),(.3,.3),(.15,.45),(.45,.15),(0.,.6),(.6,0.),(-.1,.7),(.7,-.1)]
     profiles={'equal':([1.]*4,[.85]*4),'heterogeneous':([.8,1.2,1.2,.8],[.9,.8,.75,.9])}
-    grid=list(product((420,600,800,1000,1200,1400),effects,profiles))
+    if grid is None:grid=list(product((420,600,800,1000,1200,1400),effects,profiles))
+    if any(n<40 or n%4 or profile not in profiles or not all(np.isfinite(e)) for n,e,profile in grid):raise ValueError('Invalid custom design')
     out=[]
     for (n,e,profile),ss in zip(grid,np.random.SeedSequence(seed).spawn(len(grid))):
         rng=np.random.default_rng(ss); sd,ret=map(np.array,profiles[profile]); count=rng.binomial(n//4,ret,size=(reps,4)); m=np.array([e[0],0,0,e[1]])+rng.normal(size=count.shape)*sd/np.sqrt(np.maximum(count,1)); df=np.maximum(count-1,1); v=sd**2*rng.chisquare(df)/df
@@ -28,6 +29,8 @@ if __name__=="__main__":
     parser=argparse.ArgumentParser(description="Synthetic CP conjunction calibration")
     parser.add_argument("--reps",type=int,default=20000)
     parser.add_argument("--seed",type=int,default=20261203)
+    parser.add_argument('--design',nargs=4,metavar=('N','E1','E2','PROFILE'))
     args=parser.parse_args()
+    grid=None if args.design is None else [(int(args.design[0]),(float(args.design[1]),float(args.design[2])),args.design[3])]
     if args.reps<1:parser.error("Positive replication count required")
-    print(json.dumps(run(args.reps,args.seed),indent=2,allow_nan=False))
+    print(json.dumps(run(args.reps,args.seed,grid=grid),indent=2,allow_nan=False))
