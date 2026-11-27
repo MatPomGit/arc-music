@@ -85,3 +85,40 @@ jobs:
             manuscripts/MSC-MUS-P09/analysis/candidate-shard-screen.json
             manuscripts/MSC-MUS-P09/analysis/candidate-shards/shard-0.json
           if-no-files-found: error
+
+  candidate-precision-screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        cell: [6, 8, 18, 21]
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      CELL: ${{ matrix.cell }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - working-directory: manuscripts/MSC-MUS-P09/analysis
+        run: |
+          python3 -m venv "$RUNNER_TEMP/p09-screen"
+          "$RUNNER_TEMP/p09-screen/bin/pip" install -r requirements.txt
+          mkdir -p precision-shards
+          for offset in 0 10; do
+            "$RUNNER_TEMP/p09-screen/bin/python" candidate_shards.py shard "$CELL" "$offset" 10 --seed 20261207 --draws 999 > "precision-shards/shard-$offset.json"
+          done
+          "$RUNNER_TEMP/p09-screen/bin/python" candidate_shards.py aggregate precision-shards --expected 20 > candidate-precision.json
+          git rev-parse HEAD > candidate-precision-head.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p09-candidate-precision-cell-${{ matrix.cell }}
+          path: |
+            manuscripts/MSC-MUS-P09/analysis/precision-shards/
+            manuscripts/MSC-MUS-P09/analysis/candidate-precision.json
+            manuscripts/MSC-MUS-P09/analysis/candidate-precision-head.txt
+          if-no-files-found: warn
