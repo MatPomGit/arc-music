@@ -22,3 +22,7 @@ The withdrawal log is required in the CLI; a header-only file explicitly represe
 
 
 Time-zone policy: the frozen enrollment IANA zone defines the local-hour covariate for the whole 21-day study, even when a response is serialized in UTC or another offset. Elapsed-time checks use absolute UTC instants. Travel does not change the frozen schedule; document potential contextual limitations without GPS or location history. No retrospective rescheduling. Direct synthetic fixtures without a zone use the scheduled timestamp offset, never the response offset. Empirical CLI reconciliation requires the IANA zone and local calendar and rejects inconsistent schedule offsets or within-person zone changes.
+
+## Outcome-specific secondary calibration
+
+`secondary_calibration.py` generates paired bounded 180-minute valence and first-hour arousal-goal deviation, with independently incomplete outcome masks, baseline/exposure loss, rare creation, timing and 45% final-day withdrawal. H2 and H3 call the production array estimator and fixed Holm family. The 72-cell full grid crosses N160/320, prevalence .05/.10/.25, global/partial nulls and joint alternatives, and MCAR/MAR/MNAR response mechanisms. Hypothetical observed-scale linear conditional-mean targets (.4 valence, -.2 deviation) are not SESOI. Report operational/conditional rejection and coverage, false-family rejection under partial null, failures, bias/MCSE and switchers. CI's four-cell 20-replicate screen tests execution, not final adequacy. No redefinition of the primary estimand or recruitment target.

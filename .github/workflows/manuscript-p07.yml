@@ -23,6 +23,7 @@ jobs:
           "$RUNNER_TEMP/p07/bin/pip" install -r requirements.txt
           "$RUNNER_TEMP/p07/bin/python" -m unittest -v
           OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 "$RUNNER_TEMP/p07/bin/python" simulation.py --smoke --reps 20 --reference-n 1000 > smoke-results.json
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 "$RUNNER_TEMP/p07/bin/python" secondary_calibration.py --smoke --reps 20 > secondary-smoke.json
       - run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra lmodern
@@ -39,6 +40,7 @@ jobs:
             manuscripts/MSC-MUS-P07/main.log
             manuscripts/MSC-MUS-P07/exact-head.txt
             manuscripts/MSC-MUS-P07/analysis/smoke-results.json
+            manuscripts/MSC-MUS-P07/analysis/secondary-smoke.json
           if-no-files-found: error
   calibration-screen:
     runs-on: ubuntu-24.04
