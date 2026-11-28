@@ -28,3 +28,5 @@ P05: EXP, REF, MOD, DIV, SOC, PER, AVO pozostają siedmioma domenami kandydackim
 P03: do rozważenia WHO-5, ERQ, DERS-8, GAD-7, PHQ-9, miara samotności; tylko zgodne z celem i po sprawdzeniu wersji PL, licencji, obciążenia i okresu odniesienia. P04 zachowuje PAQ-S-PL; TAS-20-POL-R wymaga odrębnego uzasadnienia. HUMS i BSRCS-6_PL mogą być komparatorami P05/P08 po sprawdzeniu adekwatności, nie zastępują miar funkcji i kompetencji muzycznych.
 
 Przed wdrożeniem: wywiady poznawcze, kontrola treści i zakresu odpowiedzi, wersjonowanie słownika, specyfikacja braków i analiz, symulacja mocy przy zmianie estymandu. Nie deklarować trafności, skuteczności ani zgód.
+
+P08/P03: BPNSFS, polska adaptacja Kuźma i in. (2020), DOI 10.3389/fpsyg.2019.03034. Rozróżnia zaspokojenie i frustrację autonomii, kompetencji oraz relacyjności. Nie jest zwalidowaną miarą chwilowego sprawstwa w zadaniu muzycznym; kandydat do oceny adekwatności i warunków użycia.
