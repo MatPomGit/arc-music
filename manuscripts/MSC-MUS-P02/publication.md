@@ -2,4 +2,4 @@
 
 **Czasopismo docelowe:** Psychology of Music
 
-**Czasopismo alternatywne:** Musicae Scientiae
+**Czasopismo alternatywne:** Qualitative Research in Psychology

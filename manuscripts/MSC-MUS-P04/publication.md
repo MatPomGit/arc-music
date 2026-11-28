@@ -1,5 +1,5 @@
 # Plan publikacji
 
-**Czasopismo docelowe:** Psychology of Music
+**Czasopismo docelowe:** Personality and Individual Differences
 
-**Czasopismo alternatywne:** Personality and Individual Differences
+**Czasopismo alternatywne:** Journal of Research in Personality
