@@ -2,4 +2,4 @@
 
 **Czasopismo docelowe:** Assessment
 
-**Czasopismo alternatywne:** Psychology of Music
+**Czasopismo alternatywne:** Psychological Assessment
