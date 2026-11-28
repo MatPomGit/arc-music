@@ -19,3 +19,5 @@ Stan 2026-11-27: propozycje, bez danych empirycznych i zatwierdzenia rekrutacji.
 ## Rozdzielenie prób i publikacji
 
 Odrębne kohorty, kody i prerejestracje. P02 służy rozwojowi treści P05, nie walidacji. Pilotaże i EFA nie wchodzą do niezależnego CFA; retest to podpróba CFA, nie nowa niezależna próba. Powtarzane sesje/okna nie są niezależnymi osobami. Nie łączyć uczestników między pracami bez uprzedniej zgody i chronionego klucza. Przy zatwierdzonym współdzieleniu ujawnić ID zbioru, wspólne N, okres zbierania, relacje publikacji, odrębne estymandy i analizy wtórne; nie nazywać replikacją. Zgody, retencja i licencje: [bramki](research-gates.json). Brak udokumentowanej aprobaty nie przesądza o decyzji uczelni.
+
+Zob. [kandydacki rejestr konstruktów](constructs.md).

@@ -11,3 +11,7 @@ Celem badania przekrojowego P03 jest oszacowanie związku motywu ekspresji z ret
 Rekrutację poprzedzi konsultacja z opiekunem naukowym, uzyskanie wymaganych zgód i weryfikacja zasad dostępu do danych.
 
 Priorytet mają prace P01 i P02 oraz badanie ankietowe. Odrębność publikacji P03, P04 i P06 zależy od odrębności pytań badawczych i wkładu naukowego. P05 wymaga niezależnej walidacji psychometrycznej. Zob. [macierz estymandów i danych](research-matrix.md). Prace P07, P08 i P09 dotyczą dalszych kierunków badań.
+
+Kandydackie rozszerzenia pomiarów i zakres dodatkowych pytań opisuje [rejestr konstruktów](constructs.md). Wprowadzenie ich do formularzy wymaga pilotażu i zatwierdzenia. Główne hipotezy i liczebności pozostają bez zmian.
+
+[Moduły pomiarowe do pilotażu](measurement-modules.md) określają kolejność pytań, warunki stosowalności i rozróżnienie braków odpowiedzi.
