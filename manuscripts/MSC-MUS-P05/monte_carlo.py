@@ -17,7 +17,7 @@ def plan(profile):
             shards.append(key)
             tasks.append(job(key,"alternative_model_calibration.py","--structure",structure,
                 "--n",500,"--reps",min(structure_batch,reps-start),"--pa-reps",pa,
-                "--offset",start,"--seed",20261213,r=True))
+                "--offset",start,"--seed",20261213))
         tasks.append(job(name+"/aggregate","alternative_model_calibration.py",
                          "--aggregate","@OUT@/"+name,"--expected",reps,deps=shards))
     cells=[(0,"invariant"),(1,"loading_dif"),(2,"threshold_dif"),(3,"intercept_dif")] if profile=="smoke" else [(i,s) for i in range(4) for s in ("invariant","threshold_dif","loading_dif","intercept_dif")]
@@ -30,7 +30,7 @@ def plan(profile):
             shards.append(key)
             tasks.append(job(key,"invariance_reference_calibration.py","--size-index",i,
                 "--scenario",scenario,"--reps",min(batch,reps-start),"--offset",start,
-                "--seed",20261214,r=True))
+                "--seed",20261214))
         tasks.append(job(name+"/aggregate","invariance_reference_calibration.py",
                          "--aggregate","@OUT@/"+name,"--expected",reps,deps=shards))
     return tasks

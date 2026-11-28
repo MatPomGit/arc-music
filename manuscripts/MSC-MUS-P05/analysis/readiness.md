@@ -1,5 +1,7 @@
 # Readiness register (v0.1.0)
 
+**Current method boundary (2026-11-28).** All new execution is Python-only. The one-factor, correlated-seven and higher-order development models use ordinal moment fitting and a moment-matched residual test, not WLSMV. Earlier external-reference computations and paired comparisons describe historical revisions, not a validated current estimator. Independent Python ordinal reference, robust fit/invariance equivalence, full calibration and scientific approval remain blocked. Archived evidence is retained; no results are transferred to the new estimator.
+
 - Construct, episode anchor, 35 candidate items, provisional hypotheses and staged study protocol: drafted.
 - Bibliography: DOI/title checked against accessible records; full-text claim audit, complete bibliographic fields and search update outstanding.
 - P02 qualitative traceability: pending actual qualitative data, not inferred from protocol.

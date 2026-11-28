@@ -1,52 +1,40 @@
 """Independent EFA/CFA development screens of competing AI-MRFS structures."""
 import argparse
-import csv
-import hashlib
 import itertools
 import json
-from pathlib import Path
-import subprocess
-import tempfile
 import numpy as np
 from recovery import simulate
 from factor_count_calibration import assess
 from robust_calibration import wilson
+from robust_cfa import robust_moments
+from python_structure_models import MODELS, METHOD, fit_development_model
+from reference_inputs import encode, digest
 
-MODELS = ("one_factor", "correlated_seven", "higher_order")
-METRICS = ("minimum_uniqueness", "minimum_factor_eigenvalue", "cfi_scaled",
-           "tli_scaled", "rmsea_scaled", "srmr", "p_scaled")
+METRICS = ("minimum_uniqueness", "minimum_factor_eigenvalue", "srmr", "p_development")
 STATUSES = ("PROPER", "IMPROPER", "NONCONVERGED", "ERROR", "INSUFFICIENT_COMPLETE")
 
 
 def reference(x):
+    """Compatibility function name; current estimator is Python development, not WLSMV."""
+    x = np.asarray(x)
+    if x.ndim != 2 or x.shape[1] != 35:
+        raise ValueError("Expected 35 ordinal items")
     complete = x[np.isfinite(x).all(axis=1)]
-    if len(complete) <= 35 or any(len(np.unique(c)) != 5 for c in complete.T):
-        return [{"model":m,"status":"INSUFFICIENT_COMPLETE","n":len(complete)} for m in MODELS]
-    with tempfile.TemporaryDirectory() as temp:
-        path = Path(temp)
-        inp, out = path/"synthetic.csv", path/"models.csv"
-        np.savetxt(inp, complete, delimiter=",", fmt="%d",
-                   header=",".join(f"item{i+1}" for i in range(35)), comments="")
-        digest = hashlib.sha256(inp.read_bytes()).hexdigest()
+    common = {"n": len(complete), "method": METHOD, "independent_reference_verified": False}
+    if len(complete) <= 35 or any(not np.array_equal(np.unique(c), np.arange(5)) for c in complete.T):
+        return [dict(common, model=m, status="INSUFFICIENT_COMPLETE") for m in MODELS]
+    common["input_sha256"] = digest(encode(complete, 7, 5))
+    try:
+        moments = robust_moments(complete)
+    except (ValueError, ArithmeticError, np.linalg.LinAlgError) as exc:
+        return [dict(common, model=m, status="ERROR", reason=str(exc)) for m in MODELS]
+    rows = []
+    for model in MODELS:
         try:
-            subprocess.run(["Rscript",str(Path(__file__).with_name("model_reference.R")),
-                            str(inp),str(out)], capture_output=True,text=True,check=True,timeout=600)
-            with out.open(newline="",encoding="utf-8") as f:
-                rows = list(csv.DictReader(f))
-            if [x["model"] for x in rows] != list(MODELS):
-                raise ValueError("Reference output must report all three models")
-            for row in rows:
-                if row["status"] not in STATUSES:
-                    raise ValueError("Unknown reference fit status")
-                row["n"] = int(row["n"])
-                row["input_sha256"] = digest
-                for metric in METRICS:
-                    v = row[metric]
-                    row[metric] = float(v) if v not in ("NA","NaN","Inf","-Inf","") else None
-            return rows
-        except (OSError,ValueError,KeyError,subprocess.SubprocessError) as exc:
-            return [{"model":m,"status":"ERROR","n":len(complete),
-                     "input_sha256":digest,"reason":str(exc)} for m in MODELS]
+            rows.append(dict(common, **{k: v for k, v in fit_development_model(moments, model).items() if k not in common}))
+        except (ValueError, ArithmeticError, np.linalg.LinAlgError) as exc:
+            rows.append(dict(common, model=model, status="ERROR", reason=str(exc)))
+    return rows
 
 
 def summary(rows):
@@ -93,7 +81,8 @@ def run(reps=2,pa_reps=20,smoke=False,seed=20261130):
         grid += [(n,l,r,True,m) for n,(l,r),m in itertools.product(
             (500,800),((.65,.35),(.40,.80)),(.02,.10,.20))]
     return {"synthetic":True,"model_selection_authorized":False,
-            "note":"EFA/CFA independent samples; complete-case sensitivity only; no empirical model selection",
+            "method":METHOD,"independent_reference_verified":False,
+            "note":"EFA/CFA independent samples; Python moment-model development, not WLSMV; no empirical model selection",
             "cells":[cell(*g,reps,pa_reps,seed+i) for i,g in enumerate(grid)]}
 
 

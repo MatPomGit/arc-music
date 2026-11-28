@@ -1,5 +1,7 @@
 # Verified synthetic development evidence v0.11.0
 
+**Current method boundary (2026-11-28).** All new execution is Python-only. The one-factor, correlated-seven and higher-order development models use ordinal moment fitting and a moment-matched residual test, not WLSMV. Earlier external-reference computations and paired comparisons describe historical revisions, not a validated current estimator. Independent Python ordinal reference, robust fit/invariance equivalence, full calibration and scientific approval remain blocked. Archived evidence is retained; no results are transferred to the new estimator.
+
 2026-11-26. Source: GitHub Actions run 45894186937, head b3590c4adf5d79babb35f903b1c7db0ef5a5c145, artifact 15152208946. Downloaded ZIP SHA-256 verified against GitHub metadata: 2b905e96795d1aadb7ab5be13a3262dece4a1f8e79af4a5abdb5ce292f042d9d. All seven JSON files were read. Results are synthetic development evidence, not data from participants.
 
 | EFA scenario (9 items, fixed true factor count, no parallel analysis) | Proper fits | Mean primary loading bias | Mean assignment accuracy among proper fits |

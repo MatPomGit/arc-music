@@ -16,6 +16,7 @@ class Plans(unittest.TestCase):
             for study in m.STUDIES:
                 tasks=m.load_plan(study,profile)
                 self.assertEqual(bool(tasks),study!="P02")
+                self.assertFalse(any(t.r for t in tasks))
         tasks=m.load_plan("P09","full")
         self.assertEqual(len([t for t in tasks if t.name.startswith("ipw/") and t.name.endswith("/aggregate")]),40)
         self.assertEqual(len([t for t in tasks if t.name.startswith("paired/") and t.name.endswith("/aggregate")]),9)

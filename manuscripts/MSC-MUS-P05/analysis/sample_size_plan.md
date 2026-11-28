@@ -1,5 +1,7 @@
 # Sample-size decision protocol v0.9.0
 
+**Current method boundary (2026-11-28).** All new execution is Python-only. The one-factor, correlated-seven and higher-order development models use ordinal moment fitting and a moment-matched residual test, not WLSMV. Earlier external-reference computations and paired comparisons describe historical revisions, not a validated current estimator. Independent Python ordinal reference, robust fit/invariance equivalence, full calibration and scientific approval remain blocked. Archived evidence is retained; no results are transferred to the new estimator.
+
 Status: prospective, not frozen. The existing N=400 EFA and N=500 CFA are planning values, not demonstrated requirements.
 
 - Future candidate N: 260, 400, 500, 660, 800 in independent EFA and CFA samples. For group invariance use balanced and 70:30 allocation, and check minimum category counts separately.
