@@ -191,6 +191,13 @@ def check(root=ROOT):
             errors.append(f"Invalid publication targets: {item.name}")
     from check_research_registers import check as check_registers
     errors.extend(check_registers(root))
+    from export_zotero import generate
+    try:
+        generated, _ = generate(root)
+        if (root / "docs/arc-music-zotero.bib").read_text(encoding="utf-8") != generated:
+            errors.append("Stale Zotero bibliography; run python3 export_zotero.py")
+    except (OSError, ValueError) as exc:
+        errors.append("Zotero bibliography: " + str(exc))
     return errors
 
 if __name__ == "__main__":
