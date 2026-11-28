@@ -16,6 +16,7 @@ jobs:
         with:
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: python3 -m unittest -v test_export_zotero
       - run: python3 validate.py
       - name: Check protocol structure and citations
         run: python3 manuscripts/MSC-MUS-P02/check_protocol.py

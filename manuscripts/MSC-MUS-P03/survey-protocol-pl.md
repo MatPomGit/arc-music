@@ -14,6 +14,10 @@ Do not show hypotheses to participants. Test comprehension with 8–12 volunteer
 7. Functions: „Na ile podczas sesji działanie umożliwiło Ci wyrażenie emocji, poznanie nowych możliwości, oderwanie uwagi od trudnych myśli, poczucie więzi z innymi?” Separate 0–10 ratings, not applicable/skip permitted. Optional adverse items: frustration, difficulty disengaging (0–10); no clinical interpretation.
 8. Background: age, musical experience (0–10), generator-use days over 30 days (0–30), source of recruitment, broad platform category. No direct identifiers.
 
+## Kandydacki moduł pilotażowy, poza bieżącym kontraktem
+
+Po rdzeniu ankiety, z ponownym wskazaniem tego samego epizodu: SOC_MOT, AVO_MOT i STRESS (retrospektywna ocena przed sesją), SHARING (najszerszy rzeczywisty krąg: nieudostępniony, wybrani odbiorcy, publicznie, inne). Przy udostępnieniu zapytać o otrzymanie reakcji; ACCEPT tylko przy otrzymanej reakcji. ENJOY oznacza przyjemność procesu, nie jakość utworu. Oceny 0–10 według rejestru konstruktów, z możliwością pominięcia. W pilotażu sprawdzić, czy pytania o motywy nie powielają funkcji i czy zmieniają obciążenie ankiety. Nie dodawać kolumn do aktualnego eksportu ani do modelu H1; przyszła analiza HC3 ma status eksploracyjny i wymaga wersjonowania.
+
 ## Data contract
 One row per participant. Mandatory P03 study code: `p03-` plus a random canonical lowercase UUIDv4 issued once by the approved survey intake, never derived from a personal identifier or an identifier from another study. Keep codes and participant records only in restricted institutional storage; no IP retention or direct identifiers. Import only authorized exports; withhold analysis of duplicate codes until adjudication, including a duplicate across an accepted and excluded row. An invalid or missing code among consented eligible submissions blocks analysis. Declined or malformed flags exclude that row before any response conversion; aggregate intake counts only, do not persist excluded sensitive answers. All unobserved values are NA, never zero. Core columns:
 

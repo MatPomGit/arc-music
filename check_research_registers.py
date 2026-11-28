@@ -16,6 +16,31 @@ def check(root):
                 errors.append("Missing or unsafe research contract: "+row["study"]+": "+contract)
         if row["fieldwork"]!="BLOCKED":
             errors.append("Unapproved fieldwork: "+row["study"])
+    # Candidate supplementary modules must remain distinct from empirical contracts.
+    common = gates.get("common", {})
+    if (common.get("supplementary_modules") != "PILOT_CANDIDATES_ONLY"
+            or common.get("supplementary_export") != "NOT_APPROVED"):
+        errors.append("Unapproved supplementary measurement status")
+    candidate_codes = {
+        "EXP_LABEL", "SOC_MOT", "AVO_MOT", "SHARING", "ACCEPT", "STRESS",
+        "STOP_DIFF", "SWITCH", "EXPECT", "ENJOY", "REPLAY", "COMP",
+        "AUTH", "CONTRIBUTION", "REFRAME", "FIT",
+    }
+    registry = (root / "docs/constructs.md").read_text(encoding="utf-8")
+    modules = (root / "docs/measurement-modules.md").read_text(encoding="utf-8")
+    code_rows = re.findall(r"^\| ([A-Z_]+) / (P\d{2}(?:/P\d{2})*) \|([^|\n]+)\|([^|\n]+)\|([^|\n]+)\|$", registry, re.M)
+    if len(code_rows) != len(candidate_codes) or {r[0] for r in code_rows} != candidate_codes:
+        errors.append("Incomplete or duplicate supplementary construct registry")
+    for code, studies, *_ in code_rows:
+        if not set(studies.split("/")) <= ids or not re.search(r"\b" + code + r"\b", modules):
+            errors.append("Unmapped supplementary construct: " + code)
+    for row in gates["studies"]:
+        if row["study"] == "P01":
+            continue
+        path = root / row.get("supplementary_protocol", "")
+        if (not path.is_file() or not path.resolve().is_relative_to(root.resolve())
+                or not path.parent.resolve().is_relative_to((root / "manuscripts" / ("MSC-MUS-" + row["study"])).resolve())):
+            errors.append("Missing or unsafe supplementary pilot protocol: " + row["study"])
     matrix=root/"docs/research-matrix.md"
     content=matrix.read_text(encoding="utf-8")
     rows=re.findall(r"^\| \[(P\d{2})\]\(([^)]+)\) /",content,re.M)

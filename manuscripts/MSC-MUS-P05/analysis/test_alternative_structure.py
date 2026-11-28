@@ -28,7 +28,7 @@ class AlternativeStructureTests(unittest.TestCase):
             return dict(selected=1,correct_count=True,joint_recovery=True)
         def cfa(x):
             self.assertFalse(np.array_equal(x,seen[-1]))
-            return [dict(model=m,status="PROPER",p_scaled=.01 if m=="one_factor" else .50) for m in MODELS]
+            return [dict(model=m,status="PROPER",p_development=.01 if m=="one_factor" else .50) for m in MODELS]
         with patch("alternative_model_calibration.assess",side_effect=efa),patch("alternative_model_calibration.reference",side_effect=cfa):
             result=cell(100,"one_factor",.65,False,0.,2,10,42)
         self.assertEqual(result["efa_correct_count"],2)
@@ -40,7 +40,7 @@ class AlternativeStructureTests(unittest.TestCase):
         def efa(x,*args):
             return dict(selected=7,correct_count=True,joint_recovery=True)
         def cfa(x):
-            return [dict(model=m,status="PROPER",p_scaled=.5) for m in MODELS]
+            return [dict(model=m,status="PROPER",p_development=.5) for m in MODELS]
         with patch("alternative_model_calibration.assess",side_effect=efa),patch("alternative_model_calibration.reference",side_effect=cfa):
             a=cell(100,"higher_order",.65,False,0.,1,10,42,0)
             b=cell(100,"higher_order",.65,False,0.,1,10,42,1)

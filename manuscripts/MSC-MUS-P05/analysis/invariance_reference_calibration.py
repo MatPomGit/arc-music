@@ -1,5 +1,5 @@
-"""Paired eight-item WLSMV and Python ordinal diagnostics on identical synthetic inputs."""
-import argparse,csv,hashlib,json,math,subprocess,tempfile
+"""Python ordinal development diagnostics and historical paired-result aggregation."""
+import argparse,json
 from pathlib import Path
 import numpy as np
 from invariance_calibration import group
@@ -20,33 +20,8 @@ TARGET={"threshold_dif":"threshold_shape","loading_dif":"threshold_loading",
         "intercept_dif":"threshold_loading_intercept"}
 
 def reference(x1,x2):
-    x=np.vstack((np.column_stack((np.ones(len(x1),int),x1)),
-                 np.column_stack((np.full(len(x2),2,int),x2))))
-    with tempfile.TemporaryDirectory() as temp:
-        path=Path(temp); inp,out=path/"synthetic.csv",path/"tests.csv"
-        np.savetxt(inp,x,fmt="%d",delimiter=",",header="group,"+",".join(f"item{i+1}" for i in range(8)),comments="")
-        sha=hashlib.sha256(inp.read_bytes()).hexdigest()
-        try:
-            proc=subprocess.run(["Rscript",str(Path(__file__).with_name("invariance_reference.R")),str(inp),str(out)],
-                capture_output=True,text=True,check=True,timeout=300)
-            with out.open(newline="",encoding="utf-8") as f: rows=list(csv.DictReader(f))
-            if [r["test"] for r in rows]!=list(NAMES):raise ValueError("Invalid reference test slots")
-            for row in rows:
-                if row["status"] not in ("PROPER","IMPROPER","NONCONVERGED","ERROR","UNAVAILABLE"):
-                    raise ValueError("Unknown reference status")
-                for k in ("p_value","df"):
-                    row[k]=float(row[k]) if row[k] not in ("","NA","NaN") else None
-                if row["status"]=="PROPER" and (row["p_value"] is None or
-                    not math.isfinite(row["p_value"]) or not 0<=row["p_value"]<=1 or
-                    row["df"] is None or not math.isfinite(row["df"]) or row["df"]<=0):
-                    raise ValueError("Invalid available reference statistic")
-            if not all(r["status"]=="PROPER" for r in rows):
-                return {"status":"UNAVAILABLE","input_sha256":sha,"tests":rows}
-            decision=global_decision([r["p_value"] for r in rows[:2]],
-                         {r["test"]:{"p_value":r["p_value"]} for r in rows[2:]})
-            return {"status":"PROPER","input_sha256":sha,"tests":rows,"decision":decision}
-        except (OSError,ValueError,KeyError,subprocess.SubprocessError) as exc:
-            return {"status":"ERROR","input_sha256":sha,"reason":str(exc)}
+    # Preserve the unavailable denominator, never copy the local estimate.
+    return {"status": "UNAVAILABLE", "reason": "Independent Python ordinal reference not established"}
 
 def python_reference(x1,x2):
     try:
@@ -96,10 +71,19 @@ def summarize_cell(sid,scenario,seed,offset,rows):
                         "python_only":sum(a and not b for a,b in outcomes),
                         "wlsmv_only":sum(b and not a for a,b in outcomes),
                         "neither":sum(not a and not b for a,b in outcomes)}
-    return {"schema":"p05-paired-invariance-v2","sizes":[n1,n2],"scenario":scenario,
+    reference_blocked = all(r["wlsmv"].get("reason") == "Independent Python ordinal reference not established" for r in rows)
+    comparator = summarize(rows,scenario,"wlsmv")
+    if reference_blocked:
+        comparator["status"] = "BLOCKED"
+        for metric in ("true_null_fwer_operational", "true_null_fwer_conditional",
+                       "any_rejection_operational", "target_rejection_operational",
+                       "target_rejection_conditional"):
+            comparator[metric] = None
+    return {"schema":"p05-python-invariance-development-v1" if reference_blocked else "p05-paired-invariance-v2",
+            "independent_reference_verified":False,"sizes":[n1,n2],"scenario":scenario,
             "true_nulls":list(TRUE_NULLS[scenario]),"requested":len(rows),
             "offset":offset,"seed":seed,"python":summarize(rows,scenario,"python"),
-            "wlsmv":summarize(rows,scenario,"wlsmv"),"paired_available":len(both),
+            "wlsmv":comparator,"paired_available":len(both),
             "paired_identical_rejection_sets":rate(same,len(both)),
             "paired_test_decisions":per_test,"records":rows}
 
@@ -107,7 +91,7 @@ def aggregate(parts,expected):
     if not parts or expected<1:raise ValueError("Empty calibration or denominator")
     key=lambda p:(p.get("schema"),tuple(p["sizes"]),p["scenario"],p["seed"])
     meta=key(parts[0])
-    if meta[0]!="p05-paired-invariance-v2" or any(key(p)!=meta for p in parts):
+    if meta[0] not in ("p05-paired-invariance-v2","p05-python-invariance-development-v1") or any(key(p)!=meta for p in parts):
         raise ValueError("Mixed shard metadata")
     if meta[1] not in SIZES or meta[2] not in SCENARIOS:
         raise ValueError("Unknown cell")
@@ -117,7 +101,7 @@ def aggregate(parts,expected):
     rows=sorted((r for p in parts for r in p["records"]),key=lambda r:r["replicate"])
     if len(rows)!=expected:raise ValueError("Incomplete aggregate")
     out=summarize_cell(SIZES.index(meta[1]),meta[2],meta[3],0,rows)
-    out["precision_screen_only"]=expected<2000
+    out["precision_screen_only"]=expected<2000 or meta[0]=="p05-python-invariance-development-v1"
     return out
 
 
@@ -142,7 +126,6 @@ if __name__=="__main__":
     grid=[(0,"invariant"),(1,"loading_dif"),(2,"threshold_dif"),(3,"intercept_dif")] if a.smoke else [(i,s) for i in range(4) for s in SCENARIOS]
     if a.scenario is not None:grid=[(a.size_index,a.scenario)]
     cells=[cell(i,s,a.reps,a.seed,a.offset) for i,s in grid]
-    print(json.dumps({"synthetic":True,"reference":"WLSMV theta Wu.Estabrook.2016",
+    print(json.dumps({"synthetic":True,"reference":"BLOCKED: independent Python ordinal reference not established",
         "confirmatory_authorized":False,"latent_mean_comparison_authorized":False,"cells":cells},indent=2,allow_nan=False))
-    if any(c["wlsmv"]["status_counts"]["ERROR"] for c in cells):p.exit(1,"Reference execution error\n")
-    if not any(c["wlsmv"]["available"]["count"] for c in cells):p.exit(1,"No usable reference family\n")
+    if not any(c["python"]["available"]["count"] for c in cells):p.exit(1,"No usable Python development family\n")

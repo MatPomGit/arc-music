@@ -29,3 +29,7 @@ The new assignment_ledger.py is the offline authoritative candidate for empirica
 The candidate v0.2.0 item bank separates experienced action-outcome contingency from factual role checks and felt ownership from attribution. Preserve original items as historical; no score freeze or hierarchy change without approval. Use the same nonbinding system schedule in participant-authority cells for comparator/fidelity accounting, not to override choice.
 
 The empirical CSV contract requires the exact fields in data-dictionary.csv. Preserve opaque IDs, bank hashes and four-bit schedules as strings. Encode hearing with True/true, False/false or blank/NA for unknown. Reject other values, duplicate headers and extra columns including withdrawal flags. The authoritative withdrawal decision belongs to the protected ledger, never a self-reported export flag. Synthetic compatibility is not an empirical bypass.
+
+## Supplementary measurement pilot, not part of the current service
+
+Before assignment record candidate musical experience and task confidence separately. After primary ownership and agency outcomes, ask perceived choice, COMP, AUTH and CONTRIBUTION on separate 0 to 10 scales; artefact-specific items require a heard arrangement. Record burden and applicable counts by factorial cell. No new required answers, no postassignment covariates in the primary model and no legal authorship inference. Implement any approved supplementary export only as a new version after content review and precision assessment.

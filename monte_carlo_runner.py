@@ -19,7 +19,7 @@ import time
 ROOT=Path(__file__).resolve().parent
 STUDIES=tuple(f"P{i:02}" for i in range(1,10))
 PROFILES=("smoke","pilot","full")
-VERSION="1.2.0"
+VERSION="1.3.0"
 
 @dataclass(frozen=True)
 class Job:
@@ -115,9 +115,7 @@ def environment(tasks,study,threads):
                           capture_output=True,text=True,check=True)
     env["numpy_config"]=config.stdout
     if any(t.r for t in tasks):
-        result=subprocess.run(["Rscript","-e",'library(lavaan);library(semTools);sessionInfo()'],
-                              capture_output=True,text=True,check=True)
-        env["r_session"]=result.stdout
+        raise ValueError("Non-Python reference execution prohibited; use reviewed Python development plans")
     return env
 
 @contextmanager

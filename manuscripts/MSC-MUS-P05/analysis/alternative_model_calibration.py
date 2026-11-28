@@ -3,7 +3,7 @@ import argparse,json
 from pathlib import Path
 import numpy as np
 from alternative_structure import STRUCTURES,generate,factor_covariance
-from model_comparison import reference,summary,MODELS
+from model_comparison import reference,summary,MODELS,METHOD
 from factor_count_calibration import assess
 from robust_calibration import wilson
 
@@ -28,8 +28,8 @@ def summarize_cell(n,structure,loading,skew,missing,pa_reps,seed,offset,rows):
     diagnostics={}
     for m in MODELS:
         fits=[next(x for x in r["cfa"] if x["model"]==m) for r in rows]
-        valid=[x for x in fits if x["status"]=="PROPER" and x.get("p_scaled") is not None]
-        rejects=sum(x["p_scaled"]<.05 for x in valid)
+        valid=[x for x in fits if x["status"]=="PROPER" and x.get("p_development") is not None]
+        rejects=sum(x["p_development"]<.05 for x in valid)
         diagnostics[m]={"available":len(valid),"rejections":rejects,"operational_rate":rejects/reps,
                         "operational_interval":wilson(rejects,reps),
                         "conditional_rate":rejects/len(valid) if valid else None}
@@ -37,7 +37,7 @@ def summarize_cell(n,structure,loading,skew,missing,pa_reps,seed,offset,rows):
     for r in rows:
         key=str(r["efa"]["selected"])
         selected[key]=selected.get(key,0)+1
-    return dict(n=n,structure=structure,generating_covariance=factor_covariance(structure).tolist(),
+    return dict(method=METHOD,independent_reference_verified=False,n=n,structure=structure,generating_covariance=factor_covariance(structure).tolist(),
                 loading=loading,skew=skew,item_mcar=missing,requested=reps,pa_reps=pa_reps,seed=seed,offset=offset,
                 reference_summary=summary(rows),fit_rejection_diagnostics=diagnostics,
                 efa_selected_counts=selected,efa_correct_count=sum(r["efa"]["correct_count"] for r in rows),
@@ -49,7 +49,7 @@ def aggregate(parts,expected):
     names=("n","structure","loading","skew","item_mcar","pa_reps","seed")
     key=lambda p:tuple(p[k] for k in names)
     meta=key(parts[0])
-    if any(key(p)!=meta for p in parts):raise ValueError("Mixed structural metadata")
+    if any(key(p)!=meta or p.get("method")!=METHOD for p in parts):raise ValueError("Mixed structural metadata")
     for p in parts:
         if [r["replicate"] for r in p["records"]]!=list(range(p["offset"],p["offset"]+p["requested"])):
             raise ValueError("Invalid structural shard accounting")

@@ -19,28 +19,6 @@ jobs:
       - run: pip install -r manuscripts/MSC-MUS-P05/analysis/requirements.txt
       - run: python3 validate.py
       - run: python3 -m unittest discover -s manuscripts/MSC-MUS-P05/analysis -p 'test_*.py'
-      - run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            r-base-core=4.5.2-1ubuntu2 r-cran-lavaan=0.6.21-1 \
-            r-cran-mass=7.3-65-1 r-cran-mnormt=2.1.2-1 \
-            r-cran-pbivnorm=0.6.0-5 r-cran-numderiv=2016.8-1.1-3build1 \
-            r-cran-quadprog=1.5-8-1build2 r-cran-semtools=0.5.7-1 libblas3=3.12.1-7ubuntu1 liblapack3=3.12.1-7ubuntu1
-          git rev-parse HEAD > p05-reference-head.txt
-          Rscript -e 'sessionInfo()' > p05-reference-environment.txt
-          dpkg-query -W r-base-core r-cran-lavaan r-cran-mass r-cran-mnormt r-cran-pbivnorm r-cran-numderiv r-cran-quadprog r-cran-semtools libblas3 liblapack3 >> p05-reference-environment.txt
-          python3 -m pip freeze >> p05-reference-environment.txt
-      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/compare_lavaan.py --full --archive-dir p05-reference-inputs > p05-lavaan-comparison.json
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: p05-lavaan-comparison-${{ github.event.pull_request.head.sha }}
-          path: |
-            p05-lavaan-comparison.json
-            p05-reference-head.txt
-            p05-reference-environment.txt
-            p05-reference-inputs/
-          if-no-files-found: warn
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/model_comparison.py --smoke --reps 1 --pa-reps 10 > p05-model-comparison-smoke.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/alternative_model_calibration.py --reps 1 --pa-reps 10 > p05-alternative-model-screen.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/factor_count_calibration.py --k 2 --items 3 --n 400 --reps 2 --pa-reps 500 > p05-factor-count-protocol-smoke.json
@@ -48,7 +26,7 @@ jobs:
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/interval_calibration.py --reps 2 --boot 99 > p05-interval-calibration.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_power.py --reps 20 > p05-invariance-power.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_family_calibration.py --reps 20 > p05-invariance-family-development.json
-      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_reference_calibration.py --smoke --reps 1 > p05-invariance-reference-screen.json
+      - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/invariance_reference_calibration.py --smoke --reps 1 > p05-python-invariance-development.json
       - run: git rev-parse HEAD > p05-development-head.txt
       - uses: actions/upload-artifact@v4
         with:
@@ -61,7 +39,7 @@ jobs:
             p05-interval-calibration.json
             p05-invariance-power.json
             p05-invariance-family-development.json
-            p05-invariance-reference-screen.json
+            p05-python-invariance-development.json
             p05-development-head.txt
       - run: python3 manuscripts/MSC-MUS-P05/analysis/recovery.py --reps 12 > p05-recovery.json
       - run: OPENBLAS_NUM_THREADS=1 python3 manuscripts/MSC-MUS-P05/analysis/cfa_calibration.py --reps 8 > p05-cfa-calibration.json
@@ -83,6 +61,7 @@ jobs:
             p05-imputation-calibration.json
             p05-fit-calibration.json
             p05-validity-calibration.json
+      - run: sudo apt-get update -qq
       - run: sudo apt-get install -y --no-install-recommends lmodern texlive-latex-extra texlive-bibtex-extra texlive-fonts-recommended biber latexmk
       - working-directory: manuscripts/MSC-MUS-P05
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

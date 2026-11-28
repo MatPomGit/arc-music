@@ -19,3 +19,7 @@ Instrukcja czasu: stan oceniamy w chwili udzielania odpowiedzi, nie w chwili pow
 - Brak odpowiedzi pozostaje brakiem danych, nie wartością zero ani odpowiedzią „nie”.
 
 Przykłady służą ocenie rozumienia, nie sugerowaniu oczekiwanych zmian emocjonalnych. Wersja uczestnicząca i kolejność prezentacji wymagają zatwierdzenia po pilotażu poznawczym.
+
+## Kandydacki moduł nagrody, poza aktualnym eksportem
+
+Według [modułu P07](../../../docs/measurement-modules.md). T0 po ocenie stanu, przed ekspozycją: EXPECT, „Jak dużej przyjemności spodziewasz się po ewentualnej sesji tworzenia w ciągu najbliższej godziny?” (0 żadnej, 10 bardzo dużej). T1 po głównej ocenie: przy potwierdzonym tworzeniu w min 0–60 od T0, ENJOY, „Ile przyjemności sprawił Ci sam proces tworzenia w tym okresie?” (0 żadnej, 10 bardzo dużo); osobno liczba rozpoczętych prób i odsłuchów. Ocena zadowolenia z rezultatu tylko przy doświadczonym rezultacie. T2 po głównym wyniku: REPLAY, liczba powtórnych odsłuchów rezultatu z pierwszej godziny w min 60–180 od T0; jeżeli taki rezultat nie istnieje, nie dotyczy. Pominąć niepełny okres obserwacji i odróżniać brak odpowiedzi, niepamięć i odmowę od zera. W pilotażu rejestrować czas dodatkowego modułu i zrozumienie kotwic. Nie wpływa na H1–H3 ani kwalifikację okien.

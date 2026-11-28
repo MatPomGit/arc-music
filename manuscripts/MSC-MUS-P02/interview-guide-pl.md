@@ -1,4 +1,4 @@
-# MSC-MUS-P02: scenariusz wywiadu (wersja 0.3.2, 2026-11-27)
+# MSC-MUS-P02: scenariusz wywiadu (wersja 0.3.3, 2026-11-28)
 
 Status: projekt do konsultacji i zatwierdzenia etycznego. Nie służy do rozpoczęcia rekrutacji. Kanoniczny opis metody: main.tex i sections/. Wywiad online 45–60 min, po polsku, z możliwością przerwania i pominięcia dowolnego pytania.
 
@@ -19,3 +19,9 @@ Pogłębienia: „Co ma Pan/Pani na myśli?”, „Czy może Pan/Pani podać prz
 Plan pełny: 60 minut; wariant bez kontrastowej sesji: 52 minuty. Przy ograniczonym czasie skrócić pogłębienia, nie pomijać zgody ani zakończenia. Jeżeli ostatnia sesja nie nadaje się do omówienia, zaproponować kolejną najnowszą z ostatnich trzech miesięcy. Nie żądać powodu; wyłącznie za zgodą odnotować kategorię: prywatność, pamięć, inne, nie podano. Uczestnik może odmówić omówienia każdej sesji lub zakończyć rozmowę. Dobrowolny pokaz fragmentu bez transferu wymaga zatrzymania nagrania i transkrypcji; nie zapisuje się artefaktu ani linku. Zgoda na rozmowę lub pokaz nie jest zgodą na przekazanie i retencję. Korpus wywiadów jest jednostką analizy, a epizody stanowią jednostki kontekstowe. Pytanie o alternatywy dotyczy subiektywnej oceny, a nie rzeczywistego efektu kontrfaktycznego.
 
 Rozróżniać zdarzenia, pamiętane ówczesne przeżycia i obecną interpretację. Nie wymuszać pełnej chronologii. W pilotażu ocenić zrozumienie, neutralność, głębokość odpowiedzi, czas i działanie zatwierdzonych procedur; odmowa odpowiedzi nie jest niepowodzeniem. Decyzja: zachować, poprawić lub wstrzymać procedurę z uzasadnieniem.
+
+## Kandydackie pogłębienia po swobodnej relacji
+
+W pilotażu wybierać tylko pytania odpowiadające relacji i dostępnemu czasowi. Nie wprowadzać nazw mechanizmów przed spontanicznym opisem. Jak dobierano słowa lub inne sposoby wyrażenia doświadczenia? Czy zmienił się sposób rozumienia sytuacji, czy raczej sposób jej przedstawienia? Co było odczuwane podczas tworzenia, a co dopiero po odsłuchu? Czy coś ułatwiało lub utrudniało zakończenie sesji? Jeżeli utwór udostępniono, co zdecydowało o udostępnieniu i jakie znaczenie miały ewentualne reakcje? Czy brak rezultatu, zmiana strategii lub późniejsze odsłuchy miały znaczenie? Prosić również o przypadki braku zmiany lub skutków niekorzystnych. Nie wymagać udostępnienia utworu. Ocenę neutralności i obciążenia udokumentować przed zamrożeniem scenariusza.
+
+Powiązanie z [modułem P02](../../docs/measurement-modules.md): SHARING i ACCEPT są obszarami jakościowymi, nie obowiązkowymi skalami. Ustalić osobno zamiar udostępnienia, faktyczne udostępnienie i doświadczoną reakcję. Nie wyprowadzać częstości populacyjnej ani wyniku liczbowego z kodów tematycznych.

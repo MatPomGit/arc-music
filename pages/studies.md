@@ -8,11 +8,11 @@ Badamy przechodzenie od osobistego doświadczenia do utworu oraz znaczenie proce
 
 ## Regulacja emocji
 
-Badamy odrębnie motywy ekspresji, jasność emocjonalną, aleksytymię, ruminację, unikanie i zmienność afektu. Chwilowa ulga nie jest równoznaczna z poprawą funkcjonowania.
+Rozróżniamy motywy, ekspresję, jasność emocjonalną, aleksytymię, ruminację, unikanie i dynamikę afektu. Rozpatrujemy także oczekiwania, przyjemność i kontekst społeczny. Chwilowa ulga nie oznacza poprawy funkcjonowania.
 
 ## Sprawstwo i autorstwo
 
-Rozróżniamy poczucie wpływu na decyzje twórcze, psychologiczne poczucie własności utworu i rozumienie osobistych doświadczeń.
+Rozróżniamy wpływ na decyzje, autonomię, własność psychologiczną i rozumienie osobistych doświadczeń. Symbolizacja i dystansowanie są proponowanymi mechanizmami, nie stwierdzonymi efektami.
 
 <p class="study-status">Protokoły w opracowaniu. Nie zebrano danych uczestników.</p>
 

@@ -46,3 +46,13 @@ class InvarianceReferenceTests(unittest.TestCase):
         self.assertTrue(result["precision_screen_only"])
         for bad in ([a],[a,a],[a,dict(b,seed=43)],[a,dict(b,offset=0)]):
             with self.assertRaises(ValueError):aggregate(bad,2)
+
+    def test_blocked_reference_not_zero_power(self):
+        from invariance_reference_calibration import summarize_cell, aggregate, reference
+        rows = [{"replicate":i, "python":{"status":"PROPER","decision":{"rejected_tests":[],"any_rejected":False}},
+                 "wlsmv":reference(None,None)} for i in range(2000)]
+        result = aggregate([summarize_cell(0,"loading_dif",42,0,rows)],2000)
+        self.assertEqual(result["wlsmv"]["status"],"BLOCKED")
+        self.assertIsNone(result["wlsmv"]["target_rejection_operational"])
+        self.assertEqual(result["paired_available"],0)
+        self.assertTrue(result["precision_screen_only"])

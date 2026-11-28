@@ -21,3 +21,7 @@ Candidate replacements retain three items/domain and existing scoring only for t
 | 1/1 | Participant | Participant | Same |
 
 No change to the hearing gate. Assess empirical construct separation, comprehension, actual selection/application logs, missed confirmations and comparable audibility/timing in the approved pilot. H3 remains an exploratory candidate unless a separately approved joint H1–H3 calibration at justified SESOI establishes adequate power. Existing H3 results are preserved; do not claim adequate interaction power or change registered hierarchy without owner approval. This is bounded arrangement of pre-generated clips, not autonomous live composition.
+
+## Supplementary pilot candidates (separate from the two composites)
+
+See [AIM-ER candidate module P08](../../../docs/measurement-modules.md). Before allocation: musical experience and confidence in completing the task (separate self-ratings). After primary outcomes: COMP „Na ile czułeś się zdolny do wykonania zadania?”, autonomy „Na ile czułeś, że miałeś swobodę wyboru?”, AUTH „Na ile rezultat wyrażał Twoją intencję?” (heard arrangement only); each 0 wcale, 10 w bardzo dużym stopniu. CONTRIBUTION „Jak dużą część decyzji twórczych przypisujesz sobie?” (0 żadną, 10 wszystkie). This is perceived attribution, not an actual fraction of logged decisions. All items permit refusal or nonresponse; distinguish inapplicable from zero. Do not compute a composite or change v0.2.0 core scores. Any later contrasts are exploratory; no postassignment adjustment.
