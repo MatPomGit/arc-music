@@ -10,10 +10,10 @@ Human creativity is central to her psychological interests, with particular atte
 
 Her interests encompass business psychology, design and visual communication. She connects these areas with psychological processes, aesthetic experience and the relationship between people and their surroundings, considering individual, social and organisational contexts of human functioning.
 
-## Mateusz Pomianek
-
-His research interests encompass psychology, neuroscience and computer science, with a particular emphasis on neuroinformatics. He is interested in relationships between brain function, psychological processes and human behaviour, and in the relevance of technology to understanding these relationships.
-
 ## Cezary Biele
 
 His research interests focus on cognitive and digital psychology. They encompass cognitive processes and relationships between human experience, behaviour and technological environments. He heads the Centre for Digital Psychology at VIZJA University.
+
+## Mateusz Pomianek
+
+His research interests encompass psychology, neuroscience and computer science, with a particular emphasis on neuroinformatics. He is interested in relationships between brain function, psychological processes and human behaviour, and in the relevance of technology to understanding these relationships.
