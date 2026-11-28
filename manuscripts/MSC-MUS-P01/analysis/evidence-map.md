@@ -68,3 +68,5 @@ See `claim-audit-37.md` for the explicit access status and claim boundaries for 
 | qi2026 | 10.3389/fpsyg.2026.1794715 | Generated music reception | Listener recognition, not creator regulation; introduction | PMC abstract and targeted introduction |
 
 Searches: experimental disclosure meta-analysis; generative AI music emotional expression accuracy. This supplement does not extend the earlier screening into a systematic review.
+
+Additional search, 28 November 2026: music engagement emotion regulation meta-analysis; generative AI creative agency ownership experiments. Feng et al. (2026), DOI 10.3389/fpsyg.2026.1851432: publisher methods, Table 1 and limitations inspected; raw pooled means and heterogeneous designs preclude causal efficacy estimates. Wang, Chen and Yang (2026), DOI 10.3389/fpsyg.2026.1986050: PubMed/PMC abstract checked; adjacent visual art experiments, not music or autobiographical outcomes (P08/P09).
