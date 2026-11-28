@@ -189,10 +189,7 @@ class ManuscriptPreviewTests(unittest.TestCase):
             self.assertEqual(result.count('class="pub-preview"'), 9)
             self.assertEqual(result.count('loading="eager"'), 9)
             self.assertNotIn('loading="lazy"', result)
-            self.assertEqual(result.count('class="pub-authors"'), 9)
-            authors = ", ".join(embed_site_assets.AUTHORS)
-            self.assertEqual(result.count(authors), 9)
-            self.assertTrue(authors.endswith("Mateusz Pomianek"))
+            self.assertNotIn('class="pub-authors"', result)
             affiliation = "VIZJA University" if english else "Uniwersytet VIZJA"
             self.assertEqual(result.count(f'<p class="pub-affiliation">{affiliation}</p>'), 9)
             self.assertEqual(result.count('class="pub-body"'), 9)

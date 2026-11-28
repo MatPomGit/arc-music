@@ -15,7 +15,7 @@ on:
       - 'test_monte_carlo*.py'
       - 'run-monte-carlo.*'
       - 'manuscripts/*/monte_carlo.*'
-      - 'manuscripts/MSC-MUS-P*/main.pdf'
+      - 'manuscripts/MSC-MUS-P*/**'
       - 'check_site.py'
       - 'check_study_registry.py'
       - 'check_public_render.py'
@@ -39,7 +39,7 @@ on:
       - 'test_monte_carlo*.py'
       - 'run-monte-carlo.*'
       - 'manuscripts/*/monte_carlo.*'
-      - 'manuscripts/MSC-MUS-P*/main.pdf'
+      - 'manuscripts/MSC-MUS-P*/**'
       - 'check_site.py'
       - 'check_study_registry.py'
       - 'check_public_render.py'
@@ -58,7 +58,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,10 +71,29 @@ jobs:
           python validate.py
           python check_study_registry.py
           python -m unittest -v test_verify_public test_render_regressions test_monte_carlo_runner test_monte_carlo_results test_monte_carlo_custom
+      - name: Install manuscript toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends latexmk biber texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-bibtex-extra lmodern
+      - name: Rebuild all public manuscript PDFs from current sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          for n in {01..09}; do
+            (
+              cd "manuscripts/MSC-MUS-P$n"
+              rm -f main.pdf
+              latexmk -gg -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+              test -s main.pdf
+            )
+          done
       - name: Build website
         run: |
           python -m pip install -r requirements-site.txt
           python -m mkdocs build --strict
+          for n in {01..09}; do
+            cmp "manuscripts/MSC-MUS-P$n/main.pdf" "site/manuscript-previews/msc-mus-p$n.pdf"
+          done
           test -f site/index.html
           test -f site/neuropsychology.html
           test -f site/en-neuropsychology.html

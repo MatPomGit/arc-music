@@ -225,9 +225,8 @@ def check_manuscript_previews(page):
         identifier = f"msc-mus-p{i:02d}"
         panel = page.locator(f"#{identifier}")
         authors = panel.locator(".pub-heading .pub-authors")
-        assert authors.count() == 1
+        assert authors.count() == 0
         label = "Authors" if page.locator("html").get_attribute("lang") == "en" else "Autorzy"
-        assert authors.inner_text() == label + ": Ewa Sterniczuk, Paulina Ficner, Cezary Biele, Mateusz Pomianek"
         affiliation = panel.locator(".pub-heading .pub-affiliation")
         assert affiliation.count() == 1
         assert affiliation.inner_text() == ("VIZJA University" if label == "Authors" else "Uniwersytet VIZJA")
