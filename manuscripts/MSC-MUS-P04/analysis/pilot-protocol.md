@@ -25,3 +25,7 @@ Confirm primary and secondary estimands, authorised PAQ-S total scoring, endpoin
 
 
 Before pilot freeze, test separate status questions for confirmed meaningful sketch, confirmed absence and unknown status, including technical interruption, explicit noncompletion, missing fit after confirmed production and withdrawal. No meaningful sketch is not automatically equivalent to a missing fit rating. Use a single approved ledger and the cohort validator in empirical.py; report production and conditional fit descriptively and the composite across assignment. A shift in composite moderation may arise from production alone. No component-specific causal conclusion is identified by conditioning on observed production. Verify electronic instrument permission separately; no recruitment until approved.
+
+## Candidate supplementary pilot probes
+
+After the existing unaided clarity outcome, assess EXP_LABEL (0 to 10: how well the words matched the emotion the participant intended to express). In the supported arm ask whether a suggestion was seen and used; record not applicable separately. Assess perceived musical fit only when an excerpt or sketch was experienced. These probes are not objective emotion-recognition tests; do not retain personal narrative. Record comprehension, timing, applicability and burden. Do not change the current export or PAQ-S moderator; an approved new version is required before exploratory inference.

@@ -1,6 +1,6 @@
 # Moduły pomiarowe AIM-ER v0.1.0
 
-2026-11-28. Autorskie propozycje do pilotażu, nie zatwierdzone skale. Kody i podstawowe pytania: [rejestr konstruktów](constructs.md). Nie zmieniają estymandów ani rekrutacji. Nie kopiować do formularzy przed zatwierdzeniem.
+2026-11-28. Autorskie propozycje do pilotażu, nie zatwierdzone skale ani część aktualnego eksportu. Kody i podstawowe pytania: [rejestr konstruktów](constructs.md). Nie zmieniają estymandów ani rekrutacji. Nie kopiować do formularzy przed zatwierdzeniem.
 
 ## P02. Wywiad
 
@@ -36,4 +36,4 @@ Po wynikach bezpośrednich: REFRAME i FIT. Po wyniku w dniu 7: REPLAY, ponowne r
 
 ## Wspólne reguły
 
-Oceny natężenia 0–10: 0 wcale, 10 bardzo silnie, liczby całkowite. Liczby prób i odsłuchów: nieujemne liczby całkowite, nie skala 0–10. Odmowa, brak odpowiedzi, niepamięć i nieadekwatność mają odrębny status. Nie sumować różnych konstruktów. Zmierzyć obciążenie i rozkłady odpowiedzi w pilotażu; odnotować przyczyny decyzji o utrzymaniu, zmianie lub odrzuceniu pozycji. Nie zmieniać zatwierdzonych rodzin testów.
+Oceny natężenia 0–10: 0 wcale, 10 bardzo silnie, liczby całkowite. Liczby prób i odsłuchów: nieujemne liczby całkowite, nie skala 0–10. Odmowa, brak odpowiedzi, niepamięć i nieadekwatność mają odrębny status. Nie sumować różnych konstruktów. Zmierzyć obciążenie i rozkłady odpowiedzi w pilotażu; odnotować przyczyny decyzji o utrzymaniu, zmianie lub odrzuceniu pozycji. Nie zmieniać rodzin testów. Każdy moduł stosować po pomiarze głównym, z wyjątkiem jawnie przedzadaniowych ocen. W pilotażu zapisać osobno czas, stosowalność i odmowy. Nowe kolumny wyłącznie po zatwierdzeniu wersji eksportu; nie wymuszać pytań i nie zmieniać mianownika wyników głównych.

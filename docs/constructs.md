@@ -1,6 +1,6 @@
 # Konstrukty uzupełniające AIM-ER v0.1.0
 
-Stan 2026-11-28. Kandydacka operacjonalizacja do dyskusji i pilotażu, nie zatwierdzony formularz. Zachowano estymandy z research-matrix.md i niezależność kohort.
+Stan 2026-11-28. Kandydaci do pilotażu, nie zatwierdzony formularz. Główne wyniki: research-matrix.md.
 
 | Kod / praca | Konstrukt i moment | Przykładowe pytanie PL lub wskaźnik | Rola |
 |---|---|---|---|
@@ -27,6 +27,8 @@ P05: EXP, REF, MOD, DIV, SOC, PER, AVO pozostają siedmioma domenami kandydackim
 
 P03: do rozważenia WHO-5, ERQ, DERS-8, GAD-7, PHQ-9, miara samotności; tylko zgodne z celem i po sprawdzeniu wersji PL, licencji, obciążenia i okresu odniesienia. P04 zachowuje PAQ-S-PL; TAS-20-POL-R wymaga odrębnego uzasadnienia. HUMS i BSRCS-6_PL mogą być komparatorami P05/P08 po sprawdzeniu adekwatności, nie zastępują miar funkcji i kompetencji muzycznych.
 
-Przed wdrożeniem: wywiady poznawcze, kontrola treści i zakresu odpowiedzi, wersjonowanie słownika, specyfikacja braków i analiz, symulacja mocy przy zmianie estymandu. Nie deklarować trafności, skuteczności ani zgód.
+Analizy kandydatów: P03 HC3 opisowo, P04/P08/P09 kontrasty przydziału HC3, P06/P07 FE z grupowaniem po osobie; REPLAY opisowo. P02 analiza tematyczna. P05 ocena treści, nie nowe czynniki. Wywiady poznawcze, adekwatność, braki, wersja i moc przed zatwierdzeniem.
 
-P08/P03: BPNSFS, polska adaptacja Kuźma i in. (2020), DOI 10.3389/fpsyg.2019.03034. Rozróżnia zaspokojenie i frustrację autonomii, kompetencji oraz relacyjności. Nie jest zwalidowaną miarą chwilowego sprawstwa w zadaniu muzycznym; kandydat do oceny adekwatności i warunków użycia.
+BPNSFS-PL (Kuźma i in., 2020; 10.3389/fpsyg.2019.03034): zaspokojenie i frustracja potrzeb, kandydat P03/P08, nie miara stanu w zadaniu. Prawa i okres odniesienia do oceny.
+
+Teoretyczne, bez odrębnego pomiaru: interocepcja, granularity emocji, flow, nagroda neuronalna, tożsamość narracyjna, zależność od AI, trwały dobrostan. Nie zastępować ich wskaźnikami pojedynczymi.

@@ -8,11 +8,11 @@ We examine how creators move from personal experience to music and what meaning 
 
 ## Emotion regulation
 
-We distinguish expressive motives, emotional clarity, alexithymia, rumination, avoidance and affective variation. Immediate relief is not equivalent to improved functioning.
+We distinguish motives, expression, emotional clarity, alexithymia, rumination, avoidance and affect dynamics. Expectancy, enjoyment and social context are additional candidate explanations. Immediate relief is not equivalent to improved functioning.
 
 ## Agency and authorship
 
-We distinguish influence over creative decisions, psychological ownership of the work and understanding personal experiences.
+We distinguish influence over decisions, autonomy, psychological ownership and understanding of personal experiences. Symbolisation and distancing are proposed mechanisms, not established effects.
 
 <p class="study-status">Protocols in development. No participant data have been collected.</p>
 

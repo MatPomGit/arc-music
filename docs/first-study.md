@@ -15,3 +15,5 @@ Priorytet mają prace P01 i P02 oraz badanie ankietowe. Odrębność publikacji 
 Kandydackie rozszerzenia pomiarów i zakres dodatkowych pytań opisuje [rejestr konstruktów](constructs.md). Wprowadzenie ich do formularzy wymaga pilotażu i zatwierdzenia. Główne hipotezy i liczebności pozostają bez zmian.
 
 [Moduły pomiarowe do pilotażu](measurement-modules.md) określają kolejność pytań, warunki stosowalności i rozróżnienie braków odpowiedzi.
+
+Kolejność naukowa: P02 dostarcza materiału do rozwoju treści AI-MRFS w P05, ale nie zastępuje niezależnej EFA/CFA. P03 opisuje motywy i związki retrospektywne. P04, P08 i P09 sprawdzają określone kontrasty eksperymentalne; P06/P07 badają przebieg w czasie przy samoselekcji aktywności. Przejście do każdego etapu zależy od właściwych bramek i niezależnego pilotażu, nie od uzyskania dodatniego wyniku wcześniejszej pracy.
