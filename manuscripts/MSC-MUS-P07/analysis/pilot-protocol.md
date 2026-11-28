@@ -24,3 +24,5 @@ Use synthetic records only to exercise the approved candidate collection workflo
 ## Measurement review
 
 During the cognitive interviews, ask participants to paraphrase each item and classify the neutral examples in diary-pl.md. Record misunderstanding of the construct, time reference or response anchors and its proposed correction, without retaining identifying narratives in Git. Retest changed wording in the next round. In the feasibility phase report item-specific missingness and endpoint use, and the distribution of within-person variation. Do not calculate internal consistency for individual state items or treat successive natural ratings as a test-retest reliability experiment. Freeze the final wording, timing, export mapping and outstanding measurement limitations before confirmation. No pilot or platform readiness is claimed here.
+
+Additional candidate reward module: see the exact Polish probes and fixed reference periods in diary-pl.md. Evaluate burden and exposure applicability separately from the core pilot endpoints. Do not select or exclude windows based on optional reward responses; do not extend the current export without approval.
