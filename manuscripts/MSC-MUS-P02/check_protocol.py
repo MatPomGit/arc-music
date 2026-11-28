@@ -64,7 +64,9 @@ assert r'\subsection{From extracts to an interpretive account}' in body
 assert 'hypothetical illustration, not a result of P02' in body
 records=(root/'analysis-records.md').read_text(encoding='utf-8')
 assert '| Pilot review |' in records and '| Construct transfer |' in records
-assert 'wersja 0.3.2' in guide and 'Procedura terenowa 0.3.2' in field
+guide_version = re.search(r"wersja (\d+\.\d+\.\d+)", guide)
+field_version = re.search(r"Procedura terenowa (\d+\.\d+\.\d+)", field)
+assert guide_version and field_version and guide_version[1] == field_version[1], "Guide and fieldwork versions differ"
 assert 'no directional statistical hypotheses' in body
 assert 'ownership of an output is not applicable' in body
 assert 'to what extent did it feel like yours?' in body

@@ -20,7 +20,7 @@ Po każdej ocenianej pozycji zapytać o rozumienie, przykład z wybranego epizod
 
 ## P06. Dzienniczek
 
-Przed sesją: cel i zamierzone zakończenie, jeśli określone. Po głównych ocenach: STOP_DIFF, przyczyna powtórzeń (zmiana rozwiązania / ten sam temat / obie / inna / brak powtórzeń). Po przewidzianej obserwacji następnego dnia: SWITCH oraz czy wystąpiła kolejna okazja do regulacji. Brak okazji nie oznacza zakończenia strategii.
+Przed sesją: cel i zamierzone zakończenie, jeśli określone. Po głównych ocenach: STOP_DIFF tylko przy zamiarze zakończenia, przyczyna powtórzeń (zmiana rozwiązania / ten sam temat / obie / inna / brak powtórzeń). Po przewidzianej obserwacji następnego dnia: SWITCH oraz czy wystąpiła kolejna okazja do regulacji. Brak okazji nie oznacza zakończenia strategii.
 
 ## P07. EMA
 

@@ -10,10 +10,10 @@ Stan 2026-11-28. Kandydaci do pilotażu, nie zatwierdzony formularz. Główne wy
 | SHARING / P02/P03 | Prywatność i udostępnienie | prywatne / wybrani odbiorcy / publiczne / inne | Kontekst |
 | ACCEPT / P02/P03 | Odbiór po udostępnieniu | Na ile czułeś się przyjęty przez odbiorców? | Odbiór, tylko przy odpowiedzi |
 | STRESS / P03 | Napięcie przed epizodem, retrospektywnie | Na ile odczuwałeś napięcie? | Stan, nie diagnoza |
-| STOP_DIFF / P06 | Trudność przerwania, po sesji | Na ile trudno było zakończyć sesję wtedy, kiedy chciałeś? | Proces |
+| STOP_DIFF / P06 | Trudność przerwania przy zamiarze zakończenia, po sesji | Na ile trudno było zakończyć sesję wtedy, kiedy chciałeś? | Proces |
 | SWITCH / P06 | Zmiana strategii po sesji | kontynuacja / zmiana / zakończenie / brak możliwości oceny | Zachowanie |
 | EXPECT / P07 | Oczekiwanie przyjemności, przed oknem | Jak dużej przyjemności spodziewasz się po ewentualnej sesji? | Predyktor |
-| ENJOY / P07 | Przyjemność podczas tworzenia, po oknie | Ile przyjemności sprawił Ci sam proces tworzenia? | Doświadczenie |
+| ENJOY / P03/P07 | Przyjemność procesu, po epizodzie/oknie | Ile przyjemności sprawił Ci sam proces tworzenia? | Doświadczenie |
 | REPLAY / P07/P09 | Powtórny kontakt z rezultatem | liczba odsłuchów lub wyświetleń w określonym okresie | Zachowanie |
 | COMP / P08 | Kompetencja w zadaniu, po zadaniu | Na ile czułeś się zdolny do wykonania zadania? | Proces |
 | AUTH / P08 | Autentyczność, po zadaniu | Na ile rezultat wyrażał Twoją intencję? | Ocena rezultatu |
@@ -31,4 +31,4 @@ Analizy kandydatów: P03 HC3 opisowo, P04/P08/P09 kontrasty przydziału HC3, P06
 
 BPNSFS-PL (Kuźma i in., 2020; 10.3389/fpsyg.2019.03034): zaspokojenie i frustracja potrzeb, kandydat P03/P08, nie miara stanu w zadaniu. Prawa i okres odniesienia do oceny.
 
-Teoretyczne, bez odrębnego pomiaru: interocepcja, granularity emocji, flow, nagroda neuronalna, tożsamość narracyjna, zależność od AI, trwały dobrostan. Nie zastępować ich wskaźnikami pojedynczymi.
+Teoretyczne, bez odrębnego pomiaru: interocepcja, różnicowanie emocji, flow, nagroda neuronalna, tożsamość narracyjna, zależność od AI, trwały dobrostan. Nie zastępować ich wskaźnikami pojedynczymi.
