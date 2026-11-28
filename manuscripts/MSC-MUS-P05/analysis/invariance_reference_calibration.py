@@ -1,4 +1,4 @@
-"""Paired eight-item WLSMV and Python ordinal diagnostics on identical synthetic inputs."""
+"""Python ordinal development diagnostics and historical paired-result aggregation."""
 import argparse,json
 from pathlib import Path
 import numpy as np
@@ -72,11 +72,18 @@ def summarize_cell(sid,scenario,seed,offset,rows):
                         "wlsmv_only":sum(b and not a for a,b in outcomes),
                         "neither":sum(not a and not b for a,b in outcomes)}
     reference_blocked = all(r["wlsmv"].get("reason") == "Independent Python ordinal reference not established" for r in rows)
+    comparator = summarize(rows,scenario,"wlsmv")
+    if reference_blocked:
+        comparator["status"] = "BLOCKED"
+        for metric in ("true_null_fwer_operational", "true_null_fwer_conditional",
+                       "any_rejection_operational", "target_rejection_operational",
+                       "target_rejection_conditional"):
+            comparator[metric] = None
     return {"schema":"p05-python-invariance-development-v1" if reference_blocked else "p05-paired-invariance-v2",
             "independent_reference_verified":False,"sizes":[n1,n2],"scenario":scenario,
             "true_nulls":list(TRUE_NULLS[scenario]),"requested":len(rows),
             "offset":offset,"seed":seed,"python":summarize(rows,scenario,"python"),
-            "wlsmv":summarize(rows,scenario,"wlsmv"),"paired_available":len(both),
+            "wlsmv":comparator,"paired_available":len(both),
             "paired_identical_rejection_sets":rate(same,len(both)),
             "paired_test_decisions":per_test,"records":rows}
 
@@ -94,7 +101,7 @@ def aggregate(parts,expected):
     rows=sorted((r for p in parts for r in p["records"]),key=lambda r:r["replicate"])
     if len(rows)!=expected:raise ValueError("Incomplete aggregate")
     out=summarize_cell(SIZES.index(meta[1]),meta[2],meta[3],0,rows)
-    out["precision_screen_only"]=expected<2000
+    out["precision_screen_only"]=expected<2000 or meta[0]=="p05-python-invariance-development-v1"
     return out
 
 
