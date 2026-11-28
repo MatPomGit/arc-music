@@ -59,3 +59,12 @@ Search strings: "AI assisted music creation emotion regulation goal affordance f
 
 ## Claim audit extension
 See `claim-audit-37.md` for the explicit access status and claim boundaries for all 37 keys. Targeted body review is not exhaustive full-text audit; unresolved entries remain open.
+
+## Targeted supplement, 28 November 2026
+
+| Key | DOI | Evidence class | Claim / location | Verification |
+|---|---|---|---|---|
+| frattaroli2006 | 10.1037/0033-2909.132.6.823 | Indirect meta-analysis | Small pooled disclosure effect, not AI-specific; introduction | PubMed abstract |
+| qi2026 | 10.3389/fpsyg.2026.1794715 | Generated music reception | Listener recognition, not creator regulation; introduction | PMC abstract and targeted introduction |
+
+Searches: experimental disclosure meta-analysis; generative AI music emotional expression accuracy. This supplement does not extend the earlier screening into a systematic review.
